@@ -1,1 +1,1 @@
-# Lights-on-game
+# Lights On Unity project
