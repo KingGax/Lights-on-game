@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
         colourIndex = (colourIndex + 1) % 3;
         lantern.color = colours[colourIndex];
         lo.colour = colours[colourIndex];
+        lo.ChangeColour();
         
     }
 

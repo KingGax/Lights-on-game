@@ -14,15 +14,12 @@ public class LightRange : MonoBehaviour
         playerLantern = GetComponent<Light>();
         sphere = GetComponent<SphereCollider>();
         lightRange = playerLantern.range;
-        sphere.radius = lightRange;
+        sphere.radius = lightRange / 1.3f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        playerLantern = GetComponent<Light>();
-        sphere = GetComponent<SphereCollider>();
-        lightRange = playerLantern.range;
-        sphere.radius = lightRange;
+        
     }
 }
