@@ -19,11 +19,16 @@ public class PlayerController : MonoBehaviour
     Color lightColour;
     Color[] colours = { new Color(1, 0, 0), new Color(0, 1, 0), new Color(0, 0, 1) };
     int colourIndex = 0;
+
+    public LightObject lo;
+
     // Start is called before the first frame update
 
     void Awake()
     {
         inputController = new PlayerInputs();
+
+        lo = GetComponentInChildren<LightObject>();
 
         movementInputMap = inputController.Player;
 
@@ -54,14 +59,14 @@ public class PlayerController : MonoBehaviour
     {
         colourIndex = (colourIndex + 1) % 3;
         lantern.color = colours[colourIndex];
+        lo.colour = colours[colourIndex];
+        
     }
 
     public void OnMovement(InputAction.CallbackContext ctx)
     {
         Vector2 newMovementInput = ctx.ReadValue<Vector2>();
         movement = newMovementInput;
-        
-        Debug.Log(newMovementInput);
     }
 
     private void OnEnable()
