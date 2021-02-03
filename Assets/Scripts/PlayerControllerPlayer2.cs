@@ -7,8 +7,8 @@ public class PlayerControllerPlayer2 : MonoBehaviour
 {
     Rigidbody rb;
     public Vector3 playerSpeed;
-    private PlayerInputs inputController;
-    private PlayerInputs.PlayerActions movementInputMap;
+    private PlayerInputsPlayer2 inputController;
+    private PlayerInputsPlayer2.PlayerActions movementInputMap;
     public float moveSpeed;
     Vector2 movement;
     Vector3 cameraForward;
@@ -26,7 +26,7 @@ public class PlayerControllerPlayer2 : MonoBehaviour
 
     void Awake()
     {
-        inputController = new PlayerInputs();
+        inputController = new PlayerInputsPlayer2();
 
         lo = GetComponentInChildren<LightObject>();
 
