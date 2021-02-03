@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/PlayerInputs 1.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/PlayerInputs Player 2.inputactions'
 
 using System;
 using System.Collections;
@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class @PlayerInputs1 : IInputActionCollection, IDisposable
+public class @PlayerInputsPlayer2 : IInputActionCollection, IDisposable
 {
     public InputActionAsset asset { get; }
-    public @PlayerInputs1()
+    public @PlayerInputsPlayer2()
     {
         asset = InputActionAsset.FromJson(@"{
-    ""name"": ""PlayerInputs 1"",
+    ""name"": ""PlayerInputs Player 2"",
     ""maps"": [
         {
             ""name"": ""Player"",
@@ -50,7 +50,7 @@ public class @PlayerInputs1 : IInputActionCollection, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""be1649fd-70a9-4e7b-b235-ec4041a0be50"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""path"": ""<Keyboard>/i"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
@@ -61,7 +61,7 @@ public class @PlayerInputs1 : IInputActionCollection, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""c72d36c1-da5f-4277-9761-c856fd30dff5"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": ""<Keyboard>/k"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
@@ -72,7 +72,7 @@ public class @PlayerInputs1 : IInputActionCollection, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""69fc213c-92cc-432a-8ac2-3acb53fa3eca"",
-                    ""path"": ""<Keyboard>/#(A)"",
+                    ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
@@ -83,7 +83,7 @@ public class @PlayerInputs1 : IInputActionCollection, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""be30e818-cc94-4ab8-a69f-6a434aacdbe6"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""path"": ""<Keyboard>/l"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
@@ -94,7 +94,7 @@ public class @PlayerInputs1 : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""10681b88-1a15-4cb4-97e8-60aa070eede4"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/u"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
@@ -181,8 +181,8 @@ public class @PlayerInputs1 : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Light;
     public struct PlayerActions
     {
-        private @PlayerInputs1 m_Wrapper;
-        public PlayerActions(@PlayerInputs1 wrapper) { m_Wrapper = wrapper; }
+        private @PlayerInputsPlayer2 m_Wrapper;
+        public PlayerActions(@PlayerInputsPlayer2 wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Light => m_Wrapper.m_Player_Light;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
