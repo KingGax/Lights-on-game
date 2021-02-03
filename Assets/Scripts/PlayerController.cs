@@ -19,8 +19,11 @@ public class PlayerController : MonoBehaviour
     Color lightColour;
     Color[] colours = { new Color(1, 0, 0), new Color(0, 1, 0), new Color(0, 0, 1) };
     int colourIndex = 0;
+    Plane playerPlane;
+    public IGun weaponScript;
 
-    LightObject lo;
+    public LightObject lo;
+    bool fireHeld = false;
 
     // Start is called before the first frame update
 
@@ -38,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
         movementInputMap.Light.started += _ => ChangeLight();
 
+        movementInputMap.Attack.started += ctx => AttackOne(ctx);
+        movementInputMap.Attack.performed += ctx => AttackOne(ctx);
     }
     void Start()
     {
@@ -45,14 +50,54 @@ public class PlayerController : MonoBehaviour
         cameraForward = Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal);
         cameraRight = Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal);
         lantern.color = colours[colourIndex];
+        playerPlane = new Plane(XZPlaneNormal, transform.position);
+        cam = Camera.main;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (fireHeld)
+        {
+            transform.LookAt(GetFireDirection() + transform.position);
+        }
         rb.velocity = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+    }
+
+    Vector3 GetFireDirection()
+    {
+        //Create a ray from the Mouse click position
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+
+        //Initialise the enter variable
+        float enter = 0.0f;
+
+        if (playerPlane.Raycast(ray, out enter))
+        {
+            //Get the point that is clicked
+            Vector3 hitPoint = ray.GetPoint(enter);
+            Vector3 fireDirection = Vector3.ProjectOnPlane(hitPoint - transform.position, XZPlaneNormal);
+            return fireDirection;
+        }
+        else return Vector3.zero;
+    }
+
+    void AttackOne(InputAction.CallbackContext ctx)
+    {
+
+        if (ctx.performed)
+        {//performed in this case means released
+            fireHeld = false;
+        }
+        else
+        {
+            fireHeld = true;
+            transform.LookAt(GetFireDirection() + transform.position);
+            weaponScript.Shoot(GetFireDirection());
+        }
+
+        
     }
 
     void ChangeLight()
