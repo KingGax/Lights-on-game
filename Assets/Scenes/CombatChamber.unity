@@ -838,6 +838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireCooldown: 3
+  fireCooldownMax: 0.2
   firePoint: {fileID: 803383524}
   bullet: {fileID: 3625585865830301468, guid: a9ea1950e094a964caf34672cc0a7e51, type: 3}
   bulletSpeed: 11.17
@@ -995,6 +996,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 7e2d5d8c-93db-4ea3-9c59-0d45eb60a89b
     m_ActionName: Player/Attack[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 975de847-402d-4b37-864b-7134d012368a
+    m_ActionName: Player/Dash[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1018,6 +1023,10 @@ MonoBehaviour:
   lantern: {fileID: 397293010}
   weaponScript: {fileID: 426205457}
   lo: {fileID: 397293011}
+  dashSpeed: 35
+  dashDurationTimerMax: 0.15
+  dashCooldownMax: 0.7
+  dashBufferMax: 0.1
 --- !u!54 &562953414
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1104,7 +1113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 562953411}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 1.27, z: 9.9}
+  m_LocalPosition: {x: 8, y: 1.28, z: 9.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 397293014}

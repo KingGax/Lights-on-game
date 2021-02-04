@@ -21,9 +21,19 @@ public class PlayerController : MonoBehaviour
     int colourIndex = 0;
     Plane playerPlane;
     public IGun weaponScript;
-
+   
     public LightObject lo;
     bool fireHeld = false;
+    bool dashing = false;
+    public float dashSpeed;
+    float dashDurationTimer = 0;
+    public float dashDurationTimerMax;
+    float dashCooldown = 0;
+    public float dashCooldownMax;
+    float dashBuffer = 0;
+    public float dashBufferMax;
+
+    bool canDash = true;
 
     // Start is called before the first frame update
 
@@ -38,7 +48,7 @@ public class PlayerController : MonoBehaviour
         movementInputMap.Movement.performed += ctx => OnMovement(ctx);
         movementInputMap.Movement.started += ctx => OnMovement(ctx);
         movementInputMap.Movement.canceled += ctx => OnMovement(ctx);
-
+        movementInputMap.Dash.started += ctx => Dash(ctx);
         movementInputMap.Light.started += _ => ChangeLight();
 
         movementInputMap.Attack.started += ctx => AttackOne(ctx);
@@ -50,19 +60,44 @@ public class PlayerController : MonoBehaviour
         cameraForward = Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal);
         cameraRight = Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal);
         lantern.color = colours[colourIndex];
-        playerPlane = new Plane(XZPlaneNormal, transform.position);
+        playerPlane = new Plane(XZPlaneNormal, transform.position); //player is not supposed to change their y position (breaks shooting as this is never updated)
         cam = Camera.main;
+        StartCoroutine("CountdownTimers");
     }
 
-
+    bool CanShoot(){
+        return !dashing;
+    }
     // Update is called once per frame
     void Update()
     {
-        if (fireHeld)
+        if (dashBuffer > 0){
+            if (!dashing && canDash){
+                Debug.Log("Dashing");
+                dashing = true;
+                canDash = false;
+                dashDurationTimer = dashDurationTimerMax;
+            }
+        }
+        if (fireHeld && CanShoot())
         {
             transform.LookAt(GetFireDirection() + transform.position);
+            bool didShoot = weaponScript.RequestShoot(GetFireDirection());
         }
-        rb.velocity = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+        if (dashing)
+        {  
+            HandleDash();
+        }
+        else
+        {
+            Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+            moveVector.y = rb.velocity.y;
+            rb.velocity = moveVector;
+        }
+    }
+
+    void HandleDash(){
+        rb.velocity = transform.forward * dashSpeed;
     }
 
     Vector3 GetFireDirection()
@@ -93,11 +128,15 @@ public class PlayerController : MonoBehaviour
         else
         {
             fireHeld = true;
-            transform.LookAt(GetFireDirection() + transform.position);
-            weaponScript.Shoot(GetFireDirection());
+            
         }
+    }
 
+    void Dash(InputAction.CallbackContext ctx){
+        dashBuffer = dashBufferMax;
         
+        //Vector3 movementVector = new Vector3(movement.x, 0, movement.y);
+        //rb.AddForce(dashForce*transform.forward);
     }
 
     void ChangeLight()
@@ -113,14 +152,52 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 newMovementInput = ctx.ReadValue<Vector2>();
         movement = newMovementInput;
+
+        // Vector3 directionVector = transform.position - new Vector3(newMovementInput.x, 0, newMovementInput.y);
+        // transform.LookAt(directionVector);
+        //if (ctx.)
+        //Vector3 forwardVector = 
+        if (movement != Vector2.zero){
+            transform.forward = cameraForward * movement.y  + cameraRight * movement.x;
+        }
+         
+        //transform.Rotate(new Vector3(0, 30, 0), Space.World);
     }
 
     private void OnEnable()
     {
         inputController.Enable();
     }
+    
     private void OnDisable()
     {
         inputController.Disable();
+    }
+
+    private IEnumerator CountdownTimers()
+    {
+        while (true)
+        {
+            if (dashDurationTimer > 0)
+            {
+                dashDurationTimer -= Time.deltaTime;
+                if (dashDurationTimer <= 0)
+                {
+                    dashing = false;  
+                    dashCooldown = dashCooldownMax;
+                }
+            }
+            if (dashCooldown > 0)
+            {
+                dashCooldown-=Time.deltaTime;
+                if (dashCooldown <=0){
+                    canDash = true;
+                }
+            }
+            if (dashBuffer > 0){
+                dashBuffer -= Time.deltaTime;
+            }
+            yield return null;
+        }
     }
 }
