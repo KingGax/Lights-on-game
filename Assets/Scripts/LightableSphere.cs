@@ -53,6 +53,8 @@ public class LightableSphere : MonoBehaviour
         Color lightColour = lights[0].colour;
         Vector4 lightColVector = lightColour;
         Vector4 objectColour = lightColour;
+        Debug.Log(lightColour);
+        Debug.Log(objectColour);
         Vector4 colourDif = lightColVector - objectColVector;
         return colourDif.magnitude <= colourRange;
 

@@ -7,6 +7,7 @@ public class DefaultWeapon : IGun
     public Transform firePoint;
     public GameObject bullet;
     public float bulletSpeed;
+    public float damage;
     
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,8 @@ public class DefaultWeapon : IGun
     {
         fireCooldown = fireCooldownMax;
         GameObject newBullet = Instantiate(bullet, firePoint.position, Quaternion.identity);
+        BulletController bc = newBullet.GetComponent<BulletController>();
+        bc.Fire(damage);
         newBullet.transform.up = direction;
         Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>();
         bulletRb.velocity = direction.normalized * bulletSpeed;

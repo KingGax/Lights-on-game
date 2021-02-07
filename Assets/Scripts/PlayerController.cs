@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public IGun weaponScript;
    
     public LightObject lo;
+    [Header("Dashing")]
     bool fireHeld = false;
     bool dashing = false;
     public float dashSpeed;
@@ -30,8 +31,10 @@ public class PlayerController : MonoBehaviour
     public float dashDurationTimerMax;
     float dashCooldown = 0;
     public float dashCooldownMax;
-    float dashBuffer = 0;
     public float dashBufferMax;
+    float dashBuffer = 0;
+    Vector3 dashDirection;
+    
 
     bool canDash = true;
 
@@ -60,7 +63,6 @@ public class PlayerController : MonoBehaviour
         cameraForward = Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal);
         cameraRight = Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal);
         lantern.color = colours[colourIndex];
-        playerPlane = new Plane(XZPlaneNormal, transform.position); //player is not supposed to change their y position (breaks shooting as this is never updated)
         cam = Camera.main;
         StartCoroutine("CountdownTimers");
     }
@@ -71,12 +73,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
         if (dashBuffer > 0){
             if (!dashing && canDash){
-                Debug.Log("Dashing");
-                dashing = true;
-                canDash = false;
-                dashDurationTimer = dashDurationTimerMax;
+                StartDash();
             }
         }
         if (fireHeld && CanShoot())
@@ -96,8 +96,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void StartDash()
+    {
+        dashing = true;
+        canDash = false;
+        dashDurationTimer = dashDurationTimerMax;
+        if (movement == Vector2.zero)
+        {
+            dashDirection = transform.forward;
+        }
+        else
+        {
+            dashDirection = cameraForward* movement.y + cameraRight * movement.x;
+        }
+    }
     void HandleDash(){
-        rb.velocity = transform.forward * dashSpeed;
+        rb.velocity = dashDirection * dashSpeed;
     }
 
     Vector3 GetFireDirection()
