@@ -19,10 +19,10 @@ jobs:
           lfs: true
 
       # Cache
-      - uses: actions/cache@v1.1.0
+      - uses: actions/cache@v2
         with:
           path: Library
-          key: Library
+          key: Lights-on-Library
 
       # Test
       #      - name: Run tests
