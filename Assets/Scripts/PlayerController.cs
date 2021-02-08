@@ -80,6 +80,10 @@ public class PlayerController : MonoBehaviour
     bool CanShoot(){
         return !dashing;
     }
+    void TurnTowards(Vector3 direction)
+    {
+        transform.forward = Vector3.RotateTowards(transform.forward, direction, Time.deltaTime * turnSpeed, 0.0f);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -93,13 +97,22 @@ public class PlayerController : MonoBehaviour
         {
             shootBuffer = shootBufferMax;
         }
+        //handles looking and shooting
         if (shootBuffer > 0 && CanShoot())
         {
             Vector3 fireDirection = GetFireDirection();
-            transform.forward = Vector3.RotateTowards(transform.forward, fireDirection , Time.deltaTime * turnSpeed, 0.0f);
+            TurnTowards(fireDirection);
             if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle)
             {
                 bool didShoot = weaponScript.RequestShoot(GetFireDirection());
+            }
+        }
+        else
+        {
+            if (movement != Vector2.zero)
+            {
+                Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+                TurnTowards(moveVector);
             }
         }
         if (dashing)
@@ -196,9 +209,9 @@ public class PlayerController : MonoBehaviour
         // transform.LookAt(directionVector);
         //if (ctx.)
         //Vector3 forwardVector = 
-        if (movement != Vector2.zero){
+        /*if (movement != Vector2.zero){
             transform.forward = cameraForward * movement.y  + cameraRight * movement.x;
-        }
+        }*/
          
         //transform.Rotate(new Vector3(0, 30, 0), Space.World);
     }
