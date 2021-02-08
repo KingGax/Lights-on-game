@@ -50,7 +50,13 @@ public class LightableSphere : MonoBehaviour
         {
             return false;
         }
-        Color lightColour = lights[0].colour;
+
+        Vector4 lightColour = Vector4.zero;
+        for(int i = 0; i < lights.Count; i++) {
+            lightColour += (Vector4)lights[i].colour;
+        }
+        lightColour = new Vector4(Mathf.Clamp(lightColour.x, 0.0f, 1.0f), Mathf.Clamp(lightColour.y, 0.0f, 1.0f), Mathf.Clamp(lightColour.z, 0.0f, 1.0f), 1.0f);
+
         Vector4 lightColVector = lightColour;
         Vector4 objectColour = lightColour;
         Vector4 colourDif = lightColVector - objectColVector;
