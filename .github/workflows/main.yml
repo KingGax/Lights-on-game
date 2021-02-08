@@ -25,8 +25,8 @@ jobs:
           key: Library
 
       # Test
-      - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.3
+      #      - name: Run tests
+      #        uses: webbertakken/unity-test-runner@v1.3
 
       # Build
       - name: Build project
