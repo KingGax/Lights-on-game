@@ -5,37 +5,39 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    Rigidbody rb;
-    public Vector3 playerSpeed;
+    public LayerMask aimTargetsMask;
+    
+    public float moveSpeed;
+
+    public Camera cam;
+    public Light lantern;
+    public IGun weaponScript;
+    public LightObject lo;
+
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
-    public float moveSpeed;
+    Rigidbody rb;
     Vector2 movement;
     Vector3 cameraForward;
     Vector3 cameraRight;
     Vector3 XZPlaneNormal = new Vector3(0, 1, 0);
-    public Camera cam;
-    public Light lantern;
+   
     Color lightColour;
     Color[] colours = { new Color(1, 0, 0), new Color(0, 1, 0), new Color(0, 0, 1) };
     int colourIndex = 0;
     Plane playerPlane;
-    public IGun weaponScript;
-   
-    public LightObject lo;
+    
     [Header("Dashing")]
-    bool fireHeld = false;
-    bool dashing = false;
     public float dashSpeed;
-    float dashDurationTimer = 0;
     public float dashDurationTimerMax;
-    float dashCooldown = 0;
     public float dashCooldownMax;
     public float dashBufferMax;
+    float dashDurationTimer = 0;
+    float dashCooldown = 0;
     float dashBuffer = 0;
+    bool fireHeld = false;
+    bool dashing = false;
     Vector3 dashDirection;
-    
-
     bool canDash = true;
 
     // Start is called before the first frame update
@@ -122,7 +124,14 @@ public class PlayerController : MonoBehaviour
         //Initialise the enter variable
         float enter = 0.0f;
 
-        if (playerPlane.Raycast(ray, out enter))
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100f, aimTargetsMask))
+        {
+            Vector3 hitPoint = playerPlane.ClosestPointOnPlane(hit.point);
+            Vector3 fireDirection = Vector3.ProjectOnPlane(hit.point - transform.position, XZPlaneNormal);
+            return fireDirection;
+        }
+        else if (playerPlane.Raycast(ray, out enter))
         {
             //Get the point that is clicked
             Vector3 hitPoint = ray.GetPoint(enter);
