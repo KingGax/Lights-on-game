@@ -30,10 +30,8 @@ public class DefaultWeapon : IGun
         fireCooldown = fireCooldownMax;
         GameObject newBullet = Instantiate(bullet, firePoint.position, Quaternion.identity);
         BulletController bc = newBullet.GetComponent<BulletController>();
-        bc.Fire(damage);
+        bc.Fire(damage,bulletSpeed,direction);
         newBullet.transform.up = direction;
-        Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>();
-        bulletRb.velocity = direction.normalized * bulletSpeed;
         Destroy(newBullet, 2.0f);
     }
 

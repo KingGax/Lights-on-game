@@ -5,18 +5,37 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     float damage;
+    float speed;
+    Vector3 direction;
     int environmentLayer;
     int enemyLayer;
-    public void Fire(float _damage)
+    Rigidbody rb;
+    public bool playerBullets;
+    
+    public void Fire(float _damage, float _speed, Vector3 _direction)
     {
         damage = _damage;
+        direction = _direction;
+        speed = _speed;
+        rb.velocity = direction.normalized * speed;
     }
 
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
     // Start is called before the first frame update
     void Start()
     {
         environmentLayer = LayerMask.NameToLayer("Environment");
-        enemyLayer = LayerMask.NameToLayer("Enemies");
+        if (playerBullets)
+        {
+            enemyLayer = LayerMask.NameToLayer("Enemies");
+        }
+        else
+        {
+            enemyLayer = LayerMask.NameToLayer("Player");
+        }
     }
 
     // Update is called once per frame
@@ -28,6 +47,7 @@ public class BulletController : MonoBehaviour
     {
         if (other.gameObject.layer == enemyLayer)
         {
+            Debug.Log(other);
             IDamageable damageScript = other.gameObject.GetComponent<IDamageable>();
             if (damageScript != null)
             {

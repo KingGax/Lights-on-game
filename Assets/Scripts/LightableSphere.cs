@@ -20,12 +20,16 @@ public class LightableSphere : MonoBehaviour
     
     List<LightObject> currentLights = new List<LightObject>();
     MeshRenderer meshRenderer;
-    SphereCollider physicsSphereCollider;
+    Collider physicsCollider;
+    private void Awake()
+    {
+        physicsCollider = transform.parent.GetComponent<Collider>();
+    }
     // Start is called before the first frame update
     void Start()
     {
         meshRenderer = transform.parent.GetComponent<MeshRenderer>();
-        physicsSphereCollider = transform.parent.GetComponent<SphereCollider>();
+        
         materialColour = meshRenderer.material.color;
         defaultMaterial = meshRenderer.material;
         objectColour = CalculateColour(isRed, isGreen, isBlue);
@@ -71,19 +75,6 @@ public class LightableSphere : MonoBehaviour
         Debug.Log(objectColour);
         Vector4 colourDif = lightColVector - objectColVector;
         return colourDif.magnitude <= colourRange;
-
-        /*float hue;
-        float sat;
-        float value;
-        Color.RGBToHSV(lightColour, out hue, out sat, out value);
-        if(sat > 0.5 && value > 0.8 && (hue < 0.1 || hue > 0.9)) {
-            //disappear
-            return true;
-            
-        } else {
-            return false;
-            
-        }*/
     }
 
     Color CalculateColour(bool red, bool green, bool blue)
@@ -114,14 +105,14 @@ public class LightableSphere : MonoBehaviour
     {
         //meshRenderer.material.color = new Vector4(materialColour.x, materialColour.y,materialColour.z, invisibleOpacity);
         meshRenderer.material = hiddenMaterial;
-        physicsSphereCollider.enabled = false;
+        physicsCollider.enabled = false;
     }
     void Appear()
     {
 
         //meshRenderer.material.color = new Vector4(materialColour.x, materialColour.y,materialColour.z, 1f);
         meshRenderer.material = defaultMaterial;
-        physicsSphereCollider.enabled = true;
+        physicsCollider.enabled = true;
     }
 
     void OnTriggerExit(Collider other)
