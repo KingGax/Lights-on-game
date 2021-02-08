@@ -28,13 +28,13 @@ jobs:
       - name: Run tests
         uses: webbertakken/unity-test-runner@v1.3
         with:
-          unityVersion: auto
+          unityVersion: 2020.2.2f1
 
       # Build
       - name: Build project
         uses: webbertakken/unity-builder@v0.10
         with:
-          unityVersion: auto
+          unityVersion: 2020.2.2f1
           targetPlatform: WebGL
 
       # Output
