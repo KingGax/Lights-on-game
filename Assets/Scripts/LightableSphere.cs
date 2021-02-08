@@ -8,10 +8,16 @@ public class LightableSphere : MonoBehaviour
     public bool isRed;
     public bool isBlue;
     public bool isGreen;
+    public Material hiddenMaterial;
+    Material defaultMaterial;
+    public float colourRange;
+    float invisibleOpacity = 0.1f;
+
     Color objectColour;
     Vector4 objectColVector;
-    public float colourRange;
-
+    
+    Vector4 materialColour;
+    
     List<LightObject> currentLights = new List<LightObject>();
     MeshRenderer meshRenderer;
     SphereCollider physicsSphereCollider;
@@ -20,6 +26,8 @@ public class LightableSphere : MonoBehaviour
     {
         meshRenderer = transform.parent.GetComponent<MeshRenderer>();
         physicsSphereCollider = transform.parent.GetComponent<SphereCollider>();
+        materialColour = meshRenderer.material.color;
+        defaultMaterial = meshRenderer.material;
         objectColour = CalculateColour(isRed, isGreen, isBlue);
         objectColVector = objectColour;
     }
@@ -59,6 +67,8 @@ public class LightableSphere : MonoBehaviour
 
         Vector4 lightColVector = lightColour;
         Vector4 objectColour = lightColour;
+        Debug.Log(lightColour);
+        Debug.Log(objectColour);
         Vector4 colourDif = lightColVector - objectColVector;
         return colourDif.magnitude <= colourRange;
 
@@ -102,12 +112,15 @@ public class LightableSphere : MonoBehaviour
     }
     void Disappear()
     {
-        meshRenderer.enabled = false;
+        //meshRenderer.material.color = new Vector4(materialColour.x, materialColour.y,materialColour.z, invisibleOpacity);
+        meshRenderer.material = hiddenMaterial;
         physicsSphereCollider.enabled = false;
     }
     void Appear()
     {
-        meshRenderer.enabled = true;
+
+        //meshRenderer.material.color = new Vector4(materialColour.x, materialColour.y,materialColour.z, 1f);
+        meshRenderer.material = defaultMaterial;
         physicsSphereCollider.enabled = true;
     }
 

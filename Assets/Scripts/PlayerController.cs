@@ -5,25 +5,40 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    Rigidbody rb;
-    public Vector3 playerSpeed;
+    public LayerMask aimTargetsMask;
+    
+    public float moveSpeed;
+
+    public Camera cam;
+    public Light lantern;
+    public IGun weaponScript;
+    public LightObject lo;
+
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
-    public float moveSpeed;
+    Rigidbody rb;
     Vector2 movement;
     Vector3 cameraForward;
     Vector3 cameraRight;
     Vector3 XZPlaneNormal = new Vector3(0, 1, 0);
-    public Camera cam;
-    public Light lantern;
+   
     Color lightColour;
     Color[] colours = { new Color(1, 0, 0), new Color(0, 1, 0), new Color(0, 0, 1) };
     int colourIndex = 0;
     Plane playerPlane;
-    public IGun weaponScript;
-
-    public LightObject lo;
+    
+    [Header("Dashing")]
+    public float dashSpeed;
+    public float dashDurationTimerMax;
+    public float dashCooldownMax;
+    public float dashBufferMax;
+    float dashDurationTimer = 0;
+    float dashCooldown = 0;
+    float dashBuffer = 0;
     bool fireHeld = false;
+    bool dashing = false;
+    Vector3 dashDirection;
+    bool canDash = true;
 
     // Start is called before the first frame update
 
@@ -38,7 +53,7 @@ public class PlayerController : MonoBehaviour
         movementInputMap.Movement.performed += ctx => OnMovement(ctx);
         movementInputMap.Movement.started += ctx => OnMovement(ctx);
         movementInputMap.Movement.canceled += ctx => OnMovement(ctx);
-
+        movementInputMap.Dash.started += ctx => Dash(ctx);
         movementInputMap.Light.started += _ => ChangeLight();
 
         movementInputMap.Attack.started += ctx => AttackOne(ctx);
@@ -50,19 +65,55 @@ public class PlayerController : MonoBehaviour
         cameraForward = Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal);
         cameraRight = Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal);
         lantern.color = colours[colourIndex];
-        playerPlane = new Plane(XZPlaneNormal, transform.position);
         cam = Camera.main;
+        StartCoroutine("CountdownTimers");
     }
 
-
+    bool CanShoot(){
+        return !dashing;
+    }
     // Update is called once per frame
     void Update()
     {
-        if (fireHeld)
+        playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
+        if (dashBuffer > 0){
+            if (!dashing && canDash){
+                StartDash();
+            }
+        }
+        if (fireHeld && CanShoot())
         {
             transform.LookAt(GetFireDirection() + transform.position);
+            bool didShoot = weaponScript.RequestShoot(GetFireDirection());
         }
-        rb.velocity = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+        if (dashing)
+        {  
+            HandleDash();
+        }
+        else
+        {
+            Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+            moveVector.y = rb.velocity.y;
+            rb.velocity = moveVector;
+        }
+    }
+
+    void StartDash()
+    {
+        dashing = true;
+        canDash = false;
+        dashDurationTimer = dashDurationTimerMax;
+        if (movement == Vector2.zero)
+        {
+            dashDirection = transform.forward;
+        }
+        else
+        {
+            dashDirection = cameraForward* movement.y + cameraRight * movement.x;
+        }
+    }
+    void HandleDash(){
+        rb.velocity = dashDirection * dashSpeed;
     }
 
     Vector3 GetFireDirection()
@@ -73,7 +124,14 @@ public class PlayerController : MonoBehaviour
         //Initialise the enter variable
         float enter = 0.0f;
 
-        if (playerPlane.Raycast(ray, out enter))
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100f, aimTargetsMask))
+        {
+            Vector3 hitPoint = playerPlane.ClosestPointOnPlane(hit.point);
+            Vector3 fireDirection = Vector3.ProjectOnPlane(hit.point - transform.position, XZPlaneNormal);
+            return fireDirection;
+        }
+        else if (playerPlane.Raycast(ray, out enter))
         {
             //Get the point that is clicked
             Vector3 hitPoint = ray.GetPoint(enter);
@@ -93,11 +151,15 @@ public class PlayerController : MonoBehaviour
         else
         {
             fireHeld = true;
-            transform.LookAt(GetFireDirection() + transform.position);
-            weaponScript.Shoot(GetFireDirection());
+            
         }
+    }
 
+    void Dash(InputAction.CallbackContext ctx){
+        dashBuffer = dashBufferMax;
         
+        //Vector3 movementVector = new Vector3(movement.x, 0, movement.y);
+        //rb.AddForce(dashForce*transform.forward);
     }
 
     void ChangeLight()
@@ -113,14 +175,52 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 newMovementInput = ctx.ReadValue<Vector2>();
         movement = newMovementInput;
+
+        // Vector3 directionVector = transform.position - new Vector3(newMovementInput.x, 0, newMovementInput.y);
+        // transform.LookAt(directionVector);
+        //if (ctx.)
+        //Vector3 forwardVector = 
+        if (movement != Vector2.zero){
+            transform.forward = cameraForward * movement.y  + cameraRight * movement.x;
+        }
+         
+        //transform.Rotate(new Vector3(0, 30, 0), Space.World);
     }
 
     private void OnEnable()
     {
         inputController.Enable();
     }
+    
     private void OnDisable()
     {
         inputController.Disable();
+    }
+
+    private IEnumerator CountdownTimers()
+    {
+        while (true)
+        {
+            if (dashDurationTimer > 0)
+            {
+                dashDurationTimer -= Time.deltaTime;
+                if (dashDurationTimer <= 0)
+                {
+                    dashing = false;  
+                    dashCooldown = dashCooldownMax;
+                }
+            }
+            if (dashCooldown > 0)
+            {
+                dashCooldown-=Time.deltaTime;
+                if (dashCooldown <=0){
+                    canDash = true;
+                }
+            }
+            if (dashBuffer > 0){
+                dashBuffer -= Time.deltaTime;
+            }
+            yield return null;
+        }
     }
 }
