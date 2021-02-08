@@ -5,8 +5,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public LayerMask aimTargetsMask;
     
+
+    public float turnSpeed;
     public float moveSpeed;
 
     public Camera cam;
@@ -26,7 +27,15 @@ public class PlayerController : MonoBehaviour
     Color[] colours = { new Color(1, 0, 0), new Color(0, 1, 0), new Color(0, 0, 1) };
     int colourIndex = 0;
     Plane playerPlane;
-    
+
+    [Header("Shooting")]
+    public float shootBufferMax;
+    public LayerMask aimTargetsMask;
+    public float maxShootOffsetAngle;
+    float shootBuffer;
+    bool fireHeld = false;
+
+
     [Header("Dashing")]
     public float dashSpeed;
     public float dashDurationTimerMax;
@@ -35,7 +44,6 @@ public class PlayerController : MonoBehaviour
     float dashDurationTimer = 0;
     float dashCooldown = 0;
     float dashBuffer = 0;
-    bool fireHeld = false;
     bool dashing = false;
     Vector3 dashDirection;
     bool canDash = true;
@@ -81,10 +89,18 @@ public class PlayerController : MonoBehaviour
                 StartDash();
             }
         }
-        if (fireHeld && CanShoot())
+        if (fireHeld)
         {
-            transform.LookAt(GetFireDirection() + transform.position);
-            bool didShoot = weaponScript.RequestShoot(GetFireDirection());
+            shootBuffer = shootBufferMax;
+        }
+        if (shootBuffer > 0 && CanShoot())
+        {
+            Vector3 fireDirection = GetFireDirection();
+            transform.forward = Vector3.RotateTowards(transform.forward, fireDirection , Time.deltaTime * turnSpeed, 0.0f);
+            if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle)
+            {
+                bool didShoot = weaponScript.RequestShoot(GetFireDirection());
+            }
         }
         if (dashing)
         {  
@@ -219,6 +235,10 @@ public class PlayerController : MonoBehaviour
             }
             if (dashBuffer > 0){
                 dashBuffer -= Time.deltaTime;
+            }
+            if (shootBuffer > 0)
+            {
+                shootBuffer -= Time.deltaTime;
             }
             yield return null;
         }

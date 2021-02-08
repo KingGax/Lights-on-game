@@ -1020,14 +1020,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424a80698f8e3144ca41cb936b55012c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimTargetsMask:
-    serializedVersion: 2
-    m_Bits: 256
+  turnSpeed: 60
   moveSpeed: 10
   cam: {fileID: 1080007884}
   lantern: {fileID: 397293010}
   weaponScript: {fileID: 426205457}
   lo: {fileID: 397293011}
+  shootBufferMax: 0.1
+  aimTargetsMask:
+    serializedVersion: 2
+    m_Bits: 256
+  maxShootOffsetAngle: 5
   dashSpeed: 35
   dashDurationTimerMax: 0.15
   dashCooldownMax: 0.7
