@@ -45,7 +45,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          key: ${{ secrets.key }}
           port: ${{ secrets.PORT }}
           source: Build/WebGL
           target: "."
