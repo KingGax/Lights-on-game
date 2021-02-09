@@ -49,4 +49,3 @@ jobs:
           port: ${{ secrets.PORT }}
           source: "build/WebGL/WebGL"
           target: "."
-          rm: true
