@@ -39,3 +39,14 @@ jobs:
         with:
           name: Build
           path: build
+      
+      - name: Deploy
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: Build/WebGL
+          target: "."
+          rm: true
