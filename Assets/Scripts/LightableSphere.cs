@@ -12,9 +12,11 @@ public class LightableSphere : MonoBehaviour
     Material defaultMaterial;
     public float colourRange;
     float invisibleOpacity = 0.1f;
-    private LayerMask potentialColliders;
+    public LayerMask potentialColliders;
     bool isHidden = false;
     bool appearing = false;
+    Bounds physicsBounds;
+    float boundingSphereSize;
 
     Color objectColour;
     Vector4 objectColVector;
@@ -33,7 +35,8 @@ public class LightableSphere : MonoBehaviour
     {
         potentialColliders = (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Enemies")); 
         meshRenderer = transform.parent.GetComponent<MeshRenderer>();
-        
+        physicsBounds = physicsCollider.bounds;
+        boundingSphereSize = Mathf.Max(physicsBounds.size.x, physicsBounds.size.y, physicsBounds.size.z);
         materialColour = meshRenderer.material.color;
         defaultMaterial = meshRenderer.material;
         objectColour = CalculateColour(isRed, isGreen, isBlue);
@@ -78,10 +81,12 @@ public class LightableSphere : MonoBehaviour
 
     bool CheckNoIntersections()
     {
-        Collider[] closeColliders = Physics.OverlapSphere(physicsCollider.bounds.center, Mathf.Max(physicsCollider.bounds.size.x,physicsCollider.bounds.size.y,physicsCollider.bounds.size.z),potentialColliders);
+        physicsBounds.center = transform.position;
+        Collider[] closeColliders = Physics.OverlapSphere(transform.position, boundingSphereSize, potentialColliders);
         foreach (Collider col in closeColliders)
         {
-            if (physicsCollider.bounds.Intersects(col.bounds))
+            Debug.Log(col.gameObject.name);
+            if (physicsBounds.Intersects(col.bounds))
             {
                 return false;
             }
@@ -104,8 +109,6 @@ public class LightableSphere : MonoBehaviour
 
         Vector4 lightColVector = lightColour;
         Vector4 objectColour = lightColour;
-        Debug.Log(lightColour);
-        Debug.Log(objectColour);
         Vector4 colourDif = lightColVector - objectColVector;
         return colourDif.magnitude <= colourRange;
     }
@@ -136,11 +139,19 @@ public class LightableSphere : MonoBehaviour
     }
     void Disappear()
     {
-        isHidden = true;
-        appearing = false;
-        CancelInvoke("TryAppear");
-        meshRenderer.material = hiddenMaterial;
-        physicsCollider.enabled = false;
+        if (!isHidden)
+        {
+            isHidden = true;
+            appearing = false;
+            CancelInvoke("TryAppear");
+            meshRenderer.material = hiddenMaterial;
+            physicsCollider.enabled = false;
+        }
+        if (appearing)
+        {
+            appearing = false;
+            CancelInvoke("TryAppear");
+        }
     }
     void Appear()
     {
@@ -167,5 +178,9 @@ public class LightableSphere : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(transform.position, boundingSphereSize);
+    }
 
 }
