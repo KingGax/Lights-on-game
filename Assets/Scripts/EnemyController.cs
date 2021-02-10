@@ -20,6 +20,13 @@ public class EnemyController : MonoBehaviour
     public float shootingTimerMax;
     public float engageDistance;
     float shootingTimer;
+
+    float startAngle;
+    float endAngle;
+    float minX;    
+    float maxX;
+    float minZ;
+    float maxZ;
     
     EnemyState enemyState;
     enum EnemyState{
@@ -37,6 +44,39 @@ public class EnemyController : MonoBehaviour
         StartCoroutine("EnemyTimers");
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
+        GeneratePoint();
+    }
+
+    void GeneratePoint(){
+        Vector3 playerPos = playerObj.transform.position;
+        float vectorDir = AngleDir(gameObject.transform.position - playerPos);
+        float playerAngle = Vector3.Angle(Vector3.forward, gameObject.transform.position - playerPos);
+        float minAngle = (playerAngle-60);
+        float maxAngle = (playerAngle+60);
+        float angle = Random.Range(minAngle, maxAngle);
+        //angle = playerAngle;
+        minX = playerPos.x + engageDistance * vectorDir * Mathf.Sin((minAngle) * Mathf.Deg2Rad);
+        minZ = playerPos.z + engageDistance * Mathf.Cos((minAngle) * Mathf.Deg2Rad);
+        maxX = playerPos.x + engageDistance * vectorDir* Mathf.Sin((maxAngle) * Mathf.Deg2Rad);
+        maxZ = playerPos.z + engageDistance * Mathf.Cos((maxAngle) * Mathf.Deg2Rad);
+        
+        float x = playerPos.x + engageDistance * vectorDir * Mathf.Sin((angle) * Mathf.Deg2Rad);
+        float z = playerPos.z + engageDistance  * Mathf.Cos((angle) * Mathf.Deg2Rad);
+        Vector3 dest = new Vector3(x, playerPos.y, z);
+        agent.destination = dest;
+    }
+
+    float AngleDir(Vector3 targetVec){
+        //thank you https://forum.unity.com/threads/how-to-get-a-360-degree-vector3-angle.42145/
+        Vector3 perp = Vector3.Cross(Vector3.forward, targetVec);
+        float dir = Vector3.Dot(perp, Vector3.up);
+        if (dir > 0.0) {
+            return 1.0f;
+        } else if (dir < 0.0) {
+            return -1.0f;
+        } else {
+            return 0.0f;
+        }
     }
 
     // Update is called once per frame
@@ -56,7 +96,6 @@ public class EnemyController : MonoBehaviour
             default:
                 break;
         }
-       
     }
     void Patrol()
     {
@@ -89,18 +128,24 @@ public class EnemyController : MonoBehaviour
     {
         enemyState = EnemyState.Repositioning;
         agent.enabled = true;
+        GeneratePoint();
     }
     void Repositioning()
     {
-        float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
+        // float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
         
-        if (distToPlayer <= engageDistance)
-        {
+        // if (distToPlayer <= engageDistance)
+        // {
+        //     ChangeToShooting();
+        // }
+        // else
+        // {
+        //     agent.destination = playerObj.transform.position;
+        // }
+        float dist=agent.remainingDistance; 
+        if (dist!=Mathf.Infinity && agent.pathStatus==NavMeshPathStatus.PathComplete && agent.remainingDistance==0){
+            //path complete. credit: https://answers.unity.com/questions/324589/how-can-i-tell-when-a-navmesh-has-reached-its-dest.html
             ChangeToShooting();
-        }
-        else
-        {
-            agent.destination = playerObj.transform.position;
         }
     }
     public void Shoot(Vector3 direction)
@@ -132,5 +177,9 @@ public class EnemyController : MonoBehaviour
             }
             yield return null;
         }
+    }
+    private void OnDrawGizmos() {
+        Gizmos.DrawLine(playerObj.transform.position, new Vector3(minX, playerObj.transform.position.y, minZ));
+        Gizmos.DrawLine(playerObj.transform.position, new Vector3(maxX, playerObj.transform.position.y, maxZ));
     }
 }
