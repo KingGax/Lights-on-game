@@ -12,6 +12,9 @@ public class LightableSphere : MonoBehaviour
     Material defaultMaterial;
     public float colourRange;
     float invisibleOpacity = 0.1f;
+    private LayerMask potentialColliders;
+    bool isHidden = false;
+    bool appearing = false;
 
     Color objectColour;
     Vector4 objectColVector;
@@ -28,6 +31,7 @@ public class LightableSphere : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        potentialColliders = (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Enemies")); 
         meshRenderer = transform.parent.GetComponent<MeshRenderer>();
         
         materialColour = meshRenderer.material.color;
@@ -41,6 +45,23 @@ public class LightableSphere : MonoBehaviour
     {
         
     }
+    void StartAppearing()
+    {
+        if (isHidden && !appearing)
+        {
+            appearing = true;
+            InvokeRepeating("TryAppear", 0f, 0.1f);
+        }
+    }
+    void TryAppear()
+    {
+        if (CheckNoIntersections())
+        {
+            Appear();
+            CancelInvoke("TryAppear");
+            appearing = false;
+        }
+    }
 
     public void ColourChanged()
     {
@@ -50,11 +71,23 @@ public class LightableSphere : MonoBehaviour
         }
         else
         {
-            Appear();
+            StartAppearing();
         }
         
     }
 
+    bool CheckNoIntersections()
+    {
+        Collider[] closeColliders = Physics.OverlapSphere(physicsCollider.bounds.center, Mathf.Max(physicsCollider.bounds.size.x,physicsCollider.bounds.size.y,physicsCollider.bounds.size.z),potentialColliders);
+        foreach (Collider col in closeColliders)
+        {
+            if (physicsCollider.bounds.Intersects(col.bounds))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
     //Returns true if colours match - only deals with one colour currently
     bool CheckColours(List<LightObject> lights) {
@@ -95,7 +128,7 @@ public class LightableSphere : MonoBehaviour
             }
             else
             {
-                Appear();
+                StartAppearing();
             }
         }
         
@@ -103,13 +136,15 @@ public class LightableSphere : MonoBehaviour
     }
     void Disappear()
     {
-        //meshRenderer.material.color = new Vector4(materialColour.x, materialColour.y,materialColour.z, invisibleOpacity);
+        isHidden = true;
+        appearing = false;
+        CancelInvoke("TryAppear");
         meshRenderer.material = hiddenMaterial;
         physicsCollider.enabled = false;
     }
     void Appear()
     {
-
+        isHidden = false;
         //meshRenderer.material.color = new Vector4(materialColour.x, materialColour.y,materialColour.z, 1f);
         meshRenderer.material = defaultMaterial;
         physicsCollider.enabled = true;
@@ -127,7 +162,7 @@ public class LightableSphere : MonoBehaviour
             }
             else
             {
-                Appear();
+                StartAppearing();
             }
         }
     }
