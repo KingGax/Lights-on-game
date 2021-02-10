@@ -33,6 +33,7 @@ public class EnemyController : MonoBehaviour
     public float losCheckTimerMax;
     EnemyState enemyState;
     float pathStoppingThreshold = 0.01f;
+    bool started = false;
     enum EnemyState{
         Shooting, //Actively attacking the player
         Patrolling, //Moving/idle state - hasn't engaged the player yet
@@ -50,6 +51,7 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
         GeneratePoint();
+        started = true;
     }
 
     void GeneratePoint(){
@@ -130,6 +132,16 @@ public class EnemyController : MonoBehaviour
         float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
         if (distToPlayer <= detectionThreshold && canShoot)
         {
+            bool canSeePlayer = hasPlayerLOS();
+            if (!canSeePlayer){
+                if (reactsToPlayerCover){
+                    Debug.Log("Reacting!");
+                    ChangeToGettingLOS();
+                }
+                else{
+                    shootingTimer-=missedShotReduction;   
+                }
+            }
             Vector3 targetVector = playerObj.transform.position - firePoint.position;
             Shoot(targetVector);
         }
@@ -170,8 +182,10 @@ public class EnemyController : MonoBehaviour
     void ChangeToGettingLOS(){
         Debug.Log("Started getting LOS");
         losCheckTimer = losCheckTimerMax;
+        agent.enabled = true;
         agent.destination = playerObj.transform.position;
         enemyState = EnemyState.GettingLOS;
+        
     }
 
     void GettingLOS(){
@@ -182,6 +196,11 @@ public class EnemyController : MonoBehaviour
                 agent.enabled = false;
                 ChangeToShooting();
             } else{
+                //check if stuck
+                if (agent.remainingDistance!=Mathf.Infinity && agent.remainingDistance<= pathStoppingThreshold){
+                    //path complete. credit: https://answers.unity.com/questions/324589/how-can-i-tell-when-a-navmesh-has-reached-its-dest.html
+                    ChangeToGettingLOS();
+                }
                 losCheckTimer = losCheckTimerMax;
             }
         }
@@ -233,7 +252,9 @@ public class EnemyController : MonoBehaviour
         }
     }
     private void OnDrawGizmos() {
-        Gizmos.DrawLine(playerObj.transform.position, new Vector3(minX, playerObj.transform.position.y, minZ));
-        Gizmos.DrawLine(playerObj.transform.position, new Vector3(maxX, playerObj.transform.position.y, maxZ));
+        if (started){
+            Gizmos.DrawLine(playerObj.transform.position, new Vector3(minX, playerObj.transform.position.y, minZ));
+            Gizmos.DrawLine(playerObj.transform.position, new Vector3(maxX, playerObj.transform.position.y, maxZ));
+        }
     }
 }
