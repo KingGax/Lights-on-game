@@ -7,7 +7,7 @@ public class BulletController : MonoBehaviour
     float damage;
     float speed;
     Vector3 direction;
-    int environmentLayer;
+    int environmentLayerMask;
     int enemyLayer;
     Rigidbody rb;
     public bool playerBullets;
@@ -27,7 +27,7 @@ public class BulletController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        environmentLayer = LayerMask.NameToLayer("Environment");
+        environmentLayerMask = (1 << LayerMask.NameToLayer("StaticEnvironment")) | (1 << LayerMask.NameToLayer("DynamicEnvironment"));
         if (playerBullets)
         {
             enemyLayer = LayerMask.NameToLayer("Enemies");
@@ -55,7 +55,7 @@ public class BulletController : MonoBehaviour
                 DestroyBullet();
             }
         }
-        else if (other.gameObject.layer == environmentLayer)
+        else if (((1 << other.gameObject.layer) & environmentLayerMask) != 0)
         {
             DestroyBullet();
         }

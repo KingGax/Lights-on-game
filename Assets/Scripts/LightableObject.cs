@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using System;
 
-public class LightableSphere : MonoBehaviour
+public class LightableObject : MonoBehaviour
 {
     public bool isRed;
     public bool isBlue;
@@ -13,7 +11,7 @@ public class LightableSphere : MonoBehaviour
     Material defaultMaterial;
     public float colourRange;
     float invisibleOpacity = 0.1f;
-    public LayerMask potentialColliders;
+    LayerMask potentialColliders;
     bool isHidden = false;
     bool appearing = false;
     Bounds physicsBounds;
@@ -22,9 +20,8 @@ public class LightableSphere : MonoBehaviour
     int hiddenLayer;
     Color objectColour;
     Vector4 objectColVector;
-    public NavMeshObstacle obstacle;
     Vector4 materialColour;
-    
+
     List<LightObject> currentLights = new List<LightObject>();
     MeshRenderer meshRenderer;
     Collider physicsCollider;
@@ -50,7 +47,7 @@ public class LightableSphere : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     void StartAppearing()
     {
@@ -64,7 +61,7 @@ public class LightableSphere : MonoBehaviour
     {
         if (CheckNoIntersections())
         {
-            Appear();
+            StartAppear();
             CancelInvoke("TryAppear");
             appearing = false;
         }
@@ -74,13 +71,13 @@ public class LightableSphere : MonoBehaviour
     {
         if (CheckColours(currentLights))
         {
-            Disappear();
+            StartDisappear();
         }
         else
         {
             StartAppearing();
         }
-        
+
     }
 
     bool CheckNoIntersections()
@@ -99,14 +96,16 @@ public class LightableSphere : MonoBehaviour
     }
 
     //Returns true if colours match - only deals with one colour currently
-    bool CheckColours(List<LightObject> lights) {
+    bool CheckColours(List<LightObject> lights)
+    {
         if (lights.Count == 0)
         {
             return false;
         }
 
         Vector4 lightColour = Vector4.zero;
-        for(int i = 0; i < lights.Count; i++) {
+        for (int i = 0; i < lights.Count; i++)
+        {
             lightColour += (Vector4)lights[i].colour;
         }
         lightColour = new Vector4(Mathf.Clamp(lightColour.x, 0.0f, 1.0f), Mathf.Clamp(lightColour.y, 0.0f, 1.0f), Mathf.Clamp(lightColour.z, 0.0f, 1.0f), 1.0f);
@@ -124,33 +123,43 @@ public class LightableSphere : MonoBehaviour
         float b = blue ? 1 : 0;
         return new Color(r, g, b);
     }
-    void OnTriggerEnter(Collider other) {
+    void OnTriggerEnter(Collider other)
+    {
         LightObject newLight = other.GetComponent<LightObject>();
         if (newLight != null)
         {
             currentLights.Add(newLight);
             if (CheckColours(currentLights))
             {
-                Disappear();
+                Debug.Log("start poof");
+                StartDisappear();
             }
             else
             {
                 StartAppearing();
+                Debug.Log("start unpoof");
             }
         }
-        
-        
     }
-    void Disappear()
+    public virtual void Disappear()
+    {
+        meshRenderer.material = hiddenMaterial;
+        transform.parent.gameObject.layer = hiddenLayer;
+    }
+    public virtual void Appear()
+    {
+        transform.parent.gameObject.layer = defaultLayer;
+        meshRenderer.material = defaultMaterial;
+    }
+    void StartDisappear()
     {
         if (!isHidden)
         {
-            obstacle.enabled = false;
             isHidden = true;
             appearing = false;
             CancelInvoke("TryAppear");
-            meshRenderer.material = hiddenMaterial;
-            transform.parent.gameObject.layer = hiddenLayer;
+            Debug.Log("poof");
+            Disappear();
         }
         if (appearing)
         {
@@ -158,12 +167,11 @@ public class LightableSphere : MonoBehaviour
             CancelInvoke("TryAppear");
         }
     }
-    void Appear()
+    void StartAppear()
     {
-        obstacle.enabled = true;
+        Debug.Log("unpoof");
         isHidden = false;
-        transform.parent.gameObject.layer = defaultLayer;
-        meshRenderer.material = defaultMaterial;
+        Appear();
     }
 
     void OnTriggerExit(Collider other)
@@ -174,7 +182,7 @@ public class LightableSphere : MonoBehaviour
             currentLights.Remove(newLight);
             if (CheckColours(currentLights))
             {
-                Disappear();
+                StartDisappear();
             }
             else
             {
@@ -183,3 +191,4 @@ public class LightableSphere : MonoBehaviour
         }
     }
 }
+

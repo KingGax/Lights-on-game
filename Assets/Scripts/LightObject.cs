@@ -38,7 +38,7 @@ public class LightObject : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position+sphere.center, sphere.radius,lightLayer);
         foreach (var hitCollider in hitColliders)
         {
-            LightableSphere ls = hitCollider.GetComponent<LightableSphere>();
+            LightableObject ls = hitCollider.GetComponent<LightableObject>();
             if (ls != null)
             {
                 ls.ColourChanged();
