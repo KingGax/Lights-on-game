@@ -1163,7 +1163,7 @@ GameObject:
   - component: {fileID: 649460230}
   - component: {fileID: 649460229}
   - component: {fileID: 649460228}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Red Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1564,6 +1564,9 @@ MonoBehaviour:
   firePoint: {fileID: 1737423536}
   shootingTimerMax: 6
   engageDistance: 8
+  reactsToPlayerCover: 0
+  missedShotReduction: 0
+  losCheckTimerMax: 0.25
 --- !u!195 &892434444
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1797,7 +1800,7 @@ GameObject:
   - component: {fileID: 1252318044}
   - component: {fileID: 1252318043}
   - component: {fileID: 1252318042}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Blue Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1924,7 +1927,7 @@ GameObject:
   - component: {fileID: 1815802976}
   - component: {fileID: 1815802975}
   - component: {fileID: 1815802978}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Green Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2036,7 +2039,7 @@ GameObject:
   - component: {fileID: 1897724803}
   - component: {fileID: 1897724802}
   - component: {fileID: 1897724801}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Green Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

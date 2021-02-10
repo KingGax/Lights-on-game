@@ -27,12 +27,17 @@ public class EnemyController : MonoBehaviour
     float maxX;
     float minZ;
     float maxZ;
-    
+    public bool reactsToPlayerCover;
+    public float missedShotReduction;    
+    float losCheckTimer;
+    public float losCheckTimerMax;
     EnemyState enemyState;
+    float pathStoppingThreshold = 0.01f;
     enum EnemyState{
         Shooting, //Actively attacking the player
         Patrolling, //Moving/idle state - hasn't engaged the player yet
-        Repositioning //Moving during combat
+        Repositioning, //Moving during combat
+        GettingLOS //Trying to find LOS
     }
 
     // Start is called before the first frame update
@@ -93,6 +98,9 @@ public class EnemyController : MonoBehaviour
             case EnemyState.Shooting:
                 Shooting();
                 break;
+            case EnemyState.GettingLOS:
+                GettingLOS();
+                break;
             default:
                 break;
         }
@@ -107,9 +115,15 @@ public class EnemyController : MonoBehaviour
     }
     void ChangeToShooting()
     {
-        agent.enabled = false;
-        shootingTimer = shootingTimerMax;
-        enemyState = EnemyState.Shooting;
+        Debug.Log("Started shooting");
+        if (hasPlayerLOS()){
+            agent.enabled = false;
+            shootingTimer = shootingTimerMax;
+            enemyState = EnemyState.Shooting;
+        } else {
+            Debug.Log("Getting LOS");
+            ChangeToGettingLOS();
+        }
     }
     void Shooting()
     {
@@ -126,6 +140,7 @@ public class EnemyController : MonoBehaviour
     }
     void ChangeToRepositioning()
     {
+        Debug.Log("Started repositioning");
         enemyState = EnemyState.Repositioning;
         agent.enabled = true;
         GeneratePoint();
@@ -143,10 +158,46 @@ public class EnemyController : MonoBehaviour
         //     agent.destination = playerObj.transform.position;
         // }
         float dist=agent.remainingDistance; 
-        if (dist!=Mathf.Infinity && agent.pathStatus==NavMeshPathStatus.PathComplete && agent.remainingDistance==0){
+        // Debug.Log(agent.remainingDistance);
+        // Debug.Log("Dist: "+dist);
+        // Debug.Log("Status: "+agent.pathStatus);
+        if (dist!=Mathf.Infinity && agent.remainingDistance<= pathStoppingThreshold){ //agent.pathStatus==NavMeshPathStatus.PathComplete &&
             //path complete. credit: https://answers.unity.com/questions/324589/how-can-i-tell-when-a-navmesh-has-reached-its-dest.html
             ChangeToShooting();
         }
+    }
+
+    void ChangeToGettingLOS(){
+        Debug.Log("Started getting LOS");
+        losCheckTimer = losCheckTimerMax;
+        agent.destination = playerObj.transform.position;
+        enemyState = EnemyState.GettingLOS;
+    }
+
+    void GettingLOS(){
+        if (losCheckTimer <= 0)
+        {
+            Debug.Log("Checking LOS again!");
+            if (hasPlayerLOS()){
+                agent.enabled = false;
+                ChangeToShooting();
+            } else{
+                losCheckTimer = losCheckTimerMax;
+            }
+        }
+    }
+
+    bool hasPlayerLOS(){ //does enemy have line-of-sight on the player?
+        LayerMask environmentMask = (1 << LayerMask.NameToLayer("StaticEnvironment")) | (1 << LayerMask.NameToLayer("DynamicEnvironment")) | (1 << LayerMask.NameToLayer("Player"));
+        RaycastHit hit;
+        bool environmentCheck = Physics.Raycast(firePoint.position, playerObj.transform.position - firePoint.position, out hit, detectionThreshold, environmentMask);
+        if (environmentCheck){
+            return (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player"));
+        } else{
+            return false;
+        }
+        
+        //return !environmentCheck;
     }
     public void Shoot(Vector3 direction)
     {
@@ -173,7 +224,10 @@ public class EnemyController : MonoBehaviour
             if (shootingTimer > 0)
             {
                 shootingTimer -= Time.deltaTime;
-                
+            }
+             if (losCheckTimer > 0)
+            {
+                losCheckTimer -= Time.deltaTime;
             }
             yield return null;
         }
