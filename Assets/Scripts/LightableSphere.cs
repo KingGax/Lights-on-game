@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using System;
 
 public class LightableSphere : MonoBehaviour
@@ -21,7 +22,7 @@ public class LightableSphere : MonoBehaviour
     int hiddenLayer;
     Color objectColour;
     Vector4 objectColVector;
-    
+    public NavMeshObstacle obstacle;
     Vector4 materialColour;
     
     List<LightObject> currentLights = new List<LightObject>();
@@ -144,6 +145,7 @@ public class LightableSphere : MonoBehaviour
     {
         if (!isHidden)
         {
+            obstacle.enabled = false;
             isHidden = true;
             appearing = false;
             CancelInvoke("TryAppear");
@@ -158,6 +160,7 @@ public class LightableSphere : MonoBehaviour
     }
     void Appear()
     {
+        obstacle.enabled = true;
         isHidden = false;
         transform.parent.gameObject.layer = defaultLayer;
         meshRenderer.material = defaultMaterial;
