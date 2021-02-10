@@ -17,7 +17,8 @@ public class LightableSphere : MonoBehaviour
     bool appearing = false;
     Bounds physicsBounds;
     float boundingSphereSize;
-
+    int defaultLayer;
+    int hiddenLayer;
     Color objectColour;
     Vector4 objectColVector;
     
@@ -33,7 +34,9 @@ public class LightableSphere : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        potentialColliders = (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Enemies")); 
+        potentialColliders = (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Enemies"));
+        defaultLayer = transform.parent.gameObject.layer;
+        hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
         meshRenderer = transform.parent.GetComponent<MeshRenderer>();
         physicsBounds = physicsCollider.bounds;
         boundingSphereSize = Mathf.Max(physicsBounds.size.x, physicsBounds.size.y, physicsBounds.size.z);
@@ -145,7 +148,7 @@ public class LightableSphere : MonoBehaviour
             appearing = false;
             CancelInvoke("TryAppear");
             meshRenderer.material = hiddenMaterial;
-            physicsCollider.enabled = false;
+            transform.parent.gameObject.layer = hiddenLayer;
         }
         if (appearing)
         {
@@ -156,9 +159,8 @@ public class LightableSphere : MonoBehaviour
     void Appear()
     {
         isHidden = false;
-        //meshRenderer.material.color = new Vector4(materialColour.x, materialColour.y,materialColour.z, 1f);
+        transform.parent.gameObject.layer = defaultLayer;
         meshRenderer.material = defaultMaterial;
-        physicsCollider.enabled = true;
     }
 
     void OnTriggerExit(Collider other)
@@ -177,10 +179,4 @@ public class LightableSphere : MonoBehaviour
             }
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(transform.position, boundingSphereSize);
-    }
-
 }
