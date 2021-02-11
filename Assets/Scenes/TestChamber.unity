@@ -153,8 +153,14 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &118591903 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1568416983}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &130754186
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,13 +310,14 @@ GameObject:
   - component: {fileID: 272835318}
   - component: {fileID: 272835323}
   - component: {fileID: 272835325}
+  - component: {fileID: 272835324}
   m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &272835318
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -402,7 +409,7 @@ Transform:
   m_Children:
   - {fileID: 1060924212}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &272835323
 MonoBehaviour:
@@ -418,7 +425,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 0
   moveSpeed: 10
-  cam: {fileID: 1920952746}
   lantern: {fileID: 1060924216}
   weaponScript: {fileID: 0}
   lo: {fileID: 0}
@@ -431,6 +437,18 @@ MonoBehaviour:
   dashDurationTimerMax: 0
   dashCooldownMax: 0
   dashBufferMax: 0
+--- !u!114 &272835324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 272835317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da7c1c5d875cb842a4ee97e8ed04e58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &272835325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,7 +777,7 @@ Transform:
   - {fileID: 1565167774}
   - {fileID: 1891480081}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705845326
 GameObject:
@@ -951,7 +969,7 @@ Transform:
   - {fileID: 491688220}
   - {fileID: 969706352}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &884752731
 GameObject:
@@ -1190,7 +1208,7 @@ Transform:
   - {fileID: 1396205080}
   - {fileID: 1968961525}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1003581256
 GameObject:
@@ -1360,7 +1378,7 @@ Transform:
   m_Children:
   - {fileID: 130754191}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1060924211
 GameObject:
@@ -1973,6 +1991,75 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1565167773}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1568416983
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.9252253
+      objectReference: {fileID: 0}
+    - target: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.1849995
+      objectReference: {fileID: 0}
+    - target: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.2721195
+      objectReference: {fileID: 0}
+    - target: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4464539808157270200, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cd25f25df35954c408f7a0c56b0d288d, type: 3}
 --- !u!1 &1629029454
 GameObject:
   m_ObjectHideFlags: 0
@@ -2213,7 +2300,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 23.08, y: -148.5, z: 0}
 --- !u!114 &1920952748
 MonoBehaviour:
@@ -2227,7 +2314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae761912c5e39514fa4041234baaa8cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 272835322}
+  player: {fileID: 118591903}
   offset: {x: 9.2, y: 9.12, z: 15.65}
   rotation: {x: 23, y: -150, z: 0}
 --- !u!1 &1968961524

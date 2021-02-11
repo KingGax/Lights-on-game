@@ -141,11 +141,13 @@ public class LightableObject : MonoBehaviour
     public virtual void Disappear()
     {
         meshRenderer.material = hiddenMaterial;
+        meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         transform.parent.gameObject.layer = hiddenLayer;
     }
     public virtual void Appear()
     {
         transform.parent.gameObject.layer = defaultLayer;
+        meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         meshRenderer.material = defaultMaterial;
     }
     void StartDisappear()
