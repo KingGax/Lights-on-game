@@ -86,7 +86,6 @@ public class LightableObject : MonoBehaviour
         Collider[] closeColliders = Physics.OverlapSphere(transform.position, boundingSphereSize, potentialColliders);
         foreach (Collider col in closeColliders)
         {
-            Debug.Log(col.gameObject.name);
             if (physicsBounds.Intersects(col.bounds))
             {
                 return false;
@@ -131,13 +130,11 @@ public class LightableObject : MonoBehaviour
             currentLights.Add(newLight);
             if (CheckColours(currentLights))
             {
-                Debug.Log("start poof");
                 StartDisappear();
             }
             else
             {
                 StartAppearing();
-                Debug.Log("start unpoof");
             }
         }
     }
@@ -158,7 +155,6 @@ public class LightableObject : MonoBehaviour
             isHidden = true;
             appearing = false;
             CancelInvoke("TryAppear");
-            Debug.Log("poof");
             Disappear();
         }
         if (appearing)
@@ -169,7 +165,6 @@ public class LightableObject : MonoBehaviour
     }
     void StartAppear()
     {
-        Debug.Log("unpoof");
         isHidden = false;
         Appear();
     }

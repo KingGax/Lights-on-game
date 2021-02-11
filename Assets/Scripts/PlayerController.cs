@@ -10,13 +10,11 @@ public class PlayerController : MonoBehaviour
     public float turnSpeed;
     public float moveSpeed;
 
-    public Camera cam;
+    Camera cam;
     public Light lantern;
     public IGun weaponScript;
     public LightObject lo;
 
-    private PlayerInputs inputController;
-    private PlayerInputs.PlayerActions movementInputMap;
     Rigidbody rb;
     Vector2 movement;
     Vector3 cameraForward;
@@ -52,28 +50,15 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        inputController = new PlayerInputs();
-
         lo = GetComponentInChildren<LightObject>();
-
-        movementInputMap = inputController.Player;
-
-        movementInputMap.Movement.performed += ctx => OnMovement(ctx);
-        movementInputMap.Movement.started += ctx => OnMovement(ctx);
-        movementInputMap.Movement.canceled += ctx => OnMovement(ctx);
-        movementInputMap.Dash.started += ctx => Dash(ctx);
-        movementInputMap.Light.started += _ => ChangeLight();
-
-        movementInputMap.Attack.started += ctx => AttackOne(ctx);
-        movementInputMap.Attack.performed += ctx => AttackOne(ctx);
     }
     void Start()
     {
+        cam = Camera.main;
         rb = gameObject.GetComponent<Rigidbody>();
         cameraForward = Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal);
         cameraRight = Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal);
         lantern.color = colours[colourIndex];
-        cam = Camera.main;
         StartCoroutine("CountdownTimers");
     }
 
@@ -170,28 +155,17 @@ public class PlayerController : MonoBehaviour
         else return Vector3.zero;
     }
 
-    void AttackOne(InputAction.CallbackContext ctx)
+    public void AttackOne(bool mouseDown)
     {
 
-        if (ctx.performed)
-        {//performed in this case means released
-            fireHeld = false;
-        }
-        else
-        {
-            fireHeld = true;
-            
-        }
+        fireHeld = mouseDown;
     }
 
-    void Dash(InputAction.CallbackContext ctx){
+    public void Dash(){
         dashBuffer = dashBufferMax;
-        
-        //Vector3 movementVector = new Vector3(movement.x, 0, movement.y);
-        //rb.AddForce(dashForce*transform.forward);
     }
 
-    void ChangeLight()
+    public void ChangeLight()
     {
         colourIndex = (colourIndex + 1) % 3;
         lantern.color = colours[colourIndex];
@@ -200,30 +174,9 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public void OnMovement(InputAction.CallbackContext ctx)
+    public void OnMovement(Vector2 newMovementInput)
     {
-        Vector2 newMovementInput = ctx.ReadValue<Vector2>();
         movement = newMovementInput;
-
-        // Vector3 directionVector = transform.position - new Vector3(newMovementInput.x, 0, newMovementInput.y);
-        // transform.LookAt(directionVector);
-        //if (ctx.)
-        //Vector3 forwardVector = 
-        /*if (movement != Vector2.zero){
-            transform.forward = cameraForward * movement.y  + cameraRight * movement.x;
-        }*/
-         
-        //transform.Rotate(new Vector3(0, 30, 0), Space.World);
-    }
-
-    private void OnEnable()
-    {
-        inputController.Enable();
-    }
-    
-    private void OnDisable()
-    {
-        inputController.Disable();
     }
 
     private IEnumerator CountdownTimers()
