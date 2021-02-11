@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum LanternColour
+{
+    Red,
+    Green,
+    Blue,
+}
 public class PlayerController : MonoBehaviour
 {
-    
-
     public float turnSpeed;
     public float moveSpeed;
 
@@ -172,6 +176,26 @@ public class PlayerController : MonoBehaviour
         lo.colour = colours[colourIndex];
         lo.ChangeColour();
         
+    }
+    public void ChangeLightToColour(LanternColour col)
+    {
+        switch (col)
+        {
+            case LanternColour.Red:
+                colourIndex = 0;
+                break;
+            case LanternColour.Green:
+                colourIndex = 1;
+                break;
+            case LanternColour.Blue:
+                colourIndex = 2;
+                break;
+            default:
+                break;
+        }
+        lantern.color = colours[colourIndex];
+        lo.colour = colours[colourIndex];
+        lo.ChangeColour();
     }
 
     public void OnMovement(Vector2 newMovementInput)

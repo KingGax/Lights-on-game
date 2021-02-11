@@ -60,7 +60,6 @@ public class PlayerInputScript : MonoBehaviour
     void ChangeLight()
     {
         pc.ChangeLight();
-
     }
     void Dash(InputAction.CallbackContext ctx)
     {
