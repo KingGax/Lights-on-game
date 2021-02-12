@@ -29,6 +29,7 @@ public class MeleeEnemyController : MonoBehaviour, IEnemy
     EnemyState enemyState;
     float pathStoppingThreshold = 0.01f;
     bool started = false;
+    bool enabled = true;
 
     enum EnemyState
     {
@@ -54,30 +55,37 @@ public class MeleeEnemyController : MonoBehaviour, IEnemy
     // Update is called once per frame
     void Update()
     {
-        switch (enemyState)
+        if (enabled)
         {
-            case EnemyState.Patrolling:
-                Patrol();
-                break;
-            case EnemyState.Chasing:
-                Chasing();
-                break;
-            case EnemyState.Attacking:
-                Attacking();
-                break;
+            switch (enemyState)
+            {
+                case EnemyState.Patrolling:
+                    Patrol();
+                    break;
+                case EnemyState.Chasing:
+                    Chasing();
+                    break;
+                case EnemyState.Attacking:
+                    Attacking();
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
         }
     }
-
-    public void EnableAI(){
+    public void EnableAI()
+    {
         Debug.Log("AI Enabled");
-        //do something
+        enabled = true;
+        agent.enabled = true;
     }
 
-    public void DisableAI(){
+    public void DisableAI()
+    {
         Debug.Log("AI Disabled");
+        enabled = false;
+        agent.enabled = false;
     }
     void Patrol()
     {

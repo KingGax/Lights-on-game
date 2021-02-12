@@ -34,6 +34,7 @@ public class EnemyController : MonoBehaviour, IEnemy
     EnemyState enemyState;
     float pathStoppingThreshold = 0.01f;
     bool started = false;
+    bool enabled = true;
     enum EnemyState{
         Shooting, //Actively attacking the player
         Patrolling, //Moving/idle state - hasn't engaged the player yet
@@ -55,11 +56,13 @@ public class EnemyController : MonoBehaviour, IEnemy
     }
 
     public void EnableAI(){
-        Debug.Log("AI Enabled");
+        agent.enabled = true;
+        enabled = true;
     }
 
     public void DisableAI(){
-        Debug.Log("AI Disabled");
+        agent.enabled = false;
+        enabled = false;
     }
 
     void GeneratePoint(){
@@ -97,23 +100,26 @@ public class EnemyController : MonoBehaviour, IEnemy
     // Update is called once per frame
     void Update()
     {
-        switch (enemyState)
+        if (enabled)
         {
-            case EnemyState.Patrolling:
-                Patrol();
-                break;
-            case EnemyState.Repositioning:
-                Repositioning();
-                break;
-            case EnemyState.Shooting:
-                Shooting();
-                break;
-            case EnemyState.GettingLOS:
-                GettingLOS();
-                break;
-            default:
-                break;
-        }
+            switch (enemyState)
+            {
+                case EnemyState.Patrolling:
+                    Patrol();
+                    break;
+                case EnemyState.Repositioning:
+                    Repositioning();
+                    break;
+                case EnemyState.Shooting:
+                    Shooting();
+                    break;
+                case EnemyState.GettingLOS:
+                    GettingLOS();
+                    break;
+                default:
+                    break;
+            }
+        } 
     }
     void Patrol()
     {
