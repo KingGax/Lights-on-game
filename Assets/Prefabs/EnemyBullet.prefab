@@ -136,8 +136,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2444059516702995818}
-  - component: {fileID: 8720759832624999304}
   - component: {fileID: 1002329620312940721}
+  - component: {fileID: 8387880423667345128}
   m_Layer: 6
   m_Name: LightHitboxes
   m_TagString: Untagged
@@ -159,23 +159,6 @@ Transform:
   m_Father: {fileID: 3625585865830301536}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8720759832624999304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4639867085047918538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5a56f8c4568ca4a8840eed2a633b62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isRed: 1
-  isBlue: 0
-  isGreen: 0
-  hiddenMaterial: {fileID: 2100000, guid: 056448445b83bcc47af30e8c22e07305, type: 2}
-  colourRange: 0
 --- !u!135 &1002329620312940721
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -189,3 +172,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8387880423667345128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4639867085047918538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c74faceb25f0845bbab2d313c95b0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRed: 1
+  isBlue: 0
+  isGreen: 0
+  hiddenMaterial: {fileID: 2100000, guid: 056448445b83bcc47af30e8c22e07305, type: 2}
+  colourRange: 0

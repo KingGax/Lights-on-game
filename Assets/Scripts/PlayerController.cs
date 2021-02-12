@@ -2,21 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Photon.Pun;
 
-public class PlayerController : MonoBehaviour
+public enum LanternColour
 {
-    
-
+    Red,
+    Green,
+    Blue,
+}
+public class PlayerController : MonoBehaviourPunCallbacks
+{
     public float turnSpeed;
     public float moveSpeed;
 
-    public Camera cam;
+    [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
+    public static GameObject LocalPlayerInstance;
+
+    Camera cam;
     public Light lantern;
     public IGun weaponScript;
     public LightObject lo;
 
-    private PlayerInputs inputController;
-    private PlayerInputs.PlayerActions movementInputMap;
     Rigidbody rb;
     Vector2 movement;
     Vector3 cameraForward;
@@ -52,28 +58,24 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        inputController = new PlayerInputs();
-
         lo = GetComponentInChildren<LightObject>();
-
-        movementInputMap = inputController.Player;
-
-        movementInputMap.Movement.performed += ctx => OnMovement(ctx);
-        movementInputMap.Movement.started += ctx => OnMovement(ctx);
-        movementInputMap.Movement.canceled += ctx => OnMovement(ctx);
-        movementInputMap.Dash.started += ctx => Dash(ctx);
-        movementInputMap.Light.started += _ => ChangeLight();
-
-        movementInputMap.Attack.started += ctx => AttackOne(ctx);
-        movementInputMap.Attack.performed += ctx => AttackOne(ctx);
+        // #Important
+        // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
+        if (photonView.IsMine)
+        {
+            PlayerController.LocalPlayerInstance = this.gameObject;
+        }
+        // #Critical
+        // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
+        DontDestroyOnLoad(this.gameObject);
     }
     void Start()
     {
+        cam = Camera.main;
         rb = gameObject.GetComponent<Rigidbody>();
         cameraForward = Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal);
         cameraRight = Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal);
         lantern.color = colours[colourIndex];
-        cam = Camera.main;
         StartCoroutine("CountdownTimers");
     }
 
@@ -87,6 +89,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
         playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
         if (dashBuffer > 0){
             if (!dashing && canDash){
@@ -170,28 +176,17 @@ public class PlayerController : MonoBehaviour
         else return Vector3.zero;
     }
 
-    void AttackOne(InputAction.CallbackContext ctx)
+    public void AttackOne(bool mouseDown)
     {
 
-        if (ctx.performed)
-        {//performed in this case means released
-            fireHeld = false;
-        }
-        else
-        {
-            fireHeld = true;
-            
-        }
+        fireHeld = mouseDown;
     }
 
-    void Dash(InputAction.CallbackContext ctx){
+    public void Dash(){
         dashBuffer = dashBufferMax;
-        
-        //Vector3 movementVector = new Vector3(movement.x, 0, movement.y);
-        //rb.AddForce(dashForce*transform.forward);
     }
 
-    void ChangeLight()
+    public void ChangeLight()
     {
         colourIndex = (colourIndex + 1) % 3;
         lantern.color = colours[colourIndex];
@@ -199,31 +194,30 @@ public class PlayerController : MonoBehaviour
         lo.ChangeColour();
         
     }
-
-    public void OnMovement(InputAction.CallbackContext ctx)
+    public void ChangeLightToColour(LanternColour col)
     {
-        Vector2 newMovementInput = ctx.ReadValue<Vector2>();
+        switch (col)
+        {
+            case LanternColour.Red:
+                colourIndex = 0;
+                break;
+            case LanternColour.Green:
+                colourIndex = 1;
+                break;
+            case LanternColour.Blue:
+                colourIndex = 2;
+                break;
+            default:
+                break;
+        }
+        lantern.color = colours[colourIndex];
+        lo.colour = colours[colourIndex];
+        lo.ChangeColour();
+    }
+
+    public void OnMovement(Vector2 newMovementInput)
+    {
         movement = newMovementInput;
-
-        // Vector3 directionVector = transform.position - new Vector3(newMovementInput.x, 0, newMovementInput.y);
-        // transform.LookAt(directionVector);
-        //if (ctx.)
-        //Vector3 forwardVector = 
-        /*if (movement != Vector2.zero){
-            transform.forward = cameraForward * movement.y  + cameraRight * movement.x;
-        }*/
-         
-        //transform.Rotate(new Vector3(0, 30, 0), Space.World);
-    }
-
-    private void OnEnable()
-    {
-        inputController.Enable();
-    }
-    
-    private void OnDisable()
-    {
-        inputController.Disable();
     }
 
     private IEnumerator CountdownTimers()
