@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MeleeEnemyController : MonoBehaviour
+public class MeleeEnemyController : MonoBehaviour, IEnemy
 {
     GameObject playerObj;
     public float damage;
@@ -69,6 +69,15 @@ public class MeleeEnemyController : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void EnableAI(){
+        Debug.Log("AI Enabled");
+        //do something
+    }
+
+    public void DisableAI(){
+        Debug.Log("AI Disabled");
     }
     void Patrol()
     {

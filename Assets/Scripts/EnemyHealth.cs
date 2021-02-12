@@ -21,7 +21,12 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         health -= damage;
         if (health < 0)
         {
-            Debug.Log("ded");
+            Die();
         }
+    }
+
+    void Die(){
+        Debug.Log("ded"); 
+        Destroy(gameObject);
     }
 }

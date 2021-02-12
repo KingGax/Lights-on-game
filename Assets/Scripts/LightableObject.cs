@@ -113,7 +113,7 @@ public class LightableObject : MonoBehaviour
 
     }
 
-    bool CheckNoIntersections()
+    public virtual bool CheckNoIntersections()
     {
         physicsBounds.center = transform.position;
         Collider[] closeColliders = Physics.OverlapSphere(transform.position, boundingSphereSize, potentialColliders);

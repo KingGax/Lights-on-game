@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IEnemy
 {
     
     Rigidbody rb;
@@ -52,6 +52,14 @@ public class EnemyController : MonoBehaviour
         enemyState = EnemyState.Patrolling;
         GeneratePoint();
         started = true;
+    }
+
+    public void EnableAI(){
+        Debug.Log("AI Enabled");
+    }
+
+    public void DisableAI(){
+        Debug.Log("AI Disabled");
     }
 
     void GeneratePoint(){
