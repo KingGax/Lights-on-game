@@ -7,6 +7,11 @@ public class CameraController : MonoBehaviour
     public Transform player;
     public Vector3 offset;
     public Vector3 rotation;
+
+    public void bindToPlayer(Transform viewOwner)
+    {
+        this.player = viewOwner;
+    }
     // Start is called before the first frame update
     void Start()
     {
