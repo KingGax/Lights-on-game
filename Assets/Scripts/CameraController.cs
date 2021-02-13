@@ -7,6 +7,10 @@ public class CameraController : MonoBehaviour {
     public Vector3 offset;
     public Vector3 rotation;
 
+    public void bindToPlayer(Transform viewOwner)
+    {
+        this.player = viewOwner;
+    }
     // Start is called before the first frame update
     void Start() {
         transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
