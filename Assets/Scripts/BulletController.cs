@@ -47,7 +47,6 @@ public class BulletController : MonoBehaviour
     {
         if (other.gameObject.layer == enemyLayer)
         {
-            Debug.Log(other);
             IDamageable damageScript = other.gameObject.GetComponent<IDamageable>();
             if (damageScript != null)
             {
