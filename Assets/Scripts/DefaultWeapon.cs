@@ -2,31 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefaultWeapon : IGun
-{
+public class DefaultWeapon : IGun {
     public Transform firePoint;
     public GameObject bullet;
     public float bulletSpeed;
     public float damage;
     
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         fireCooldown = 0;
         StartCoroutine("CountdownTimers");
     }
 
-    public override bool RequestShoot(Vector3 direction)
-    {
+    public override bool RequestShoot(Vector3 direction) {
         bool canShoot = (fireCooldown <= 0); //conditions for shooting
-        if (canShoot){
+        if (canShoot) {
             Shoot(direction);
         }
         return canShoot;
     }
 
-    public override void Shoot(Vector3 direction)
-    {
+    public override void Shoot(Vector3 direction) {
         fireCooldown = fireCooldownMax;
         GameObject newBullet = Instantiate(bullet, firePoint.position, Quaternion.identity);
         BulletController bc = newBullet.GetComponent<BulletController>();
@@ -36,17 +32,13 @@ public class DefaultWeapon : IGun
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         
     }
     
-    private IEnumerator CountdownTimers()
-    {
-        while (true)
-        {
-            if (fireCooldown > 0)
-            {
+    private IEnumerator CountdownTimers() {
+        while (true) {
+            if (fireCooldown > 0) {
                 fireCooldown -= Time.deltaTime;
             }    
             yield return null;    

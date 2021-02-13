@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class GlobalValues : MonoBehaviour
-{
+public class GlobalValues : MonoBehaviour {
     private static GlobalValues _instance;
     public LayerMask reappearPreventionLayers;
     public LayerMask environment;
@@ -19,24 +18,18 @@ public class GlobalValues : MonoBehaviour
     public Material hiddenMagenta;
     public static GlobalValues Instance { get { return _instance; } }
 
-    public void AddPlayer(GameObject player)
-    {
-        if (!players.Contains(player))
-        {
+    public void AddPlayer(GameObject player) {
+        if (!players.Contains(player)) {
             players.Add(player);
         }
     }
-    private void Awake()
-    {
-        if (_instance != null && _instance != this)
-        {
+
+    private void Awake() {
+        if (_instance != null && _instance != this) {
             Destroy(this.gameObject);
-        }
-        else
-        {
+        } else {
             DontDestroyOnLoad(gameObject);
             _instance = this;
         }
-
     }
 }

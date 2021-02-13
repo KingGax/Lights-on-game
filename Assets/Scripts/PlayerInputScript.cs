@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputScript : MonoBehaviour
-{
+public class PlayerInputScript : MonoBehaviour {
+    
     private PlayerController pc;
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
-    void Awake()
-    {
-        inputController = new PlayerInputs();
 
+    void Awake() {
+        inputController = new PlayerInputs();
 
         movementInputMap = inputController.Player;
 
@@ -24,49 +23,44 @@ public class PlayerInputScript : MonoBehaviour
         movementInputMap.Attack.started += ctx => AttackOne(ctx);
         movementInputMap.Attack.performed += ctx => AttackOne(ctx);
     }
+
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         pc = GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         
     }
-    private void OnEnable()
-    {
+
+    private void OnEnable() {
         inputController.Enable();
     }
 
-    private void OnDisable()
-    {
+    private void OnDisable() {
         inputController.Disable();
     }
-    void AttackOne(InputAction.CallbackContext ctx)
-    {
 
-        if (ctx.performed)
-        {//performed in this case means released
+    void AttackOne(InputAction.CallbackContext ctx) {
+
+        if (ctx.performed) {
+            //performed in this case means released
             pc.AttackOne(false);
-        }
-        else
-        {
+        } else {
             pc.AttackOne(true);
-
         }
     }
-    void ChangeLight()
-    {
+
+    void ChangeLight() {
         pc.ChangeLight();
     }
-    void Dash(InputAction.CallbackContext ctx)
-    {
+
+    void Dash(InputAction.CallbackContext ctx) {
         pc.Dash();
     }
-    public void OnMovement(InputAction.CallbackContext ctx)
-    {
+
+    public void OnMovement(InputAction.CallbackContext ctx) {
         Vector2 newMovementInput = ctx.ReadValue<Vector2>();
         pc.OnMovement(newMovementInput);
 
@@ -81,4 +75,3 @@ public class PlayerInputScript : MonoBehaviour
         //transform.Rotate(new Vector3(0, 30, 0), Space.World);
     }
 }
-
