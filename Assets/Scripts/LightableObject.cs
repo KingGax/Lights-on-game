@@ -29,7 +29,7 @@ public class LightableObject : MonoBehaviour
     void Start()
     {
         physicsCollider = transform.parent.GetComponent<Collider>();
-        potentialColliders = (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Enemies"));
+        potentialColliders = GlobalValues.Instance.reappearPreventionLayers;
         defaultLayer = transform.parent.gameObject.layer;
         hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
         meshRenderer = transform.parent.GetComponent<MeshRenderer>();

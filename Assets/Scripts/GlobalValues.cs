@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GlobalValues : MonoBehaviour
 {
     private static GlobalValues _instance;
-
+    public LayerMask reappearPreventionLayers;
     public LayerMask environment;
     public LayerMask playerLayer;
     public List<GameObject> players;
