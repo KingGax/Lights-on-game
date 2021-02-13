@@ -49,6 +49,14 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Voice Control"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8d9ed23-7c7c-488d-b82e-edc27884c801"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -139,6 +147,17 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d10967b1-722f-4544-a38c-ac0b5c1f6509"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Voice Control"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -168,6 +187,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_Player_Light = m_Player.FindAction("Light", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
+        m_Player_VoiceControl = m_Player.FindAction("Voice Control", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -221,6 +241,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Light;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Dash;
+    private readonly InputAction m_Player_VoiceControl;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -229,6 +250,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @Light => m_Wrapper.m_Player_Light;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
+        public InputAction @VoiceControl => m_Wrapper.m_Player_VoiceControl;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -250,6 +272,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @VoiceControl.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoiceControl;
+                @VoiceControl.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoiceControl;
+                @VoiceControl.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoiceControl;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -266,6 +291,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
+                @VoiceControl.started += instance.OnVoiceControl;
+                @VoiceControl.performed += instance.OnVoiceControl;
+                @VoiceControl.canceled += instance.OnVoiceControl;
             }
         }
     }
@@ -285,5 +313,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnLight(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnVoiceControl(InputAction.CallbackContext context);
     }
 }
