@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerControllerPlayer2 : MonoBehaviour
-{
+public class PlayerControllerPlayer2 : MonoBehaviour {
+
     Rigidbody rb;
     public Vector3 playerSpeed;
     private PlayerInputsPlayer2 inputController;
@@ -22,10 +22,7 @@ public class PlayerControllerPlayer2 : MonoBehaviour
 
     LightObject lo;
 
-    // Start is called before the first frame update
-
-    void Awake()
-    {
+    void Awake() {
         inputController = new PlayerInputsPlayer2();
 
         lo = GetComponentInChildren<LightObject>();
@@ -37,45 +34,37 @@ public class PlayerControllerPlayer2 : MonoBehaviour
         movementInputMap.Movement.canceled += ctx => OnMovement(ctx);
 
         movementInputMap.Light.started += _ => ChangeLight();
-
     }
-    void Start()
-    {
+
+    void Start() {
         rb = gameObject.GetComponent<Rigidbody>();
         cameraForward = Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal);
         cameraRight = Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal);
         lantern.color = colours[colourIndex];
     }
 
-
     // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
         rb.velocity = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
     }
 
-    void ChangeLight()
-    {
+    void ChangeLight() {
         colourIndex = (colourIndex + 1) % 3;
         lantern.color = colours[colourIndex];
         lo.colour = colours[colourIndex];
         lo.ChangeColour();
-        
     }
 
-    public void OnMovement(InputAction.CallbackContext ctx)
-    {
+    public void OnMovement(InputAction.CallbackContext ctx) {
         Vector2 newMovementInput = ctx.ReadValue<Vector2>();
         movement = newMovementInput;
     }
 
-    private void OnEnable()
-    {
+    private void OnEnable() {
         inputController.Enable();
     }
-    private void OnDisable()
-    {
+
+    private void OnDisable() {
         inputController.Disable();
     }
 }
