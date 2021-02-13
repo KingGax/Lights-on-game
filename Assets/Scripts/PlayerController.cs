@@ -57,6 +57,7 @@ using Photon.Pun;
         // Start is called before the first frame update
 
         void Awake()
+
         {
             lo = GetComponentInChildren<LightObject>();
             cam = Camera.main;
