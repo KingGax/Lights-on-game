@@ -8,6 +8,10 @@ public class PlayerInputScript : MonoBehaviour
     private PlayerController pc;
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
+
+    [DllImport("__Internal")]
+    private static extern string getMicInput();
+
     void Awake()
     {
         inputController = new PlayerInputs();
@@ -84,7 +88,7 @@ public class PlayerInputScript : MonoBehaviour
     }
     public void VoiceControl(InputAction.CallbackContext ctx)
     {
-        
+        string colour = getMicInput();
     }
 }
 
