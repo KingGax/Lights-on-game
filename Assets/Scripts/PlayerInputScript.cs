@@ -23,6 +23,8 @@ public class PlayerInputScript : MonoBehaviour
 
         movementInputMap.Attack.started += ctx => AttackOne(ctx);
         movementInputMap.Attack.performed += ctx => AttackOne(ctx);
+
+        movementInputMap.Voice.started += ctx => VoiceControl(ctx);
     }
     // Start is called before the first frame update
     void Start()
@@ -79,6 +81,10 @@ public class PlayerInputScript : MonoBehaviour
         }*/
 
         //transform.Rotate(new Vector3(0, 30, 0), Space.World);
+    }
+    public void VoiceControl(InputAction.CallbackContext ctx)
+    {
+        
     }
 }
 
