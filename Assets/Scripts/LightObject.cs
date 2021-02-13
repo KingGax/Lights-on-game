@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class LightObject : MonoBehaviour
-{
+public class LightObject : MonoBehaviour {
     // Start is called before the first frame update
 
     public Color colour { get; set; }
@@ -13,8 +12,7 @@ public class LightObject : MonoBehaviour
     SphereCollider sphere;
     int lightLayer;
 
-    void Start()
-    {
+    void Start() {
         playerLantern = GetComponent<Light>();
         colour = playerLantern.color;
         playerLantern = GetComponent<Light>();
@@ -25,25 +23,20 @@ public class LightObject : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         playerLantern = GetComponent<Light>();
         sphere = GetComponent<SphereCollider>();
         lightRange = playerLantern.range;
         sphere.radius = lightRange / 1.3f;
     }
 
-    public void ChangeColour()
-    {
+    public void ChangeColour() {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position+sphere.center, sphere.radius,lightLayer);
-        foreach (var hitCollider in hitColliders)
-        {
+        foreach (var hitCollider in hitColliders) {
             LightableObject ls = hitCollider.GetComponent<LightableObject>();
-            if (ls != null)
-            {
+            if (ls != null) {
                 ls.ColourChanged();
             }
         }
     }
-
 }

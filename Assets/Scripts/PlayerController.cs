@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 
-
     public enum LanternColour
     {
         Red,
@@ -143,6 +142,7 @@ using Photon.Pun;
             }
             else
             {
+
                 Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
                 moveVector.y = rb.velocity.y;
                 rb.velocity = moveVector;
@@ -255,6 +255,7 @@ using Photon.Pun;
                     if (dashCooldown <=0){
                         canDash = true;
                     }
+
                 }
                 if (dashBuffer > 0){
                     dashBuffer -= Time.deltaTime;

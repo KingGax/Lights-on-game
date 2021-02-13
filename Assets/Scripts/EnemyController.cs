@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
-{
+public class EnemyController : MonoBehaviour, IEnemy {
     
     Rigidbody rb;
     GameObject playerObj;
@@ -34,7 +33,8 @@ public class EnemyController : MonoBehaviour
     EnemyState enemyState;
     float pathStoppingThreshold = 0.01f;
     bool started = false;
-    enum EnemyState{
+    bool enabled = true;
+    enum EnemyState {
         Shooting, //Actively attacking the player
         Patrolling, //Moving/idle state - hasn't engaged the player yet
         Repositioning, //Moving during combat
@@ -42,8 +42,7 @@ public class EnemyController : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         //rb = gameObject.GetComponent<Rigidbody>();
         playerObj = GameObject.Find("Player");
         canShoot = true;
@@ -54,7 +53,17 @@ public class EnemyController : MonoBehaviour
         started = true;
     }
 
-    void GeneratePoint(){
+    public void EnableAI() {
+        agent.enabled = true;
+        enabled = true;
+    }
+
+    public void DisableAI() {
+        agent.enabled = false;
+        enabled = false;
+    }
+
+    void GeneratePoint() {
         Vector3 playerPos = playerObj.transform.position;
         float vectorDir = AngleDir(gameObject.transform.position - playerPos);
         float playerAngle = Vector3.Angle(Vector3.forward, gameObject.transform.position - playerPos);
@@ -73,7 +82,7 @@ public class EnemyController : MonoBehaviour
         agent.destination = dest;
     }
 
-    float AngleDir(Vector3 targetVec){
+    float AngleDir(Vector3 targetVec) {
         //thank you https://forum.unity.com/threads/how-to-get-a-360-degree-vector3-angle.42145/
         Vector3 perp = Vector3.Cross(Vector3.forward, targetVec);
         float dir = Vector3.Dot(perp, Vector3.up);
@@ -87,38 +96,37 @@ public class EnemyController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        switch (enemyState)
-        {
-            case EnemyState.Patrolling:
-                Patrol();
-                break;
-            case EnemyState.Repositioning:
-                Repositioning();
-                break;
-            case EnemyState.Shooting:
-                Shooting();
-                break;
-            case EnemyState.GettingLOS:
-                GettingLOS();
-                break;
-            default:
-                break;
-        }
+    void Update() {
+        if (enabled) {
+            switch (enemyState) {
+                case EnemyState.Patrolling:
+                    Patrol();
+                    break;
+                case EnemyState.Repositioning:
+                    Repositioning();
+                    break;
+                case EnemyState.Shooting:
+                    Shooting();
+                    break;
+                case EnemyState.GettingLOS:
+                    GettingLOS();
+                    break;
+                default:
+                    break;
+            }
+        } 
     }
-    void Patrol()
-    {
+
+    void Patrol() {
         float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
-        if (distToPlayer < detectionThreshold)
-        {
+        if (distToPlayer < detectionThreshold) {
             ChangeToRepositioning();
         }
     }
-    void ChangeToShooting()
-    {
+
+    void ChangeToShooting() {
         Debug.Log("Started shooting");
-        if (hasPlayerLOS()){
+        if (hasPlayerLOS()) {
             agent.enabled = false;
             shootingTimer = shootingTimerMax;
             enemyState = EnemyState.Shooting;
@@ -127,38 +135,35 @@ public class EnemyController : MonoBehaviour
             ChangeToGettingLOS();
         }
     }
-    void Shooting()
-    {
+
+    void Shooting() {
         float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
-        if (distToPlayer <= detectionThreshold && canShoot)
-        {
+        if (distToPlayer <= detectionThreshold && canShoot) {
             bool canSeePlayer = hasPlayerLOS();
-            if (!canSeePlayer){
-                if (reactsToPlayerCover){
+            if (!canSeePlayer) {
+                if (reactsToPlayerCover) {
                     Debug.Log("Reacting!");
                     ChangeToGettingLOS();
-                }
-                else{
+                } else {
                     shootingTimer-=missedShotReduction;   
                 }
             }
             Vector3 targetVector = playerObj.transform.position - firePoint.position;
             Shoot(targetVector);
         }
-        if (shootingTimer <= 0)
-        {
+        if (shootingTimer <= 0) {
             ChangeToRepositioning();
         }
     }
-    void ChangeToRepositioning()
-    {
+
+    void ChangeToRepositioning() {
         Debug.Log("Started repositioning");
         enemyState = EnemyState.Repositioning;
         agent.enabled = true;
         GeneratePoint();
     }
-    void Repositioning()
-    {
+
+    void Repositioning() {
         // float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
         
         // if (distToPlayer <= engageDistance)
@@ -173,13 +178,13 @@ public class EnemyController : MonoBehaviour
         // Debug.Log(agent.remainingDistance);
         // Debug.Log("Dist: "+dist);
         // Debug.Log("Status: "+agent.pathStatus);
-        if (dist!=Mathf.Infinity && agent.remainingDistance<= pathStoppingThreshold){ //agent.pathStatus==NavMeshPathStatus.PathComplete &&
+        if (dist!=Mathf.Infinity && agent.remainingDistance<= pathStoppingThreshold) { //agent.pathStatus==NavMeshPathStatus.PathComplete &&
             //path complete. credit: https://answers.unity.com/questions/324589/how-can-i-tell-when-a-navmesh-has-reached-its-dest.html
             ChangeToShooting();
         }
     }
 
-    void ChangeToGettingLOS(){
+    void ChangeToGettingLOS() {
         Debug.Log("Started getting LOS");
         losCheckTimer = losCheckTimerMax;
         agent.enabled = true;
@@ -188,16 +193,15 @@ public class EnemyController : MonoBehaviour
         
     }
 
-    void GettingLOS(){
-        if (losCheckTimer <= 0)
-        {
+    void GettingLOS() {
+        if (losCheckTimer <= 0) {
             Debug.Log("Checking LOS again!");
-            if (hasPlayerLOS()){
+            if (hasPlayerLOS()) {
                 agent.enabled = false;
                 ChangeToShooting();
-            } else{
+            } else {
                 //check if stuck
-                if (agent.remainingDistance!=Mathf.Infinity && agent.remainingDistance<= pathStoppingThreshold){
+                if (agent.remainingDistance!=Mathf.Infinity && agent.remainingDistance<= pathStoppingThreshold) {
                     //path complete. credit: https://answers.unity.com/questions/324589/how-can-i-tell-when-a-navmesh-has-reached-its-dest.html
                     ChangeToGettingLOS();
                 }
@@ -206,20 +210,23 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    bool hasPlayerLOS(){ //does enemy have line-of-sight on the player?
-        LayerMask environmentMask = (1 << LayerMask.NameToLayer("StaticEnvironment")) | (1 << LayerMask.NameToLayer("DynamicEnvironment")) | (1 << LayerMask.NameToLayer("Player"));
+    bool hasPlayerLOS() { //does enemy have line-of-sight on the player?
+        LayerMask environmentMask =
+            (1 << LayerMask.NameToLayer("StaticEnvironment"))
+            | (1 << LayerMask.NameToLayer("DynamicEnvironment")) | (1 << LayerMask.NameToLayer("Player"));
         RaycastHit hit;
-        bool environmentCheck = Physics.Raycast(firePoint.position, playerObj.transform.position - firePoint.position, out hit, detectionThreshold, environmentMask);
-        if (environmentCheck){
+        bool environmentCheck =
+            Physics.Raycast(firePoint.position, playerObj.transform.position - firePoint.position, out hit, detectionThreshold, environmentMask);
+
+        if (environmentCheck) {
             return (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player"));
-        } else{
+        } else {
             return false;
         }
-        
         //return !environmentCheck;
     }
-    public void Shoot(Vector3 direction)
-    {
+
+    public void Shoot(Vector3 direction) {
         fireCooldown = fireCooldownMax;
         canShoot = false;
         GameObject newBullet = Instantiate(bullet, firePoint.position, Quaternion.identity);
@@ -228,31 +235,28 @@ public class EnemyController : MonoBehaviour
         Destroy(newBullet, 2.0f);
     }
 
-    private IEnumerator EnemyTimers()
-    {
-        while (true)
-        {
-            if (fireCooldown > 0)
-            {
+    private IEnumerator EnemyTimers() {
+        while (true) {
+            if (fireCooldown > 0) {
                 fireCooldown -= Time.deltaTime;
-                if (fireCooldown <= 0)
-                {
+                if (fireCooldown <= 0) {
                     canShoot = true;  
                 }
             }
-            if (shootingTimer > 0)
-            {
+
+            if (shootingTimer > 0) {
                 shootingTimer -= Time.deltaTime;
             }
-             if (losCheckTimer > 0)
-            {
+
+            if (losCheckTimer > 0) {
                 losCheckTimer -= Time.deltaTime;
             }
             yield return null;
         }
     }
+
     private void OnDrawGizmos() {
-        if (started){
+        if (started) {
             Gizmos.DrawLine(playerObj.transform.position, new Vector3(minX, playerObj.transform.position.y, minZ));
             Gizmos.DrawLine(playerObj.transform.position, new Vector3(maxX, playerObj.transform.position.y, maxZ));
         }
