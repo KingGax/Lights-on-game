@@ -24,7 +24,10 @@ public class BulletController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        environmentLayerMask = (1 << LayerMask.NameToLayer("StaticEnvironment")) | (1 << LayerMask.NameToLayer("DynamicEnvironment"));
+        environmentLayerMask =
+            (1 << LayerMask.NameToLayer("StaticEnvironment"))
+            | (1 << LayerMask.NameToLayer("DynamicEnvironment"));
+
         if (playerBullets) {
             enemyLayer = LayerMask.NameToLayer("Enemies");
         } else {
