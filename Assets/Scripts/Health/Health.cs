@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Health : MonoBehaviour, IDamageable {
+public class Health : MonoBehaviour, IDamageable {
     public float maxHealth;
     private float health;
 
@@ -19,5 +19,8 @@ public abstract class Health : MonoBehaviour, IDamageable {
         }
     }
 
-    public abstract void Die();
+    public virtual void Die() {
+        Debug.Log("ded"); 
+        Destroy(gameObject);
+    }
 }
