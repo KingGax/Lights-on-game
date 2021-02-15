@@ -11,7 +11,7 @@ using Photon.Pun;
         Green,
         Blue,
     }
-    public class PlayerController : MonoBehaviourPunCallbacks
+    public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         public float turnSpeed;
         public float moveSpeed;
@@ -54,6 +54,33 @@ using Photon.Pun;
         bool dashing = false;
         Vector3 dashDirection;
         bool canDash = true;
+
+        #region IPunObservable implementation
+
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+{
+    // We own this player: send the others our data
+                stream.SendNext(colourIndex);
+            }
+            else
+            {
+                // Network player, receive data
+                int _index = (int)stream.ReceiveNext();
+                Debug.Log(_index);
+                if (_index != colourIndex) {
+                    this.colourIndex = _index;
+                    lantern.color = colours[colourIndex];
+                    lo.colour = colours[colourIndex];
+                    lo.ChangeColour();
+                }
+            }
+        }
+
+
+        #endregion
 
         // Start is called before the first frame update
 
@@ -204,6 +231,10 @@ using Photon.Pun;
 
         public void ChangeLight()
         {
+            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            {
+                return;
+            }
             colourIndex = (colourIndex + 1) % 3;
             lantern.color = colours[colourIndex];
             lo.colour = colours[colourIndex];
