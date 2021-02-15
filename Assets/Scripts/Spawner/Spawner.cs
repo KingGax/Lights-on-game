@@ -1,10 +1,13 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Spawner : MonoBehaviour {
 
-    public GameObject spawnableEntity;
+    public List<GameObject> spawnableEntities;
     public float spawnRadius;
-    
+    int spawnIndex;
+
+
     void Start() {}
 
     // Called at frame rate
@@ -12,6 +15,7 @@ public class Spawner : MonoBehaviour {
 
     // Called at a fixed rate 25ups
     void FixedUpdate() {
+        
         if (Random.value > 0.99) {
             Vector3 pos = transform.position
                 + new Vector3(
@@ -19,7 +23,8 @@ public class Spawner : MonoBehaviour {
                     0, 
                     spawnRadius * (Random.value * 2 - 1)
                 );
-            GameObject entity = Instantiate(spawnableEntity, pos, Quaternion.identity);
+            spawnIndex = Random.Range(0, spawnableEntities.Count);
+            GameObject entity = Instantiate(spawnableEntities[spawnIndex], pos, Quaternion.identity);
         }
     }
 }

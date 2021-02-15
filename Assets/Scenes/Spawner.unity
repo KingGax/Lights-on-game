@@ -560,7 +560,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &657170934
 Light:
   m_ObjectHideFlags: 0
@@ -823,8 +823,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675aa22a77b0a036f9d41ff94d18d091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnableEntity: {fileID: 9053110180265606367, guid: 4dc4a2d9063490846af3afaa109b6b76,
-    type: 3}
+  spawnableEntities:
+  - {fileID: 7060930471932500260, guid: de52861e33956ac4d87e09b1758aaff1, type: 3}
+  - {fileID: 9053110180265606367, guid: 4dc4a2d9063490846af3afaa109b6b76, type: 3}
   spawnRadius: 15
 --- !u!4 &764977261
 Transform:
@@ -1332,7 +1333,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: ee5c8143beeac68429ae1361cb661ee0, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 2c1f7bfdcfef62942a0cb7ced03b87c5, type: 2}
 --- !u!4 &1342172028
 Transform:
   m_ObjectHideFlags: 0
@@ -1714,6 +1715,11 @@ PrefabInstance:
         type: 3}
       propertyPath: cam
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294330096512230151, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: viewIdField
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4464539808157270192, guid: cd25f25df35954c408f7a0c56b0d288d, type: 3}
