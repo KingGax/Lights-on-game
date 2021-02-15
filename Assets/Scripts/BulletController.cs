@@ -42,7 +42,8 @@ public class BulletController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.layer == enemyLayer) {
-            IDamageable damageScript = other.gameObject.GetComponent<IDamageable>();
+
+            Health damageScript = other.gameObject.GetComponent<Health>();
             if (damageScript != null) {
                 damageScript.Damage(damage);
                 DestroyBullet();
