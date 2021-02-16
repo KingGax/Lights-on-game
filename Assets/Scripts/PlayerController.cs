@@ -64,18 +64,21 @@ using Photon.Pun;
 {
     // We own this player: send the others our data
                 stream.SendNext(colourIndex);
+                stream.SendNext(fireHeld);
             }
             else
             {
                 // Network player, receive data
                 int _index = (int)stream.ReceiveNext();
-                Debug.Log(_index);
+                bool _fireheld = (bool)stream.ReceiveNext();
+                Debug.Log(fireHeld);
                 if (_index != colourIndex) {
                     this.colourIndex = _index;
                     lantern.color = colours[colourIndex];
                     lo.colour = colours[colourIndex];
                     lo.ChangeColour();
                 }
+                if (_fireheld != fireHeld) fireHeld = _fireheld;
             }
         }
 
@@ -132,20 +135,21 @@ using Photon.Pun;
         // Update is called once per frame
         void Update()
         {
-            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            if (fireHeld)
             {
-                return;
+                shootBuffer = shootBufferMax;
             }
+            // if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            // {
+            //     return;
+            // }
             playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
             if (dashBuffer > 0){
                 if (!dashing && canDash){
                     StartDash();
                 }
             }
-            if (fireHeld)
-            {
-                shootBuffer = shootBufferMax;
-            }
+            
             //handles looking and shooting
             if (shootBuffer > 0 && CanShoot())
             {
@@ -160,8 +164,11 @@ using Photon.Pun;
             {
                 if (movement != Vector2.zero)
                 {
-                    Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
-                    TurnTowards(moveVector);
+                    if (photonView.IsMine == true || PhotonNetwork.IsConnected == false)
+                    {
+                        Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+                        TurnTowards(moveVector);
+                    }
                 }
             }
             if (dashing)
@@ -170,9 +177,12 @@ using Photon.Pun;
             }
             else
             {
-                Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
-                moveVector.y = rb.velocity.y;
-                rb.velocity = moveVector;
+                if (photonView.IsMine == true || PhotonNetwork.IsConnected == false)
+                {
+                    Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+                    moveVector.y = rb.velocity.y;
+                    rb.velocity = moveVector;
+                }
             }
         }
 
@@ -221,11 +231,18 @@ using Photon.Pun;
 
         public void AttackOne(bool mouseDown)
         {
-
+            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            {
+                return;
+            }
             fireHeld = mouseDown;
         }
 
         public void Dash(){
+            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            {
+                return;
+            }
             dashBuffer = dashBufferMax;
         }
 
