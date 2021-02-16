@@ -166,7 +166,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9053110179514598946}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.4200001, y: -0.33999997, z: 1.3000002}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9053110180265606374}
@@ -197,10 +197,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8bc8319505b4fa46aa0988349de8a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRed: 0
-  isBlue: 1
-  isGreen: 0
+  colour: 0
+  greenMat: {fileID: 0}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
   colourRange: 0
+  childObjects:
+  - {fileID: 9053110179349718093}
 --- !u!1 &9053110180265606367
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,10 +215,10 @@ GameObject:
   - component: {fileID: 9053110180265606374}
   - component: {fileID: 9053110180265606361}
   - component: {fileID: 9053110180265606360}
-  - component: {fileID: 9053110180265606363}
   - component: {fileID: 9053110180265606362}
   - component: {fileID: 9053110180265606365}
   - component: {fileID: 1769542724786626667}
+  - component: {fileID: 9053110180265606363}
   m_Layer: 8
   m_Name: MeleeEnemy
   m_TagString: Untagged
@@ -288,19 +291,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &9053110180265606363
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9053110180265606367}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &9053110180265606362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,3 +351,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+--- !u!65 &9053110180265606363
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053110180265606367}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

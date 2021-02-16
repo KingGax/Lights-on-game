@@ -19,7 +19,7 @@ public class EnemyController : MonoBehaviour, IEnemy {
     public float shootingTimerMax;
     public float engageDistance;
     float shootingTimer;
-
+    LightableColour bulletColour;
     float startAngle;
     float endAngle;
     float minX;    
@@ -51,6 +51,14 @@ public class EnemyController : MonoBehaviour, IEnemy {
         enemyState = EnemyState.Patrolling;
         GeneratePoint();
         started = true;
+    }
+
+    public void SetBulletColour(LightableColour col)
+    {
+        bulletColour = col;
+        /*LightableObject bulletLight = bullet.GetComponentInChildren<LightableObject>();
+        bulletLight.colour = col;
+        bulletLight.SetColour();*/
     }
 
     public void EnableAI() {
@@ -230,6 +238,9 @@ public class EnemyController : MonoBehaviour, IEnemy {
         fireCooldown = fireCooldownMax;
         canShoot = false;
         GameObject newBullet = Instantiate(bullet, firePoint.position, Quaternion.identity);
+        LightableObject bulletLight = newBullet.GetComponentInChildren<LightableObject>();
+        bulletLight.colour = bulletColour;
+        bulletLight.SetColour();
         BulletController bc = newBullet.GetComponent<BulletController>();
         bc.Fire(damage, bulletSpeed,direction);
         Destroy(newBullet, 2.0f);

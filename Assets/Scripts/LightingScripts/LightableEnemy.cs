@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class LightableEnemy : LightableObject {
+public class LightableEnemy : LightableMultiObject {
 
     //public NavMeshObstacle obstacle;
     IEnemy enemy;

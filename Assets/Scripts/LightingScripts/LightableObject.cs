@@ -2,10 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum LightableColour
+{
+    Red,
+    Green,
+    Blue,
+    Cyan,
+    Magenta,
+    Yellow,
+}
 public class LightableObject : MonoBehaviour {
-    public bool isRed;
-    public bool isBlue;
-    public bool isGreen;
+    public LightableColour colour;
+    public Material greenMat;
+    public Material blueMat;
+    public Material redMat;
     Material hiddenMaterial;
     Material defaultMaterial;
     public float colourRange;
@@ -19,46 +29,67 @@ public class LightableObject : MonoBehaviour {
     int hiddenLayer;
     Color objectColour;
     Vector4 objectColVector;
-    Vector4 materialColour;
+
 
     List<LightObject> currentLights = new List<LightObject>();
     MeshRenderer meshRenderer;
     Collider physicsCollider;
-
+    private void Awake()
+    {
+        
+    }
     // Start is called before the first frame update
     void Start() {
+        AssignMaterials();
+        meshRenderer = transform.parent.GetComponent<MeshRenderer>();
         physicsCollider = transform.parent.GetComponent<Collider>();
         potentialColliders = GlobalValues.Instance.reappearPreventionLayers;
         defaultLayer = transform.parent.gameObject.layer;
         hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
-        meshRenderer = transform.parent.GetComponent<MeshRenderer>();
         physicsBounds = physicsCollider.bounds;
         boundingSphereSize = Mathf.Max(physicsBounds.size.x, physicsBounds.size.y, physicsBounds.size.z);
-        materialColour = meshRenderer.material.color;
         defaultMaterial = meshRenderer.material;
-        objectColour = CalculateColour(isRed, isGreen, isBlue);
+        objectColour = CalculateColour();
         objectColVector = objectColour;
         hiddenMaterial = GetHiddenMaterial();
+        SetColour();
+        meshRenderer.material = defaultMaterial;
     }
 
+    void AssignMaterials()
+    {
+        GlobalValues gv = GlobalValues.Instance;
+        if (greenMat == null)
+        {
+            greenMat = gv.defaultGreen;
+        }
+        if (redMat == null)
+        {
+            redMat = gv.defaultRed;
+        }
+        if (blueMat == null)
+        {
+            blueMat = gv.defaultBlue;
+        }
+    }
     Material GetHiddenMaterial() {
         GlobalValues gv = GlobalValues.Instance;
-        if (isRed) {
-            if (isGreen) {
-                return gv.hiddenYellow;
-            } else if (isBlue) {
-                return gv.hiddenMagenta;
-            } else {
+        switch (colour)
+        {
+            case LightableColour.Red:
                 return gv.hiddenRed;
-            }
-        } else if (isGreen) {
-            if (isBlue) {
-                return gv.hiddenCyan;
-            } else {
+            case LightableColour.Green:
                 return gv.hiddenGreen;
-            }
-        } else {
-            return gv.hiddenBlue;
+            case LightableColour.Blue:
+                return gv.hiddenBlue;
+            case LightableColour.Cyan:
+                return gv.hiddenCyan;
+            case LightableColour.Magenta:
+                return gv.hiddenMagenta;
+            case LightableColour.Yellow:
+                return gv.hiddenYellow;
+            default:
+                return gv.hiddenRed;
         }
     }
 
@@ -87,6 +118,35 @@ public class LightableObject : MonoBehaviour {
             StartDisappear();
         } else {
             StartAppearing();
+        }
+    }
+
+    public Material GetDefaultMaterial()
+    {
+        return defaultMaterial;
+    }
+
+    public virtual void SetColour()
+    {
+        switch (colour)
+        {
+            case LightableColour.Red:
+                defaultMaterial = redMat;
+                break;
+            case LightableColour.Green:
+                defaultMaterial = greenMat;
+                break;
+            case LightableColour.Blue:
+                defaultMaterial = blueMat;
+                break;
+            case LightableColour.Cyan:
+                break;
+            case LightableColour.Magenta:
+                break;
+            case LightableColour.Yellow:
+                break;
+            default:
+                break;
         }
     }
 
@@ -120,11 +180,24 @@ public class LightableObject : MonoBehaviour {
         return colourDif.magnitude <= colourRange;
     }
 
-    Color CalculateColour(bool red, bool green, bool blue) {
-        float r = red ? 1 : 0;
-        float g = green ? 1 : 0;
-        float b = blue ? 1 : 0;
-        return new Color(r, g, b);
+    Color CalculateColour() {
+        switch (colour)
+        {
+            case LightableColour.Red:
+                return new Color(1, 0, 0);
+            case LightableColour.Green:
+                return new Color(0, 1, 0);
+            case LightableColour.Blue:
+                return new Color(0, 0, 1);
+            case LightableColour.Cyan:
+                return new Color(0, 1, 1);
+            case LightableColour.Magenta:
+                return new Color(1, 0, 1);
+            case LightableColour.Yellow:
+                return new Color(1, 1, 0);
+            default:
+                return new Color(1, 0, 0); ;
+        }
     }
 
     void OnTriggerEnter(Collider other) {

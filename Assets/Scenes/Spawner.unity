@@ -241,9 +241,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17c74faceb25f0845bbab2d313c95b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRed: 0
-  isBlue: 1
-  isGreen: 0
+  colour: 0
+  greenMat: {fileID: 0}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
   colourRange: 0
 --- !u!135 &311798201
 SphereCollider:
@@ -681,9 +682,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17c74faceb25f0845bbab2d313c95b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRed: 0
-  isBlue: 0
-  isGreen: 1
+  colour: 0
+  greenMat: {fileID: 0}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
   colourRange: 0
 --- !u!135 &686127795
 SphereCollider:
@@ -1344,9 +1346,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17c74faceb25f0845bbab2d313c95b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRed: 1
-  isBlue: 0
-  isGreen: 0
+  colour: 0
+  greenMat: {fileID: 0}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
   colourRange: 0
 --- !u!135 &1121496908
 SphereCollider:
@@ -2034,6 +2037,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3226231416252105928, guid: ac682f1f9cc88d644b2f7e53aba3d38b,
+        type: 3}
+      propertyPath: colour
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac682f1f9cc88d644b2f7e53aba3d38b, type: 3}

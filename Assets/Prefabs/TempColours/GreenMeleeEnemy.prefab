@@ -197,10 +197,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8bc8319505b4fa46aa0988349de8a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRed: 0
-  isBlue: 0
-  isGreen: 1
+  colour: 1
+  greenMat: {fileID: 0}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
   colourRange: 0
+  childObjects: []
 --- !u!1 &9053110180265606367
 GameObject:
   m_ObjectHideFlags: 0

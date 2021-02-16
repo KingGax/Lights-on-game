@@ -197,10 +197,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8bc8319505b4fa46aa0988349de8a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRed: 0
-  isBlue: 1
-  isGreen: 0
+  colour: 2
+  greenMat: {fileID: 0}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
   colourRange: 0
+  childObjects: []
 --- !u!1 &9053110180265606367
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +219,7 @@ GameObject:
   - component: {fileID: 9053110180265606365}
   - component: {fileID: 1769542724786626667}
   m_Layer: 8
-  m_Name: MeleeEnemy
+  m_Name: BlueMeleeEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

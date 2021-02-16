@@ -10,6 +10,9 @@ public class GlobalValues : MonoBehaviour {
     public LayerMask environment;
     public LayerMask playerLayer;
     public List<GameObject> players;
+    public Material defaultGreen;
+    public Material defaultBlue;
+    public Material defaultRed;
     public Material hiddenGreen;
     public Material hiddenBlue;
     public Material hiddenRed;
