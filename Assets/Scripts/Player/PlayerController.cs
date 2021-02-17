@@ -215,7 +215,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable {
         colourIndex = (colourIndex + 1) % 3;
         lantern.color = colours[colourIndex];
         lightSource.colour = colours[colourIndex];
-        photonView.RPC("UpdateLightColour", RpcTarget.Others, colourIndex);
+        photonView.RPC("UpdateLightColour", RpcTarget.OthersBuffered, colourIndex);
         lightSource.ChangeColour();
     }
 
