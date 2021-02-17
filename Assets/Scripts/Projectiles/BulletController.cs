@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 
 public class BulletController : MonoBehaviour {
+    PhotonView pv;
     float damage;
     float speed;
     Vector3 direction;
@@ -11,9 +12,19 @@ public class BulletController : MonoBehaviour {
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
+        pv = gameObject.GetComponent<PhotonView>();
     }
-    
+
+    [PunRPC]
+    void ChildFire(float _damage, float _speed, Vector3 _direction) {
+        damage = _damage;
+        direction = _direction;
+        speed = _speed;
+        rb.velocity = direction.normalized * speed;
+    }
+
     public void Fire(float _damage, float _speed, Vector3 _direction) {
+        photonView.RPC("ChildFire", RpcTarget.Others, _damage, _speed, _direction);
         damage = _damage;
         direction = _direction;
         speed = _speed;
@@ -22,7 +33,6 @@ public class BulletController : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        PhotonView pv = other.gameObject.GetComponent<PhotonView>();
         if (pv == null || pv.IsMine) return;
         IDamageable damageScript = other.gameObject.GetComponent<IDamageable>();
         if (damageScript != null)
@@ -32,16 +42,5 @@ public class BulletController : MonoBehaviour {
 
     private void DestroyBullet() {
         PhotonNetwork.Destroy(gameObject);
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-        if (stream.IsWriting) {
-            Vector3 pos = transform.position;
-            stream.Serialize(ref pos);
-        } else {
-            Vector3 pos = Vector3.zero;
-            stream.Serialize(ref pos);
-            transform.position = pos;
-        }
     }
 }
