@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(PhotonView))]
 public class BulletController : MonoBehaviour {
     PhotonView pv;
     float damage;
@@ -12,7 +14,7 @@ public class BulletController : MonoBehaviour {
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
-        pv = gameObject.GetComponent<PhotonView>();
+        pv = GetComponent<PhotonView>();
     }
 
     [PunRPC]
@@ -34,7 +36,7 @@ public class BulletController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (pv == null || !pv.IsMine) return;
-        IDamageable damageScript = other.gameObject.GetComponent<IDamageable>();
+        Health damageScript = other.gameObject.GetComponent<Health>();
         if (damageScript != null)
             damageScript.Damage(damage);
         DestroyBullet();

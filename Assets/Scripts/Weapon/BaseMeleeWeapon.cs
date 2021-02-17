@@ -21,7 +21,7 @@ public class BaseMeleeWeapon : MonoBehaviour {
         if (active) {
             if (!alreadyHit.Contains(other)) {
                 alreadyHit.Add(other);
-                IDamageable ds = other.gameObject.GetComponent<IDamageable>();
+                Health ds = other.gameObject.GetComponent<Health>();
                 if (ds != null) {
                     ds.Damage(damage);
                 }
