@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class BulletController : MonoBehaviour {
+public class BulletController : MonoBehaviour, IPunObservable {
     float damage;
     float speed;
     Vector3 direction;
@@ -28,5 +29,15 @@ public class BulletController : MonoBehaviour {
 
     void DestroyBullet() {
         Destroy(gameObject);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+        if (stream.IsWriting) {
+            Vector3 pos = transform.localPosition;
+            stream.Serialize(ref pos);
+        } else {
+            Vector3 pos = Vector3.zero;
+            stream.Serialize(ref pos);
+        }
     }
 }
