@@ -33,7 +33,7 @@ public class BulletController : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (pv == null || pv.IsMine) return;
+        if (pv == null || !pv.IsMine) return;
         IDamageable damageScript = other.gameObject.GetComponent<IDamageable>();
         if (damageScript != null)
             damageScript.Damage(damage);
