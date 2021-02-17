@@ -47,12 +47,13 @@ public class MeleeEnemyController : MonoBehaviour, IEnemy {
         started = true;
         losCheckTimer = losCheckTimerMax;
         weaponParent.transform.forward = Vector3.up;
+        //playerObj = GameObject.Find("Player");
     }
 
     // Update is called once per frame
     void Update() {
         playerObj = GlobalValues.Instance.players[0];
-        if (enabled) {
+        if (enabled) { 
             switch (enemyState) {
                 case EnemyState.Patrolling:
                     Patrol();

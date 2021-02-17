@@ -35,7 +35,9 @@ public class BulletController : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
+        Debug.Log("trigger");
         if (pv == null || !pv.IsMine) return;
+        Debug.Log("death");
         Health damageScript = other.gameObject.GetComponent<Health>();
         if (damageScript != null)
             damageScript.Damage(damage);
