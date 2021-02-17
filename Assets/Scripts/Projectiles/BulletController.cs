@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class BulletController : MonoBehaviour, IPunObservable {
+public class BulletController : MonoBehaviour {
     float damage;
     float speed;
     Vector3 direction;
@@ -18,26 +18,30 @@ public class BulletController : MonoBehaviour, IPunObservable {
         direction = _direction;
         speed = _speed;
         rb.velocity = direction.normalized * speed;
+        Invoke("DestroyBullet", 2.0f);
     }
 
     private void OnTriggerEnter(Collider other) {
+        PhotonView pv = other.gameObject.GetComponent<PhotonView>();
+        if (pv == null || pv.IsMine) return;
         IDamageable damageScript = other.gameObject.GetComponent<IDamageable>();
         if (damageScript != null)
             damageScript.Damage(damage);
         DestroyBullet();
     }
 
-    void DestroyBullet() {
-        Destroy(gameObject);
+    private void DestroyBullet() {
+        PhotonNetwork.Destroy(gameObject);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
-            Vector3 pos = transform.localPosition;
+            Vector3 pos = transform.position;
             stream.Serialize(ref pos);
         } else {
             Vector3 pos = Vector3.zero;
             stream.Serialize(ref pos);
+            transform.position = pos;
         }
     }
 }
