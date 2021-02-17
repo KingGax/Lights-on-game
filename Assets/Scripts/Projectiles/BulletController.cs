@@ -24,7 +24,7 @@ public class BulletController : MonoBehaviour {
     }
 
     public void Fire(float _damage, float _speed, Vector3 _direction) {
-        photonView.RPC("ChildFire", RpcTarget.Others, _damage, _speed, _direction);
+        pv.RPC("ChildFire", RpcTarget.Others, _damage, _speed, _direction);
         damage = _damage;
         direction = _direction;
         speed = _speed;
