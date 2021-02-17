@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class BaseMeleeWeapon : MonoBehaviour
-{
+
+public class BaseMeleeWeapon : MonoBehaviour {
     float damage = 0;
     bool active = false;
     List<Collider> alreadyHit = new List<Collider>();
