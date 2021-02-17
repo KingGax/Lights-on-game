@@ -5,5 +5,6 @@ mergeInto(LibraryManager.library, {
         // Handle actual voice recognition outside of unity for ease
         // Makes adding/changing libraries easier
         // Also may make it easier to use wasm files rather than having unity package them
+        return input
     }
 });

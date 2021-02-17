@@ -89,7 +89,7 @@ public class PlayerInputScript : MonoBehaviour
     }
     public void VoiceControl(InputAction.CallbackContext ctx)
     {
-        string colour = getMicInput();
+        string colour = (string) getMicInput();
     }
 }
 
