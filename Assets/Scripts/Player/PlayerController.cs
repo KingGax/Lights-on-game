@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable {
     void Awake() {
         lightSource = GetComponentInChildren<LightObject>();
         cam = Camera.main;
+        
         // #Important
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
@@ -76,6 +77,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable {
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
         DontDestroyOnLoad(this.gameObject);
+        GlobalValues.Instance.AddPlayer(gameObject);
     }
 
     void Start() {

@@ -23,7 +23,6 @@ public class Health : MonoBehaviour {
             if (health < 0) {
                 Die();
             }
-            Debug.Log("Damage: " + damage);
         }
     }
 
