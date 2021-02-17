@@ -9,8 +9,8 @@ using Photon.Pun;
         Green,
         Blue,
     }
-
-    public class PlayerController : MonoBehaviourPunCallbacks {
+    public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
+    {
         public float turnSpeed;
         public float moveSpeed;
 
@@ -52,6 +52,36 @@ using Photon.Pun;
         bool dashing = false;
         Vector3 dashDirection;
         bool canDash = true;
+
+        #region IPunObservable implementation
+
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+{
+    // We own this player: send the others our data
+                stream.SendNext(colourIndex);
+                stream.SendNext(fireHeld);
+            }
+            else
+            {
+                // Network player, receive data
+                int _index = (int)stream.ReceiveNext();
+                bool _fireheld = (bool)stream.ReceiveNext();
+                Debug.Log(fireHeld);
+                if (_index != colourIndex) {
+                    this.colourIndex = _index;
+                    lantern.color = colours[colourIndex];
+                    lo.colour = colours[colourIndex];
+                    lo.ChangeColour();
+                }
+                if (_fireheld != fireHeld) fireHeld = _fireheld;
+            }
+        }
+
+
+        #endregion
 
         // Start is called before the first frame update
 
@@ -97,11 +127,16 @@ using Photon.Pun;
         }
 
         // Update is called once per frame
-        void Update() {
-            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true) {
-                return;
+        void Update()
+        {
+            if (fireHeld)
+            {
+                shootBuffer = shootBufferMax;
             }
-
+            // if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            // {
+            //     return;
+            // }
             playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
 
             if (dashBuffer > 0) {
@@ -109,11 +144,7 @@ using Photon.Pun;
                     StartDash();
                 }
             }
-
-            if (fireHeld) {
-                shootBuffer = shootBufferMax;
-            }
-
+            
             //handles looking and shooting
             if (shootBuffer > 0 && CanShoot()) {
                 Vector3 fireDirection = GetFireDirection();
@@ -121,20 +152,30 @@ using Photon.Pun;
                 if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
                     bool didShoop = equiptedWeapon.Use();
                 }
-            } else {
-                if (movement != Vector2.zero) {
-                    Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
-                    TurnTowards(moveVector);
+            }
+            else
+            {
+                if (movement != Vector2.zero)
+                {
+                    if (photonView.IsMine == true || PhotonNetwork.IsConnected == false)
+                    {
+                        Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+                        TurnTowards(moveVector);
+                    }
                 }
             }
 
             if (dashing) {  
                 HandleDash();
-            } else {
-
-                Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
-                moveVector.y = rb.velocity.y;
-                rb.velocity = moveVector;
+            }
+            else
+            {
+                if (photonView.IsMine == true || PhotonNetwork.IsConnected == false)
+                {
+                    Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+                    moveVector.y = rb.velocity.y;
+                    rb.velocity = moveVector;
+                }
             }
         }
 
@@ -173,15 +214,29 @@ using Photon.Pun;
             } else return Vector3.zero;
         }
 
-        public void AttackOne(bool mouseDown) {
+        public void AttackOne(bool mouseDown)
+        {
+            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            {
+                return;
+            }
             fireHeld = mouseDown;
         }
 
-        public void Dash() {
+        public void Dash(){
+            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            {
+                return;
+            }
             dashBuffer = dashBufferMax;
         }
 
-        public void ChangeLight() {
+        public void ChangeLight()
+        {
+            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            {
+                return;
+            }
             colourIndex = (colourIndex + 1) % 3;
             lantern.color = colours[colourIndex];
             lo.colour = colours[colourIndex];
