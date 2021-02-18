@@ -8,7 +8,7 @@ public class Health : MonoBehaviour {
     public float maxHealth;
     private float health;
 
-    private void Awake() {
+    public virtual void Awake() {
         pv = GetComponent<PhotonView>();
     }
 

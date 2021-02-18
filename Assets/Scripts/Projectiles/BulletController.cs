@@ -13,13 +13,13 @@ public class BulletController : MonoBehaviour {
     protected Vector3 direction;
     protected Rigidbody rb;
 
-    private void Awake() {
+    public virtual void Awake() {
         rb = GetComponent<Rigidbody>();
         pv = GetComponent<PhotonView>();
     }
 
     [PunRPC]
-    void ChildFire(float time, float _damage, float _speed, Vector3 _direction) {
+    void ChildFire(double time, float _damage, float _speed, Vector3 _direction) {
         float dt = (float)(PhotonNetwork.Time - time);
         transform.position += direction.normalized * speed * dt;
         damage = _damage;

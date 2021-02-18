@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 public class EnemyBullets : BulletController {
     LayerMask walls;
 
-    private void Awake() {
+    public override void Awake() {
+        base.Awake();
         walls = GlobalValues.Instance.environment;
     }
     private void OnTriggerEnter(Collider other) {

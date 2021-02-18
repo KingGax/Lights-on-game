@@ -3,9 +3,10 @@ using Photon.Pun;
 
 public sealed class PlayerHealth : Health {
     int bulletLayer;
-    private void Awake()
+    public override void Awake()
     {
-
+        base.Awake();
+        bulletLayer = LayerMask.NameToLayer("EnemyBullets");
     }
 
     public override void Die() {
@@ -18,7 +19,6 @@ public sealed class PlayerHealth : Health {
             if (bc != null) {
                 Damage(bc.damage);
                 PhotonView bulletPv = other.gameObject.GetPhotonView();
-                bulletPv.TransferOwnership(PhotonNetwork.LocalPlayer);
                 bc.DestroyBullet();
             } else {
                 Debug.LogError("Something on bullet layer does not have bullet controller");

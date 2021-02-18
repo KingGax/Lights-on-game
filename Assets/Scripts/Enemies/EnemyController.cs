@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -237,7 +238,7 @@ public class EnemyController : MonoBehaviour, IEnemy {
     public void Shoot(Vector3 direction) {
         fireCooldown = fireCooldownMax;
         canShoot = false;
-        GameObject newBullet = Instantiate(bullet, firePoint.position, Quaternion.identity);
+        GameObject newBullet = PhotonNetwork.Instantiate("EnemyBullet", firePoint.position, Quaternion.identity);
         LightableObject bulletLight = newBullet.GetComponentInChildren<LightableObject>();
         bulletLight.colour = bulletColour;
         bulletLight.SetColour();
