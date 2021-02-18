@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyBullets : BulletController {
-    LayerMask walls = GlobalValues.Instance.environment;
-    
+    LayerMask walls;
+
+    private void Awake() {
+        walls = GlobalValues.Instance.environment;
+    }
     private void OnTriggerEnter(Collider other) {
         if (((1 << other.gameObject.layer) & walls) != 0) {
             if (pv == null || !pv.IsMine) return;

@@ -44,12 +44,11 @@ public class EnemyController : MonoBehaviour, IEnemy {
     // Start is called before the first frame update
     void Start() {
         //rb = gameObject.GetComponent<Rigidbody>();
-        playerObj = GameObject.Find("Player");
         canShoot = true;
         StartCoroutine("EnemyTimers");
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
-        GeneratePoint();
+        //GeneratePoint();
         started = true;
     }
 
@@ -105,6 +104,7 @@ public class EnemyController : MonoBehaviour, IEnemy {
 
     // Update is called once per frame
     void Update() {
+        playerObj = GlobalValues.Instance.players[0];
         if (enabled) {
             switch (enemyState) {
                 case EnemyState.Patrolling:

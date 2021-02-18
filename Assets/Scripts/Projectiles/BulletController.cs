@@ -20,11 +20,12 @@ public class BulletController : MonoBehaviour {
 
     [PunRPC]
     void ChildFire(float time, float _damage, float _speed, Vector3 _direction) {
+        float dt = (float)(PhotonNetwork.Time - time);
+        transform.position += direction.normalized * speed * dt;
         damage = _damage;
         direction = _direction;
         speed = _speed;
         rb.velocity = direction.normalized * speed;
-        transform.position += direction.normalized * speed * (float)(PhotonNetwork.Time - time);
     }
 
     public void Fire(float _damage, float _speed, Vector3 _direction) {
