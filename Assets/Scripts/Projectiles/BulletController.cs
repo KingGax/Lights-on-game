@@ -6,11 +6,12 @@ using Photon.Pun;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PhotonView))]
 public class BulletController : MonoBehaviour {
-    PhotonView pv;
-    float damage;
-    float speed;
-    Vector3 direction;
-    Rigidbody rb;
+    public float damage;
+    
+    protected PhotonView pv;
+    protected float speed;
+    protected Vector3 direction;
+    protected Rigidbody rb;
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
@@ -18,15 +19,23 @@ public class BulletController : MonoBehaviour {
     }
 
     [PunRPC]
-    void ChildFire(float _damage, float _speed, Vector3 _direction) {
+    void ChildFire(float time, float _damage, float _speed, Vector3 _direction) {
         damage = _damage;
         direction = _direction;
         speed = _speed;
         rb.velocity = direction.normalized * speed;
+        transform.position += direction.normalized * speed * (float)(PhotonNetwork.Time - time);
     }
 
     public void Fire(float _damage, float _speed, Vector3 _direction) {
-        pv.RPC("ChildFire", RpcTarget.Others, _damage, _speed, _direction);
+        pv.RPC(
+            "ChildFire",
+            RpcTarget.Others,
+            PhotonNetwork.Time,
+            _damage,
+            _speed,
+            _direction
+        );
         damage = _damage;
         direction = _direction;
         speed = _speed;
@@ -34,17 +43,7 @@ public class BulletController : MonoBehaviour {
         Invoke("DestroyBullet", 2.0f);
     }
 
-    private void OnTriggerEnter(Collider other) {
-        Debug.Log("trigger");
-        if (pv == null || !pv.IsMine) return;
-        Debug.Log("death");
-        Health damageScript = other.gameObject.GetComponent<Health>();
-        if (damageScript != null)
-            damageScript.Damage(damage);
-        DestroyBullet();
-    }
-
-    private void DestroyBullet() {
+    public void DestroyBullet() {
         PhotonNetwork.Destroy(gameObject);
     }
 }
