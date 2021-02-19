@@ -14,7 +14,7 @@ public sealed class PlayerHealth : Health {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.layer == bulletLayer) {
+        if (other.gameObject.layer == bulletLayer && pv.IsMine) {
             BulletController bc = other.gameObject.GetComponent<BulletController>();
             if (bc != null) {
                 Damage(bc.damage);

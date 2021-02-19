@@ -4,7 +4,7 @@ using Photon.Pun;
 [RequireComponent(typeof(PhotonView))]
 public class Health : MonoBehaviour {
 
-    PhotonView pv;
+    protected PhotonView pv;
     public float maxHealth;
     private float health;
 
