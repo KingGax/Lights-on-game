@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
 
-public class MeleeEnemyController : MonoBehaviour, IEnemy {
-    PhotonView pv;
+public class MeleeEnemyController : Enemy {
     GameObject playerObj;
     public float damage;
     public float detectionThreshold;
@@ -15,7 +14,6 @@ public class MeleeEnemyController : MonoBehaviour, IEnemy {
     bool canSwing;
     public float swingTimeLength;
     float swingTimer;
-    NavMeshAgent agent;
     public float engageDistance;
     public float chasingSpeed;
     public float attackingMoveSpeed;
@@ -30,7 +28,6 @@ public class MeleeEnemyController : MonoBehaviour, IEnemy {
     EnemyState enemyState;
     float pathStoppingThreshold = 0.01f;
     bool started = false;
-    bool enabled = true;
 
     enum EnemyState {
         Chasing, //Actively following
@@ -40,7 +37,6 @@ public class MeleeEnemyController : MonoBehaviour, IEnemy {
 
     // Start is called before the first frame update
     void Start() {
-        //rb = gameObject.GetComponent<Rigidbody>();
         canSwing = true;
         StartCoroutine("EnemyTimers");
         agent = GetComponent<NavMeshAgent>();
@@ -49,14 +45,13 @@ public class MeleeEnemyController : MonoBehaviour, IEnemy {
         losCheckTimer = losCheckTimerMax;
         pv = GetComponent<PhotonView>();
         weaponParent.transform.forward = Vector3.up;
-        //playerObj = GameObject.Find("Player");
     }
 
     // Update is called once per frame
     void Update() {
         if (pv == null || !pv.IsMine) return;
         playerObj = GlobalValues.Instance.players[0];
-        if (enabled) { 
+        if (aiEnabled) { 
             switch (enemyState) {
                 case EnemyState.Patrolling:
                     Patrol();
@@ -74,23 +69,11 @@ public class MeleeEnemyController : MonoBehaviour, IEnemy {
         }
     }
 
-    public void EnableAI() {
-        Debug.Log("AI Enabled");
-        enabled = true;
-        agent.enabled = true;
-    }
-
-    public void DisableAI() {
-        Debug.Log("AI Disabled");
-        enabled = false;
-        agent.enabled = false;
-    }
-
     void Patrol() {
         float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
         if (distToPlayer < detectionThreshold) {
             if (losCheckTimer <= 0) {
-                if (hasPlayerLOS()) {
+                if (HasPlayerLOS(playerObj,detectionThreshold)) {
                     ChangeToChasing();
                 }
             }
@@ -143,19 +126,7 @@ public class MeleeEnemyController : MonoBehaviour, IEnemy {
         }
     }
 
-    bool hasPlayerLOS() { //does enemy have line-of-sight on the player?
-        LayerMask environmentMask =
-            (1 << LayerMask.NameToLayer("StaticEnvironment"))
-            | (1 << LayerMask.NameToLayer("DynamicEnvironment")) | (1 << LayerMask.NameToLayer("Player"));
-        RaycastHit hit;
-        bool environmentCheck = Physics.Raycast(transform.position, playerObj.transform.position - transform.position, out hit, detectionThreshold, environmentMask);
-        if (environmentCheck) {
-            return (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player"));
-        } else {
-            return false;
-        }
-        //return !environmentCheck;
-    }
+   
 
     private IEnumerator EnemyTimers() {
         while (true) {
