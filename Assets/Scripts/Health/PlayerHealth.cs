@@ -2,9 +2,10 @@ using UnityEngine;
 using Photon.Pun;
 
 public sealed class PlayerHealth : Health {
+
     int bulletLayer;
-    public override void Awake()
-    {
+
+    public override void Awake() {
         base.Awake();
         bulletLayer = LayerMask.NameToLayer("EnemyBullets");
     }
