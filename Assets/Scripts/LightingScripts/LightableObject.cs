@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum LightableColour
-{
+public enum LightableColour {
     Red,
     Green,
     Blue,
@@ -11,6 +10,7 @@ public enum LightableColour
     Magenta,
     Yellow,
 }
+
 public class LightableObject : MonoBehaviour {
     public LightableColour colour;
     public Material greenMat;
@@ -30,15 +30,13 @@ public class LightableObject : MonoBehaviour {
     Color objectColour;
     Vector4 objectColVector;
 
-
     List<LightObject> currentLights = new List<LightObject>();
     MeshRenderer meshRenderer;
     Collider physicsCollider;
-    private void Awake()
-    {
-        
+
+    private void Awake() {
     }
-    // Start is called before the first frame update
+
     void Start() {
         AssignMaterials();
         meshRenderer = transform.parent.GetComponent<MeshRenderer>();
@@ -56,26 +54,23 @@ public class LightableObject : MonoBehaviour {
         meshRenderer.material = defaultMaterial;
     }
 
-    void AssignMaterials()
-    {
+    void AssignMaterials() {
         GlobalValues gv = GlobalValues.Instance;
-        if (greenMat == null)
-        {
+        if (greenMat == null) {
             greenMat = gv.defaultGreen;
         }
-        if (redMat == null)
-        {
+
+        if (redMat == null) {
             redMat = gv.defaultRed;
         }
-        if (blueMat == null)
-        {
+
+        if (blueMat == null) {
             blueMat = gv.defaultBlue;
         }
     }
     Material GetHiddenMaterial() {
         GlobalValues gv = GlobalValues.Instance;
-        switch (colour)
-        {
+        switch (colour) {
             case LightableColour.Red:
                 return gv.hiddenRed;
             case LightableColour.Green:
@@ -121,15 +116,12 @@ public class LightableObject : MonoBehaviour {
         }
     }
 
-    public Material GetDefaultMaterial()
-    {
+    public Material GetDefaultMaterial() {
         return defaultMaterial;
     }
 
-    public virtual void SetColour()
-    {
-        switch (colour)
-        {
+    public virtual void SetColour() {
+        switch (colour) {
             case LightableColour.Red:
                 defaultMaterial = redMat;
                 break;
@@ -181,8 +173,7 @@ public class LightableObject : MonoBehaviour {
     }
 
     Color CalculateColour() {
-        switch (colour)
-        {
+        switch (colour) {
             case LightableColour.Red:
                 return new Color(1, 0, 0);
             case LightableColour.Green:

@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 3625585865830301537}
   - component: {fileID: 3625585865830301470}
   - component: {fileID: 3625585865830301539}
-  - component: {fileID: -2987827779228227208}
   - component: {fileID: 81295125616145256}
+  - component: {fileID: 6310798135687902330}
+  - component: {fileID: 1057234196642713239}
   m_Layer: 10
   m_Name: EnemyBullet
   m_TagString: Untagged
@@ -101,19 +102,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-2987827779228227208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3625585865830301468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6b2273e158c87e45a324f6cc37275a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerBullets: 0
 --- !u!135 &81295125616145256
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -127,6 +115,41 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6310798135687902330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3625585865830301468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 1
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &1057234196642713239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3625585865830301468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a296b68f259cb8343b312dd5ecb4b542, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
 --- !u!1 &4639867085047918538
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,8 +207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17c74faceb25f0845bbab2d313c95b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRed: 1
-  isBlue: 0
-  isGreen: 0
-  hiddenMaterial: {fileID: 2100000, guid: 056448445b83bcc47af30e8c22e07305, type: 2}
+  colour: 0
+  greenMat: {fileID: 0}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
   colourRange: 0
