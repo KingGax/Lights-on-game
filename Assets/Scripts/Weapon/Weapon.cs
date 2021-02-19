@@ -8,6 +8,7 @@ public abstract class Weapon : MonoBehaviour {
     public float cooldownLeft;
     public float cooldownTime;
     public float damage;
+    public bool debug;
 
     void Start() {
         cooldownLeft = 0;

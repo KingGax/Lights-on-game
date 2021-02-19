@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 4464539808011951476}
   - component: {fileID: 4464539808011951477}
   - component: {fileID: 4464539808011951478}
+  - component: {fileID: 8346604351104066347}
   - component: {fileID: 6017062747292911091}
   m_Layer: 0
   m_Name: Gun
@@ -232,7 +233,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &6017062747292911091
+--- !u!114 &8346604351104066347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -241,15 +242,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 4464539808011951479}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f230848be0e127dca999921d5f0a4132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownLeft: 0
+  cooldownTime: 5
+  damage: 10
+  debug: 1
+  maxAngle: 90
+--- !u!114 &6017062747292911091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4464539808011951479}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0049a40e8c67a98294ea8e45996f431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownLeft: 0
   cooldownTime: 0.2
   damage: 10
+  debug: 0
   firePoint: {fileID: 4464539808187896991}
   bullet: {fileID: 3625585865830301468, guid: a9ea1950e094a964caf34672cc0a7e51, type: 3}
-  bulletSpeed: 11.17
+  bulletSpeed: 12
 --- !u!1 &4464539808157270200
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +405,7 @@ MonoBehaviour:
   turnSpeed: 60
   moveSpeed: 10
   lantern: {fileID: 4464539807790254505}
-  equiptedWeapon: {fileID: 6017062747292911091}
+  equiptedWeapon: {fileID: 8346604351104066347}
   lightSource: {fileID: 0}
   shootBufferMax: 0.1
   aimTargetsMask:
