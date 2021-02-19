@@ -12,12 +12,12 @@ public class Health : MonoBehaviour {
         pv = GetComponent<PhotonView>();
     }
 
-    void Start() {
+    public void Start() {
         health = maxHealth;
     }
 
     [PunRPC]
-    public void DamageRPC(float damage) {
+    protected void DamageRPC(float damage) {
         if (pv.IsMine) {
             health -= damage;
             if (health < 0) {
