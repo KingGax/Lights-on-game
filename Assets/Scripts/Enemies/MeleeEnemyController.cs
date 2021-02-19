@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Pun;
 
 public class MeleeEnemyController : MonoBehaviour, IEnemy {
-
+    PhotonView pv;
     GameObject playerObj;
     public float damage;
     public float detectionThreshold;
@@ -46,12 +47,14 @@ public class MeleeEnemyController : MonoBehaviour, IEnemy {
         enemyState = EnemyState.Patrolling;
         started = true;
         losCheckTimer = losCheckTimerMax;
+        pv = GetComponent<PhotonView>();
         weaponParent.transform.forward = Vector3.up;
         //playerObj = GameObject.Find("Player");
     }
 
     // Update is called once per frame
     void Update() {
+        if (pv == null || !pv.IsMine) return;
         playerObj = GlobalValues.Instance.players[0];
         if (enabled) { 
             switch (enemyState) {

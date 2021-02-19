@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour, IEnemy {
-    
+    PhotonView pv;
     Rigidbody rb;
     GameObject playerObj;
     public GameObject bullet;
@@ -49,6 +49,7 @@ public class EnemyController : MonoBehaviour, IEnemy {
         StartCoroutine("EnemyTimers");
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
+        pv = GetComponent<PhotonView>();
         //GeneratePoint();
         started = true;
     }
@@ -105,6 +106,7 @@ public class EnemyController : MonoBehaviour, IEnemy {
 
     // Update is called once per frame
     void Update() {
+        if (pv == null || !pv.IsMine) return;
         playerObj = GlobalValues.Instance.players[0];
         if (enabled) {
             switch (enemyState) {
