@@ -11,7 +11,7 @@ public abstract class Enemy : MonoBehaviour {
     protected PhotonView pv;
     protected Weapon weapon;
     protected NavMeshAgent agent;
-    protected bool aiEnabled = false;
+    protected bool aiEnabled;
     private LayerMask environmentAndPlayerMask;
 
     public void Awake() {
@@ -21,6 +21,7 @@ public abstract class Enemy : MonoBehaviour {
         environmentAndPlayerMask = (1 << LayerMask.NameToLayer("Player"))
             | (1 << LayerMask.NameToLayer("StaticEnvironment"))
             | (1 << LayerMask.NameToLayer("DynamicEnvironment"));
+        EnableAI();
     }
 
     public void EnableAI() {

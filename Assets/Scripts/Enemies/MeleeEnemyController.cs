@@ -47,6 +47,8 @@ public class MeleeEnemyController : Enemy {
         weaponParent.transform.forward = Vector3.up;
     }
 
+    
+
     // Update is called once per frame
     void Update() {
         if (pv == null || !pv.IsMine) return;
