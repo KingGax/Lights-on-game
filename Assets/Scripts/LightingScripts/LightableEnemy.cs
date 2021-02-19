@@ -6,12 +6,12 @@ using UnityEngine.AI;
 public class LightableEnemy : LightableMultiObject {
 
     //public NavMeshObstacle obstacle;
-    IEnemy enemy;
+    Enemy enemy;
     int defaultEnemyLayer;
     int hiddenEnemyLayer;
 
     void Awake() {
-        enemy = gameObject.GetComponentInParent<IEnemy>();
+        enemy = gameObject.GetComponentInParent<Enemy>();
         defaultEnemyLayer = transform.parent.gameObject.layer;
         hiddenEnemyLayer = LayerMask.NameToLayer("HiddenEnemies");
     }

@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class BaseMeleeWeapon : MonoBehaviour
-{
+
+public class BaseMeleeWeapon : MonoBehaviour {
     float damage = 0;
     bool active = false;
     List<Collider> alreadyHit = new List<Collider>();
@@ -21,7 +21,7 @@ public class BaseMeleeWeapon : MonoBehaviour
         if (active) {
             if (!alreadyHit.Contains(other)) {
                 alreadyHit.Add(other);
-                IDamageable ds = other.gameObject.GetComponent<IDamageable>();
+                Health ds = other.gameObject.GetComponent<Health>();
                 if (ds != null) {
                     ds.Damage(damage);
                 }

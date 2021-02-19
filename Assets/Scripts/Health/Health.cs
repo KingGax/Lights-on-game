@@ -1,26 +1,37 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class Health : MonoBehaviour, IDamageable {
+[RequireComponent(typeof(PhotonView))]
+public class Health : MonoBehaviour {
+
+    protected PhotonView pv;
     public float maxHealth;
     private float health;
+
+    public virtual void Awake() {
+        pv = GetComponent<PhotonView>();
+    }
 
     void Start() {
         health = maxHealth;
     }
 
-    void Update() {
-        
+    [PunRPC]
+    public void DamageRPC(float damage) {
+        if (pv.IsMine) {
+            health -= damage;
+            if (health < 0) {
+                Die();
+            }
+        }
     }
 
     public void Damage(float damage) {
-        health -= damage;
-        if (health < 0) {
-            Die();
-        }
+        pv.RPC("DamageRPC", RpcTarget.All, damage);
     }
 
     public virtual void Die() {
         Debug.Log("ded"); 
-        Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
 }

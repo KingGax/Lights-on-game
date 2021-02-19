@@ -4,14 +4,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 
-public enum LanternColour
-{
+public enum LanternColour {
     Red,
     Green,
     Blue,
 }
-public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnockbackable
-{
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnockbackable {
+    
     public float turnSpeed;
     public float moveSpeed;
 
@@ -21,7 +20,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     Camera cam;
     public Light lantern;
     public Weapon equiptedWeapon;
-    public LightObject lo;
+    public LightObject lightSource;
 
     Rigidbody rb;
     Vector2 movement;
@@ -42,6 +41,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     bool fireHeld = false;
     public bool isTakingKnockback { get; set; }
 
+
     [Header("Dashing")]
     public float dashSpeed;
     public float dashDurationTimerMax;
@@ -55,67 +55,40 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     bool canDash = true;
 
     #region IPunObservable implementation
-
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            // We own this player: send the others our data
-            stream.SendNext(colourIndex);
-            stream.SendNext(fireHeld);
-        }
-        else
-        {
-            // Network player, receive data
-            int _index = (int)stream.ReceiveNext();
-            bool _fireheld = (bool)stream.ReceiveNext();
-            Debug.Log(fireHeld);
-            if (_index != colourIndex)
-            {
-                this.colourIndex = _index;
-                lantern.color = colours[colourIndex];
-                lo.colour = colours[colourIndex];
-                lo.ChangeColour();
-            }
-            if (_fireheld != fireHeld) fireHeld = _fireheld;
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+        if (stream.IsWriting) {
+        // We own this player: send the others our data
+            
+        } else {
+           
         }
     }
-
-
     #endregion
 
-    // Start is called before the first frame update
-
-    void Awake()
-    {
-        lo = GetComponentInChildren<LightObject>();
+    void Awake() {
+        lightSource = GetComponentInChildren<LightObject>();
         cam = Camera.main;
+        
         // #Important
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
-        if (photonView.IsMine)
-        {
+        if (photonView.IsMine) {
             PlayerController.LocalPlayerInstance = this.gameObject;
             //cam.GetComponent<CameraController>().bindToPlayer(this.gameObject.transform);
         }
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
         DontDestroyOnLoad(this.gameObject);
+        GlobalValues.Instance.AddPlayer(gameObject);
     }
 
-    void Start()
-    {
+    void Start() {
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
 
-        if (_cameraWork != null)
-        {
-            if (photonView.IsMine)
-            {
+        if (_cameraWork != null) {
+            if (photonView.IsMine) {
                 _cameraWork.OnStartFollowing();
             }
-        }
-        else
-        {
+        } else {
             Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
         }
 
@@ -126,21 +99,25 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         StartCoroutine("CountdownTimers");
     }
 
-    bool CanShoot()
-    {
+    [PunRPC]
+    void UpdateLightColour(int newIndex) {
+        colourIndex = newIndex;
+        lantern.color = colours[colourIndex];
+        lightSource.colour = colours[colourIndex];
+        lightSource.ChangeColour();
+    }
+
+    bool CanShoot() {
         return !dashing;
     }
 
-    void TurnTowards(Vector3 direction)
-    {
+    void TurnTowards(Vector3 direction) {
         transform.forward = Vector3.RotateTowards(transform.forward, direction, Time.deltaTime * turnSpeed, 0.0f);
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (fireHeld)
-        {
+    void Update() {
+        if (fireHeld) {
             shootBuffer = shootBufferMax;
         }
         // if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
@@ -149,75 +126,56 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         // }
         playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
 
-        if (dashBuffer > 0)
-        {
-            if (!dashing && canDash)
-            {
+        if (dashBuffer > 0) {
+            if (!dashing && canDash) {
                 StartDash();
             }
         }
-
+        
         //handles looking and shooting
-        if (shootBuffer > 0 && CanShoot())
-        {
+        if (shootBuffer > 0 && CanShoot()) {
             Vector3 fireDirection = GetFireDirection();
             TurnTowards(fireDirection);
-            if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle)
-            {
+            if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
                 bool didShoop = equiptedWeapon.Use();
             }
-        }
-        else
-        {
-            if (movement != Vector2.zero)
-            {
-                if (photonView.IsMine == true || PhotonNetwork.IsConnected == false)
-                {
+        } else {
+            if (movement != Vector2.zero) {
+                if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
                     Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
                     TurnTowards(moveVector);
-                }
-            }
-        }
-        if (!isTakingKnockback){
-            if (dashing)
-            {
-                HandleDash();
-            }
-            else
-            {
-                if (photonView.IsMine == true || PhotonNetwork.IsConnected == false)
-                {
-                    Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
-                    moveVector.y = rb.velocity.y;
-                    rb.velocity = moveVector;
                 }
                 
             }
         }
+
+        if (dashing) {  
+            HandleDash();
+        } else {
+            if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
+                Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+                moveVector.y = rb.velocity.y;
+                rb.velocity = moveVector;
+            }
+        }
     }
 
-    void StartDash()
-    {
+    void StartDash() {
         dashing = true;
         canDash = false;
         dashDurationTimer = dashDurationTimerMax;
-        if (movement == Vector2.zero)
-        {
+        if (movement == Vector2.zero) {
             dashDirection = transform.forward;
-        }
-        else
-        {
-            dashDirection = cameraForward * movement.y + cameraRight * movement.x;
+        } else {
+            dashDirection = cameraForward* movement.y + cameraRight * movement.x;
         }
     }
 
-    void HandleDash()
-    {
+    void HandleDash() {
         rb.velocity = dashDirection * dashSpeed;
     }
 
-    Vector3 GetFireDirection()
-    {
+    Vector3 GetFireDirection() {
         //Create a ray from the Mouse click position
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
@@ -225,33 +183,26 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         float enter = 0.0f;
 
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100f, aimTargetsMask))
-        {
+        if (Physics.Raycast(ray, out hit, 100f, aimTargetsMask)) {
             Vector3 hitPoint = playerPlane.ClosestPointOnPlane(hit.point);
             Vector3 fireDirection = Vector3.ProjectOnPlane(hit.point - transform.position, XZPlaneNormal);
             return fireDirection;
-        }
-        else if (playerPlane.Raycast(ray, out enter))
-        {
+        } else if (playerPlane.Raycast(ray, out enter)) {
             //Get the point that is clicked
             Vector3 hitPoint = ray.GetPoint(enter);
             Vector3 fireDirection = Vector3.ProjectOnPlane(hitPoint - transform.position, XZPlaneNormal);
             return fireDirection;
-        }
-        else return Vector3.zero;
+        } else return Vector3.zero;
     }
 
-    public void AttackOne(bool mouseDown)
-    {
-        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-        {
+    public void AttackOne(bool mouseDown) {
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true) {
             return;
         }
         fireHeld = mouseDown;
     }
 
-    public void Dash()
-    {
+    public void Dash() {
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
             return;
@@ -259,37 +210,32 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         dashBuffer = dashBufferMax;
     }
 
-    public void ChangeLight()
-    {
-        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-        {
+    public void ChangeLight() {
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true) {
             return;
         }
         colourIndex = (colourIndex + 1) % 3;
         lantern.color = colours[colourIndex];
-        lo.colour = colours[colourIndex];
-        lo.ChangeColour();
+        lightSource.colour = colours[colourIndex];
+        photonView.RPC("UpdateLightColour", RpcTarget.OthersBuffered, colourIndex);
+        lightSource.ChangeColour();
     }
 
-    public void TakeKnockback(Vector3 dir, float magnitude, float duration)
-    {
-        if (!isTakingKnockback)
-        {
+    public void TakeKnockback(Vector3 dir, float magnitude, float duration) {
+        if (!isTakingKnockback) {
             isTakingKnockback = true;
             rb.velocity = dir * magnitude;
             Invoke("EndKnockback", duration);
         }
     }
 
-    void EndKnockback()
-    {
+    void EndKnockback() {
         isTakingKnockback = false;
     }
 
-    public void ChangeLightToColour(LanternColour col)
-    {
-        switch (col)
-        {
+
+    public void ChangeLightToColour(LanternColour col) {
+        switch (col) {
             case LanternColour.Red:
                 colourIndex = 0;
                 break;
@@ -304,12 +250,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         }
 
         lantern.color = colours[colourIndex];
-        lo.colour = colours[colourIndex];
-        lo.ChangeColour();
+        lightSource.colour = colours[colourIndex];
+        lightSource.ChangeColour();
     }
 
-    public void OnMovement(Vector2 newMovementInput)
-    {
+    public void OnMovement(Vector2 newMovementInput) {
         movement = newMovementInput;
     }
 
@@ -320,36 +265,28 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         }
     }
 
-    private IEnumerator CountdownTimers()
-    {
-        while (true)
-        {
-            if (dashDurationTimer > 0)
-            {
+    private IEnumerator CountdownTimers() {
+        while (true) {
+            if (dashDurationTimer > 0) {
                 dashDurationTimer -= Time.deltaTime;
-                if (dashDurationTimer <= 0)
-                {
+                if (dashDurationTimer <= 0) {
                     dashing = false;
                     dashCooldown = dashCooldownMax;
                 }
             }
 
-            if (dashCooldown > 0)
-            {
-                dashCooldown -= Time.deltaTime;
-                if (dashCooldown <= 0)
-                {
+            if (dashCooldown > 0) {
+                dashCooldown-=Time.deltaTime;
+                if (dashCooldown <=0) {
                     canDash = true;
                 }
             }
 
-            if (dashBuffer > 0)
-            {
+            if (dashBuffer > 0) {
                 dashBuffer -= Time.deltaTime;
             }
 
-            if (shootBuffer > 0)
-            {
+            if (shootBuffer > 0) {
                 shootBuffer -= Time.deltaTime;
             }
 
