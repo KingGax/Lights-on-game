@@ -45,11 +45,11 @@ public class BulletController : MonoBehaviour {
     }
 
     public void RequestDestroyBullet() {
-        pv.RPC( "DestroyBullet", RpcTarget.All);
+        pv.RPC("DestroyBullet", RpcTarget.All);
     }
 
     [PunRPC]
-    private void DestroyBullet() {
+    protected void DestroyBullet() {
         if (pv.IsMine) {
             PhotonNetwork.Destroy(gameObject);
         }
