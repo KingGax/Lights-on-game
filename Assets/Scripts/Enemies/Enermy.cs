@@ -23,12 +23,10 @@ public abstract class Enemy : MonoBehaviour {
             | (1 << LayerMask.NameToLayer("DynamicEnvironment"));
     }
 
-    public  void EnableAI() {
+    public void EnableAI() {
         if (pv.IsMine) {
             agent.enabled = true;
             aiEnabled = true;
-        } else {
-            Debug.LogError("Tried to enable enermy AI on an enermy I don't own");
         }
     }
 
@@ -36,8 +34,6 @@ public abstract class Enemy : MonoBehaviour {
         if (pv.IsMine) {
             aiEnabled = false;
             agent.enabled = false;
-        } else {
-            Debug.LogError("Tried to disable enermy AI on an enermy I don't own");
         }
     }
 

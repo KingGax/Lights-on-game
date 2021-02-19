@@ -8,7 +8,7 @@ public class Gun : Weapon {
     public float bulletSpeed;
 
     protected override void UseWeapon() {
-        GameObject newBullet = PhotonNetwork.Instantiate("Bullet", firePoint.position, transform.rotation);
+        GameObject newBullet = PhotonNetwork.Instantiate(bullet.name, firePoint.position, transform.rotation);
         BulletController bc = newBullet.GetComponent<BulletController>();
         bc.Fire(damage, bulletSpeed, transform.up);
     }
