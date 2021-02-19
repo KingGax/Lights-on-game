@@ -41,10 +41,17 @@ public class BulletController : MonoBehaviour {
         direction = _direction;
         speed = _speed;
         rb.velocity = direction.normalized * speed;
-        Invoke("DestroyBullet", 2.0f);
+        Invoke("RequestDestroyBullet", 2.0f);
     }
 
-    public void DestroyBullet() {
-        PhotonNetwork.Destroy(gameObject);
+    public void RequestDestroyBullet() {
+        pv.RPC( "DestroyBullet", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void DestroyBullet() {
+        if (pv.IsMine) {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 }

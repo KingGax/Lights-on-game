@@ -16,7 +16,7 @@ public class EnemyBullets : BulletController {
             Health damageScript = other.gameObject.GetComponent<Health>();
             if (damageScript != null)
                 damageScript.Damage(damage);
-            DestroyBullet();
+            RequestDestroyBullet();
         }
     }
 }

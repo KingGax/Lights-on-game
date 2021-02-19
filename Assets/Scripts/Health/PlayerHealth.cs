@@ -18,8 +18,7 @@ public sealed class PlayerHealth : Health {
             BulletController bc = other.gameObject.GetComponent<BulletController>();
             if (bc != null) {
                 Damage(bc.damage);
-                PhotonView bulletPv = other.gameObject.GetPhotonView();
-                bc.DestroyBullet();
+                bc.RequestDestroyBullet();
             } else {
                 Debug.LogError("Something on bullet layer does not have bullet controller");
             }
