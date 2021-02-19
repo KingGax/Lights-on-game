@@ -9,8 +9,8 @@ public enum LanternColour {
     Green,
     Blue,
 }
-
-public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable {
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnockbackable {
+    
     public float turnSpeed;
     public float moveSpeed;
 
@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable {
     public float maxShootOffsetAngle;
     float shootBuffer;
     bool fireHeld = false;
+    public bool isTakingKnockback { get; set; }
 
 
     [Header("Dashing")]
@@ -144,6 +145,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable {
                     Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
                     TurnTowards(moveVector);
                 }
+                
             }
         }
 
@@ -219,6 +221,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable {
         lightSource.ChangeColour();
     }
 
+    public void TakeKnockback(Vector3 dir, float magnitude, float duration) {
+        if (!isTakingKnockback) {
+            isTakingKnockback = true;
+            rb.velocity = dir * magnitude;
+            Invoke("EndKnockback", duration);
+        }
+    }
+
+    void EndKnockback() {
+        isTakingKnockback = false;
+    }
+
+
     public void ChangeLightToColour(LanternColour col) {
         switch (col) {
             case LanternColour.Red:
@@ -243,12 +258,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable {
         movement = newMovementInput;
     }
 
+    private void OnCollisionEnter(Collision other) {
+        if (other.gameObject.layer != GlobalValues.Instance.environment && isTakingKnockback) {
+            Debug.Log("Collided with environment");
+            EndKnockback();
+        }
+    }
+
     private IEnumerator CountdownTimers() {
         while (true) {
             if (dashDurationTimer > 0) {
                 dashDurationTimer -= Time.deltaTime;
                 if (dashDurationTimer <= 0) {
-                    dashing = false;  
+                    dashing = false;
                     dashCooldown = dashCooldownMax;
                 }
             }
