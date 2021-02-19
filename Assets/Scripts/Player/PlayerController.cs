@@ -78,12 +78,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
         DontDestroyOnLoad(this.gameObject);
-        GlobalValues.Instance.AddPlayer(gameObject);
     }
 
     void Start() {
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
-
+        GlobalValues.Instance.AddPlayer(gameObject);
         if (_cameraWork != null) {
             if (photonView.IsMine) {
                 _cameraWork.OnStartFollowing();

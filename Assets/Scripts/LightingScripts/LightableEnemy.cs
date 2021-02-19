@@ -10,24 +10,20 @@ public class LightableEnemy : LightableMultiObject {
     int defaultEnemyLayer;
     int hiddenEnemyLayer;
 
-    void Awake() {
+    override protected void Awake() {
         enemy = gameObject.GetComponentInParent<Enemy>();
         defaultEnemyLayer = transform.parent.gameObject.layer;
         hiddenEnemyLayer = LayerMask.NameToLayer("HiddenEnemies");
     }
 
     override public void Appear() {
-        Debug.Log("LightableEnemy Appear");
-        //obstacle.enabled = true;
-        //base.Appear();
+        base.Appear();
         enemy.EnableAI();
         transform.parent.gameObject.layer = defaultEnemyLayer;
     }
 
     override public void Disappear() {
-        Debug.Log("LightableEnemy Disappear");
-        //obstacle.enabled = false;
-        //base.Disappear();
+        base.Disappear();
         enemy.DisableAI();
         transform.parent.gameObject.layer = hiddenEnemyLayer;
     }

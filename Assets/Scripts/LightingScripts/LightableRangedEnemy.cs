@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class LightableRangedEnemy : LightableEnemy
 {
+    public EnemyGun gunScript;
     public override void SetColour()
     {
         base.SetColour();
-        EnemyController rec = transform.parent.GetComponent<EnemyController>();
-        rec.SetBulletColour(colour);
+        gunScript.SetColour(colour);
     }
 }
