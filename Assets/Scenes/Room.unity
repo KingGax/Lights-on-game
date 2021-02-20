@@ -876,7 +876,7 @@ Transform:
   - {fileID: 491688220}
   - {fileID: 969706352}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &884752731
 GameObject:
@@ -1132,7 +1132,7 @@ PrefabInstance:
     - target: {fileID: 4301382474649239209, guid: 07f11cf33b538e84f9682a7d420a62cd,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4301382474649239209, guid: 07f11cf33b538e84f9682a7d420a62cd,
         type: 3}
@@ -1189,6 +1189,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChargerEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 5042188531684896461, guid: 07f11cf33b538e84f9682a7d420a62cd,
+        type: 3}
+      propertyPath: viewIdField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615752142011581248, guid: 07f11cf33b538e84f9682a7d420a62cd,
+        type: 3}
+      propertyPath: viewIdField
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07f11cf33b538e84f9682a7d420a62cd, type: 3}
 --- !u!1001 &1201033250
@@ -1210,7 +1220,7 @@ PrefabInstance:
     - target: {fileID: 7060930471932500287, guid: de52861e33956ac4d87e09b1758aaff1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7060930471932500287, guid: de52861e33956ac4d87e09b1758aaff1,
         type: 3}
@@ -2462,7 +2472,7 @@ PrefabInstance:
     - target: {fileID: 1615841527315357966, guid: 7aa64292c08dbcb4aa67293509dc37ae,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1615841527315357966, guid: 7aa64292c08dbcb4aa67293509dc37ae,
         type: 3}
