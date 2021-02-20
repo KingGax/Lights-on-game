@@ -17,9 +17,9 @@ public class MeleeWeapon : Weapon {
 
     [PunRPC]
     protected void RPCUseWeapon(double time) {
+        alreadyHit.Clear();
         float dt = (float)(PhotonNetwork.Time - time);
         cooldownLeft = cooldownTime - dt;
-        Invoke("Deactivate", cooldownLeft);
     }
 
     protected override void UseWeapon() { 
@@ -35,11 +35,6 @@ public class MeleeWeapon : Weapon {
             );
             transform.parent.localEulerAngles = initialAngle + a;
         }
-    }
-
-    public void Deactivate() {
-        alreadyHit.Clear();
-        cooldownLeft = 0;
     }
 
     private void OnTriggerEnter(Collider other) {

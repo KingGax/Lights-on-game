@@ -42,6 +42,9 @@ public abstract class Weapon : MonoBehaviour {
     public void FixedUpdate() {
         if (!frozen) {
             cooldownLeft -= Time.fixedDeltaTime;
+            if (cooldownLeft < 0) {
+                cooldownLeft = 0;
+            }
         }
     }
 }
