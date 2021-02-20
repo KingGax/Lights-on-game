@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class ContactWeapon : MonoBehaviour {
-    public float damage;
+public class ContactWeapon : Weapon {
     public float knockback;
     public float knockbackDuration;
+    private PhotonView pv;
 
     bool active = false;
     ChargerEnemyController parentScript;
@@ -16,19 +17,27 @@ public class ContactWeapon : MonoBehaviour {
         knockback = 0f;
         knockbackDuration = 0f;
         parentScript = gameObject.GetComponentInParent<ChargerEnemyController>();
+        pv = gameObject.GetPhotonView();
     }
 
-    public void Activate() {
+    [PunRPC]
+    protected void UseWeaponRPC()
+    {
         active = true;
         alreadyHit.Clear();
     }
+    protected override void UseWeapon()
+    {
+        pv.RPC("UseWeaponRPC",RpcTarget.All);
+    }
+
     public void Deactivate() {
         active = false;
         alreadyHit.Clear();
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (active) {
+        if (active && !frozen) {
             if (!alreadyHit.Contains(other)) {
                 alreadyHit.Add(other);
                 Health ds = other.gameObject.GetComponent<Health>();

@@ -20,7 +20,7 @@ public class LightableObject : MonoBehaviour {
     protected Material defaultMaterial;
     public float colourRange;
     float invisibleOpacity = 0.1f;
-    LayerMask potentialColliders;
+    protected LayerMask potentialColliders;
     bool isHidden = false;
     bool appearing = false;
     Bounds physicsBounds;

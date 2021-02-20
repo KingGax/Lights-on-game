@@ -72,7 +72,7 @@ public class ChargerEnemyController : Enemy
         agent.enabled = true;
         agent.destination = playerObj.transform.position;
         enemyState = EnemyState.Charging;
-        weaponScript.Activate();
+        weapon.Use();
         //[activate melee weapon]
     }
     void Charge()
@@ -122,7 +122,7 @@ public class ChargerEnemyController : Enemy
     // Update is called once per frame
     void Update()
     {
-
+        if (pv == null || !pv.IsMine) return;
         if (aiEnabled)
         {
             playerObj = GlobalValues.Instance.players[0];
@@ -154,7 +154,7 @@ public class ChargerEnemyController : Enemy
     {
         while (true)
         {
-            if (enabled)
+            if (aiEnabled)
             {
                 if (chargeTimer > 0)
                 {

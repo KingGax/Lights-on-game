@@ -9,9 +9,10 @@ using Photon.Pun;
 public abstract class Enemy : MonoBehaviour {
     
     protected PhotonView pv;
-    protected Weapon weapon;
     protected NavMeshAgent agent;
     protected bool aiEnabled;
+    public Weapon weapon;
+    public float turnSpeed;
     private LayerMask environmentAndPlayerMask;
 
     public void Awake() {
@@ -51,5 +52,10 @@ public abstract class Enemy : MonoBehaviour {
 
         return !environmentCheck
             || hit.transform.gameObject.layer == LayerMask.NameToLayer("Player");
+    }
+
+    protected void TurnTowards(Vector3 direction)
+    {
+        transform.forward = Vector3.RotateTowards(transform.forward, direction, Time.deltaTime * turnSpeed, 0.0f);
     }
 }
