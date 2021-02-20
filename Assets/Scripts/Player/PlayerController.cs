@@ -119,10 +119,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         if (fireHeld) {
             shootBuffer = shootBufferMax;
         }
-        // if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-        // {
-        //     return;
-        // }
         playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
 
         if (dashBuffer > 0) {
@@ -147,14 +143,20 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                 
             }
         }
-
-        if (dashing) {  
-            HandleDash();
-        } else {
-            if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
-                Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
-                moveVector.y = rb.velocity.y;
-                rb.velocity = moveVector;
+        if (!isTakingKnockback)
+        {
+            if (dashing)
+            {
+                HandleDash();
+            }
+            else
+            {
+                if (photonView.IsMine == true || PhotonNetwork.IsConnected == false)
+                {
+                    Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+                    moveVector.y = rb.velocity.y;
+                    rb.velocity = moveVector;
+                }
             }
         }
     }

@@ -11,10 +11,6 @@ public class EnemyController : Enemy {
     public float damage;
     public float bulletSpeed;
     public float detectionThreshold;
-    public float fireCooldownMax;
-    public Transform firePoint;
-    float fireCooldown;
-    bool canShoot;
     public float shootingTimerMax;
     public float engageDistance;
     float shootingTimer;
@@ -31,7 +27,6 @@ public class EnemyController : Enemy {
     public float losCheckTimerMax;
     EnemyState enemyState;
     float pathStoppingThreshold = 0.01f;
-    bool started = false;
 
     enum EnemyState {
         Shooting, //Actively attacking the player
@@ -42,11 +37,9 @@ public class EnemyController : Enemy {
 
     // Start is called before the first frame update
     void Start() {
-        canShoot = true;
         StartCoroutine("EnemyTimers");
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
-        started = true;
     }
 
     public void SetBulletColour(LightableColour col) {
@@ -210,13 +203,6 @@ public class EnemyController : Enemy {
 
     private IEnumerator EnemyTimers() {
         while (true) {
-            if (fireCooldown > 0) {
-                fireCooldown -= Time.deltaTime;
-                if (fireCooldown <= 0) {
-                    canShoot = true;
-                }
-            }
-
             if (shootingTimer > 0) {
                 shootingTimer -= Time.deltaTime;
             }

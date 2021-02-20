@@ -1,18 +1,12 @@
 using UnityEngine;
 using Photon.Pun;
 
-public class EnemyGun : Weapon
-{
+public class EnemyGun : Gun {
 
-    public Transform firePoint;
-    public GameObject bullet;
-    public float bulletSpeed;
     private string bulletStr;
 
-    public void SetColour(LightableColour col)
-    {
-        switch (col)
-        {
+    public void SetColour(LightableColour col) {
+        switch (col) {
             case LightableColour.Red:
                 bulletStr = "RedEnemyBullet";
                 break;
@@ -27,8 +21,7 @@ public class EnemyGun : Weapon
         }
     }
 
-    protected override void UseWeapon()
-    {
+    protected override void UseWeapon() {
         Vector3 direction = GlobalValues.Instance.players[0].transform.position - firePoint.position;
        
         GameObject newBullet = PhotonNetwork.Instantiate(bulletStr, firePoint.position, transform.rotation);
