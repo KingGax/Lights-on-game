@@ -9,9 +9,9 @@ using Photon.Pun;
 public abstract class Enemy : MonoBehaviour {
     
     protected PhotonView pv;
-    protected Weapon weapon;
     protected NavMeshAgent agent;
     protected bool aiEnabled;
+    public Weapon weapon;
     public float turnSpeed;
     private LayerMask environmentAndPlayerMask;
 
