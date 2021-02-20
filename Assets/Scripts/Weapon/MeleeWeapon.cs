@@ -6,7 +6,6 @@ using UnityEngine;
 public class MeleeWeapon : Weapon {
 
     public float maxAngle;
-    private bool active = false;
     private List<Collider> alreadyHit = new List<Collider>();
     private Vector3 initialAngle;
     private PhotonView weaponPhotonView;
@@ -15,43 +14,41 @@ public class MeleeWeapon : Weapon {
         initialAngle = transform.parent.localEulerAngles;
         weaponPhotonView = gameObject.GetPhotonView();
     }
+
     [PunRPC]
-    protected void RPCUseWeapon(double time)
-    {
+    protected void RPCUseWeapon(double time) {
         float dt = (float)(PhotonNetwork.Time - time);
-        active = true;
-        Invoke("Deactivate", cooldownTime-dt);
+        cooldownLeft = cooldownTime - dt;
+        Invoke("Deactivate", cooldownLeft);
     }
 
 
-    protected override void UseWeapon() {
-
-        weaponPhotonView.RPC("RPCUseWeapon", RpcTarget.All,PhotonNetwork.Time);
+    protected override void UseWeapon() { 
+        weaponPhotonView.RPC("RPCUseWeapon", RpcTarget.All, PhotonNetwork.Time);
     }
 
     public void Update() {
-        Vector3 a = new Vector3(
-            maxAngle * Mathf.Sin((cooldownLeft / cooldownTime) * Mathf.PI),
-            0,
-            0
-        );
-        transform.parent.localEulerAngles = initialAngle + a;
+        if (!CanUse()) {
+            Vector3 a = new Vector3(
+                maxAngle * Mathf.Sin((cooldownLeft / cooldownTime) * Mathf.PI),
+                0,
+                0
+            );
+            transform.parent.localEulerAngles = initialAngle + a;
+        }
     }
 
     public void Deactivate() {
-        active = false;
         alreadyHit.Clear();
         cooldownLeft = 0;
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (active) {
-            if (!alreadyHit.Contains(other)) {
-                alreadyHit.Add(other);
-                Health ds = other.gameObject.GetComponent<Health>();
-                if (ds != null) {
-                    ds.Damage(damage);
-                }
+        if (!CanUse() && !alreadyHit.Contains(other)) {
+            alreadyHit.Add(other);
+            Health ds = other.gameObject.GetComponent<Health>();
+            if (ds != null) {
+                ds.Damage(damage);
             }
         }
     }
