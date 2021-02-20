@@ -19,7 +19,6 @@ public class MeleeEnemyController : Enemy {
     public float attackingMoveSpeed;
     public GameObject weaponParent;
     public BaseMeleeWeapon weaponScript;
-    bool swinging;
 
     public bool reactsToPlayerCover;
     public float missedShotReduction;
@@ -44,7 +43,6 @@ public class MeleeEnemyController : Enemy {
         started = true;
         losCheckTimer = losCheckTimerMax;
         pv = GetComponent<PhotonView>();
-        weaponParent.transform.forward = Vector3.up;
     }
 
     
@@ -85,7 +83,6 @@ public class MeleeEnemyController : Enemy {
     void ChangeToChasing() {
         enemyState = EnemyState.Chasing;
         agent.speed = chasingSpeed;
-        weaponParent.transform.forward = Vector3.up;
         agent.enabled = true;
     }
 
@@ -97,21 +94,17 @@ public class MeleeEnemyController : Enemy {
             agent.destination = playerObj.transform.position;
         }
         
-        if (distToPlayer > engageDistance && !swinging) {
+        if (distToPlayer > engageDistance && weapon.CanUse()) {
             ChangeToChasing();
         }
-
-        if (swinging) {
-            weaponParent.transform.LookAt(playerObj.transform.position);
-        } else if (swingCooldown <= 0) {
+        Vector3 playerDirection = playerObj.transform.position - transform.position;
+        playerDirection.y = 0f;
+        TurnTowards(playerDirection);
+        if (weapon.CanUse()) {
             swingCooldown = swingCooldownMax;
             swingTimer = swingTimeLength;
-            swinging = true;
-            weaponScript.Swing(damage,swingTimeLength);
-            weaponParent.transform.LookAt(playerObj.transform.position);
-        } else {
-            weaponParent.transform.forward = Vector3.up;
-        }
+            weapon.Use();
+        } 
     }
 
     void ChangeToAttacking() {
@@ -142,7 +135,6 @@ public class MeleeEnemyController : Enemy {
             if (swingTimer > 0) {
                 swingTimer -= Time.deltaTime;
                 if (swingTimer <= 0) {
-                    swinging = false;
                 }
             }
 

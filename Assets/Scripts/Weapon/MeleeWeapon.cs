@@ -10,11 +10,10 @@ public class MeleeWeapon : Weapon {
     private Vector3 initialAngle;
 
     public void Awake() {
-        initialAngle = transform.localEulerAngles;
+        initialAngle = transform.parent.localEulerAngles;
     }
 
     protected override void UseWeapon() {
-        Debug.Log("Used");
         active = true;
         Invoke("Deactivate", cooldownTime);
     }
@@ -25,7 +24,7 @@ public class MeleeWeapon : Weapon {
             0,
             0
         );
-        transform.localEulerAngles = initialAngle + a;
+        transform.parent.localEulerAngles = initialAngle + a;
     }
 
     public void Deactivate() {
