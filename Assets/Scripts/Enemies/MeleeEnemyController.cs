@@ -9,16 +9,9 @@ public class MeleeEnemyController : Enemy {
     public float damage;
     public float detectionThreshold;
     public float minDistance;
-    public float swingCooldownMax;
-    float swingCooldown;
-    bool canSwing;
-    public float swingTimeLength;
-    float swingTimer;
     public float engageDistance;
     public float chasingSpeed;
     public float attackingMoveSpeed;
-    public GameObject weaponParent;
-    public BaseMeleeWeapon weaponScript;
 
     public bool reactsToPlayerCover;
     public float missedShotReduction;
@@ -26,7 +19,6 @@ public class MeleeEnemyController : Enemy {
     public float losCheckTimerMax;
     EnemyState enemyState;
     float pathStoppingThreshold = 0.01f;
-    bool started = false;
 
     enum EnemyState {
         Chasing, //Actively following
@@ -36,18 +28,13 @@ public class MeleeEnemyController : Enemy {
 
     // Start is called before the first frame update
     void Start() {
-        canSwing = true;
         StartCoroutine("EnemyTimers");
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
-        started = true;
         losCheckTimer = losCheckTimerMax;
         pv = GetComponent<PhotonView>();
     }
 
-    
-
-    // Update is called once per frame
     void Update() {
         if (pv == null || !pv.IsMine) return;
         playerObj = GlobalValues.Instance.players[0];
@@ -100,11 +87,7 @@ public class MeleeEnemyController : Enemy {
         Vector3 playerDirection = playerObj.transform.position - transform.position;
         playerDirection.y = 0f;
         TurnTowards(playerDirection);
-        if (weapon.CanUse()) {
-            swingCooldown = swingCooldownMax;
-            swingTimer = swingTimeLength;
-            weapon.Use();
-        } 
+        weapon.Use();
     }
 
     void ChangeToAttacking() {
@@ -121,23 +104,8 @@ public class MeleeEnemyController : Enemy {
         }
     }
 
-   
-
     private IEnumerator EnemyTimers() {
         while (true) {
-            if (swingCooldown > 0) {
-                swingCooldown -= Time.deltaTime;
-                if (swingCooldown <= 0) {
-                    canSwing = true;
-                }
-            }
-
-            if (swingTimer > 0) {
-                swingTimer -= Time.deltaTime;
-                if (swingTimer <= 0) {
-                }
-            }
-
             if (losCheckTimer > 0) {
                 losCheckTimer -= Time.deltaTime;
             }
