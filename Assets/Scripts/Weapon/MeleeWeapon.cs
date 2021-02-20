@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class MeleeWeapon : Weapon {
@@ -8,14 +9,24 @@ public class MeleeWeapon : Weapon {
     private bool active = false;
     private List<Collider> alreadyHit = new List<Collider>();
     private Vector3 initialAngle;
+    private PhotonView weaponPhotonView;
 
     public void Awake() {
         initialAngle = transform.parent.localEulerAngles;
+        weaponPhotonView = gameObject.GetPhotonView();
+    }
+    [PunRPC]
+    protected void RPCUseWeapon(double time)
+    {
+        float dt = (float)(PhotonNetwork.Time - time);
+        active = true;
+        Invoke("Deactivate", cooldownTime-dt);
     }
 
+
     protected override void UseWeapon() {
-        active = true;
-        Invoke("Deactivate", cooldownTime);
+
+        weaponPhotonView.RPC("RPCUseWeapon", RpcTarget.All,PhotonNetwork.Time);
     }
 
     public void Update() {
