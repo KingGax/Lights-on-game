@@ -16,8 +16,8 @@ public class LightableObject : MonoBehaviour {
     public Material greenMat;
     public Material blueMat;
     public Material redMat;
-    Material hiddenMaterial;
-    Material defaultMaterial;
+    protected Material hiddenMaterial;
+    protected Material defaultMaterial;
     public float colourRange;
     float invisibleOpacity = 0.1f;
     LayerMask potentialColliders;
@@ -34,7 +34,8 @@ public class LightableObject : MonoBehaviour {
     MeshRenderer meshRenderer;
     Collider physicsCollider;
 
-    private void Awake() {
+    virtual protected void Awake() {
+        hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
     }
 
     void Start() {
@@ -43,7 +44,7 @@ public class LightableObject : MonoBehaviour {
         physicsCollider = transform.parent.GetComponent<Collider>();
         potentialColliders = GlobalValues.Instance.reappearPreventionLayers;
         defaultLayer = transform.parent.gameObject.layer;
-        hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
+        
         physicsBounds = physicsCollider.bounds;
         boundingSphereSize = Mathf.Max(physicsBounds.size.x, physicsBounds.size.y, physicsBounds.size.z);
         defaultMaterial = meshRenderer.material;

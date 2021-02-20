@@ -32,8 +32,8 @@ public class EnemyController : Enemy {
     EnemyState enemyState;
     float pathStoppingThreshold = 0.01f;
     bool started = false;
-    enum EnemyState
-    {
+
+    enum EnemyState {
         Shooting, //Actively attacking the player
         Patrolling, //Moving/idle state - hasn't engaged the player yet
         Repositioning, //Moving during combat
@@ -41,8 +41,7 @@ public class EnemyController : Enemy {
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         canShoot = true;
         StartCoroutine("EnemyTimers");
         agent = GetComponent<NavMeshAgent>();
@@ -50,13 +49,11 @@ public class EnemyController : Enemy {
         started = true;
     }
 
-    public void SetBulletColour(LightableColour col)
-    {
+    public void SetBulletColour(LightableColour col) {
         bulletColour = col;
     }
 
-    void GeneratePoint()
-    {
+    void GeneratePoint() {
         Vector3 playerPos = playerObj.transform.position;
         float vectorDir = AngleDir(gameObject.transform.position - playerPos);
         float playerAngle = Vector3.Angle(Vector3.forward, gameObject.transform.position - playerPos);
@@ -75,34 +72,25 @@ public class EnemyController : Enemy {
         agent.destination = dest;
     }
 
-    float AngleDir(Vector3 targetVec)
-    {
+    float AngleDir(Vector3 targetVec) {
         //thank you https://forum.unity.com/threads/how-to-get-a-360-degree-vector3-angle.42145/
         Vector3 perp = Vector3.Cross(Vector3.forward, targetVec);
         float dir = Vector3.Dot(perp, Vector3.up);
-        if (dir > 0.0)
-        {
+        if (dir > 0.0) {
             return 1.0f;
-        }
-        else if (dir < 0.0)
-        {
+        } else if (dir < 0.0) {
             return -1.0f;
-        }
-        else
-        {
+        } else {
             return 0.0f;
         }
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (pv == null || !pv.IsMine) return;
         playerObj = GlobalValues.Instance.players[0];
-        if (aiEnabled)
-        {
-            switch (enemyState)
-            {
+        if (aiEnabled) {
+            switch (enemyState) {
                 case EnemyState.Patrolling:
                     Patrol();
                     break;
@@ -121,76 +109,58 @@ public class EnemyController : Enemy {
         }
     }
 
-    void Patrol()
-    {
+    void Patrol() {
         float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
-        if (distToPlayer < detectionThreshold)
-        {
+        if (distToPlayer < detectionThreshold) {
             ChangeToRepositioning();
         }
     }
 
-    void ChangeToShooting()
-    {
+    void ChangeToShooting() {
         Debug.Log("Started shooting");
-        if (HasPlayerLOS(playerObj, detectionThreshold))
-        {
+        if (HasPlayerLOS(playerObj, detectionThreshold)) {
             agent.enabled = false;
             shootingTimer = shootingTimerMax;
             enemyState = EnemyState.Shooting;
-        }
-        else
-        {
+        } else {
             Debug.Log("Getting LOS");
             ChangeToGettingLOS();
         }
     }
 
-    void Shooting()
-    {
+    void Shooting() {
         float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
-        if (distToPlayer <= detectionThreshold)
-        {
+        if (distToPlayer <= detectionThreshold) {
             bool canSeePlayer = HasPlayerLOS(playerObj, detectionThreshold);
-            if (!canSeePlayer)
-            {
-                if (reactsToPlayerCover)
-                {
+            if (!canSeePlayer) {
+                if (reactsToPlayerCover) {
                     Debug.Log("Reacting!");
                     ChangeToGettingLOS();
-                }
-                else
-                {
-                    if (weapon.Use())
-                    {
+                } else {
+                    if (weapon.Use()) {
                         shootingTimer -= missedShotReduction;
                     }
                 }
-            }
-            else
-            {
-                if (weapon.Use())
-                {
+            } else {
+                if (weapon.Use()) {
                     shootingTimer -= missedShotReduction;
                 }
             }
         }
-        if (shootingTimer <= 0)
-        {
+
+        if (shootingTimer <= 0) {
             ChangeToRepositioning();
         }
     }
 
-    void ChangeToRepositioning()
-    {
+    void ChangeToRepositioning() {
         Debug.Log("Started repositioning");
         enemyState = EnemyState.Repositioning;
         agent.enabled = true;
         GeneratePoint();
     }
 
-    void Repositioning()
-    {
+    void Repositioning() {
         // float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
 
         // if (distToPlayer <= engageDistance)
@@ -205,15 +175,14 @@ public class EnemyController : Enemy {
         // Debug.Log(agent.remainingDistance);
         // Debug.Log("Dist: "+dist);
         // Debug.Log("Status: "+agent.pathStatus);
-        if (dist != Mathf.Infinity && agent.remainingDistance <= pathStoppingThreshold)
-        { //agent.pathStatus==NavMeshPathStatus.PathComplete &&
+        if (dist != Mathf.Infinity && agent.remainingDistance <= pathStoppingThreshold) {
+            //agent.pathStatus==NavMeshPathStatus.PathComplete &&
             //path complete. credit: https://answers.unity.com/questions/324589/how-can-i-tell-when-a-navmesh-has-reached-its-dest.html
             ChangeToShooting();
         }
     }
 
-    void ChangeToGettingLOS()
-    {
+    void ChangeToGettingLOS() {
         Debug.Log("Started getting LOS");
         losCheckTimer = losCheckTimerMax;
         agent.enabled = true;
@@ -222,21 +191,15 @@ public class EnemyController : Enemy {
 
     }
 
-    void GettingLOS()
-    {
-        if (losCheckTimer <= 0)
-        {
+    void GettingLOS() {
+        if (losCheckTimer <= 0) {
             Debug.Log("Checking LOS again!");
-            if (HasPlayerLOS(playerObj, detectionThreshold))
-            {
+            if (HasPlayerLOS(playerObj, detectionThreshold)) {
                 agent.enabled = false;
                 ChangeToShooting();
-            }
-            else
-            {
+            } else {
                 //check if stuck
-                if (agent.remainingDistance != Mathf.Infinity && agent.remainingDistance <= pathStoppingThreshold)
-                {
+                if (agent.remainingDistance != Mathf.Infinity && agent.remainingDistance <= pathStoppingThreshold) {
                     //path complete. credit: https://answers.unity.com/questions/324589/how-can-i-tell-when-a-navmesh-has-reached-its-dest.html
                     ChangeToGettingLOS();
                 }
@@ -245,26 +208,20 @@ public class EnemyController : Enemy {
         }
     }
 
-    private IEnumerator EnemyTimers()
-    {
-        while (true)
-        {
-            if (fireCooldown > 0)
-            {
+    private IEnumerator EnemyTimers() {
+        while (true) {
+            if (fireCooldown > 0) {
                 fireCooldown -= Time.deltaTime;
-                if (fireCooldown <= 0)
-                {
+                if (fireCooldown <= 0) {
                     canShoot = true;
                 }
             }
 
-            if (shootingTimer > 0)
-            {
+            if (shootingTimer > 0) {
                 shootingTimer -= Time.deltaTime;
             }
 
-            if (losCheckTimer > 0)
-            {
+            if (losCheckTimer > 0) {
                 losCheckTimer -= Time.deltaTime;
             }
             yield return null;

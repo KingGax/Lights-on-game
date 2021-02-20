@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ChargerEnemyController : MonoBehaviour, IEnemy
+public class ChargerEnemyController : Enemy
 {
 
-    Rigidbody rb;
     GameObject playerObj;
-    NavMeshAgent agent;
     public float damage;
     public float knockback;
     public float knockbackDuration;
@@ -36,7 +34,6 @@ public class ChargerEnemyController : MonoBehaviour, IEnemy
     // Start is called before the first frame update
     void Start()
     {
-        playerObj = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
         started = true;
@@ -125,8 +122,10 @@ public class ChargerEnemyController : MonoBehaviour, IEnemy
     // Update is called once per frame
     void Update()
     {
-        if (enabled)
+
+        if (aiEnabled)
         {
+            playerObj = GlobalValues.Instance.players[0];
             switch (enemyState)
             {
                 case EnemyState.Patrolling:
@@ -150,17 +149,6 @@ public class ChargerEnemyController : MonoBehaviour, IEnemy
         }
     }
 
-    public void EnableAI()
-    {
-        agent.enabled = true;
-        enabled = true;
-    }
-
-    public void DisableAI()
-    {
-        agent.enabled = false;
-        enabled = false;
-    }
 
     private IEnumerator EnemyTimers()
     {
