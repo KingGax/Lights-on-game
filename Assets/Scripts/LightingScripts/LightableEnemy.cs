@@ -9,11 +9,13 @@ public class LightableEnemy : LightableMultiObject {
     Enemy enemy;
     int defaultEnemyLayer;
     int hiddenEnemyLayer;
+    LayerMask enemyReappearPreventionLayers;
 
     override protected void Awake() {
         enemy = gameObject.GetComponentInParent<Enemy>();
         defaultEnemyLayer = transform.parent.gameObject.layer;
         hiddenEnemyLayer = LayerMask.NameToLayer("HiddenEnemies");
+        enemyReappearPreventionLayers = (1 << LayerMask.NameToLayer("Player"));
     }
 
     override public void Appear() {
@@ -31,6 +33,7 @@ public class LightableEnemy : LightableMultiObject {
     }
 
     public override bool CheckNoIntersections() {
-        return true;
+        potentialColliders = enemyReappearPreventionLayers;
+        return base.CheckNoIntersections();
     }
 }

@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 4464539808011951477}
   - component: {fileID: 4464539808011951478}
   - component: {fileID: 6017062747292911091}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,6 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownLeft: 0
   cooldownTime: 0.2
+  frozen: 0
   damage: 10
   debug: 0
   firePoint: {fileID: 4464539808187896991}
@@ -388,7 +389,7 @@ MonoBehaviour:
   moveSpeed: 10
   lantern: {fileID: 4464539807790254505}
   equiptedWeapon: {fileID: 6017062747292911091}
-  lightSource: {fileID: 0}
+  lightSource: {fileID: 4464539807790254504}
   shootBufferMax: 0.1
   aimTargetsMask:
     serializedVersion: 2
