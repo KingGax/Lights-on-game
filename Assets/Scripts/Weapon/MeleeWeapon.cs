@@ -22,7 +22,6 @@ public class MeleeWeapon : Weapon {
         Invoke("Deactivate", cooldownLeft);
     }
 
-
     protected override void UseWeapon() { 
         weaponPhotonView.RPC("RPCUseWeapon", RpcTarget.All, PhotonNetwork.Time);
     }
@@ -44,7 +43,7 @@ public class MeleeWeapon : Weapon {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (!CanUse() && !alreadyHit.Contains(other)) {
+        if (!CanUse() && !frozen && !alreadyHit.Contains(other)) {
             alreadyHit.Add(other);
             Health ds = other.gameObject.GetComponent<Health>();
             if (ds != null) {

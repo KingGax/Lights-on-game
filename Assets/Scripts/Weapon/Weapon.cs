@@ -7,17 +7,17 @@ public abstract class Weapon : MonoBehaviour {
     [HideInInspector]
     public float cooldownLeft;
     public float cooldownTime;
+    public bool frozen;
     public float damage;
     public bool debug;
 
     void Start() {
         cooldownLeft = 0;
-        StartCoroutine("CountdownTimers");
     }
 
     // Can be overriden to include bullets left for specific weapons etc
     public virtual bool CanUse() {
-        return cooldownLeft <= 0;
+        return cooldownLeft <= 0 && !frozen;
     }
 
     // Returns true if succeeds
@@ -28,16 +28,20 @@ public abstract class Weapon : MonoBehaviour {
         return true;
     }
 
+    public virtual void Freeze() {
+        frozen = true;
+    }
+
+    public virtual void UnFreeze() {
+        frozen = false;
+    }
+
     // Logic for how weapon is used
     protected abstract void UseWeapon();
 
-    // TODO consider replacing with FixedUpdate
-    private IEnumerator CountdownTimers() {
-        while (true) {
-            if (cooldownLeft > 0) {
-                cooldownLeft -= Time.deltaTime;
-            }    
-            yield return null;    
+    public void FixedUpdate() {
+        if (!frozen) {
+            cooldownLeft -= Time.fixedDeltaTime;
         }
     }
 }

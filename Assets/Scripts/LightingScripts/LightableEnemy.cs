@@ -19,12 +19,14 @@ public class LightableEnemy : LightableMultiObject {
     override public void Appear() {
         base.Appear();
         enemy.EnableAI();
+        enemy.weapon.UnFreeze();
         transform.parent.gameObject.layer = defaultEnemyLayer;
     }
 
     override public void Disappear() {
         base.Disappear();
         enemy.DisableAI();
+        enemy.weapon.Freeze();
         transform.parent.gameObject.layer = hiddenEnemyLayer;
     }
 
