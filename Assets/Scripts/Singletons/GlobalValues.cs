@@ -9,6 +9,7 @@ public class GlobalValues : MonoBehaviour {
     public LayerMask reappearPreventionLayers;
     public LayerMask environment;
     public LayerMask playerLayer;
+    public GameObject enemyParent;
     public List<GameObject> players;
     public Material defaultGreen;
     public Material defaultBlue;

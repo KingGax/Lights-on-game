@@ -909,6 +909,7 @@ MonoBehaviour:
   - {fileID: 7060930471932500260, guid: de52861e33956ac4d87e09b1758aaff1, type: 3}
   - {fileID: 4301382474649239213, guid: 07f11cf33b538e84f9682a7d420a62cd, type: 3}
   spawnRadius: 15
+  enemyParent: {fileID: 0}
 --- !u!4 &764977261
 Transform:
   m_ObjectHideFlags: 0
@@ -1493,6 +1494,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1970930420014976211, guid: ed6bf0faa10a4a042a52401007fa7703,
+        type: 3}
+      propertyPath: enemyParent
+      value: 
+      objectReference: {fileID: 850922725}
     - target: {fileID: 1970930420014976212, guid: ed6bf0faa10a4a042a52401007fa7703,
         type: 3}
       propertyPath: m_Name
@@ -1608,7 +1614,7 @@ MonoBehaviour:
   door: {fileID: 5725700342993863819}
   enemyParent: {fileID: 850922725}
   spawnScript: {fileID: 764977260}
-  spawnTime: 4
+  spawnTime: 20
 --- !u!114 &1417291384
 MonoBehaviour:
   m_ObjectHideFlags: 0

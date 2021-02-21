@@ -6,15 +6,16 @@ using Photon.Pun;
 public class LevelManager : MonoBehaviour
 {
     public GameObject door;
-    public GameObject enemyParent;
     public Spawner spawnScript;
     public float spawnTime;
+    private GameObject enemyParent;
     private PhotonView pv;
     private LightableObject doorLightable;
     private bool allEnemiesSpawned = false;
     // Start is called before the first frame update
     void Start()
     {
+        enemyParent = GlobalValues.Instance.enemyParent;
         pv = gameObject.GetPhotonView();
         Invoke("DisableSpawner", spawnTime);
         doorLightable = door.GetComponentInChildren<LightableObject>();

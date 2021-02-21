@@ -14,15 +14,17 @@ public class LightableEnemy : LightableMultiObject {
     PhotonView pv;
 
     [PunRPC]
-    protected void SetEnemyColourRPC(LightableColour newCol)
+    protected void InitialiseEnemyRPC(LightableColour newCol)
     {
+        transform.parent.SetParent(GlobalValues.Instance.enemyParent.transform);
         colour = newCol;
         SetColour();
     }
-    public void SetEnemyColour(LightableColour newCol)
+    public void InitialiseEnemy(LightableColour newCol)
     {
-        pv.RPC("SetEnemyColourRPC", RpcTarget.All, newCol);
+        pv.RPC("InitialiseEnemyRPC", RpcTarget.All, newCol);
     }
+
 
     override protected void Awake() {
         pv = gameObject.GetPhotonView();

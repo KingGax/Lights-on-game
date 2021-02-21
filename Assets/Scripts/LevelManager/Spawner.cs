@@ -6,6 +6,7 @@ public class Spawner : MonoBehaviour {
 
     public List<GameObject> spawnableEntities;
     public float spawnRadius;
+    public GameObject enemyParent;
     private LightableColour[] enemyColours = new LightableColour[]{ LightableColour.Red, LightableColour.Blue, LightableColour.Green };
     int spawnIndex;
     int colIndex;
@@ -34,7 +35,7 @@ public class Spawner : MonoBehaviour {
             colIndex = Random.Range(0, enemyColours.Length);
             GameObject entity = PhotonNetwork.Instantiate(spawnableEntities[spawnIndex].name, pos, Quaternion.identity);
             LightableEnemy lightScript = entity.GetComponentInChildren<LightableEnemy>();
-            lightScript.SetEnemyColour(enemyColours[colIndex]);
+            lightScript.InitialiseEnemy(enemyColours[colIndex]);
         }
     }
 }
