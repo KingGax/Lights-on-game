@@ -142,8 +142,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownLeft: 0
   cooldownTime: 1
+  frozen: 0
   damage: 10
-  speed: 12
+  debug: 0
   firePoint: {fileID: 1315201771}
   bullet: {fileID: 3625585865830301468, guid: 4cdca7b79d0e71f40b4ec9fdaf02fc53, type: 3}
   bulletSpeed: 12
@@ -275,12 +276,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b0fab44ce8927a48a9f6d963273cf10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weapon: {fileID: 0}
+  turnSpeed: 0
   bullet: {fileID: 3625585865830301468, guid: 4cdca7b79d0e71f40b4ec9fdaf02fc53, type: 3}
   damage: 10
   bulletSpeed: 10
   detectionThreshold: 15
-  fireCooldownMax: 0.8
-  firePoint: {fileID: 7060930473178944150}
   shootingTimerMax: 6
   engageDistance: 8
   reactsToPlayerCover: 0
@@ -358,6 +359,7 @@ GameObject:
   - component: {fileID: 7060930472229984764}
   - component: {fileID: 7060930472229984762}
   - component: {fileID: 2881013097562606505}
+  - component: {fileID: 6459506204440585909}
   m_Layer: 6
   m_Name: LightHitboxes
   m_TagString: Untagged
@@ -412,6 +414,28 @@ MonoBehaviour:
   childObjects:
   - {fileID: 1739217257}
   gunScript: {fileID: 2660243487777099100}
+--- !u!114 &6459506204440585909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7060930472229984767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &7060930473178944153
 GameObject:
   m_ObjectHideFlags: 0
