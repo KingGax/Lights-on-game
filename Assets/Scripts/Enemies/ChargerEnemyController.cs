@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class ChargerEnemyController : Enemy
 {
 
-    GameObject playerObj;
     public float damage;
     public float knockback;
     public float knockbackDuration;

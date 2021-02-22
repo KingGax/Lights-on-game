@@ -6,7 +6,6 @@ using UnityEngine.AI;
 
 public class EnemyController : Enemy {
 
-    GameObject playerObj;
     public GameObject bullet;
     public float damage;
     public float bulletSpeed;
@@ -150,6 +149,7 @@ public class EnemyController : Enemy {
         Debug.Log("Started repositioning");
         enemyState = EnemyState.Repositioning;
         agent.enabled = true;
+        SelectTarget();
         GeneratePoint();
     }
 

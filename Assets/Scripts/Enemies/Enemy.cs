@@ -13,6 +13,7 @@ public abstract class Enemy : MonoBehaviour {
     protected bool aiEnabled;
     public Weapon weapon;
     public float turnSpeed;
+    protected GameObject playerObj;
     private LayerMask environmentAndPlayerMask;
 
     public void Awake() {
@@ -37,6 +38,19 @@ public abstract class Enemy : MonoBehaviour {
             aiEnabled = false;
             agent.enabled = false;
         }
+    }
+
+    protected void SelectTarget(){ //default implementation sets target as closest player
+        float minDist = Mathf.Infinity;
+        int targetIndex = 0;
+        for(int i = 0; i < GlobalValues.Instance.players.Count; i++){
+            float distToPlayer = Vector3.Distance(gameObject.transform.position, GlobalValues.Instance.players[i].transform.position);
+            if (distToPlayer < minDist){
+                minDist = distToPlayer;
+                targetIndex = i;
+            }
+        }
+        playerObj = GlobalValues.Instance.players[targetIndex];
     }
 
     //TODO make enemies check for LOS in their FOV 

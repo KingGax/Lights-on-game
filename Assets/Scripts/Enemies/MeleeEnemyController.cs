@@ -5,7 +5,6 @@ using UnityEngine.AI;
 using Photon.Pun;
 
 public class MeleeEnemyController : Enemy {
-    GameObject playerObj;
     public float damage;
     public float detectionThreshold;
     public float minDistance;
