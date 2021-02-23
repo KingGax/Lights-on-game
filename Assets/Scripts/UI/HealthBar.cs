@@ -15,7 +15,9 @@ public class HealthBar : MonoBehaviour
 
     private void Awake() {
         bar = transform.Find("Bar");
+        Debug.Log("Healthbar awake");
         bar.localScale = new Vector3(1f, 1f);
+        maxHealth = -100;
         if (GlobalValues.Instance != null)
         {
             playerObj = GlobalValues.Instance.localPlayerInstance;

@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     Vector3 cameraForward;
     Vector3 cameraRight;
     Vector3 XZPlaneNormal = new Vector3(0, 1, 0);
+    public GameObject UIElements;
 
     Color lightColour;
     Color[] colours = { new Color(1, 0, 0), new Color(0, 1, 0), new Color(0, 0, 1) };
@@ -73,11 +74,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
             PlayerController.LocalPlayerInstance = this.gameObject;
+            Debug.Log("Henlo");
+            GameObject UI = Instantiate(UIElements);
+            DontDestroyOnLoad(UI);
             //cam.GetComponent<CameraController>().bindToPlayer(this.gameObject.transform);
         }
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
         DontDestroyOnLoad(this.gameObject);
+        
+            
     }
 
     void Start() {

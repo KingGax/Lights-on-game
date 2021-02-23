@@ -53,8 +53,17 @@ public class ChargerEnemyController : Enemy
 
     void Patrol()
     {
-        float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
-        if (distToPlayer < detectionThreshold)
+        float minDist  = Mathf.Infinity;
+        int index = 0;
+        for (int i = 0; i < GlobalValues.Instance.players.Count; i++){
+            float distToPlayer = Vector3.Distance(GlobalValues.Instance.players[i].transform.position, transform.position);
+            if (distToPlayer < minDist){
+                minDist = distToPlayer;
+                index = i;
+            }
+        }
+        playerObj = GlobalValues.Instance.players[index];
+        if (minDist < detectionThreshold)
         {
             ChangeToChargeStart();
         }

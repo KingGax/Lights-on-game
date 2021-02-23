@@ -6,10 +6,13 @@ public sealed class PlayerHealth : Health {
     int bulletLayer;
     public override void Start() {
         base.Start();
-        HealthBar hb = GlobalValues.Instance.UIElements.GetComponentInChildren<HealthBar>();
-        hb.SetPlayer();
-        hb.UpdateMaxHealth(maxHealth);
-        hb.UpdateHealth(health);
+        if (gameObject == GlobalValues.Instance.localPlayerInstance){
+            Debug.Log("Same object");
+            HealthBar hb = GlobalValues.Instance.UIElements.GetComponentInChildren<HealthBar>();
+            hb.SetPlayer();
+            hb.UpdateMaxHealth(maxHealth);
+            hb.UpdateHealth(health);
+        }
     }
 
     public override void Awake() {
@@ -26,8 +29,10 @@ public sealed class PlayerHealth : Health {
     public override void Damage(float damage)
     {
         base.Damage(damage);
-        HealthBar hb = GlobalValues.Instance.UIElements.gameObject.GetComponentInChildren<HealthBar>();
-        hb.UpdateHealth(health);
+        if (gameObject == GlobalValues.Instance.localPlayerInstance){
+            HealthBar hb = GlobalValues.Instance.UIElements.gameObject.GetComponentInChildren<HealthBar>();
+            hb.UpdateHealth(health);
+        }
     }
 
     private void OnTriggerEnter(Collider other) {
