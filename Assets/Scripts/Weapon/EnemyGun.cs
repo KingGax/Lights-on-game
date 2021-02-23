@@ -4,6 +4,7 @@ using Photon.Pun;
 public class EnemyGun : Gun {
 
     private string bulletStr;
+    
 
     public void SetColour(LightableColour col) {
         switch (col) {
@@ -21,8 +22,13 @@ public class EnemyGun : Gun {
         }
     }
 
+    
+
     protected override void UseWeapon() {
-        Vector3 direction = GlobalValues.Instance.players[0].transform.position - firePoint.position;
+        if (target == null){
+            SetTarget(0);
+        }
+        Vector3 direction = target.transform.position - firePoint.position;
        
         GameObject newBullet = PhotonNetwork.Instantiate(bulletStr, firePoint.position, transform.rotation);
         BulletController bc = newBullet.GetComponent<BulletController>();

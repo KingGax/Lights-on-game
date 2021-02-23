@@ -10,9 +10,14 @@ public abstract class Weapon : MonoBehaviour {
     public bool frozen;
     public float damage;
     public bool debug;
+    protected GameObject target = null;
+
 
     void Start() {
         cooldownLeft = 0;
+    }
+    public void SetTarget(int index){
+        target = GlobalValues.Instance.players[index];
     }
 
     // Can be overriden to include bullets left for specific weapons etc

@@ -33,10 +33,26 @@ public class MeleeEnemyController : Enemy {
         losCheckTimer = losCheckTimerMax;
         pv = GetComponent<PhotonView>();
     }
+    public override void Awake()
+    {
+        base.Awake();
+        if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+            hasPlayerJoined = true;
+            SelectTarget();
+        }
+    }
 
     void Update() {
         if (pv == null || !pv.IsMine) return;
-        playerObj = GlobalValues.Instance.players[0];
+        if (!hasPlayerJoined){
+            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+                hasPlayerJoined = true;
+                SelectTarget();
+            } else {
+                return;
+            }
+        } 
+        //playerObj = GlobalValues.Instance.players[0];
         if (aiEnabled) { 
             switch (enemyState) {
                 case EnemyState.Patrolling:
@@ -70,6 +86,7 @@ public class MeleeEnemyController : Enemy {
         enemyState = EnemyState.Chasing;
         agent.speed = chasingSpeed;
         agent.enabled = true;
+        SelectTarget();
     }
 
     void Attacking() {

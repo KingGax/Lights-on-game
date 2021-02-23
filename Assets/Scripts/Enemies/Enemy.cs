@@ -14,9 +14,11 @@ public abstract class Enemy : MonoBehaviour {
     public Weapon weapon;
     public float turnSpeed;
     protected GameObject playerObj;
+    protected bool hasPlayerJoined;
     private LayerMask environmentAndPlayerMask;
 
-    public void Awake() {
+    public virtual void Awake() {
+        Debug.Log("okkokokoko");
         pv = GetComponent<PhotonView>();
         weapon = GetComponentInChildren<Weapon>();
         agent = GetComponent<NavMeshAgent>();
@@ -25,6 +27,8 @@ public abstract class Enemy : MonoBehaviour {
             | (1 << LayerMask.NameToLayer("DynamicEnvironment"));
         EnableAI();
     }
+
+    
 
     public void EnableAI() {
         if (pv.IsMine) {
@@ -40,17 +44,20 @@ public abstract class Enemy : MonoBehaviour {
         }
     }
 
-    protected void SelectTarget(){ //default implementation sets target as closest player
+    protected int SelectTarget(){ //default implementation sets target as closest player
         float minDist = Mathf.Infinity;
         int targetIndex = 0;
         for(int i = 0; i < GlobalValues.Instance.players.Count; i++){
             float distToPlayer = Vector3.Distance(gameObject.transform.position, GlobalValues.Instance.players[i].transform.position);
             if (distToPlayer < minDist){
+                Debug.Log("Player distance: "+ distToPlayer);
                 minDist = distToPlayer;
                 targetIndex = i;
             }
         }
+        Debug.Log("Player index: "+targetIndex);
         playerObj = GlobalValues.Instance.players[targetIndex];
+        return targetIndex;
     }
 
     //TODO make enemies check for LOS in their FOV 

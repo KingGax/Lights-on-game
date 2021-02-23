@@ -42,6 +42,15 @@ public class ChargerEnemyController : Enemy
         StartCoroutine("EnemyTimers");
     }
 
+    public override void Awake()
+    {
+        base.Awake();
+        if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+            hasPlayerJoined = true;
+            SelectTarget();
+        }
+    }
+
     void Patrol()
     {
         float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
@@ -55,6 +64,7 @@ public class ChargerEnemyController : Enemy
     {
         chargeStartTimer = chargeStartTimerMax;
         enemyState = EnemyState.ChargeStart;
+        SelectTarget();
     }
     void ChargeStart()
     {
@@ -122,9 +132,18 @@ public class ChargerEnemyController : Enemy
     void Update()
     {
         if (pv == null || !pv.IsMine) return;
+        if (!hasPlayerJoined){
+            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+                hasPlayerJoined = true;
+                SelectTarget();
+            } else {
+                return;
+            }
+        } 
         if (aiEnabled)
         {
-            playerObj = GlobalValues.Instance.players[0];
+            //Debug.Log("Count: " + GlobalValues.Instance.players.Count);
+            //playerObj = GlobalValues.Instance.players[0];
             switch (enemyState)
             {
                 case EnemyState.Patrolling:

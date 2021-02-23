@@ -36,9 +36,23 @@ public class EnemyController : Enemy {
 
     // Start is called before the first frame update
     void Start() {
+        Debug.Log("yoyoyoyo");
+        //SelectTarget();
         StartCoroutine("EnemyTimers");
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
+    }
+
+    public override void Awake()
+    {
+        
+        Debug.Log("Hello there :)");
+        base.Awake();
+        if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+            hasPlayerJoined = true;
+            int index = SelectTarget();
+            weapon.SetTarget(index);
+        }
     }
 
     public void SetBulletColour(LightableColour col) {
@@ -80,7 +94,16 @@ public class EnemyController : Enemy {
     // Update is called once per frame
     void Update() {
         if (pv == null || !pv.IsMine) return;
-        playerObj = GlobalValues.Instance.players[0];
+        if (!hasPlayerJoined){
+            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+                hasPlayerJoined = true;
+                int index = SelectTarget();
+                weapon.SetTarget(index);
+            } else {
+                return;
+            }
+        } 
+        //playerObj = GlobalValues.Instance.players[0];
         if (aiEnabled) {
             switch (enemyState) {
                 case EnemyState.Patrolling:
@@ -149,7 +172,9 @@ public class EnemyController : Enemy {
         Debug.Log("Started repositioning");
         enemyState = EnemyState.Repositioning;
         agent.enabled = true;
-        SelectTarget();
+        int index = SelectTarget();
+        weapon.SetTarget(index);
+        Debug.Log("Generating Point");
         GeneratePoint();
     }
 
