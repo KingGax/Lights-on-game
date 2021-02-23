@@ -17,10 +17,10 @@ public class Health : MonoBehaviour {
     }
 
     [PunRPC]
-    protected void DamageRPC(float damage) {
+    protected virtual void DamageRPC(float damage) {
         if (pv.IsMine) {
             health -= damage;
-            if (health < 0) {
+            if (health <= 0) {
                 Die();
             }
         }

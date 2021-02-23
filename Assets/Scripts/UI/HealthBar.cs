@@ -5,7 +5,7 @@ using UnityEngine;
 public class HealthBar : MonoBehaviour
 {
     private Transform bar;
-    GameObject playerObj;
+    //GameObject playerObj;
     float maxHealth;
     // Start is called before the first frame update
     void Start()
@@ -18,14 +18,14 @@ public class HealthBar : MonoBehaviour
         Debug.Log("Healthbar awake");
         bar.localScale = new Vector3(1f, 1f);
         maxHealth = -100;
-        if (GlobalValues.Instance != null)
-        {
-            playerObj = GlobalValues.Instance.localPlayerInstance;
-        }
+        // if (GlobalValues.Instance != null)
+        // {
+        //     playerObj = GlobalValues.Instance.localPlayerInstance;
+        // }
     }
 
     public void SetPlayer(){
-        playerObj = GlobalValues.Instance.localPlayerInstance;
+        //playerObj = GlobalValues.Instance.localPlayerInstance;
     }
 
     // Update is called once per frame
