@@ -6,13 +6,13 @@ public class Health : MonoBehaviour {
 
     protected PhotonView pv;
     public float maxHealth;
-    private float health;
+    protected float health;
 
     public virtual void Awake() {
         pv = GetComponent<PhotonView>();
     }
 
-    public void Start() {
+    public virtual void Start() {
         health = maxHealth;
     }
 
@@ -26,7 +26,7 @@ public class Health : MonoBehaviour {
         }
     }
 
-    public void Damage(float damage) {
+    public virtual void Damage(float damage) {
         pv.RPC("DamageRPC", RpcTarget.All, damage);
     }
 

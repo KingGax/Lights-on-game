@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         if (_cameraWork != null) {
             if (photonView.IsMine) {
                 _cameraWork.OnStartFollowing();
+                GlobalValues.Instance.localPlayerInstance = this.gameObject;
             }
         } else {
             Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
@@ -95,6 +96,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         cameraForward = Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal);
         cameraRight = Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal);
         lantern.color = colours[colourIndex];
+        
         StartCoroutine("CountdownTimers");
     }
 

@@ -18,7 +18,7 @@ public abstract class Enemy : MonoBehaviour {
     private LayerMask environmentAndPlayerMask;
 
     public virtual void Awake() {
-        Debug.Log("okkokokoko");
+        //Debug.Log("okkokokoko");
         pv = GetComponent<PhotonView>();
         weapon = GetComponentInChildren<Weapon>();
         agent = GetComponent<NavMeshAgent>();
@@ -50,12 +50,12 @@ public abstract class Enemy : MonoBehaviour {
         for(int i = 0; i < GlobalValues.Instance.players.Count; i++){
             float distToPlayer = Vector3.Distance(gameObject.transform.position, GlobalValues.Instance.players[i].transform.position);
             if (distToPlayer < minDist){
-                Debug.Log("Player distance: "+ distToPlayer);
+                //Debug.Log("Player distance: "+ distToPlayer);
                 minDist = distToPlayer;
                 targetIndex = i;
             }
         }
-        Debug.Log("Player index: "+targetIndex);
+        //Debug.Log("Player index: "+targetIndex);
         playerObj = GlobalValues.Instance.players[targetIndex];
         return targetIndex;
     }
