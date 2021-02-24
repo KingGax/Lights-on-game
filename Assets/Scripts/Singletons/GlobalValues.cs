@@ -30,6 +30,18 @@ public class GlobalValues : MonoBehaviour {
         }
     }
 
+    public void PlayerLeft()
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i] == null)
+            {
+                players.RemoveAt(i);
+                i = 0;
+            }
+        }
+    }
+
     private void Awake() {
         if (_instance != null && _instance != this) {
             Destroy(this.gameObject);
