@@ -36,6 +36,13 @@ public class ContactWeapon : Weapon {
         alreadyHit.Clear();
     }
 
+    [PunRPC]
+    protected void HitRPC(){
+        if (pv.IsMine) {
+            parentScript.ChangeToChargeEnd();
+        }
+    }
+
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject == GlobalValues.Instance.localPlayerInstance)
         {
@@ -54,7 +61,8 @@ public class ContactWeapon : Weapon {
                             Vector3 dir = gameObject.transform.forward; // this might need to be changed
                             ks.TakeKnockback(dir, knockback, knockbackDuration);
                         }
-                        parentScript.ChangeToChargeEnd();
+                        pv.RPC("HitRPC", RpcTarget.All);
+                        //parentScript.ChangeToChargeEnd();
                     }
                 }
             }

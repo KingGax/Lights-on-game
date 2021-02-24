@@ -273,7 +273,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     }
 
     private void OnCollisionEnter(Collision other) {
-        if (other.gameObject.layer != GlobalValues.Instance.environment && isTakingKnockback) {
+        if((GlobalValues.Instance.environment | (1 << other.gameObject.layer)) == GlobalValues.Instance.environment && isTakingKnockback){
             Debug.Log("Collided with environment");
             EndKnockback();
         }
