@@ -18,6 +18,6 @@ public class Lobby : MonoBehaviour
         }
     }
     public void StartGame() {
-        PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+        PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 2);
     }
 }

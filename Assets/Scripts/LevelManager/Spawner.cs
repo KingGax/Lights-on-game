@@ -10,6 +10,8 @@ public class Spawner : MonoBehaviour {
     private LightableColour[] enemyColours = new LightableColour[]{ LightableColour.Red, LightableColour.Blue, LightableColour.Green };
     int spawnIndex;
     int colIndex;
+    int spawnCount = 0;
+    int waveSpawnNumber = 0;
     PhotonView pv;
 
 
@@ -20,10 +22,10 @@ public class Spawner : MonoBehaviour {
     // Called at frame rate
     void Update() {}
 
-    // Called at a fixed rate 25ups
+    // Called at a fixed rate 50fps
     void FixedUpdate() {
         if (pv == null || !pv.IsMine) return;
-        if (Random.value > 0.99) {
+        if (waveSpawnNumber > spawnCount && Random.value > 0.99) {
             Debug.Log("spawning");
             Vector3 pos = transform.position
                 + new Vector3(
@@ -36,6 +38,18 @@ public class Spawner : MonoBehaviour {
             GameObject entity = PhotonNetwork.Instantiate(spawnableEntities[spawnIndex].name, pos, Quaternion.identity);
             LightableEnemy lightScript = entity.GetComponentInChildren<LightableEnemy>();
             lightScript.InitialiseEnemy(enemyColours[colIndex]);
+            spawnCount++;
         }
+    }
+
+    public void StartSpawning(int num)
+    {
+        spawnCount = 0;
+        waveSpawnNumber = num;
+    }
+
+    public bool FinishedSpawning()
+    {
+        return spawnCount >= waveSpawnNumber;
     }
 }
