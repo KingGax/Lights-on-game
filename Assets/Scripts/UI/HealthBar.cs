@@ -42,6 +42,7 @@ public class HealthBar : MonoBehaviour
         if (hp < 0){
             hp = 0;
         }
+        Debug.Log("New HP: "+ hp);
         bar.localScale = new Vector3(hp/maxHealth, 1f);
     }
 }

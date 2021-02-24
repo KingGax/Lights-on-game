@@ -77,7 +77,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
             Debug.Log("Henlo");
             GameObject UI = Instantiate(UIElements);
             DontDestroyOnLoad(UI);
+            FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
+            fhb.enabled = false;
+            fhb.gameObject.GetComponent<Canvas>().enabled = false;
             //cam.GetComponent<CameraController>().bindToPlayer(this.gameObject.transform);
+        } else {
+            
         }
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.

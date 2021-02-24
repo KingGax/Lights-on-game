@@ -4,14 +4,23 @@ using Photon.Pun;
 public sealed class PlayerHealth : Health {
 
     int bulletLayer;
+    HealthBar hb;
+    FloatingHealthBar fhb;
+    bool isLocal = false;
     public override void Start() {
         base.Start();
         if (gameObject == GlobalValues.Instance.localPlayerInstance){
+            isLocal = true;
             Debug.Log("Same object");
-            HealthBar hb = GlobalValues.Instance.UIElements.GetComponentInChildren<HealthBar>();
+            hb = GlobalValues.Instance.UIElements.GetComponentInChildren<HealthBar>();
             hb.SetPlayer();
             hb.UpdateMaxHealth(maxHealth);
             hb.UpdateHealth(health);
+        } else {
+            isLocal = false;
+            fhb = GetComponentInChildren<FloatingHealthBar>();
+            fhb.UpdateMaxHealth(maxHealth);
+            fhb.UpdateHealth(health);
         }
     }
 
@@ -29,9 +38,26 @@ public sealed class PlayerHealth : Health {
     public override void Damage(float damage)
     {
         base.Damage(damage);
-        if (gameObject == GlobalValues.Instance.localPlayerInstance){
-            HealthBar hb = GlobalValues.Instance.UIElements.gameObject.GetComponentInChildren<HealthBar>();
+        if (isLocal){
             hb.UpdateHealth(health);
+        } else {
+            fhb.UpdateHealth(health);
+        }
+        // if (gameObject == GlobalValues.Instance.localPlayerInstance){
+        //     //hb = GlobalValues.Instance.UIElements.gameObject.GetComponentInChildren<HealthBar>();
+        //     hb.UpdateHealth(health);
+        // } else {
+        //     fhb.UpdateHealth(health);
+        // }
+    }
+
+    [PunRPC]
+    protected override void DamageRPC(float damage){
+        Debug.Log("Network damage!!!!!");
+        base.DamageRPC(damage);
+        if (!isLocal){
+            Debug.Log("Nonlocal");
+            fhb.UpdateHealth(health);
         }
     }
 
