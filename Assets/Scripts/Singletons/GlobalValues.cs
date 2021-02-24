@@ -36,8 +36,14 @@ public class GlobalValues : MonoBehaviour {
         {
             if (players[i] == null)
             {
-                players.RemoveAt(i);
-                i = 0;
+                if (i == 0)
+                {
+                    players[i] = players[i + 1];
+                }
+                else
+                {
+                    players[i] = players[i - 1];
+                }
             }
         }
     }

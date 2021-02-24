@@ -37,18 +37,25 @@ public class ContactWeapon : Weapon {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (active && !frozen) {
-            if (!alreadyHit.Contains(other)) {
-                alreadyHit.Add(other);
-                Health ds = other.gameObject.GetComponent<Health>();
-                if (ds != null) {
-                    ds.Damage(damage);
-                    IKnockbackable ks = other.gameObject.GetComponent<IKnockbackable>();
-                    if (ks != null) {
-                        Vector3 dir = gameObject.transform.forward; // this might need to be changed
-                        ks.TakeKnockback(dir, knockback, knockbackDuration);
+        if (other.gameObject == GlobalValues.Instance.localPlayerInstance)
+        {
+            if (active && !frozen)
+            {
+                if (!alreadyHit.Contains(other))
+                {
+                    alreadyHit.Add(other);
+                    Health ds = other.gameObject.GetComponent<Health>();
+                    if (ds != null)
+                    {
+                        ds.Damage(damage);
+                        IKnockbackable ks = other.gameObject.GetComponent<IKnockbackable>();
+                        if (ks != null)
+                        {
+                            Vector3 dir = gameObject.transform.forward; // this might need to be changed
+                            ks.TakeKnockback(dir, knockback, knockbackDuration);
+                        }
+                        parentScript.ChangeToChargeEnd();
                     }
-                    parentScript.ChangeToChargeEnd();
                 }
             }
         }

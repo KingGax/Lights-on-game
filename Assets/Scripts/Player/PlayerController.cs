@@ -129,6 +129,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     // Update is called once per frame
     void Update() {
+        if (photonView == null || !photonView.IsMine) return;
         if (fireHeld) {
             shootBuffer = shootBufferMax;
         }
@@ -139,7 +140,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                 StartDash();
             }
         }
-        
         //handles looking and shooting
         if (shootBuffer > 0 && CanShoot()) {
             Vector3 fireDirection = GetFireDirection();
