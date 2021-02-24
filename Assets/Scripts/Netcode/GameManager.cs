@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
 
         if (PhotonNetwork.IsMasterClient) {
             Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-            LoadArena();
+            //LoadArena();
         }
     }
 
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
         GlobalValues.Instance.players.RemoveAt(GlobalValues.Instance.players.Count-1);
         if (PhotonNetwork.IsMasterClient) {
             Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-            LoadArena();
+            //LoadArena();
         }
     }
 }

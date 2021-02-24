@@ -1,0 +1,61 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
+
+public class RoomListingsMenu : MonoBehaviourPunCallbacks
+{
+
+    [SerializeField]
+    private Transform _content;
+
+
+    [SerializeField]
+    public GameObject _roomListing;
+
+    private Dictionary<string, GameObject> cachedRoomList = new Dictionary<string, GameObject>();
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        for(int i=0; i<roomList.Count; i++)
+        {
+            RoomInfo info = roomList[i];
+            if (info.RemovedFromList)
+            {
+                if (cachedRoomList.ContainsKey(info.Name)){
+                    Destroy(cachedRoomList[info.Name]);
+                    cachedRoomList.Remove(info.Name);
+                }
+            }
+            else
+            {
+                if(cachedRoomList.ContainsKey(info.Name)){
+                    RoomListingInfo roomInfo = cachedRoomList[info.Name].GetComponent<RoomListingInfo>();
+                    roomInfo.SetRoomInfo(info);
+                }
+                else {
+                GameObject listing =  Instantiate(_roomListing,_content);
+                RoomListingInfo roomInfo = listing.GetComponent<RoomListingInfo>();
+                roomInfo.SetRoomInfo(info);
+                cachedRoomList[info.Name] = listing;
+                }
+            }
+        }
+    }
+
+    // public override void OnJoinedLobby()
+    // {
+    //     cachedRoomList.Clear();
+    // }
+
+    // public override void OnLeftLobby()
+    // {
+    //     cachedRoomList.Clear();
+    // }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        cachedRoomList.Clear();
+    }
+}
