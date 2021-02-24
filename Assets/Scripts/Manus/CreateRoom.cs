@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using Photon.Pun;
 
@@ -8,6 +9,8 @@ public class CreateRoom : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private string _roomName;
+
+    [SerializeField]
 
 
 
@@ -17,6 +20,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
             return;
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 2;
+        options.PublishUserId = true;
         if (!(string.IsNullOrEmpty(_roomName))){
             PhotonNetwork.CreateRoom(_roomName, options);
         }
@@ -33,7 +37,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        Debug.Log("Room creation failed" + message);
+        Debug.Log("Room creation failed: " + message);
     }
 
     public void SetRoomName(string value){
@@ -43,10 +47,12 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         }
     }
 
+    
+
     public override void OnJoinedRoom() {
             // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
-                PhotonNetwork.LoadLevel("Spawner");
+                PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
             }
         }
 }

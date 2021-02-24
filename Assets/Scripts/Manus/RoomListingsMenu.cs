@@ -30,11 +30,32 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
             }
             else
             {
+                if(cachedRoomList.ContainsKey(info.Name)){
+                    RoomListingInfo roomInfo = cachedRoomList[info.Name].GetComponent<RoomListingInfo>();
+                    roomInfo.SetRoomInfo(info);
+                }
+                else {
                 GameObject listing =  Instantiate(_roomListing,_content);
                 RoomListingInfo roomInfo = listing.GetComponent<RoomListingInfo>();
                 roomInfo.SetRoomInfo(info);
                 cachedRoomList[info.Name] = listing;
+                }
             }
         }
+    }
+
+    // public override void OnJoinedLobby()
+    // {
+    //     cachedRoomList.Clear();
+    // }
+
+    // public override void OnLeftLobby()
+    // {
+    //     cachedRoomList.Clear();
+    // }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        cachedRoomList.Clear();
     }
 }
