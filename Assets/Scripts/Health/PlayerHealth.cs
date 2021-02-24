@@ -37,7 +37,8 @@ public sealed class PlayerHealth : Health {
 
     public override void Damage(float damage)
     {
-        base.Damage(damage);
+        //base.Damage(damage);
+        pv.RPC("DamageRPC", RpcTarget.All, damage);
         if (isLocal){
             hb.UpdateHealth(health);
         } else {
@@ -53,10 +54,10 @@ public sealed class PlayerHealth : Health {
 
     [PunRPC]
     protected override void DamageRPC(float damage){
-        Debug.Log("Network damage!!!!!");
+        //Debug.Log("Network damage!!!!!");
         base.DamageRPC(damage);
         if (!isLocal){
-            Debug.Log("Nonlocal");
+            //Debug.Log("Nonlocal");
             fhb.UpdateHealth(health);
         }
     }

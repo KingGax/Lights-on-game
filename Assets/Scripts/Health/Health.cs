@@ -9,7 +9,7 @@ public class Health : MonoBehaviour {
     protected float health;
 
     public virtual void Awake() {
-        pv = GetComponent<PhotonView>();
+        pv = gameObject.GetComponent<PhotonView>();
     }
 
     public virtual void Start() {

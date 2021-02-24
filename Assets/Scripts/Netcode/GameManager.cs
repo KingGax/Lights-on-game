@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
 
     public override void OnPlayerLeftRoom(Player other) {
         Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
+        GlobalValues.Instance.players.RemoveAt(GlobalValues.Instance.players.Count-1);
         if (PhotonNetwork.IsMasterClient) {
             Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
             LoadArena();

@@ -16,14 +16,20 @@ public class EnemyHealth : Health
     }
 
     public override void Damage(float damage){
-        DamageRPC(damage);
+        pv.RPC("DamageRPC", RpcTarget.All, damage);//DamageRPC(damage);
         healthBar.UpdateHealth(health);
     }
 
     [PunRPC]
     protected override void DamageRPC(float damage)
     {
-        base.DamageRPC(damage);
+        //base.DamageRPC(damage);
+        if (pv.IsMine) {
+            health -= damage;
+            if (health <= 0) {
+                Die();
+            }
+        }
         healthBar.UpdateHealth(health);
     }
 
