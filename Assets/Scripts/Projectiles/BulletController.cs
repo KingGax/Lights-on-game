@@ -64,7 +64,7 @@ public class BulletController : MonoBehaviour {
     {
         if (!pv.IsMine)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
