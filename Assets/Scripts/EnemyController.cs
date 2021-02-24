@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IEnemy
 {
     
     Rigidbody rb;
@@ -34,6 +34,7 @@ public class EnemyController : MonoBehaviour
     EnemyState enemyState;
     float pathStoppingThreshold = 0.01f;
     bool started = false;
+    bool enabled = true;
     enum EnemyState{
         Shooting, //Actively attacking the player
         Patrolling, //Moving/idle state - hasn't engaged the player yet
@@ -52,6 +53,16 @@ public class EnemyController : MonoBehaviour
         enemyState = EnemyState.Patrolling;
         GeneratePoint();
         started = true;
+    }
+
+    public void EnableAI(){
+        agent.enabled = true;
+        enabled = true;
+    }
+
+    public void DisableAI(){
+        agent.enabled = false;
+        enabled = false;
     }
 
     void GeneratePoint(){
@@ -89,23 +100,26 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (enemyState)
+        if (enabled)
         {
-            case EnemyState.Patrolling:
-                Patrol();
-                break;
-            case EnemyState.Repositioning:
-                Repositioning();
-                break;
-            case EnemyState.Shooting:
-                Shooting();
-                break;
-            case EnemyState.GettingLOS:
-                GettingLOS();
-                break;
-            default:
-                break;
-        }
+            switch (enemyState)
+            {
+                case EnemyState.Patrolling:
+                    Patrol();
+                    break;
+                case EnemyState.Repositioning:
+                    Repositioning();
+                    break;
+                case EnemyState.Shooting:
+                    Shooting();
+                    break;
+                case EnemyState.GettingLOS:
+                    GettingLOS();
+                    break;
+                default:
+                    break;
+            }
+        } 
     }
     void Patrol()
     {
