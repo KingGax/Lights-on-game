@@ -118,7 +118,9 @@ public class MeleeEnemyController : Enemy {
         }
         Vector3 playerDirection = playerObj.transform.position - transform.position;
         playerDirection.y = 0f;
-        TurnTowards(playerDirection);
+        if (distToPlayer < engageDistance) {
+            TurnTowards(playerDirection);
+        }
         weapon.Use();
     }
 
