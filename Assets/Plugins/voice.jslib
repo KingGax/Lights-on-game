@@ -1,5 +1,5 @@
 mergeInto(LibraryManager.library, {
-    GetMicInput: function() {
+    getMicInput: function() {
         console.log("Loaded JS successfully");
         input = voiceControlHandler();
         // Handle actual voice recognition outside of unity for ease
