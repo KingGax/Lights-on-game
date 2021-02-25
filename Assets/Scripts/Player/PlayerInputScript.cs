@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Runtime.InteropServices;
 
 public class PlayerInputScript : MonoBehaviour {
     
     private PlayerController pc;
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
+
+    [DllImport("__Internal")]
+    private static extern string getMicInput();
 
     void Awake() {
         inputController = new PlayerInputs();
@@ -22,6 +26,8 @@ public class PlayerInputScript : MonoBehaviour {
 
         movementInputMap.Attack.started += ctx => AttackOne(ctx);
         movementInputMap.Attack.performed += ctx => AttackOne(ctx);
+
+        movementInputMap.Voice.started += ctx => VoiceControl(ctx);
     }
 
     // Start is called before the first frame update
@@ -74,4 +80,25 @@ public class PlayerInputScript : MonoBehaviour {
 
         //transform.Rotate(new Vector3(0, 30, 0), Space.World);
     }
+    public void VoiceControl(InputAction.CallbackContext ctx)
+    {
+        string colour = (string) getMicInput();
+        LanternColour colourEnum = new LanternColour();
+        bool set = false;
+        if (colour == "RED") {
+            colourEnum = LanternColour.Red;
+            set = true;
+        }
+        else if (colour == "BLUE") {
+            colourEnum = LanternColour.Blue;
+            set = true;
+        }
+        else if (colour == "GREEN") {
+            colourEnum = LanternColour.Green;
+            set = true;
+        }
+        if (set)
+            pc.ChangeLightToColour(colourEnum);
+    }
 }
+

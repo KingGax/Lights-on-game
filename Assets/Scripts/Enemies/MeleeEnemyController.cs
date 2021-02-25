@@ -5,7 +5,6 @@ using UnityEngine.AI;
 using Photon.Pun;
 
 public class MeleeEnemyController : Enemy {
-    GameObject playerObj;
     public float damage;
     public float detectionThreshold;
     public float minDistance;
@@ -34,10 +33,26 @@ public class MeleeEnemyController : Enemy {
         losCheckTimer = losCheckTimerMax;
         pv = GetComponent<PhotonView>();
     }
+    public override void Awake()
+    {
+        base.Awake();
+        if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+            hasPlayerJoined = true;
+            SelectTarget();
+        }
+    }
 
     void Update() {
         if (pv == null || !pv.IsMine) return;
-        playerObj = GlobalValues.Instance.players[0];
+        if (!hasPlayerJoined){
+            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+                hasPlayerJoined = true;
+                SelectTarget();
+            } else {
+                return;
+            }
+        } 
+        //playerObj = GlobalValues.Instance.players[0];
         if (aiEnabled) { 
             switch (enemyState) {
                 case EnemyState.Patrolling:
@@ -56,21 +71,38 @@ public class MeleeEnemyController : Enemy {
         }
     }
 
-    void Patrol() {
-        float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
-        if (distToPlayer < detectionThreshold) {
-            if (losCheckTimer <= 0) {
-                if (HasPlayerLOS(playerObj,detectionThreshold)) {
+    void Patrol()
+    {
+        float minDist = Mathf.Infinity;
+        int index = 0;
+        for (int i = 0; i < GlobalValues.Instance.players.Count; i++)
+        {
+            float distToPlayer = Vector3.Distance(GlobalValues.Instance.players[i].transform.position, transform.position);
+            if (distToPlayer < minDist)
+            {
+                minDist = distToPlayer;
+                index = i;
+            }
+        }
+        playerObj = GlobalValues.Instance.players[index];
+        if (minDist < detectionThreshold)
+        {
+            if (losCheckTimer <= 0)
+            {
+                if (HasPlayerLOS(playerObj, detectionThreshold))
+                {
                     ChangeToChasing();
                 }
             }
         }
+
     }
 
     void ChangeToChasing() {
         enemyState = EnemyState.Chasing;
         agent.speed = chasingSpeed;
         agent.enabled = true;
+        SelectTarget();
     }
 
     void Attacking() {
@@ -86,7 +118,9 @@ public class MeleeEnemyController : Enemy {
         }
         Vector3 playerDirection = playerObj.transform.position - transform.position;
         playerDirection.y = 0f;
-        TurnTowards(playerDirection);
+        if (distToPlayer < engageDistance) {
+            TurnTowards(playerDirection);
+        }
         weapon.Use();
     }
 

@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class ChargerEnemyController : Enemy
 {
 
-    GameObject playerObj;
     public float damage;
     public float knockback;
     public float knockbackDuration;
@@ -43,10 +42,28 @@ public class ChargerEnemyController : Enemy
         StartCoroutine("EnemyTimers");
     }
 
+    public override void Awake()
+    {
+        base.Awake();
+        if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+            hasPlayerJoined = true;
+            SelectTarget();
+        }
+    }
+
     void Patrol()
     {
-        float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
-        if (distToPlayer < detectionThreshold)
+        float minDist  = Mathf.Infinity;
+        int index = 0;
+        for (int i = 0; i < GlobalValues.Instance.players.Count; i++){
+            float distToPlayer = Vector3.Distance(GlobalValues.Instance.players[i].transform.position, transform.position);
+            if (distToPlayer < minDist){
+                minDist = distToPlayer;
+                index = i;
+            }
+        }
+        playerObj = GlobalValues.Instance.players[index];
+        if (minDist < detectionThreshold)
         {
             ChangeToChargeStart();
         }
@@ -56,6 +73,7 @@ public class ChargerEnemyController : Enemy
     {
         chargeStartTimer = chargeStartTimerMax;
         enemyState = EnemyState.ChargeStart;
+        SelectTarget();
     }
     void ChargeStart()
     {
@@ -123,9 +141,18 @@ public class ChargerEnemyController : Enemy
     void Update()
     {
         if (pv == null || !pv.IsMine) return;
+        if (!hasPlayerJoined){
+            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+                hasPlayerJoined = true;
+                SelectTarget();
+            } else {
+                return;
+            }
+        } 
         if (aiEnabled)
         {
-            playerObj = GlobalValues.Instance.players[0];
+            //Debug.Log("Count: " + GlobalValues.Instance.players.Count);
+            //playerObj = GlobalValues.Instance.players[0];
             switch (enemyState)
             {
                 case EnemyState.Patrolling:

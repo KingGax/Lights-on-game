@@ -9,7 +9,10 @@ public class GlobalValues : MonoBehaviour {
     public LayerMask reappearPreventionLayers;
     public LayerMask environment;
     public LayerMask playerLayer;
+    public GameObject enemyParent;
     public List<GameObject> players;
+    public GameObject localPlayerInstance;
+    public GameObject UIElements; 
     public Material defaultGreen;
     public Material defaultBlue;
     public Material defaultRed;
@@ -24,6 +27,24 @@ public class GlobalValues : MonoBehaviour {
     public void AddPlayer(GameObject player) {
         if (!players.Contains(player)) {
             players.Add(player);
+        }
+    }
+
+    public void PlayerLeft()
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i] == null)
+            {
+                if (i == 0)
+                {
+                    players[i] = players[i + 1];
+                }
+                else
+                {
+                    players[i] = players[i - 1];
+                }
+            }
         }
     }
 

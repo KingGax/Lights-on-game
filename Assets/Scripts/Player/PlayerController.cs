@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     Vector3 cameraForward;
     Vector3 cameraRight;
     Vector3 XZPlaneNormal = new Vector3(0, 1, 0);
+    public GameObject UIElements;
 
     Color lightColour;
     Color[] colours = { new Color(1, 0, 0), new Color(0, 1, 0), new Color(0, 0, 1) };
@@ -73,11 +74,21 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
             PlayerController.LocalPlayerInstance = this.gameObject;
+            Debug.Log("Henlo");
+            GameObject UI = Instantiate(UIElements);
+            DontDestroyOnLoad(UI);
+            FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
+            fhb.enabled = false;
+            fhb.gameObject.GetComponent<Canvas>().enabled = false;
             //cam.GetComponent<CameraController>().bindToPlayer(this.gameObject.transform);
+        } else {
+            
         }
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
         DontDestroyOnLoad(this.gameObject);
+        
+            
     }
 
     void Start() {
@@ -86,6 +97,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         if (_cameraWork != null) {
             if (photonView.IsMine) {
                 _cameraWork.OnStartFollowing();
+                GlobalValues.Instance.localPlayerInstance = this.gameObject;
             }
         } else {
             Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
@@ -95,6 +107,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         cameraForward = Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal);
         cameraRight = Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal);
         lantern.color = colours[colourIndex];
+        
         StartCoroutine("CountdownTimers");
     }
 
@@ -116,6 +129,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     // Update is called once per frame
     void Update() {
+        if (photonView == null || !photonView.IsMine) return;
         if (fireHeld) {
             shootBuffer = shootBufferMax;
         }
@@ -126,7 +140,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                 StartDash();
             }
         }
-        
         //handles looking and shooting
         if (shootBuffer > 0 && CanShoot()) {
             Vector3 fireDirection = GetFireDirection();
@@ -260,7 +273,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     }
 
     private void OnCollisionEnter(Collision other) {
-        if (other.gameObject.layer != GlobalValues.Instance.environment && isTakingKnockback) {
+        if((GlobalValues.Instance.environment | (1 << other.gameObject.layer)) == GlobalValues.Instance.environment && isTakingKnockback){
             Debug.Log("Collided with environment");
             EndKnockback();
         }

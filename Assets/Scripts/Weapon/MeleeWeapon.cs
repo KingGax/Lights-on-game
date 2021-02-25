@@ -38,11 +38,16 @@ public class MeleeWeapon : Weapon {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (!CanUse() && !frozen && !alreadyHit.Contains(other)) {
-            alreadyHit.Add(other);
-            Health ds = other.gameObject.GetComponent<Health>();
-            if (ds != null) {
-                ds.Damage(damage);
+        if (other.gameObject == GlobalValues.Instance.localPlayerInstance)
+        {
+            if (!CanUse() && !frozen && !alreadyHit.Contains(other))
+            {
+                alreadyHit.Add(other);
+                Health ds = other.gameObject.GetComponent<Health>();
+                if (ds != null)
+                {
+                    ds.Damage(damage);
+                }
             }
         }
     }

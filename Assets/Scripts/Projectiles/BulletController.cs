@@ -16,6 +16,7 @@ public class BulletController : MonoBehaviour {
     public virtual void Awake() {
         rb = GetComponent<Rigidbody>();
         pv = GetComponent<PhotonView>();
+        Invoke("LocalDestroyBulllet", 3.0f);
     }
 
     [PunRPC]
@@ -52,6 +53,18 @@ public class BulletController : MonoBehaviour {
     protected void DestroyBullet() {
         if (pv.IsMine) {
             PhotonNetwork.Destroy(gameObject);
+        }
+        else
+        {
+            LocalDestroyBulllet();
+        }
+    }
+
+    void LocalDestroyBulllet()
+    {
+        if (!pv.IsMine)
+        {
+            gameObject.SetActive(false);
         }
     }
 }
