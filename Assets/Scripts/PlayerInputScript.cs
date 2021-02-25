@@ -90,6 +90,15 @@ public class PlayerInputScript : MonoBehaviour
     public void VoiceControl(InputAction.CallbackContext ctx)
     {
         string colour = (string) getMicInput();
+        LanternColour colourEnum = new LanternColour
+        if (colour == "RED")
+            colourEnum = LanternColour.Red;
+        else if (colour == "BLUE")
+            colourEnum = LanternColour.Blue;
+        else if (colour == "GREEN")
+            colourEnum = LanternColour.Green;
+        if (colourEnum != null)
+            pc.ChangeLightToColour(colourEnum);
     }
 }
 
