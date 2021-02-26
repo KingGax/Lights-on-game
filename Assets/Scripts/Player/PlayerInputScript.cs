@@ -55,6 +55,7 @@ public class PlayerInputScript : MonoBehaviour {
 
     private void OnDisable() {
         inputController.Disable();
+        pc.OnMovement(Vector2.zero);
     }
 
     void AttackOne(InputAction.CallbackContext ctx) {
