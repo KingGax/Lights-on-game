@@ -31,7 +31,7 @@ public class LevelManager : MonoBehaviour {
         if (pv == null || !pv.IsMine) return;
         if (allWavesSpawned) {
             if (CountEnemies() == 0) {
-                pv.RPC("OpenDoor", RpcTarget.All);
+                pv.RPC("UnlockDoor", RpcTarget.All);
             }
         }
         else {
