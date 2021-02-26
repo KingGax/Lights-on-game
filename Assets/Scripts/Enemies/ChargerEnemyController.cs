@@ -22,13 +22,16 @@ public class ChargerEnemyController : Enemy
     float playerPositionPoll;
     public GameObject weaponParent;
     public ContactWeapon weaponScript;
+    public float backoffThreshold;
+    float pathStoppingThreshold = 0.01f;
     enum EnemyState
     {
         Charging, //Charging towards the player
         Patrolling, //Moving/idle state - hasn't engaged the player yet
         ChargeStart, //Preparing to charge
         ChargeEnd, //Charge has ended
-        Stunned //Stunned, eg from colliding with a wall while charging
+        Stunned, //Stunned, eg from colliding with a wall while charging
+        Backoff //Started charging too close to enemy, backing off
     }
     // Start is called before the first frame update
     void Start()
@@ -80,7 +83,11 @@ public class ChargerEnemyController : Enemy
         //animation stuff here
         if (chargeStartTimer <= 0)
         {
-            ChangeToCharging();
+            if (Vector3.Distance(playerObj.transform.position, gameObject.transform.position) < backoffThreshold){
+                ChangeToBackingOff();
+            } else {
+                ChangeToCharging();
+            }
         }
     }
 
@@ -136,6 +143,26 @@ public class ChargerEnemyController : Enemy
         enemyState = EnemyState.Patrolling;
         //do nothing at the moment
     }
+    
+    void ChangeToBackingOff(){
+        Vector3 backOffPos = Vector3.Normalize(gameObject.transform.position - playerObj.transform.position) * backoffThreshold * 2; //backoff in opposite direction of player
+        NavMeshHit navmeshPos;
+        if (NavMesh.SamplePosition(backOffPos, out navmeshPos, 1f, NavMesh.AllAreas)){
+            agent.enabled = true;
+            agent.destination = navmeshPos.position;
+            enemyState = EnemyState.Backoff;
+        } else {
+            Debug.Log("No navigable area was found for state: Backoff.");
+            ChangeToPatrolling();
+        }
+    }
+
+    void BackingOff(){
+        float dist = agent.remainingDistance;
+        if (dist != Mathf.Infinity && agent.remainingDistance <= pathStoppingThreshold) {
+            ChangeToChargeStart();
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -169,6 +196,9 @@ public class ChargerEnemyController : Enemy
                     break;
                 case EnemyState.Stunned:
                     //do nothing at the moment
+                    break;
+                case EnemyState.Backoff:
+                    BackingOff();
                     break;
                 default:
                     break;
