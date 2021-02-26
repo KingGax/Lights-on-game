@@ -6,9 +6,12 @@ public sealed class PlayerHealth : Health {
     int bulletLayer;
     HealthBar hb;
     FloatingHealthBar fhb;
+    PlayerInputScript ps;
+    
     bool isLocal = false;
     public override void Start() {
         base.Start();
+        ps = GetComponent<PlayerInputScript>();
         if (gameObject == GlobalValues.Instance.localPlayerInstance){
             isLocal = true;
             Debug.Log("Same object");
@@ -32,8 +35,23 @@ public sealed class PlayerHealth : Health {
     }
 
     public override void Die() {
-        
+        ps.DisableInput();
+        Invoke("Revive", 2f);
+        /*if (GlobalValues.Instance.players.Count > 1) {
+            for (int i = 0; i < GlobalValues.Instance.players.Count; i++) {
+                if (GlobalValues.Instance.players[i] != gameObject) {
+                    transform.position = GlobalValues.Instance.players[i].transform.position;
+                }
+            }
+        }*/
     }
+    private void Revive() {
+        transform.position = GlobalValues.Instance.respawnPoint.position;
+        health = maxHealth;
+        ps.EnableInput();
+        hb.UpdateHealth(health);
+    }
+
 
     public override void Damage(float damage)
     {

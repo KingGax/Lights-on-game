@@ -41,11 +41,11 @@ public class PlayerInputScript : MonoBehaviour {
         
     }
 
-    public void EnableMovement() {
+    public void EnableInput() {
         inputEnabled = true;
     }
 
-    public void DisableMovement() {
+    public void DisableInput() {
         inputEnabled = false;
     }
 

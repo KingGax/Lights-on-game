@@ -22,6 +22,7 @@ public class GlobalValues : MonoBehaviour {
     public Material hiddenCyan;
     public Material hiddenYellow;
     public Material hiddenMagenta;
+    public Transform respawnPoint;
     public static GlobalValues Instance { get { return _instance; } }
 
     public void AddPlayer(GameObject player) {
