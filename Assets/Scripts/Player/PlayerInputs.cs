@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/PlayerInputs.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Player/PlayerInputs.inputactions'
 
 using System;
 using System.Collections;
@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class @PlayerInputs : IInputActionCollection, IDisposable {
-
+public class @PlayerInputs : IInputActionCollection, IDisposable
+{
     public InputActionAsset asset { get; }
-
-    public @PlayerInputs() {
+    public @PlayerInputs()
+    {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""PlayerInputs"",
     ""maps"": [
@@ -190,39 +190,47 @@ public class @PlayerInputs : IInputActionCollection, IDisposable {
         m_Player_Voice = m_Player.FindAction("Voice", throwIfNotFound: true);
     }
 
-    public void Dispose() {
+    public void Dispose()
+    {
         UnityEngine.Object.Destroy(asset);
     }
 
-    public InputBinding? bindingMask {
+    public InputBinding? bindingMask
+    {
         get => asset.bindingMask;
         set => asset.bindingMask = value;
     }
 
-    public ReadOnlyArray<InputDevice>? devices {
+    public ReadOnlyArray<InputDevice>? devices
+    {
         get => asset.devices;
         set => asset.devices = value;
     }
 
     public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
 
-    public bool Contains(InputAction action) {
+    public bool Contains(InputAction action)
+    {
         return asset.Contains(action);
     }
 
-    public IEnumerator<InputAction> GetEnumerator() {
+    public IEnumerator<InputAction> GetEnumerator()
+    {
         return asset.GetEnumerator();
     }
 
-    IEnumerator IEnumerable.GetEnumerator() {
+    IEnumerator IEnumerable.GetEnumerator()
+    {
         return GetEnumerator();
     }
 
-    public void Enable() {
+    public void Enable()
+    {
         asset.Enable();
     }
 
-    public void Disable() {
+    public void Disable()
+    {
         asset.Disable();
     }
 
@@ -248,8 +256,10 @@ public class @PlayerInputs : IInputActionCollection, IDisposable {
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
-        public void SetCallbacks(IPlayerActions instance) {
-            if (m_Wrapper.m_PlayerActionsCallbackInterface != null) {
+        public void SetCallbacks(IPlayerActions instance)
+        {
+            if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
+            {
                 @Movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
@@ -266,10 +276,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable {
                 @Voice.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoice;
                 @Voice.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoice;
             }
-
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
-
-            if (instance != null) {
+            if (instance != null)
+            {
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
@@ -288,18 +297,18 @@ public class @PlayerInputs : IInputActionCollection, IDisposable {
             }
         }
     }
-
     public PlayerActions @Player => new PlayerActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
-
-    public InputControlScheme KeyboardMouseScheme {
-        get {
+    public InputControlScheme KeyboardMouseScheme
+    {
+        get
+        {
             if (m_KeyboardMouseSchemeIndex == -1) m_KeyboardMouseSchemeIndex = asset.FindControlSchemeIndex("KeyboardMouse");
             return asset.controlSchemes[m_KeyboardMouseSchemeIndex];
         }
     }
-
-    public interface IPlayerActions {
+    public interface IPlayerActions
+    {
         void OnMovement(InputAction.CallbackContext context);
         void OnLight(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);

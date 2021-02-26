@@ -153,13 +153,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
   turnSpeed: 0
-  damage: 50
+  damage: 15
   knockback: 20
   knockbackDuration: 0.3
   chargeTimerMax: 8
   chargeStartTimerMax: 1
   chargeEndTimerMax: 1
-  detectionThreshold: 10
+  detectionThreshold: 15.95
   playerPositionPollMax: 0.3
   weaponParent: {fileID: 4301382475900876765}
   weaponScript: {fileID: 4301382475900876760}
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ea7ded0536df1499510eb9b9d02f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 25
+  maxHealth: 70
 --- !u!1 &4301382474774112593
 GameObject:
   m_ObjectHideFlags: 0
