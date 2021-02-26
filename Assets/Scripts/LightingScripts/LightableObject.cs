@@ -44,16 +44,21 @@ public class LightableObject : MonoBehaviour {
         physicsCollider = transform.parent.GetComponent<Collider>();
         potentialColliders = GlobalValues.Instance.reappearPreventionLayers;
         defaultLayer = transform.parent.gameObject.layer;
-        
         physicsBounds = physicsCollider.bounds;
         boundingSphereSize = Mathf.Max(physicsBounds.size.x, physicsBounds.size.y, physicsBounds.size.z);
-        defaultMaterial = meshRenderer.material;
         objectColour = CalculateColour();
         objectColVector = objectColour;
-        hiddenMaterial = GetHiddenMaterial();
-        SetColour();
-        meshRenderer.material = defaultMaterial;
+        if (!isHidden) {
+            defaultMaterial = meshRenderer.material;
+            hiddenMaterial = GetHiddenMaterial();
+            SetColour();
+            meshRenderer.material = defaultMaterial;
+        }
+        else {
+            Invoke("SetColour", 0.1f);
+        }
         GetLightsInRange();
+        ColourChanged();
     }
 
     void AssignMaterials() {
@@ -156,10 +161,8 @@ public class LightableObject : MonoBehaviour {
         }
         objectColour = CalculateColour();
         objectColVector = objectColour;
-        if (meshRenderer != null) {
-            meshRenderer.material = defaultMaterial;
-        }
-        ColourChanged();
+        meshRenderer = transform.parent.GetComponent<MeshRenderer>();
+        hiddenMaterial = GetHiddenMaterial();
     }
 
     public virtual bool CheckNoIntersections() {

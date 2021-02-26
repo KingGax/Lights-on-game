@@ -29,14 +29,14 @@ public class Spawner : MonoBehaviour {
             Vector3 pos = transform.position
                 + new Vector3(
                     spawnRadius * (Random.value * 2 - 1),
-                    0, 
+                    1, 
                     spawnRadius * (Random.value * 2 - 1)
                 );
             spawnIndex = Random.Range(0, spawnableEntities.Count);
             colIndex = Random.Range(0, enemyColours.Length);
             GameObject entity = PhotonNetwork.Instantiate(spawnableEntities[spawnIndex].name, pos, Quaternion.identity);
             LightableEnemy lightScript = entity.GetComponentInChildren<LightableEnemy>();
-            lightScript.InitialiseEnemy(enemyColours[colIndex]);
+            lightScript.InitialiseEnemy(enemyColours[0]);
             spawnCount++;
         }
     }
