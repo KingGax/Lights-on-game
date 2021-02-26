@@ -36,7 +36,6 @@ public class EnemyController : Enemy {
 
     // Start is called before the first frame update
     void Start() {
-        Debug.Log("yoyoyoyo");
         //SelectTarget();
         StartCoroutine("EnemyTimers");
         agent = GetComponent<NavMeshAgent>();
@@ -45,8 +44,6 @@ public class EnemyController : Enemy {
 
     public override void Awake()
     {
-        
-        Debug.Log("Hello there :)");
         base.Awake();
         if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
             hasPlayerJoined = true;

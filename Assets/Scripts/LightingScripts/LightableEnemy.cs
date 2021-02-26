@@ -19,7 +19,6 @@ public class LightableEnemy : LightableMultiObject {
         transform.parent.SetParent(GlobalValues.Instance.enemyParent.transform);
         colour = newCol;
         SetColour();
-        ColourChanged();
     }
     public void InitialiseEnemy(LightableColour newCol)
     {

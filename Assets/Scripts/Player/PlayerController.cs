@@ -55,6 +55,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     Vector3 dashDirection;
     bool canDash = true;
 
+    bool movementEnabled = true;
+
     #region IPunObservable implementation
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
@@ -74,7 +76,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
             PlayerController.LocalPlayerInstance = this.gameObject;
-            Debug.Log("Henlo");
             GameObject UI = Instantiate(UIElements);
             DontDestroyOnLoad(UI);
             FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
@@ -111,6 +112,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         StartCoroutine("CountdownTimers");
     }
 
+    public void SetMovementEnabled(bool enabled) {
+        movementEnabled = enabled;
+        if (!enabled) {
+            rb.velocity = Vector3.zero;
+        }
+    }
+
     [PunRPC]
     void UpdateLightColour(int newIndex) {
         colourIndex = newIndex;
@@ -130,45 +138,44 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     // Update is called once per frame
     void Update() {
         if (photonView == null || !photonView.IsMine) return;
-        if (fireHeld) {
-            shootBuffer = shootBufferMax;
-        }
-        playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
+        if (movementEnabled) {
+            if (fireHeld) {
+                shootBuffer = shootBufferMax;
+            }
+            playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
 
-        if (dashBuffer > 0) {
-            if (!dashing && canDash) {
-                StartDash();
-            }
-        }
-        //handles looking and shooting
-        if (shootBuffer > 0 && CanShoot()) {
-            Vector3 fireDirection = GetFireDirection();
-            TurnTowards(fireDirection);
-            if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
-                bool didShoop = equiptedWeapon.Use();
-            }
-        } else {
-            if (movement != Vector2.zero) {
-                if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
-                    Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
-                    TurnTowards(moveVector);
+            if (dashBuffer > 0) {
+                if (!dashing && canDash) {
+                    StartDash();
                 }
-                
             }
-        }
-        if (!isTakingKnockback)
-        {
-            if (dashing)
-            {
-                HandleDash();
+            //handles looking and shooting
+            if (shootBuffer > 0 && CanShoot()) {
+                Vector3 fireDirection = GetFireDirection();
+                TurnTowards(fireDirection);
+                if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
+                    bool didShoop = equiptedWeapon.Use();
+                }
             }
-            else
-            {
-                if (photonView.IsMine == true || PhotonNetwork.IsConnected == false)
-                {
-                    Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
-                    moveVector.y = rb.velocity.y;
-                    rb.velocity = moveVector;
+            else {
+                if (movement != Vector2.zero) {
+                    if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
+                        Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+                        TurnTowards(moveVector);
+                    }
+
+                }
+            }
+            if (!isTakingKnockback) {
+                if (dashing) {
+                    HandleDash();
+                }
+                else {
+                    if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
+                        Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+                        moveVector.y = rb.velocity.y;
+                        rb.velocity = moveVector;
+                    }
                 }
             }
         }

@@ -53,6 +53,7 @@ public class LightableObject : MonoBehaviour {
         hiddenMaterial = GetHiddenMaterial();
         SetColour();
         meshRenderer.material = defaultMaterial;
+        GetLightsInRange();
     }
 
     void AssignMaterials() {
@@ -89,9 +90,21 @@ public class LightableObject : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update() {
-
+    void GetLightsInRange() {
+        for (int i = 0; i < GlobalValues.Instance.players.Count; i++) {
+            LightObject currentLantern = GlobalValues.Instance.players[i].GetComponentInChildren<LightObject>();
+            Collider lanternCol = currentLantern.gameObject.GetComponent<Collider>();
+            if (lanternCol != null) {
+                if (physicsBounds.Intersects(lanternCol.bounds)) {
+                    if (!currentLights.Contains(currentLantern)) {
+                        currentLights.Add(currentLantern);
+                    }
+                }
+            }
+            else {
+                Debug.LogError(currentLantern.gameObject);
+            }
+        }
     }
 
     void StartAppearing() {
@@ -141,6 +154,12 @@ public class LightableObject : MonoBehaviour {
             default:
                 break;
         }
+        objectColour = CalculateColour();
+        objectColVector = objectColour;
+        if (meshRenderer != null) {
+            meshRenderer.material = defaultMaterial;
+        }
+        ColourChanged();
     }
 
     public virtual bool CheckNoIntersections() {
@@ -195,10 +214,13 @@ public class LightableObject : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         LightObject newLight = other.GetComponent<LightObject>();
         if (newLight != null) {
-            currentLights.Add(newLight);
+            if (!currentLights.Contains(newLight)) {
+                currentLights.Add(newLight);
+            }
             if (CheckColours(currentLights)) {
                 StartDisappear();
-            } else {
+            }
+            else {
                 StartAppearing();
             }
         }

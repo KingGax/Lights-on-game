@@ -26,7 +26,6 @@ public class Spawner : MonoBehaviour {
     void FixedUpdate() {
         if (pv == null || !pv.IsMine) return;
         if (waveSpawnNumber > spawnCount && Random.value > 0.99) {
-            Debug.Log("spawning");
             Vector3 pos = transform.position
                 + new Vector3(
                     spawnRadius * (Random.value * 2 - 1),
