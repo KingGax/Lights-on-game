@@ -36,7 +36,7 @@ public class Spawner : MonoBehaviour {
             colIndex = Random.Range(0, enemyColours.Length);
             GameObject entity = PhotonNetwork.Instantiate(spawnableEntities[spawnIndex].name, pos, Quaternion.identity);
             LightableEnemy lightScript = entity.GetComponentInChildren<LightableEnemy>();
-            lightScript.InitialiseEnemy(enemyColours[0]);
+            lightScript.InitialiseEnemy(enemyColours[colIndex]);
             spawnCount++;
         }
     }
