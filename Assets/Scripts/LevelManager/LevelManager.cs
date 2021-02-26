@@ -22,13 +22,16 @@ public class LevelManager : MonoBehaviour {
         if (pv == null || !pv.IsMine) spawnScript.enabled = false;
         StartNewWave();
     }
-
+    [PunRPC]
+    public void UnlockDoor() {
+        doorLightable.enabled = true;
+    }
     // Update is called once per frame
     void Update() {
         if (pv == null || !pv.IsMine) return;
         if (allWavesSpawned) {
             if (CountEnemies() == 0) {
-                doorLightable.enabled = true;
+                pv.RPC("OpenDoor", RpcTarget.All);
             }
         }
         else {

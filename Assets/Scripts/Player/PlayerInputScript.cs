@@ -9,6 +9,7 @@ public class PlayerInputScript : MonoBehaviour {
     private PlayerController pc;
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
+    private bool inputEnabled = true;
 
     [DllImport("__Internal")]
     private static extern string getMicInput();
@@ -40,6 +41,14 @@ public class PlayerInputScript : MonoBehaviour {
         
     }
 
+    public void EnableMovement() {
+        inputEnabled = true;
+    }
+
+    public void DisableMovement() {
+        inputEnabled = false;
+    }
+
     private void OnEnable() {
         inputController.Enable();
     }
@@ -49,26 +58,35 @@ public class PlayerInputScript : MonoBehaviour {
     }
 
     void AttackOne(InputAction.CallbackContext ctx) {
-
-        if (ctx.performed) {
-            //performed in this case means released
-            pc.AttackOne(false);
-        } else {
-            pc.AttackOne(true);
+        if (inputEnabled) {
+            if (ctx.performed) {
+                //performed in this case means released
+                pc.AttackOne(false);
+            }
+            else {
+                pc.AttackOne(true);
+            }
         }
     }
 
     void ChangeLight() {
-        pc.ChangeLight();
+        if (inputEnabled) {
+            pc.ChangeLight();
+        }
     }
 
     void Dash(InputAction.CallbackContext ctx) {
-        pc.Dash();
+        if (inputEnabled) {
+            pc.Dash();
+        }
     }
 
     public void OnMovement(InputAction.CallbackContext ctx) {
-        Vector2 newMovementInput = ctx.ReadValue<Vector2>();
-        pc.OnMovement(newMovementInput);
+        if (inputEnabled) {
+            Vector2 newMovementInput = ctx.ReadValue<Vector2>();
+            pc.OnMovement(newMovementInput);
+        }
+        
 
         // Vector3 directionVector = transform.position - new Vector3(newMovementInput.x, 0, newMovementInput.y);
         // transform.LookAt(directionVector);
@@ -82,23 +100,26 @@ public class PlayerInputScript : MonoBehaviour {
     }
     public void VoiceControl(InputAction.CallbackContext ctx)
     {
-        string colour = (string) getMicInput();
-        LanternColour colourEnum = new LanternColour();
-        bool set = false;
-        if (colour == "RED") {
-            colourEnum = LanternColour.Red;
-            set = true;
+        if (inputEnabled) {
+            string colour = (string)getMicInput();
+            LanternColour colourEnum = new LanternColour();
+            bool set = false;
+            if (colour == "RED") {
+                colourEnum = LanternColour.Red;
+                set = true;
+            }
+            else if (colour == "BLUE") {
+                colourEnum = LanternColour.Blue;
+                set = true;
+            }
+            else if (colour == "GREEN") {
+                colourEnum = LanternColour.Green;
+                set = true;
+            }
+            if (set) {
+                pc.ChangeLightToColour(colourEnum);
+            }
         }
-        else if (colour == "BLUE") {
-            colourEnum = LanternColour.Blue;
-            set = true;
-        }
-        else if (colour == "GREEN") {
-            colourEnum = LanternColour.Green;
-            set = true;
-        }
-        if (set)
-            pc.ChangeLightToColour(colourEnum);
     }
 }
 
