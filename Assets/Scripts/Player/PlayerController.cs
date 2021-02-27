@@ -11,6 +11,7 @@ public enum LanternColour {
 }
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnockbackable {
     
+    Vector2 debugVel;
     public float turnSpeed;
     public float moveSpeed;
 
@@ -174,6 +175,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                     if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
                         Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
                         moveVector.y = rb.velocity.y;
+                        debugVel = moveVector;
                         rb.velocity = moveVector;
                     }
                 }

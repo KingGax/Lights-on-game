@@ -145,10 +145,11 @@ public class ChargerEnemyController : Enemy
     }
     
     void ChangeToBackingOff(){
-        Vector3 backOffPos = Vector3.Normalize(gameObject.transform.position - playerObj.transform.position) * backoffThreshold * 2; //backoff in opposite direction of player
+        Vector3 backOffPos = gameObject.transform.position + Vector3.Normalize(gameObject.transform.position - playerObj.transform.position) * backoffThreshold * 2; //backoff in opposite direction of player
         NavMeshHit navmeshPos;
-        if (NavMesh.SamplePosition(backOffPos, out navmeshPos, 1f, NavMesh.AllAreas)){
+        if (NavMesh.SamplePosition(backOffPos, out navmeshPos, 5f, NavMesh.AllAreas)){
             agent.enabled = true;
+            Debug.Log("Navmeshpos: " +navmeshPos.position);
             agent.destination = navmeshPos.position;
             enemyState = EnemyState.Backoff;
         } else {
