@@ -40,7 +40,6 @@ public class FloatingHealthBar : HealthBar
             if (hideTimer > 0) {
                 hideTimer -= Time.deltaTime;
                 if (hideTimer <= 0) {
-                    Debug.Log("Hiding");
                     canvas.enabled = false;
                 }
             }
