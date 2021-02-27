@@ -171,7 +171,8 @@ public class LightableObject : MonoBehaviour {
 
     public virtual bool CheckNoIntersections() {
         physicsBounds.center = transform.parent.position;
-        Collider[] closeColliders = Physics.OverlapSphere(physicsBounds.center, boundingSphereSize, potentialColliders);
+        Collider[] closeColliders = Physics.OverlapSphere(physicsCollider.bounds.center, boundingSphereSize, potentialColliders);
+        Debug.Log("SIZE: "+closeColliders.Length);
         foreach (Collider col in closeColliders) {
             if (physicsCollider.bounds.Intersects(col.bounds)) {
                 return false;
@@ -279,9 +280,10 @@ public class LightableObject : MonoBehaviour {
     }
 
     private void OnDrawGizmos() {
-        if (enabled){
+        if (initialised){
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(physicsCollider.bounds.center, physicsCollider.bounds.size);
+            Gizmos.DrawWireSphere(physicsCollider.bounds.center, boundingSphereSize);
         }
     }
 }
