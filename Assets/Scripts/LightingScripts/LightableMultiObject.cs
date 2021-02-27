@@ -9,11 +9,11 @@ public class LightableMultiObject : LightableObject
     public override void SetColour()
     {
         base.SetColour();
-        if (childObjects != null)
-        {
-            foreach (MeshRenderer mr in childObjects)
-            {
-                mr.material = GetDefaultMaterial();
+        if (initialised) {
+            if (childObjects != null) {
+                foreach (MeshRenderer mr in childObjects) {
+                    mr.material = GetDefaultMaterial();
+                }
             }
         }
     }

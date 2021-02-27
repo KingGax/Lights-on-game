@@ -179,6 +179,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                 }
             }
         }
+        else {
+            if (!isTakingKnockback) {
+                rb.velocity = new Vector3(0,rb.velocity.y,0);
+            }
+        }
     }
 
     void StartDash() {
@@ -281,7 +286,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     private void OnCollisionEnter(Collision other) {
         if((GlobalValues.Instance.environment | (1 << other.gameObject.layer)) == GlobalValues.Instance.environment && isTakingKnockback){
-            Debug.Log("Collided with environment");
             EndKnockback();
         }
     }
