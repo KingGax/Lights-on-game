@@ -29,7 +29,7 @@ public class Spawner : MonoBehaviour {
             Vector3 pos = transform.position
                 + new Vector3(
                     spawnRadius * (Random.value * 2 - 1),
-                    0, 
+                    0.9f, 
                     spawnRadius * (Random.value * 2 - 1)
                 );
             spawnIndex = Random.Range(0, spawnableEntities.Count);

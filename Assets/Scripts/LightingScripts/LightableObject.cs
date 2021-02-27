@@ -18,6 +18,9 @@ public class LightableObject : MonoBehaviour {
     public Material redMat;
     protected Material hiddenMaterial;
     protected Material defaultMaterial;
+    protected bool initialised = false;
+    protected bool disappearOnStart = false;
+
     public float colourRange;
     float invisibleOpacity = 0.1f;
     protected LayerMask potentialColliders;
@@ -44,16 +47,15 @@ public class LightableObject : MonoBehaviour {
         physicsCollider = transform.parent.GetComponent<Collider>();
         potentialColliders = GlobalValues.Instance.reappearPreventionLayers;
         defaultLayer = transform.parent.gameObject.layer;
-        
         physicsBounds = physicsCollider.bounds;
         boundingSphereSize = Mathf.Max(physicsBounds.size.x, physicsBounds.size.y, physicsBounds.size.z);
-        defaultMaterial = meshRenderer.material;
         objectColour = CalculateColour();
         objectColVector = objectColour;
         hiddenMaterial = GetHiddenMaterial();
+        initialised = true;
         SetColour();
-        meshRenderer.material = defaultMaterial;
         GetLightsInRange();
+        ColourChanged();
     }
 
     void AssignMaterials() {
@@ -156,10 +158,9 @@ public class LightableObject : MonoBehaviour {
         }
         objectColour = CalculateColour();
         objectColVector = objectColour;
-        if (meshRenderer != null) {
+        if (initialised) {
             meshRenderer.material = defaultMaterial;
         }
-        ColourChanged();
     }
 
     public virtual bool CheckNoIntersections() {
@@ -236,17 +237,23 @@ public class LightableObject : MonoBehaviour {
         meshRenderer.material = defaultMaterial;
     }
     void StartDisappear() {
-        if (!isHidden) {
-            isHidden = true;
-            appearing = false;
-            CancelInvoke("TryAppear");
-            Disappear();
-        }
+        if (initialised) {
+            if (!isHidden) {
+                isHidden = true;
+                appearing = false;
+                CancelInvoke("TryAppear");
+                Disappear();
+            }
 
-        if (appearing) {
-            appearing = false;
-            CancelInvoke("TryAppear");
+            if (appearing) {
+                appearing = false;
+                CancelInvoke("TryAppear");
+            }
         }
+        else {
+            disappearOnStart = true;
+        }
+        
     }
     void StartAppear() {
         isHidden = false;

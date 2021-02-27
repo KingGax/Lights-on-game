@@ -14,7 +14,6 @@ public sealed class PlayerHealth : Health {
         pc = GetComponent<PlayerController>();
         if (gameObject == GlobalValues.Instance.localPlayerInstance){
             isLocal = true;
-            Debug.Log("Same object");
             hb = GlobalValues.Instance.UIElements.GetComponentInChildren<HealthBar>();
             hb.SetPlayer();
             hb.UpdateMaxHealth(maxHealth);
