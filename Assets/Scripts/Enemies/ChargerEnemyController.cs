@@ -104,7 +104,9 @@ public class ChargerEnemyController : Enemy
     {
         if (playerPositionPoll <= 0)
         {
-            agent.destination = playerObj.transform.position;
+            NavMeshHit destPos;
+            NavMesh.SamplePosition(playerObj.transform.position, out destPos, 2f, NavMesh.AllAreas);
+            agent.destination = destPos.position;
             playerPositionPoll = playerPositionPollMax;
         }
         if (chargeTimer <= 0)

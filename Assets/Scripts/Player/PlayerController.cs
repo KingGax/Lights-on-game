@@ -106,8 +106,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         }
 
         rb = gameObject.GetComponent<Rigidbody>();
-        cameraForward = Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal);
-        cameraRight = Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal);
+        cameraForward = Vector3.Normalize(Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal));
+        cameraRight = Vector3.Normalize(Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal));
         lantern.color = colours[colourIndex];
         
         StartCoroutine("CountdownTimers");
