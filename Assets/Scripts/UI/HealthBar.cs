@@ -6,7 +6,7 @@ public class HealthBar : MonoBehaviour
 {
     private Transform bar;
     //GameObject playerObj;
-    float maxHealth;
+    protected float maxHealth;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +37,7 @@ public class HealthBar : MonoBehaviour
         maxHealth = maxHP;
     }
 
-    public void UpdateHealth(float hp){
+    public virtual void UpdateHealth(float hp){
         if (hp < 0){
             hp = 0;
         }
