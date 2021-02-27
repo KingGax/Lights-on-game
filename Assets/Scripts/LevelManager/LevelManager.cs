@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+public class Wave {
+    public Transform centre;
+    public float spawnRate;
+    public int numEnemies;
+}
+
 public class LevelManager : MonoBehaviour {
     public GameObject door;
     public Spawner spawnScript;
@@ -10,6 +16,9 @@ public class LevelManager : MonoBehaviour {
     public GameObject whiteLight;
     public GameObject magentaLight;
     public List<int> enemyWaveNumbers;
+    public List<Transform> wavePositions;
+    public float spawnRate;
+    public List<Wave> waves;
     private GameObject enemyParent;
     private PhotonView pv;
     private LightableObject doorLightable;
@@ -51,7 +60,11 @@ public class LevelManager : MonoBehaviour {
             allWavesSpawned = true;
         }
         else {
-            spawnScript.StartSpawning(enemyWaveNumbers[currentWaveCounter]);
+            Wave currentWave = new Wave();
+            currentWave.centre = wavePositions[currentWaveCounter];
+            currentWave.numEnemies = enemyWaveNumbers[currentWaveCounter];
+            currentWave.spawnRate = spawnRate;
+            spawnScript.SpawnWave(currentWave);
         }
     }
 
