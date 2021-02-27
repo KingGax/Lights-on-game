@@ -100,7 +100,7 @@ public class LightableObject : MonoBehaviour {
             LightObject currentLantern = GlobalValues.Instance.players[i].GetComponentInChildren<LightObject>();
             Collider lanternCol = currentLantern.gameObject.GetComponent<Collider>();
             if (lanternCol != null) {
-                if (physicsBounds.Intersects(lanternCol.bounds)) {
+                if (physicsCollider.bounds.Intersects(lanternCol.bounds)) {
                     if (!currentLights.Contains(currentLantern)) {
                         currentLights.Add(currentLantern);
                     }
@@ -170,10 +170,10 @@ public class LightableObject : MonoBehaviour {
     }
 
     public virtual bool CheckNoIntersections() {
-        physicsBounds.center = transform.position;
-        Collider[] closeColliders = Physics.OverlapSphere(transform.position, boundingSphereSize, potentialColliders);
+        physicsBounds.center = transform.parent.position;
+        Collider[] closeColliders = Physics.OverlapSphere(physicsBounds.center, boundingSphereSize, potentialColliders);
         foreach (Collider col in closeColliders) {
-            if (physicsBounds.Intersects(col.bounds)) {
+            if (physicsCollider.bounds.Intersects(col.bounds)) {
                 return false;
             }
         }
@@ -275,6 +275,13 @@ public class LightableObject : MonoBehaviour {
             } else {
                 StartAppearing();
             }
+        }
+    }
+
+    private void OnDrawGizmos() {
+        if (enabled){
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(physicsCollider.bounds.center, physicsCollider.bounds.size);
         }
     }
 }
