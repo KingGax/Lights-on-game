@@ -21,7 +21,6 @@ public class FloatingHealthBar : HealthBar
     {
         base.UpdateHealth(hp);
         if (hp != maxHealth){
-            Debug.Log("Showing");
             canvas.enabled = true;
             hideTimer = hideTimerMax;
         }

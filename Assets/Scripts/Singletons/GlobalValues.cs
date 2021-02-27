@@ -23,6 +23,8 @@ public class GlobalValues : MonoBehaviour {
     public Material hiddenYellow;
     public Material hiddenMagenta;
     public Transform respawnPoint;
+    public Transform p1spawn;
+    public Transform p2Spawn;
     public static GlobalValues Instance { get { return _instance; } }
 
     public void AddPlayer(GameObject player) {

@@ -7,6 +7,8 @@ public class LevelManager : MonoBehaviour {
     public GameObject door;
     public Spawner spawnScript;
     public float spawnTime;
+    public GameObject whiteLight;
+    public GameObject magentaLight;
     public List<int> enemyWaveNumbers;
     private GameObject enemyParent;
     private PhotonView pv;
@@ -25,6 +27,8 @@ public class LevelManager : MonoBehaviour {
     [PunRPC]
     public void UnlockDoor() {
         doorLightable.enabled = true;
+        whiteLight.SetActive(false);
+        magentaLight.SetActive(true);
     }
     // Update is called once per frame
     void Update() {

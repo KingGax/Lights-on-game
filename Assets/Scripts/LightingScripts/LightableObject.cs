@@ -16,6 +16,9 @@ public class LightableObject : MonoBehaviour {
     public Material greenMat;
     public Material blueMat;
     public Material redMat;
+    public Material magentaMat;
+    public Material cyanMat;
+    public Material yellowMat;
     protected Material hiddenMaterial;
     protected Material defaultMaterial;
     protected bool initialised = false;
@@ -148,10 +151,13 @@ public class LightableObject : MonoBehaviour {
                 defaultMaterial = blueMat;
                 break;
             case LightableColour.Cyan:
+                defaultMaterial = cyanMat;
                 break;
             case LightableColour.Magenta:
+                defaultMaterial = magentaMat;
                 break;
             case LightableColour.Yellow:
+                defaultMaterial = yellowMat;
                 break;
             default:
                 break;

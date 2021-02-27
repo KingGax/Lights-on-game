@@ -242,6 +242,9 @@ MonoBehaviour:
   greenMat: {fileID: 0}
   blueMat: {fileID: 0}
   redMat: {fileID: 0}
+  magentaMat: {fileID: 0}
+  cyanMat: {fileID: 0}
+  yellowMat: {fileID: 0}
   colourRange: 0
 --- !u!135 &311798201
 SphereCollider:
@@ -464,6 +467,36 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1 &398512010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 398512011}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &398512011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398512010}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 16.11, y: 2.45, z: 6.32}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &561824936
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,7 +563,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1d477de1ee8c7d342b2c244b1cba4853, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -717,6 +750,9 @@ MonoBehaviour:
   greenMat: {fileID: 0}
   blueMat: {fileID: 0}
   redMat: {fileID: 0}
+  magentaMat: {fileID: 0}
+  cyanMat: {fileID: 0}
+  yellowMat: {fileID: 0}
   colourRange: 0
 --- !u!135 &686127795
 SphereCollider:
@@ -1335,7 +1371,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1d477de1ee8c7d342b2c244b1cba4853, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1446,6 +1482,9 @@ MonoBehaviour:
   greenMat: {fileID: 0}
   blueMat: {fileID: 0}
   redMat: {fileID: 0}
+  magentaMat: {fileID: 0}
+  cyanMat: {fileID: 0}
+  yellowMat: {fileID: 0}
   colourRange: 0
 --- !u!135 &1121496908
 SphereCollider:
@@ -1522,6 +1561,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1970930420014976211, guid: ed6bf0faa10a4a042a52401007fa7703,
+        type: 3}
+      propertyPath: p1spawn
+      value: 
+      objectReference: {fileID: 398512011}
+    - target: {fileID: 1970930420014976211, guid: ed6bf0faa10a4a042a52401007fa7703,
+        type: 3}
+      propertyPath: p2Spawn
+      value: 
+      objectReference: {fileID: 398512011}
     - target: {fileID: 1970930420014976211, guid: ed6bf0faa10a4a042a52401007fa7703,
         type: 3}
       propertyPath: enemyParent
@@ -1677,6 +1726,8 @@ MonoBehaviour:
   door: {fileID: 5725700342993863819}
   spawnScript: {fileID: 764977260}
   spawnTime: 20
+  whiteLight: {fileID: 0}
+  magentaLight: {fileID: 0}
   enemyWaveNumbers: 0a0000000a000000
 --- !u!114 &1417291384
 MonoBehaviour:
