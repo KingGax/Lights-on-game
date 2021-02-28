@@ -159,11 +159,17 @@ public class EnemyController : Enemy {
                     //Debug.Log("Reacting!");
                     ChangeToGettingLOS();
                 } else {
+                    Vector3 playerDirection = playerObj.transform.position - transform.position;
+                    playerDirection.y = 0f;
+                    TurnTowards(playerDirection);
                     if (weapon.Use()) {
                         shootingTimer -= missedShotReduction;
                     }
                 }
             } else {
+                Vector3 playerDirection = playerObj.transform.position - transform.position;
+                playerDirection.y = 0f;
+                TurnTowards(playerDirection);
                 if (weapon.Use()) {
                     shootingTimer -= missedShotReduction;
                 }
