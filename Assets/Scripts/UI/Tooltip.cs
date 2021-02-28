@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 
 public enum TooltipOrientation {
-    X, Z, Camera
+    X, Z, Camera, CameraPlane
 }
 
 [System.Serializable]
@@ -51,9 +51,14 @@ public class Tooltip : MonoBehaviour {
                 case TooltipOrientation.Z:
                     transform.right = Vector3.left;
                     break;
+                case TooltipOrientation.CameraPlane:
+                    transform.rotation = Camera.main.transform.rotation;
+                    break;
                 case TooltipOrientation.Camera:
                 default:
-                    transform.rotation = Camera.main.transform.rotation;
+                    Vector3 angle = new Vector3(0.0f, 1.0f, 1.0f);
+                    angle.Scale(Camera.main.transform.eulerAngles);
+                    transform.eulerAngles = angle;
                     break;
             }
         }
