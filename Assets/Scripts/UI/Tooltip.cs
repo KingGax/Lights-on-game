@@ -28,6 +28,10 @@ public class Tooltip : MonoBehaviour {
             + new Vector3(0.0f, 0.01f * Mathf.Sin(t), 0.0f);
     }
 
+    public void Dismiss() {
+        gameObject.SetActive(false);
+    }
+
     public string Text {
         get {return text;}
         set {

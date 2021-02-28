@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour {
     public float spawnTime;
     public GameObject whiteLight;
     public GameObject magentaLight;
+    public GameObject EndTooltip;
     public List<int> enemyWaveNumbers;
     public List<Transform> wavePositions;
     public float spawnRate;
@@ -25,7 +26,7 @@ public class LevelManager : MonoBehaviour {
     private bool allEnemiesSpawned = false;
     private bool allWavesSpawned = false;
     private int currentWaveCounter = -1;
-    // Start is called before the first frame update
+
     void Start() {
         enemyParent = GlobalValues.Instance.enemyParent;
         pv = gameObject.GetPhotonView();
@@ -33,13 +34,15 @@ public class LevelManager : MonoBehaviour {
         if (pv == null || !pv.IsMine) spawnScript.enabled = false;
         StartNewWave();
     }
+
     [PunRPC]
     public void UnlockDoor() {
         doorLightable.enabled = true;
         whiteLight.SetActive(false);
         magentaLight.SetActive(true);
+        EndTooltip.SetActive(false);
     }
-    // Update is called once per frame
+
     void Update() {
         if (pv == null || !pv.IsMine) return;
         if (allWavesSpawned) {
@@ -52,6 +55,16 @@ public class LevelManager : MonoBehaviour {
                 StartNewWave();
             }
         }
+
+        UpdateEndGameTooltip();
+    }
+
+    private void UpdateEndGameTooltip() {
+        int left = CountEnemies();
+        for (int i = currentWaveCounter; i < enemyWaveNumbers.Count; i++)
+            left += enemyWaveNumbers[i];
+        Tooltip t = EndTooltip.GetComponent<Tooltip>();
+        t.Text = "Kill " + left + " more enemies";
     }
 
     void StartNewWave() {

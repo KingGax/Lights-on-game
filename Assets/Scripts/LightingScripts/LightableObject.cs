@@ -227,10 +227,10 @@ public class LightableObject : MonoBehaviour {
             if (!currentLights.Contains(newLight)) {
                 currentLights.Add(newLight);
             }
+
             if (CheckColours(currentLights)) {
                 StartDisappear();
-            }
-            else {
+            } else {
                 StartAppearing();
             }
         }
@@ -241,6 +241,12 @@ public class LightableObject : MonoBehaviour {
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         }
         transform.parent.gameObject.layer = hiddenLayer;
+
+        Tooltip[] tooltips = GetComponentsInChildren<Tooltip>();
+        Debug.Log(tooltips);
+        foreach (Tooltip t in tooltips) {
+            t.Dismiss();
+        }
     }
     public virtual void Appear() {
         if (!overrideMeshRenderer) {
