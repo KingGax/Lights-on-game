@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightableMultiObject : LightableObject
 {
-    public List<MeshRenderer> childObjects = null;
+    public List<MeshRenderer> childObjects;
     // Start is called before the first frame update
     public override void SetColour()
     {
