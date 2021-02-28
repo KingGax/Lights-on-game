@@ -23,6 +23,7 @@ public class LightableObject : MonoBehaviour {
     protected Material defaultMaterial;
     protected bool initialised = false;
     protected bool disappearOnStart = false;
+    protected bool overrideMeshRenderer = false;
 
     public float colourRange;
     float invisibleOpacity = 0.1f;
@@ -44,9 +45,11 @@ public class LightableObject : MonoBehaviour {
         hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
     }
 
-    void Start() {
+    public virtual void Start() {
         AssignMaterials();
-        meshRenderer = transform.parent.GetComponent<MeshRenderer>();
+        if (!overrideMeshRenderer) {
+            meshRenderer = transform.parent.GetComponent<MeshRenderer>();
+        }
         physicsCollider = transform.parent.GetComponent<Collider>();
         potentialColliders = GlobalValues.Instance.reappearPreventionLayers;
         defaultLayer = transform.parent.gameObject.layer;
@@ -164,7 +167,7 @@ public class LightableObject : MonoBehaviour {
         }
         objectColour = CalculateColour();
         objectColVector = objectColour;
-        if (initialised) {
+        if (initialised && !overrideMeshRenderer) {
             meshRenderer.material = defaultMaterial;
         }
     }
@@ -233,14 +236,18 @@ public class LightableObject : MonoBehaviour {
         }
     }
     public virtual void Disappear() {
-        meshRenderer.material = hiddenMaterial;
-        meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        if (!overrideMeshRenderer) {
+            meshRenderer.material = hiddenMaterial;
+            meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        }
         transform.parent.gameObject.layer = hiddenLayer;
     }
     public virtual void Appear() {
+        if (!overrideMeshRenderer) {
+            meshRenderer.material = defaultMaterial;
+            meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        }
         transform.parent.gameObject.layer = defaultLayer;
-        meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        meshRenderer.material = defaultMaterial;
     }
     void StartDisappear() {
         if (initialised) {
