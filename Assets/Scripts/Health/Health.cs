@@ -2,8 +2,7 @@ using UnityEngine;
 using Photon.Pun;
 
 [RequireComponent(typeof(PhotonView))]
-public class Health : MonoBehaviour
-{
+public class Health : MonoBehaviour {
 
     protected PhotonView pv;
     public float maxHealth;
@@ -27,13 +26,11 @@ public class Health : MonoBehaviour
         }
     }
 
-    public virtual void Damage(float damage)
-    {
+    public virtual void Damage(float damage) {
         pv.RPC("DamageRPC", RpcTarget.All, damage);
     }
 
-    public virtual void Die()
-    {
+    public virtual void Die() {
         PhotonNetwork.Destroy(gameObject);
     }
 }
