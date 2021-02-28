@@ -170,7 +170,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4287030202041923436}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0.78, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 8546262202554776896}
@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 9194524919315727875}
   - component: {fileID: 5636378067088575446}
   - component: {fileID: 1190101445801739025}
+  - component: {fileID: 2355284030261934858}
   m_Layer: 8
   m_Name: drone
   m_TagString: Untagged
@@ -260,8 +261,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.1350517, y: 4.081516, z: 2.6638107}
-  m_Center: {x: 0.005044937, y: 0.6369746, z: -0.1340065}
+  m_Size: {x: 2.1350517, y: 4.66, z: 2.6638107}
+  m_Center: {x: 0.005044937, y: 1.1470184, z: -0.1340065}
 --- !u!114 &9194524919315727873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,7 +295,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8311650822870514527}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1.39
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -303,8 +304,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
+  m_Height: 3.78
+  m_BaseOffset: 1.7
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &9194524919315727875
@@ -359,6 +360,25 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!95 &2355284030261934858
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8311650822870514527}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 03d897cc5c52f8a4185375cb9d205e34, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &9194524919312865886
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +389,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9194524919312865887}
   - component: {fileID: 9194524919312865872}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -627,7 +647,7 @@ PrefabInstance:
     - target: {fileID: 3722189260546445311, guid: d7d85aa0cc0397e46b49d91ec9495975,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.7
+      value: 3.97
       objectReference: {fileID: 0}
     - target: {fileID: 3722189260546445311, guid: d7d85aa0cc0397e46b49d91ec9495975,
         type: 3}
