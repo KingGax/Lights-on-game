@@ -1,17 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class WinScript : MonoBehaviour
-{
+public class WinScript : MonoBehaviour {
     int playerLayer;
     private void Start() {
         playerLayer = LayerMask.NameToLayer("Player");
     }
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.layer == playerLayer) {
-            //TODO implement win popup
-            Debug.Log("Win popup");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }
