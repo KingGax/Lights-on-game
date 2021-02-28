@@ -7,11 +7,6 @@ public class HealthBar : MonoBehaviour
     private Transform bar;
     //GameObject playerObj;
     protected float maxHealth;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     private void Awake() {
         bar = transform.Find("Bar");
@@ -27,18 +22,12 @@ public class HealthBar : MonoBehaviour
         //playerObj = GlobalValues.Instance.localPlayerInstance;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void UpdateMaxHealth(float maxHP){
+    public void UpdateMaxHealth(float maxHP) {
         maxHealth = maxHP;
     }
 
-    public virtual void UpdateHealth(float hp){
-        if (hp < 0){
+    public virtual void UpdateHealth(float hp) {
+        if (hp < 0) {
             hp = 0;
         }
         bar.localScale = new Vector3(hp/maxHealth, 1f);

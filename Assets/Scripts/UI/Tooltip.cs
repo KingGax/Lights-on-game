@@ -40,7 +40,6 @@ public class Tooltip : MonoBehaviour {
         }
     }
 
-
     public TooltipOrientation Orientation{
         get {return orientation;}
         set {
