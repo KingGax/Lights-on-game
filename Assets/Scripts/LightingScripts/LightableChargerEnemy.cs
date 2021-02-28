@@ -2,34 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightableRangedEnemy : LightableEnemy
+public class LightableChargerEnemy : LightableEnemy
 {
     public SkinnedMeshRenderer smr;
-    public EnemyGun gunScript;
-    private Animator anim;
+    Animator animator;
 
     public override void Start() {
         overrideMeshRenderer = true;
-        anim = transform.parent.GetComponent<Animator>();
+        animator = transform.parent.GetComponent<Animator>();
         base.Start();
     }
     public override void SetColour()
     {
         base.SetColour();
-        gunScript.SetColour(colour);
         if (initialised) {
             smr.material = defaultMaterial;
         }
     }
 
     public override void Disappear() {
-        anim.speed = 0;
+        animator.speed = 0f;
         smr.material = hiddenMaterial;
         smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         base.Disappear();
     }
     public override void Appear() {
-        anim.speed = 1;
+        animator.speed = 1f;
         smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         smr.material = defaultMaterial;
         base.Appear();
