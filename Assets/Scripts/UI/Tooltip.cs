@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 using TMPro;
 
 public enum TooltipOrientation {
@@ -7,6 +8,7 @@ public enum TooltipOrientation {
 }
 
 [System.Serializable]
+[RequireComponent(typeof(PhotonView))]
 public class Tooltip : MonoBehaviour {
 
     [SerializeField]
@@ -32,15 +34,21 @@ public class Tooltip : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
+
+    [PunRPC]
+    protected void SetTextRPC(string text) {
+        TextMeshProUGUI label = GetComponentInChildren<TextMeshProUGUI>();
+        label.text = text;
+
+        RectTransform canvas = GetComponentInChildren<RectTransform>();
+        canvas.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (16 * text.Length) + 64);
+    }
+
     public string Text {
         get {return text;}
         set {
             text = value;
-            TextMeshProUGUI label = GetComponentInChildren<TextMeshProUGUI>();
-            label.text = text;
-
-            RectTransform canvas = GetComponentInChildren<RectTransform>();
-            canvas.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (16 * text.Length) + 64);
+            pv.RPC("SetTextRPC", RpcTarget.All, text);
         }
     }
 

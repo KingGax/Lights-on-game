@@ -64,7 +64,7 @@ public class LevelManager : MonoBehaviour {
         for (int i = currentWaveCounter; i < enemyWaveNumbers.Count; i++)
             left += enemyWaveNumbers[i];
         Tooltip t = EndTooltip.GetComponent<Tooltip>();
-        t.Text = "Kill " + left + " more enemies";
+        t.Text = "Defeat " + left + " more enemies";
     }
 
     void StartNewWave() {
