@@ -20,6 +20,7 @@ public class Tooltip : MonoBehaviour {
     protected PhotonView pv;
 
     public void Awake() {
+        pv = gameObject.GetComponent<PhotonView>();
         target = transform;
         Text = text;
         Orientation = orientation;
