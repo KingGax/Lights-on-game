@@ -43,7 +43,7 @@ public class Tooltip : MonoBehaviour {
         label.text = text;
 
         RectTransform canvas = GetComponentInChildren<RectTransform>();
-        canvas.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (16 * text.Length) + 64);
+        canvas.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (18 * text.Length) + 64);
     }
 
     public string Text {
