@@ -32,6 +32,10 @@ public class Tooltip : MonoBehaviour {
             + new Vector3(0.0f, 0.01f * Mathf.Sin(t), 0.0f);
     }
 
+    public void Open() {
+        gameObject.SetActive(true);
+    }
+
     public void Dismiss() {
         gameObject.SetActive(false);
     }
@@ -43,7 +47,7 @@ public class Tooltip : MonoBehaviour {
         label.text = text;
 
         RectTransform canvas = GetComponentInChildren<RectTransform>();
-        canvas.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (18 * text.Length) + 64);
+        canvas.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (20 * text.Length) + 64);
     }
 
     public string Text {
