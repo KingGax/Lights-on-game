@@ -17,6 +17,7 @@ public class Tooltip : MonoBehaviour {
     private TooltipOrientation orientation;
     private Transform target;
     private float t;
+    protected PhotonView pv;
 
     public void Awake() {
         target = transform;

@@ -9,13 +9,11 @@ public class Health : MonoBehaviour
     public float maxHealth;
     protected float health;
 
-    public virtual void Awake()
-    {
+    public virtual void Awake() {
         pv = gameObject.GetComponent<PhotonView>();
     }
 
-    public virtual void Start()
-    {
+    public virtual void Start() {
         health = maxHealth;
     }
 
