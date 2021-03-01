@@ -235,6 +235,7 @@ public class LightableObject : MonoBehaviour {
             }
         }
     }
+
     public virtual void Disappear() {
         if (!overrideMeshRenderer) {
             meshRenderer.material = hiddenMaterial;
@@ -243,18 +244,29 @@ public class LightableObject : MonoBehaviour {
         transform.parent.gameObject.layer = hiddenLayer;
 
         Tooltip[] tooltips = GetComponentsInChildren<Tooltip>();
-        Debug.Log(tooltips);
         foreach (Tooltip t in tooltips) {
             t.Dismiss();
         }
+
+        Light[] lights = GetComponentsInChildren<Light>();
+        foreach (Light l in lights) {
+            l.enabled = false;
+        }
     }
+
     public virtual void Appear() {
         if (!overrideMeshRenderer) {
             meshRenderer.material = defaultMaterial;
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         }
         transform.parent.gameObject.layer = defaultLayer;
+
+        Light[] lights = GetComponentsInChildren<Light>();
+        foreach (Light l in lights) {
+            l.enabled = true;
+        }
     }
+
     void StartDisappear() {
         if (initialised) {
             if (!isHidden) {
