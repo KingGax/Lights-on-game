@@ -26,8 +26,8 @@ public class Tooltip : MonoBehaviour {
         Orientation = orientation;
     }
 
-    public void Update() {
-        t += Time.deltaTime;
+    public void FixedUpdate() {
+        t += Time.fixedDeltaTime;
         transform.position = target.position
             + new Vector3(0.0f, 0.01f * Mathf.Sin(t), 0.0f);
     }
