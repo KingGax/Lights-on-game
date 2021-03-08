@@ -6,7 +6,6 @@ using System;
 [RequireComponent(typeof(Light))]
 [RequireComponent(typeof(SphereCollider))]
 public class LightObject : MonoBehaviour {
-    // Start is called before the first frame update
 
     public Color colour;
     public LightableColour colour1;
@@ -19,7 +18,7 @@ public class LightObject : MonoBehaviour {
         colour1 = LightableColour.Red;
     }
 
-    void Start() {
+    public void Start() {
         playerLantern = GetComponent<Light>();
         colour = playerLantern.color;
         sphere = GetComponent<SphereCollider>();
@@ -28,8 +27,7 @@ public class LightObject : MonoBehaviour {
         lightLayer = 1 << LayerMask.NameToLayer("LightingHitboxes");
     }
 
-    // Update is called once per frame
-    void Update() {
+    public void Update() {
         playerLantern = GetComponent<Light>();
         sphere = GetComponent<SphereCollider>();
         lightRange = playerLantern.range;
