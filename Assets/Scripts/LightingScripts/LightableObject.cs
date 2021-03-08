@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum LightableColour {
-    Red,
-    Green,
-    Blue,
-    Cyan,
-    Magenta,
-    Yellow,
-}
-
 public class LightableObject : MonoBehaviour {
+
     public LightableColour colour;
+
     public Material greenMat;
     public Material blueMat;
     public Material redMat;
@@ -21,6 +14,7 @@ public class LightableObject : MonoBehaviour {
     public Material yellowMat;
     protected Material hiddenMaterial;
     protected Material defaultMaterial;
+
     protected bool initialised = false;
     protected bool disappearOnStart = false;
     protected bool overrideMeshRenderer = false;
@@ -38,8 +32,8 @@ public class LightableObject : MonoBehaviour {
     Vector4 objectColVector;
 
     bool distCheckThisFrame = false;
-    float lightAlwaysConsideredDist = 1f;
-    float lightOverpowerRatio = 2f;
+    float lightAlwaysConsideredDist = 2f;
+    float lightOverpowerRatio = 1.4f;
 
     List<LightObject> currentLights = new List<LightObject>();
     MeshRenderer meshRenderer;
@@ -245,22 +239,7 @@ public class LightableObject : MonoBehaviour {
     }
 
     Color CalculateColour() {
-        switch (colour) {
-            case LightableColour.Red:
-                return new Color(1, 0, 0);
-            case LightableColour.Green:
-                return new Color(0, 1, 0);
-            case LightableColour.Blue:
-                return new Color(0, 0, 1);
-            case LightableColour.Cyan:
-                return new Color(0, 1, 1);
-            case LightableColour.Magenta:
-                return new Color(1, 0, 1);
-            case LightableColour.Yellow:
-                return new Color(1, 1, 0);
-            default:
-                return new Color(1, 0, 0); ;
-        }
+        return colour.ToColor();
     }
 
     void OnTriggerEnter(Collider other) {
