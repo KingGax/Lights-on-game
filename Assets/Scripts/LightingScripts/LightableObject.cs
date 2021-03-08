@@ -37,6 +37,10 @@ public class LightableObject : MonoBehaviour {
     Color objectColour;
     Vector4 objectColVector;
 
+    bool distCheckThisFrame = false;
+    float lightAlwaysConsideredDist = 1f;
+    float lightOverpowerRatio = 2f;
+
     List<LightObject> currentLights = new List<LightObject>();
     MeshRenderer meshRenderer;
     Collider physicsCollider;
@@ -62,6 +66,19 @@ public class LightableObject : MonoBehaviour {
         SetColour();
         GetLightsInRange();
         ColourChanged();
+    }
+    private void FixedUpdate() {
+        if (distCheckThisFrame) {
+            if (currentLights.Count > 0) {
+                if (ColourCheckWithDistance()) {
+                    StartDisappear();
+                }
+                else {
+                    StartAppearing();
+                }
+            }
+        }
+        distCheckThisFrame = !distCheckThisFrame;
     }
 
     void AssignMaterials() {
@@ -129,11 +146,37 @@ public class LightableObject : MonoBehaviour {
             appearing = false;
         }
     }
+    private bool ColourCheckWithDistance() {
+        if (currentLights.Count == 0) {
+            return false;
+        }
+        float closestLight = float.MaxValue;
+        Vector4 lightColour = new Vector4(0, 0, 0, 1f);
+        foreach (LightObject lo in currentLights) {
+            float dist = Vector3.Distance(transform.position, lo.gameObject.transform.position);
+            if (closestLight > dist) {
+                closestLight = dist;
+            }
+        }
+        foreach (LightObject lo in currentLights) {
+            float dist = Vector3.Distance(transform.position, lo.gameObject.transform.position);
+            if (dist < lightAlwaysConsideredDist || dist < lightOverpowerRatio * closestLight) {
+                lightColour += (Vector4)lo.colour;
+            }
+        }
+        lightColour = new Vector4(Mathf.Clamp(lightColour.x, 0.0f, 1.0f), Mathf.Clamp(lightColour.y, 0.0f, 1.0f), Mathf.Clamp(lightColour.z, 0.0f, 1.0f), 1.0f);
+
+        Vector4 lightColVector = lightColour;
+        Vector4 colourDif = lightColVector - objectColVector;
+        return colourDif.magnitude <= colourRange;
+        
+    }
 
     public void ColourChanged() {
         if (CheckColours(currentLights)) {
             StartDisappear();
-        } else {
+        }
+        else {
             StartAppearing();
         }
     }
@@ -197,7 +240,6 @@ public class LightableObject : MonoBehaviour {
         lightColour = new Vector4(Mathf.Clamp(lightColour.x, 0.0f, 1.0f), Mathf.Clamp(lightColour.y, 0.0f, 1.0f), Mathf.Clamp(lightColour.z, 0.0f, 1.0f), 1.0f);
 
         Vector4 lightColVector = lightColour;
-        Vector4 objectColour = lightColour;
         Vector4 colourDif = lightColVector - objectColVector;
         return colourDif.magnitude <= colourRange;
     }
@@ -230,7 +272,8 @@ public class LightableObject : MonoBehaviour {
 
             if (CheckColours(currentLights)) {
                 StartDisappear();
-            } else {
+            }
+            else {
                 StartAppearing();
             }
         }
@@ -260,7 +303,7 @@ public class LightableObject : MonoBehaviour {
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         }
         transform.parent.gameObject.layer = defaultLayer;
-
+        //move for optimisation at some point
         Light[] lights = GetComponentsInChildren<Light>();
         foreach (Light l in lights) {
             l.enabled = true;
@@ -284,7 +327,7 @@ public class LightableObject : MonoBehaviour {
         else {
             disappearOnStart = true;
         }
-        
+
     }
     void StartAppear() {
         isHidden = false;
@@ -297,14 +340,15 @@ public class LightableObject : MonoBehaviour {
             currentLights.Remove(newLight);
             if (CheckColours(currentLights)) {
                 StartDisappear();
-            } else {
+            }
+            else {
                 StartAppearing();
             }
         }
     }
 
     private void OnDrawGizmos() {
-        if (initialised){
+        if (initialised) {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(physicsCollider.bounds.center, physicsCollider.bounds.size);
             Gizmos.DrawWireSphere(physicsCollider.bounds.center, boundingSphereSize);
