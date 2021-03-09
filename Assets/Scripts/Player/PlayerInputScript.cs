@@ -12,7 +12,7 @@ public class PlayerInputScript : MonoBehaviour {
     private bool inputEnabled = true;
 
     [DllImport("__Internal")]
-    private static extern string getMicInput();
+    private static extern string startRecogniser();
 
     void Awake() {
         inputController = new PlayerInputs();
@@ -102,24 +102,7 @@ public class PlayerInputScript : MonoBehaviour {
     public void VoiceControl(InputAction.CallbackContext ctx)
     {
         if (inputEnabled) {
-            string colour = (string)getMicInput();
-            LanternColour colourEnum = new LanternColour();
-            bool set = false;
-            if (colour == "RED") {
-                colourEnum = LanternColour.Red;
-                set = true;
-            }
-            else if (colour == "BLUE") {
-                colourEnum = LanternColour.Blue;
-                set = true;
-            }
-            else if (colour == "GREEN") {
-                colourEnum = LanternColour.Green;
-                set = true;
-            }
-            if (set) {
-                pc.ChangeLightToColour(colourEnum);
-            }
+            startRecogniser();
         }
     }
 }
