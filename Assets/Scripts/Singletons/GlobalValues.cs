@@ -10,6 +10,7 @@ public class GlobalValues : MonoBehaviour {
     public LayerMask environment;
     public LayerMask playerLayer;
     public GameObject enemyParent;
+    public GameObject enemyContainers;
     public List<GameObject> players;
     public GameObject localPlayerInstance;
     public GameObject UIElements; 
@@ -25,6 +26,7 @@ public class GlobalValues : MonoBehaviour {
     public Transform respawnPoint;
     public Transform p1spawn;
     public Transform p2Spawn;
+    
     public static GlobalValues Instance { get { return _instance; } }
 
     public void AddPlayer(GameObject player) {
