@@ -12,7 +12,7 @@ public class PlayerInputScript : MonoBehaviour {
     private bool inputEnabled = true;
 
     [DllImport("__Internal")]
-    private static extern string startRecogniser();
+    private static extern void startRecogniser();
 
     void Awake() {
         inputController = new PlayerInputs();
