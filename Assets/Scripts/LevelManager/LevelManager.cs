@@ -25,13 +25,14 @@ public class LevelManager : MonoBehaviour {
     private LightableObject doorLightable;
     private bool allEnemiesSpawned = false;
     private bool allWavesSpawned = false;
+    bool doorUnlocked = false;
     private int currentWaveCounter = -1;
     public int NumberOfWaves;
+    public LightableExitDoor exit;
 
     void Start() {
         enemyParent = GlobalValues.Instance.enemyParent;
         pv = gameObject.GetPhotonView();
-        doorLightable = door.GetComponentInChildren<LightableObject>();
         if (pv == null || !pv.IsMine) spawnScript.enabled = false;
         spawnScript.Initialise();
         StartNewSetWave();
@@ -39,9 +40,7 @@ public class LevelManager : MonoBehaviour {
 
     [PunRPC]
     public void UnlockDoor() {
-        doorLightable.enabled = true;
-        whiteLight.SetActive(false);
-        magentaLight.SetActive(true);
+        exit.UnlockDoor();
         EndTooltip.SetActive(false);
     }
 
@@ -49,7 +48,10 @@ public class LevelManager : MonoBehaviour {
         if (pv == null || !pv.IsMine) return;
         if (allWavesSpawned) {
             if (CountEnemies() == 0) {
-                pv.RPC("UnlockDoor", RpcTarget.All);
+                if (!doorUnlocked) {
+                    pv.RPC("UnlockDoor", RpcTarget.All);
+                    doorUnlocked = true;
+                }
             }
         }
         else {

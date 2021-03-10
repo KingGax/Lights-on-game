@@ -188,6 +188,7 @@ MonoBehaviour:
   magentaMat: {fileID: 0}
   cyanMat: {fileID: 0}
   yellowMat: {fileID: 0}
+  whiteMat: {fileID: 0}
   colourRange: 0
   obstacle: {fileID: 454776689}
 --- !u!1 &34025196
@@ -424,6 +425,7 @@ MonoBehaviour:
   magentaMat: {fileID: 0}
   cyanMat: {fileID: 0}
   yellowMat: {fileID: 0}
+  whiteMat: {fileID: 0}
   colourRange: 0
   obstacle: {fileID: 205346894}
 --- !u!65 &101785446
@@ -2364,6 +2366,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChargerContainer (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: 39c085ce05e1a9f44848b03c0476417b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39c085ce05e1a9f44848b03c0476417b, type: 3}
 --- !u!4 &477594450 stripped
@@ -2546,6 +2553,7 @@ MonoBehaviour:
   magentaMat: {fileID: 0}
   cyanMat: {fileID: 0}
   yellowMat: {fileID: 0}
+  whiteMat: {fileID: 0}
   colourRange: 0
 --- !u!1 &578354829
 GameObject:
@@ -2749,6 +2757,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DroneContainer (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: 4fda38e040f3e8e429db477bcf003469,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fda38e040f3e8e429db477bcf003469, type: 3}
@@ -3201,6 +3214,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DroneContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: 4fda38e040f3e8e429db477bcf003469,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fda38e040f3e8e429db477bcf003469, type: 3}
 --- !u!4 &645397743 stripped
@@ -3574,6 +3592,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChargerContainer (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: 39c085ce05e1a9f44848b03c0476417b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39c085ce05e1a9f44848b03c0476417b, type: 3}
 --- !u!4 &706459561 stripped
@@ -3669,6 +3692,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChargerContainer (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: 39c085ce05e1a9f44848b03c0476417b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39c085ce05e1a9f44848b03c0476417b, type: 3}
 --- !u!4 &716782435 stripped
@@ -3728,6 +3756,7 @@ MonoBehaviour:
   magentaMat: {fileID: 0}
   cyanMat: {fileID: 0}
   yellowMat: {fileID: 0}
+  whiteMat: {fileID: 0}
   colourRange: 0
   obstacle: {fileID: 1785580887}
 --- !u!65 &737588453
@@ -4047,6 +4076,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SwordContainer (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: cf146451b3921d842a24fbba0da3f3d5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6142996503421708880, guid: cf146451b3921d842a24fbba0da3f3d5,
         type: 3}
@@ -4819,6 +4853,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChargerContainer (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: 39c085ce05e1a9f44848b03c0476417b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39c085ce05e1a9f44848b03c0476417b, type: 3}
 --- !u!4 &1122409138 stripped
@@ -4869,6 +4908,7 @@ MonoBehaviour:
   - {fileID: 1665734105}
   spawnRate: 3
   NumberOfWaves: 0
+  exit: {fileID: 1722787189}
 --- !u!114 &1135315294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6131,6 +6171,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SwordContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: cf146451b3921d842a24fbba0da3f3d5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6142996503421708880, guid: cf146451b3921d842a24fbba0da3f3d5,
         type: 3}
       propertyPath: viewIdField
@@ -6541,6 +6586,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ChargerContainer (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: 39c085ce05e1a9f44848b03c0476417b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39c085ce05e1a9f44848b03c0476417b, type: 3}
@@ -7062,6 +7112,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChargerContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: 39c085ce05e1a9f44848b03c0476417b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39c085ce05e1a9f44848b03c0476417b, type: 3}
 --- !u!4 &1527707856 stripped
@@ -7494,6 +7549,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DroneContainer (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: 4fda38e040f3e8e429db477bcf003469,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fda38e040f3e8e429db477bcf003469, type: 3}
 --- !u!4 &1682162742 stripped
@@ -7620,8 +7680,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1722787186}
-  - component: {fileID: 1722787187}
   - component: {fileID: 1722787188}
+  - component: {fileID: 1722787189}
   m_Layer: 6
   m_Name: LightHitboxes
   m_TagString: Untagged
@@ -7644,26 +7704,6 @@ Transform:
   m_Father: {fileID: 472720615}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1722787187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722787185}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17c74faceb25f0845bbab2d313c95b0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colour: 16711935
-  greenMat: {fileID: 0}
-  blueMat: {fileID: 0}
-  redMat: {fileID: 0}
-  magentaMat: {fileID: 2100000, guid: f56d32d07fa644a48ab4a5b4aaabc27a, type: 2}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  colourRange: 0
 --- !u!65 &1722787188
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7677,6 +7717,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.059224032, y: 0.0020673368, z: 0.06686394}
   m_Center: {x: -0.10024594, y: -0.00006446855, z: 0.033797763}
+--- !u!114 &1722787189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722787185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0055e5c7fc72cfc4daea402b9c360ef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colour: 16777215
+  greenMat: {fileID: 2100000, guid: afc2ec69a46b3c248823d104ac7e10f5, type: 2}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
+  magentaMat: {fileID: 2100000, guid: f56d32d07fa644a48ab4a5b4aaabc27a, type: 2}
+  cyanMat: {fileID: 0}
+  yellowMat: {fileID: 0}
+  whiteMat: {fileID: 2100000, guid: efd7b376bfc7c5f42974e7cb105717ff, type: 2}
+  colourRange: 0
+  lockedLight: {fileID: 872588028}
+  unlockedLight: {fileID: 1868030326}
+  unlockedColour: 16711935
 --- !u!1 &1754514643
 GameObject:
   m_ObjectHideFlags: 0
@@ -8502,6 +8566,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DroneContainer (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: 4fda38e040f3e8e429db477bcf003469,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fda38e040f3e8e429db477bcf003469, type: 3}
 --- !u!4 &1911341572 stripped
@@ -8992,6 +9061,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SwordContainer (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: cf146451b3921d842a24fbba0da3f3d5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6142996503421708880, guid: cf146451b3921d842a24fbba0da3f3d5,
         type: 3}
       propertyPath: viewIdField
@@ -9209,6 +9283,7 @@ MonoBehaviour:
   magentaMat: {fileID: 0}
   cyanMat: {fileID: 0}
   yellowMat: {fileID: 0}
+  whiteMat: {fileID: 0}
   colourRange: 0
 --- !u!65 &2065118018
 BoxCollider:
@@ -9299,6 +9374,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DroneContainer (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5892014322323212500, guid: 4fda38e040f3e8e429db477bcf003469,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fda38e040f3e8e429db477bcf003469, type: 3}
