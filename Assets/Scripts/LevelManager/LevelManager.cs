@@ -29,12 +29,19 @@ public class LevelManager : MonoBehaviour {
     private int currentWaveCounter = -1;
     public int NumberOfWaves;
     public LightableExitDoor exit;
+    public List<LightableExitDoor> entrances;
+    bool started = false;
 
     void Start() {
         enemyParent = GlobalValues.Instance.enemyParent;
         pv = gameObject.GetPhotonView();
         if (pv == null || !pv.IsMine) spawnScript.enabled = false;
         spawnScript.Initialise();
+        
+    }
+
+    public void StartLevel() {
+        started = true;
         StartNewSetWave();
     }
 
@@ -44,23 +51,43 @@ public class LevelManager : MonoBehaviour {
         EndTooltip.SetActive(false);
     }
 
+    public void LockEntrances() {
+        foreach (LightableExitDoor door in entrances) {
+            door.LockDoor();
+        }
+    }
+
+   [PunRPC]
+   private void UnlockLocalEntrances() {
+        foreach (LightableExitDoor door in entrances) {
+            door.UnlockDoor();
+        }
+    }
+
+    private void UnlockEntrances() {
+        pv.RPC("UnlockLocalEntrances", RpcTarget.All);
+    }
+
     void Update() {
         if (pv == null || !pv.IsMine) return;
-        if (allWavesSpawned) {
-            if (CountEnemies() == 0) {
-                if (!doorUnlocked) {
-                    pv.RPC("UnlockDoor", RpcTarget.All);
-                    doorUnlocked = true;
+        if (started) {
+            if (allWavesSpawned) {
+                if (CountEnemies() == 0) {
+                    if (!doorUnlocked) {
+                        UnlockEntrances();
+                        pv.RPC("UnlockDoor", RpcTarget.All);
+                        doorUnlocked = true;
+                    }
                 }
             }
-        }
-        else {
-            if (WaveSpawnFinished() && CountEnemies() == 0) {
-                StartNewSetWave();
+            else {
+                if (WaveSpawnFinished() && CountEnemies() == 0) {
+                    StartNewSetWave();
+                }
             }
-        }
 
-        UpdateEndGameTooltip();
+            UpdateEndGameTooltip();
+        }
     }
 
     private void UpdateEndGameTooltip() {

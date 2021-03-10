@@ -26,12 +26,14 @@ public class GlobalValues : MonoBehaviour {
     public Transform respawnPoint;
     public Transform p1spawn;
     public Transform p2Spawn;
+    public FloorManager fm;
     
     public static GlobalValues Instance { get { return _instance; } }
 
     public void AddPlayer(GameObject player) {
         if (!players.Contains(player)) {
             players.Add(player);
+            fm.SetPlayerNum(players.Count);
         }
     }
 

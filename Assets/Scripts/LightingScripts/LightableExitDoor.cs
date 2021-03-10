@@ -9,9 +9,16 @@ public class LightableExitDoor : LightableObject
     public GameObject unlockedLight;
     public LightableColour unlockedColour;
     bool disappeared = false;
-    
-    // Start is called before the first frame update
 
+    // Start is called before the first frame update
+    public void LockDoor() {
+        colour = LightableColour.White;
+        disappeared = false;
+        SetColour();
+        lockedLight.SetActive(true);
+        unlockedLight.SetActive(false);
+
+    }
     public void UnlockDoor() {
         colour = unlockedColour;
         SetColour();
