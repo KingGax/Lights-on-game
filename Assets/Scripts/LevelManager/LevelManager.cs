@@ -11,7 +11,7 @@ public class Wave {
 
 public class LevelManager : MonoBehaviour {
     public GameObject door;
-    public Spawner spawnScript;
+    public SetSpawnManager spawnScript;
     public float spawnTime;
     public GameObject whiteLight;
     public GameObject magentaLight;
@@ -25,21 +25,22 @@ public class LevelManager : MonoBehaviour {
     private LightableObject doorLightable;
     private bool allEnemiesSpawned = false;
     private bool allWavesSpawned = false;
+    bool doorUnlocked = false;
     private int currentWaveCounter = -1;
+    public int NumberOfWaves;
+    public LightableExitDoor exit;
 
     void Start() {
         enemyParent = GlobalValues.Instance.enemyParent;
         pv = gameObject.GetPhotonView();
-        doorLightable = door.GetComponentInChildren<LightableObject>();
         if (pv == null || !pv.IsMine) spawnScript.enabled = false;
-        StartNewWave();
+        spawnScript.Initialise();
+        StartNewSetWave();
     }
 
     [PunRPC]
     public void UnlockDoor() {
-        doorLightable.enabled = true;
-        whiteLight.SetActive(false);
-        magentaLight.SetActive(true);
+        exit.UnlockDoor();
         EndTooltip.SetActive(false);
     }
 
@@ -47,12 +48,15 @@ public class LevelManager : MonoBehaviour {
         if (pv == null || !pv.IsMine) return;
         if (allWavesSpawned) {
             if (CountEnemies() == 0) {
-                pv.RPC("UnlockDoor", RpcTarget.All);
+                if (!doorUnlocked) {
+                    pv.RPC("UnlockDoor", RpcTarget.All);
+                    doorUnlocked = true;
+                }
             }
         }
         else {
             if (WaveSpawnFinished() && CountEnemies() == 0) {
-                StartNewWave();
+                StartNewSetWave();
             }
         }
 
@@ -67,9 +71,9 @@ public class LevelManager : MonoBehaviour {
         t.Text = "Defeat " + left + " more enemies";
     }
 
-    void StartNewWave() {
+    /*void StartNewWave() {  
         currentWaveCounter += 1;
-        if (currentWaveCounter == enemyWaveNumbers.Count) {
+        if (currentWaveCounter == NumberOfWaves) {
             allWavesSpawned = true;
         }
         else {
@@ -78,6 +82,16 @@ public class LevelManager : MonoBehaviour {
             currentWave.numEnemies = enemyWaveNumbers[currentWaveCounter];
             currentWave.spawnRate = spawnRate;
             spawnScript.SpawnWave(currentWave);
+        }
+    }*/
+
+    void StartNewSetWave() {
+        currentWaveCounter += 1;
+        if (spawnScript.SpawnedAllWaves()) {
+            allWavesSpawned = true;
+        }
+        else {
+            spawnScript.SpawnWave(currentWaveCounter);
         }
     }
 
