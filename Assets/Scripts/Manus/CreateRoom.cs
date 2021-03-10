@@ -25,8 +25,12 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 2;
         options.PublishUserId = true;
+        string roomCode = PhotonNetwork.LocalPlayer.UserId;
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
+        properties.Add("name", _roomName);
+        options.CustomRoomProperties = properties;
         if (!(string.IsNullOrEmpty(_roomName))) {
-            PhotonNetwork.CreateRoom(_roomName, options);
+            PhotonNetwork.CreateRoom(roomCode, options);
         } else {
             Debug.Log("Empty room name");
         }
