@@ -15,6 +15,8 @@ public class TestConnect : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        //To use that we need to manually configure networking client which looks painful
+        //PhotonNetwork.ConnectToRegion("eu");
         PhotonNetwork.ConnectUsingSettings();
 
         

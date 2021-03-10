@@ -12,6 +12,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
     [SerializeField]
     private string _roomName;
     public Button playButton;
+    private string glyphs = "abcdefghijklmnopqrstuvwxyz0123456789";
 
     public void Awake() {
         TextMeshProUGUI t = playButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -25,10 +26,20 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 2;
         options.PublishUserId = true;
-        string roomCode = PhotonNetwork.LocalPlayer.UserId;
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
         properties.Add("name", _roomName);
         options.CustomRoomProperties = properties;
+        // int charAmount = 6;
+        // string roomCode = "";
+        // PhotonNetwork.
+        // do
+        // {
+        //     for(int i=0; i<charAmount; i++)
+        //     {
+        //         roomCode += glyphs[Random.Range(0, glyphs.Length)];
+        //     }
+        // } while()
+        string roomCode = System.Guid.NewGuid().ToString();
         if (!(string.IsNullOrEmpty(_roomName))) {
             PhotonNetwork.CreateRoom(roomCode, options);
         } else {

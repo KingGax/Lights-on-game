@@ -14,6 +14,8 @@ public class Lobby : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject roomCode;
 
+    private bool loadingScene = false;
+
     void Awake()
     {
         if(PhotonNetwork.IsMasterClient)
@@ -22,6 +24,7 @@ public class Lobby : MonoBehaviourPunCallbacks
         }
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
         t.text = PhotonNetwork.CurrentRoom.Name;
+        loadingScene = false;
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -32,7 +35,10 @@ public class Lobby : MonoBehaviourPunCallbacks
     }
 
     public void StartGame() {
-        PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+        if(loadingScene == false){
+            loadingScene = true;
+            PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 
     public void LeaveRoom() {
@@ -41,5 +47,11 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom() {
         SceneManager.LoadScene(0);
+    }
+
+    public void CopyRoomCodeToClipboard() {
+        TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
+        GUIUtility.systemCopyBuffer = t.text;
+        Debug.Log("coppied to clipboard: " + t.text);
     }
 }
