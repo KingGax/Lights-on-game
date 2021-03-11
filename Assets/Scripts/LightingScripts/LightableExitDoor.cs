@@ -14,6 +14,7 @@ public class LightableExitDoor : LightableObject
     public void LockDoor() {
         colour = LightableColour.White;
         disappeared = false;
+        transform.parent.gameObject.layer = defaultLayer;
         SetColour();
         lockedLight.SetActive(true);
         unlockedLight.SetActive(false);

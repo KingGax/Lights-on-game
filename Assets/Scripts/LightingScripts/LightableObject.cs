@@ -27,7 +27,7 @@ public class LightableObject : MonoBehaviour {
     bool appearing = false;
     Bounds physicsBounds;
     float boundingSphereSize;
-    int defaultLayer;
+    protected int defaultLayer;
     int hiddenLayer;
     Color objectColour;
     Vector4 objectColVector;
