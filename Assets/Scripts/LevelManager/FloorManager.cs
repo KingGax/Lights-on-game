@@ -8,6 +8,7 @@ public class FloorManager : MonoBehaviour
     bool twoPlayers = false;
     int p1RoomNum=0;
     int p2RoomNum=0;
+    int numPlayers;
     float startEventTimer = 0f;
     float minEventTimer = 0.4f;
     bool[] roomEventsTriggered;
@@ -17,6 +18,7 @@ public class FloorManager : MonoBehaviour
     void Start()
     {
         pv = gameObject.GetPhotonView();
+        numPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
         roomEventsTriggered = new bool[levels.Count];
         for (int i = 0; i < roomEventsTriggered.Length; i++) {
             if (levels[i] != null) {
@@ -33,7 +35,7 @@ public class FloorManager : MonoBehaviour
     void Update()
     {
         if (pv == null || !pv.IsMine) return;
-        if (startEventTimer > minEventTimer) {
+        if (numPlayers == GlobalValues.Instance.players.Count) {
             if ((twoPlayers && p1RoomNum == p2RoomNum) || !twoPlayers) {
                 if (!roomEventsTriggered[p1RoomNum]) {
                     levels[p1RoomNum].StartObjective();
@@ -41,9 +43,7 @@ public class FloorManager : MonoBehaviour
                 }
             }
         }
-        else {
-            startEventTimer += Time.deltaTime;
-        }
+        
     }
 
     public void SetPlayerNum(int numPlayers) {

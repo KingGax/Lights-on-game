@@ -30,9 +30,6 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
             spawnScriptP1.Initialise(enemyContainersP1.transform);
             spawnScriptP2.Initialise(enemyContainersP2.transform);
         }
-        
-
-
     }
 
     public override void StartObjective() {
@@ -40,7 +37,6 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
         started = true;
         if (GlobalValues.Instance.players.Count == 2) {
             twoPlayers = true;
-            Debug.Log("two players");
         }
         else {
             allWavesSpawnedP2 = true;
