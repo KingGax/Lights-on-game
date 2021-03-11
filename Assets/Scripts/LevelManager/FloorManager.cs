@@ -8,6 +8,8 @@ public class FloorManager : MonoBehaviour
     bool twoPlayers = false;
     int p1RoomNum=0;
     int p2RoomNum=0;
+    float startEventTimer = 0f;
+    float minEventTimer = 0.4f;
     bool[] roomEventsTriggered;
     public List<RoomObjective> levels;
     PhotonView pv;
@@ -31,11 +33,16 @@ public class FloorManager : MonoBehaviour
     void Update()
     {
         if (pv == null || !pv.IsMine) return;
-        if ((twoPlayers && p1RoomNum == p2RoomNum) || ! twoPlayers) {
-            if (!roomEventsTriggered[p1RoomNum]) {
-                levels[p1RoomNum].StartObjective();
-                roomEventsTriggered[p1RoomNum] = true;
+        if (startEventTimer > minEventTimer) {
+            if ((twoPlayers && p1RoomNum == p2RoomNum) || !twoPlayers) {
+                if (!roomEventsTriggered[p1RoomNum]) {
+                    levels[p1RoomNum].StartObjective();
+                    roomEventsTriggered[p1RoomNum] = true;
+                }
             }
+        }
+        else {
+            startEventTimer += Time.deltaTime;
         }
     }
 
