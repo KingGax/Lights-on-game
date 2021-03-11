@@ -16,14 +16,15 @@ public class LightableEnemy : LightableMultiObject {
     [PunRPC]
     protected void InitialiseEnemyRPC(LightableColour newCol)
     {
-        transform.parent.SetParent(GlobalValues.Instance.enemyParent.transform);
+        //transform.parent.SetParent(parent);
         colour = newCol;
         if (initialised) {
             SetColour();
         }
     }
-    public void InitialiseEnemy(LightableColour newCol)
+    public void InitialiseEnemy(LightableColour newCol, Transform parent)
     {
+        transform.parent.SetParent(parent);
         pv.RPC("InitialiseEnemyRPC", RpcTarget.All, newCol);
     }
 

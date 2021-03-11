@@ -8,6 +8,7 @@ public class EnemyContainer : MonoBehaviour {
     public float waveOffset;
     public LightableColour enemyColour;
     public GameObject enemyPrefab;
+    private Transform enemyParent;
     PhotonView pv;
     // Start is called before the first frame update
     void Start() {
@@ -20,8 +21,9 @@ public class EnemyContainer : MonoBehaviour {
         }
     }
 
-    public void StartWave(int waveNum) {
+    public void StartWave(int waveNum, Transform parent) {
         if (pv == null || !pv.IsMine) return;
+        enemyParent = parent;
         if (waveNum == waveNumber) {
             Invoke("Spawn", waveOffset);
         }
@@ -31,7 +33,7 @@ public class EnemyContainer : MonoBehaviour {
     private void Spawn() {
         GameObject entity = PhotonNetwork.Instantiate(enemyPrefab.name, transform.position, Quaternion.identity);
         LightableEnemy lightScript = entity.GetComponentInChildren<LightableEnemy>();
-        lightScript.InitialiseEnemy(enemyColour);
+        lightScript.InitialiseEnemy(enemyColour, enemyParent);
     }
 
 

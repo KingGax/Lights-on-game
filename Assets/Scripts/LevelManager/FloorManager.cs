@@ -9,7 +9,7 @@ public class FloorManager : MonoBehaviour
     int p1RoomNum=0;
     int p2RoomNum=0;
     bool[] roomEventsTriggered;
-    public List<LevelManager> levels;
+    public List<RoomObjective> levels;
     PhotonView pv;
     // Start is called before the first frame update
     void Start()
@@ -33,8 +33,7 @@ public class FloorManager : MonoBehaviour
         if (pv == null || !pv.IsMine) return;
         if ((twoPlayers && p1RoomNum == p2RoomNum) || ! twoPlayers) {
             if (!roomEventsTriggered[p1RoomNum]) {
-                levels[p1RoomNum].LockEntrances();
-                levels[p1RoomNum].StartLevel();
+                levels[p1RoomNum].StartObjective();
                 roomEventsTriggered[p1RoomNum] = true;
             }
         }
