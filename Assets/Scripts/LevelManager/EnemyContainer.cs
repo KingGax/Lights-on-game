@@ -13,9 +13,6 @@ public class EnemyContainer : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         pv = gameObject.GetPhotonView();
-        if (pv == null || !pv.IsMine) {
-            Destroy(gameObject);
-        }
         for (int i = 0; i < transform.childCount; i++) {
             transform.GetChild(i).gameObject.SetActive(false);
         }

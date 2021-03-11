@@ -14,9 +14,9 @@ public class LightableEnemy : LightableMultiObject {
     PhotonView pv;
 
     [PunRPC]
-    protected void InitialiseEnemyRPC(LightableColour newCol)
+    protected void InitialiseEnemyRPC(LightableColour newCol, string parentName)
     {
-        //transform.parent.SetParent(parent);
+        transform.SetParent(GameObject.Find(parentName).transform);
         colour = newCol;
         if (initialised) {
             SetColour();
@@ -25,7 +25,7 @@ public class LightableEnemy : LightableMultiObject {
     public void InitialiseEnemy(LightableColour newCol, Transform parent)
     {
         transform.parent.SetParent(parent);
-        pv.RPC("InitialiseEnemyRPC", RpcTarget.All, newCol);
+        pv.RPC("InitialiseEnemyRPC", RpcTarget.All, newCol, parent.gameObject.name);
     }
 
 
