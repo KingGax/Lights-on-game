@@ -16,7 +16,7 @@ public class LightableEnemy : LightableMultiObject {
     [PunRPC]
     protected void InitialiseEnemyRPC(LightableColour newCol, string parentName)
     {
-        transform.SetParent(GameObject.Find(parentName).transform);
+        transform.parent.SetParent(GameObject.Find(parentName).transform);
         colour = newCol;
         if (initialised) {
             SetColour();

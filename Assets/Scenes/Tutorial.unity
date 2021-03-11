@@ -5687,7 +5687,6 @@ GameObject:
   - component: {fileID: 1165512447}
   - component: {fileID: 1165512450}
   - component: {fileID: 1165512449}
-  - component: {fileID: 1165512448}
   m_Layer: 0
   m_Name: Room1
   m_TagString: Untagged
@@ -5711,18 +5710,6 @@ Transform:
   m_Father: {fileID: 2010562938}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1165512448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1165512446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96a9a0f2868d0484db02bb05b26c3104, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1165512449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5763,7 +5750,7 @@ MonoBehaviour:
   - {fileID: 2065118017}
   - {fileID: 555372341}
   EndTooltip: {fileID: 1233627032}
-  spawnScript: {fileID: 1165512448}
+  spawnScript: {fileID: 1344586730}
   enemyContainers: {fileID: 1344586728}
   enemyParent: {fileID: 2013696019}
 --- !u!1001 &1206952410
@@ -6895,6 +6882,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1344586729}
+  - component: {fileID: 1344586730}
   m_Layer: 0
   m_Name: Room1EnemyContainers
   m_TagString: Untagged
@@ -6930,6 +6918,18 @@ Transform:
   m_Father: {fileID: 1165512447}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1344586730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344586728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a9a0f2868d0484db02bb05b26c3104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1345381375
 GameObject:
   m_ObjectHideFlags: 0
@@ -7882,8 +7882,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1511293420}
-  - component: {fileID: 1511293423}
-  - component: {fileID: 1511293422}
   - component: {fileID: 1511293421}
   m_Layer: 0
   m_Name: P2Room0EnemyContainers
@@ -7916,49 +7914,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1511293419}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  observableSearch: 2
-  Synchronization: 3
-  OwnershipTransfer: 0
-  ObservedComponents: []
-  viewIdField: 16
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &1511293422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1511293419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96a9a0f2868d0484db02bb05b26c3104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1511293423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1511293419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34475ff9605e2844b8f8c4d4a7b7fdb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  exits: []
-  entrances: []
-  EndTooltip: {fileID: 317719940}
-  spawnScript: {fileID: 1511293422}
-  enemyContainers: {fileID: 1511293419}
-  enemyParent: {fileID: 204872541}
 --- !u!1 &1519278015
 GameObject:
   m_ObjectHideFlags: 0
@@ -8818,8 +8776,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1760940661}
   - component: {fileID: 1760940662}
-  - component: {fileID: 1760940665}
-  - component: {fileID: 1760940664}
   - component: {fileID: 1760940663}
   m_Layer: 0
   m_Name: Room0
@@ -8863,8 +8819,8 @@ MonoBehaviour:
   - {fileID: 555372341}
   entrances: []
   EndTooltip: {fileID: 317719940}
-  spawnScriptP1: {fileID: 1760940665}
-  spawnScriptP2: {fileID: 1760940664}
+  spawnScriptP1: {fileID: 1882931321}
+  spawnScriptP2: {fileID: 1511293421}
   enemyContainersP1: {fileID: 1882931319}
   enemyParentP1: {fileID: 1235966786}
   enemyContainersP2: {fileID: 1511293419}
@@ -8891,30 +8847,6 @@ MonoBehaviour:
   viewIdField: 21
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &1760940664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1760940660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96a9a0f2868d0484db02bb05b26c3104, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1760940665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1760940660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96a9a0f2868d0484db02bb05b26c3104, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1785580884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9585,6 +9517,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1882931320}
+  - component: {fileID: 1882931321}
   m_Layer: 0
   m_Name: P1Room0EnemyContainers
   m_TagString: Untagged
@@ -9607,6 +9540,18 @@ Transform:
   m_Father: {fileID: 1760940661}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1882931321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882931319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a9a0f2868d0484db02bb05b26c3104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1883955011
 PrefabInstance:
   m_ObjectHideFlags: 0

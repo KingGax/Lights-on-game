@@ -21,9 +21,12 @@ public class SetSpawnRoom : RoomObjective {
 
     void Start() {
         pv = gameObject.GetPhotonView();
-        if (pv == null || !pv.IsMine) spawnScript.enabled = false;
-        spawnScript.Initialise(enemyContainers.transform);
-        
+        if (pv == null || !pv.IsMine) {
+            spawnScript.enabled = false;
+        }
+        else {
+            spawnScript.Initialise(enemyContainers.transform);
+        }
     }
 
     public override void StartObjective() {
