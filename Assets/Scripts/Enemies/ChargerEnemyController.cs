@@ -93,12 +93,12 @@ public class ChargerEnemyController : Enemy
 
     void ChangeToCharging()
     {
+        inStunnableState = false;
         chargeTimer = chargeTimerMax;
         agent.enabled = true;
         agent.destination = playerObj.transform.position;
         enemyState = EnemyState.Charging;
         weapon.Use();
-        //[activate melee weapon]
     }
     void Charge()
     {
@@ -118,6 +118,7 @@ public class ChargerEnemyController : Enemy
     public void ChangeToChargeEnd()
     {
         weaponScript.Deactivate();
+        inStunnableState = true;
         chargeTimer = 0f;
         playerPositionPoll = 0f;
         //[deactivate melee weapon]

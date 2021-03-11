@@ -6,7 +6,7 @@ public class DeathBox : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         Health ds = other.gameObject.GetComponent<Health>();
         if (ds != null) {
-            ds.Damage(9999999);
+            ds.Damage(9999999, 0);
         }
     }
 }

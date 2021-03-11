@@ -28,6 +28,7 @@ public class MeleeEnemyController : Enemy {
     // Start is called before the first frame update
     void Start() {
         StartCoroutine("EnemyTimers");
+        inStunnableState = true;
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
         losCheckTimer = losCheckTimerMax;

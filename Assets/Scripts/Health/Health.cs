@@ -17,7 +17,7 @@ public class Health : MonoBehaviour {
     }
 
     [PunRPC]
-    protected virtual void DamageRPC(float damage) {
+    protected virtual void DamageRPC(float damage, float stunDuration) {
         if (health > 0) {
             health -= damage;
             if (pv.IsMine && health <= 0) {
@@ -26,7 +26,7 @@ public class Health : MonoBehaviour {
         }
     }
 
-    public virtual void Damage(float damage) {
+    public virtual void Damage(float damage, float stunDuration) {
         pv.RPC("DamageRPC", RpcTarget.All, damage);
     }
 

@@ -10,6 +10,6 @@ public class Gun : Weapon {
     protected override void UseWeapon() {
         GameObject newBullet = PhotonNetwork.Instantiate(bullet.name, firePoint.position, transform.rotation);
         BulletController bc = newBullet.GetComponent<BulletController>();
-        bc.Fire(damage, bulletSpeed, transform.up);
+        bc.Fire(damage, hitStunDuration, bulletSpeed, transform.up);
     }
 }

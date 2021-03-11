@@ -9,6 +9,7 @@ public abstract class Weapon : MonoBehaviour {
     public float cooldownTime;
     public bool frozen;
     public float damage;
+    public float hitStunDuration;
     public bool debug;
     protected GameObject target = null;
 
