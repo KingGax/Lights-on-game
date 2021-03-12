@@ -29,6 +29,7 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.Attack.performed += ctx => AttackOne(ctx);
 
         movementInputMap.Voice.started += ctx => VoiceControl(ctx);
+        movementInputMap.Help.started += ctx => ToggleHelpTooltip(ctx);
     }
 
     // Start is called before the first frame update
@@ -104,6 +105,9 @@ public class PlayerInputScript : MonoBehaviour {
         if (inputEnabled) {
             startRecogniser();
         }
+    }
+    public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
+        
     }
 }
 

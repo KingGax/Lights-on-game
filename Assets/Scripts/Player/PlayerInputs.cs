@@ -57,6 +57,14 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Help"",
+                    ""type"": ""Button"",
+                    ""id"": ""eec04b8f-6d17-4b04-aa11-5ff5f8382374"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -158,6 +166,17 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""Voice"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e3c64bb9-deb1-4a7b-9fac-3c9e29e1d15e"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Help"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -188,6 +207,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Voice = m_Player.FindAction("Voice", throwIfNotFound: true);
+        m_Player_Help = m_Player.FindAction("Help", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -242,6 +262,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Voice;
+    private readonly InputAction m_Player_Help;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -251,6 +272,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Voice => m_Wrapper.m_Player_Voice;
+        public InputAction @Help => m_Wrapper.m_Player_Help;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -275,6 +297,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Voice.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoice;
                 @Voice.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoice;
                 @Voice.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoice;
+                @Help.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHelp;
+                @Help.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHelp;
+                @Help.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHelp;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -294,6 +319,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Voice.started += instance.OnVoice;
                 @Voice.performed += instance.OnVoice;
                 @Voice.canceled += instance.OnVoice;
+                @Help.started += instance.OnHelp;
+                @Help.performed += instance.OnHelp;
+                @Help.canceled += instance.OnHelp;
             }
         }
     }
@@ -314,5 +342,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnVoice(InputAction.CallbackContext context);
+        void OnHelp(InputAction.CallbackContext context);
     }
 }
