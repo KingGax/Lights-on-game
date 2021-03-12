@@ -7,7 +7,6 @@ using UnityEngine.AI;
 public class EnemyController : Enemy {
 
     public GameObject bullet;
-    public float damage;
     public float bulletSpeed;
     public float detectionThreshold;
     public float shootingTimerMax;
@@ -126,6 +125,9 @@ public class EnemyController : Enemy {
     }
 
     void Patrol() {
+        //this could all be replaced with a call to SelectTarget() 
+        // (if SelectTarget() returned a tuple), but would need network testing
+        //{
         float minDist  = Mathf.Infinity;
         int index = 0;
         for (int i = 0; i < GlobalValues.Instance.players.Count; i++){
@@ -136,6 +138,7 @@ public class EnemyController : Enemy {
             }
         }
         playerObj = GlobalValues.Instance.players[index];
+        //}
         if (minDist < detectionThreshold)
         {
             ChangeToRepositioning();
@@ -144,12 +147,14 @@ public class EnemyController : Enemy {
 
     public override void RequestHitStun(float duration)
     {
-        Debug.Log("Float stunned");
-        hitStunned = true;
-        hitStunTimer = duration;
-        weapon.cooldownLeft+=duration; //yes this is janky
-        //no i cannot see an easier way than restructuring the way weapons work (:
-        base.RequestHitStun(duration);
+        if (inStunnableState) {
+            Debug.Log("Float stunned");
+            hitStunned = true;
+            hitStunTimer = duration;
+            weapon.cooldownLeft+=duration; //yes this is janky
+            //no i cannot see an easier way than restructuring the way weapons work (:
+            base.RequestHitStun(duration);  
+        }
     }
     
 
