@@ -19,6 +19,7 @@ public class RoomListingInfo : MonoBehaviour
     public void SetRoomInfo(RoomInfo roomInfo)
     {
         _roomInfo = roomInfo;
+        //string name;
         text.text = (string)roomInfo.CustomProperties["name"];
     }
 

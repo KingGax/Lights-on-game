@@ -26,8 +26,11 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 2;
         options.PublishUserId = true;
-        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
-        properties.Add("name", _roomName);
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable() { {"name", _roomName }};
+        //properties.Add("name", _roomName);
+        string[] lobbyOptions = new string[1];
+        lobbyOptions[0] = "name";
+        options.CustomRoomPropertiesForLobby = lobbyOptions;
         options.CustomRoomProperties = properties;
         // int charAmount = 6;
         // string roomCode = "";
