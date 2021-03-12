@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class MeleeWeapon : Weapon {
+public class PlayerSword : Weapon {
 
     public float maxAngle;
     private List<Collider> alreadyHit = new List<Collider>();
     private Vector3 initialAngle;
     private PhotonView weaponPhotonView;
+    public MeshRenderer mr;
 
     public void Awake() {
         initialAngle = transform.parent.localEulerAngles;
@@ -22,7 +23,14 @@ public class MeleeWeapon : Weapon {
         cooldownLeft = primaryCooldownTime - dt;
     }
 
-    protected override void UseWeapon() { 
+    public override void UnequipWeapon() {
+        mr.enabled = false;
+    }
+    public override void EquipWeapon() {
+        mr.enabled = true;
+    }
+
+    protected override void UseWeapon() {
         weaponPhotonView.RPC("RPCUseWeapon", RpcTarget.All, PhotonNetwork.Time);
     }
 
@@ -38,16 +46,11 @@ public class MeleeWeapon : Weapon {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.gameObject == GlobalValues.Instance.localPlayerInstance)
-        {
-            if (!CanUse() && !frozen && !alreadyHit.Contains(other))
-            {
-                alreadyHit.Add(other);
-                Health ds = other.gameObject.GetComponent<Health>();
-                if (ds != null)
-                {
-                    ds.Damage(damage, hitStunDuration);
-                }
+        if (!CanUse() && !frozen && !alreadyHit.Contains(other)) {
+            alreadyHit.Add(other);
+            Health ds = other.gameObject.GetComponent<Health>();
+            if (ds != null) {
+                ds.Damage(damage, hitStunDuration);
             }
         }
     }

@@ -21,8 +21,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     Camera cam;
     public Light lantern;
     public Weapon equiptedWeapon;
+    public List<Weapon> weapons;
     public LightObject lightSource;
 
+    int weaponIndex = 0;
     Rigidbody rb;
     Vector2 movement;
     Vector3 cameraForward;
@@ -92,6 +94,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         
             
     }
+    
+    [PunRPC] 
+    public void SetWeaponRPC(int wepIndex) {
+        foreach (Weapon wep in weapons) {
+            wep.UnequipWeapon();
+        }
+        weapons[wepIndex].EquipWeapon();
+        equiptedWeapon = weapons[wepIndex];
+    }
+    public void SwitchWeapon() {
+        weaponIndex = (weaponIndex + 1) % weapons.Count;
+        photonView.RPC("SetWeaponRPC", RpcTarget.All, weaponIndex);
+    }
 
     void Start() {
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
@@ -109,7 +124,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         cameraForward = Vector3.Normalize(Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal));
         cameraRight = Vector3.Normalize(Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal));
         lantern.color = colours[colourIndex];
-        
+
+        foreach (Weapon wep in weapons) {
+            wep.UnequipWeapon();
+        }
+        weapons[weaponIndex].EquipWeapon();
+
         StartCoroutine("CountdownTimers");
     }
 

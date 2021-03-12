@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using System.Runtime.InteropServices;
 
 public class PlayerInputScript : MonoBehaviour {
-    
+
     private PlayerController pc;
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
@@ -24,6 +24,8 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.Movement.canceled += ctx => OnMovement(ctx);
         movementInputMap.Dash.started += ctx => Dash(ctx);
         movementInputMap.Light.started += _ => ChangeLight();
+        movementInputMap.SwitchWeapon.started += _ => SwitchWeapon();
+
 
         movementInputMap.Attack.started += ctx => AttackOne(ctx);
         movementInputMap.Attack.performed += ctx => AttackOne(ctx);
@@ -38,7 +40,11 @@ public class PlayerInputScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        
+
+    }
+
+    void SwitchWeapon() {
+        pc.SwitchWeapon();
     }
 
     public void EnableInput() {
