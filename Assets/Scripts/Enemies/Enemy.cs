@@ -49,7 +49,6 @@ public abstract class Enemy : MonoBehaviour {
 
     public virtual void RequestHitStun(float duration){
         if (inStunnableState){
-            //Debug.Log("HITSTUN!!!");
             agent.velocity = new Vector3(0,agent.velocity.y,0);
             if (agent.enabled){
                 agent.isStopped = true;
