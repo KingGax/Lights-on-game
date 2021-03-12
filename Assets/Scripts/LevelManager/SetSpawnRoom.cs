@@ -10,7 +10,7 @@ public class Wave {
 }
 
 public class SetSpawnRoom : RoomObjective {
-    public SetSpawnManager spawnScript;
+    private SetSpawnManager spawnScript;
     private bool allWavesSpawned = false;
     bool doorUnlocked = false;
     private int currentWaveCounter = -1;
@@ -20,6 +20,7 @@ public class SetSpawnRoom : RoomObjective {
     bool started = false;
 
     void Start() {
+        spawnScript = gameObject.AddComponent<SetSpawnManager>();
         pv = gameObject.GetPhotonView();
         if (pv == null || !pv.IsMine) {
             spawnScript.enabled = false;

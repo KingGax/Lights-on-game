@@ -5,8 +5,8 @@ using Photon.Pun;
 
 public class TwoPlayerSetSpawnRoom : RoomObjective
 {
-    public SetSpawnManager spawnScriptP1;
-    public SetSpawnManager spawnScriptP2;
+    private SetSpawnManager spawnScriptP1;
+    private SetSpawnManager spawnScriptP2;
     private bool allWavesSpawnedP1 = false;
     private bool allWavesSpawnedP2 = false;
     bool doorUnlocked = false;
@@ -21,6 +21,8 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
     // Start is called before the first frame update
     void Start()
     {
+        spawnScriptP1 = gameObject.AddComponent<SetSpawnManager>();
+        spawnScriptP2 = gameObject.AddComponent<SetSpawnManager>();
         pv = gameObject.GetPhotonView();
         if (pv == null || !pv.IsMine) {
             spawnScriptP1.enabled = false;
