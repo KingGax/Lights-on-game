@@ -10,6 +10,7 @@ public class PlayerInputScript : MonoBehaviour {
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
     private bool inputEnabled = true;
+    private HelpTooltip helpView;
 
     [DllImport("__Internal")]
     private static extern void startRecogniser();
@@ -107,7 +108,7 @@ public class PlayerInputScript : MonoBehaviour {
         }
     }
     public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
-        
+        helpView.ToggleVisibility();
     }
 }
 
