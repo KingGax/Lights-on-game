@@ -283,9 +283,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true) {
             return;
         }
-        Debug.Log(mouseDown);
         if (!mouseDown) {
-            Debug.Log("re;eased");
             altFireReleasedThisFrame = true;
         }
         altFireHeld = mouseDown;

@@ -35,7 +35,6 @@ public class LightableEnemy : LightableMultiObject {
         if (initialised){
             gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
         }
-        Debug.Log("RPC TIME");
         pv.RPC("InitialiseEnemyRPC", RpcTarget.All, newCol, parent.gameObject.name);
     }
 
