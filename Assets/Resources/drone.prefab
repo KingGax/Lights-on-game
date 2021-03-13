@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 40
+  flashPeriod: 0.1
 --- !u!1 &2219964293367224281
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,7 +280,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownLeft: 0
   primaryCooldownTime: 0.5
-  alternateCooldownTime: 0
   frozen: 0
   damage: 10
   hitStunDuration: 0

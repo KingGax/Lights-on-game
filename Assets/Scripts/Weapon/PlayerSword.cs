@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerSword : Weapon {
+public class PlayerSword : PlayerWeapon {
 
     public float maxAngle;
     private List<Collider> alreadyHit = new List<Collider>();

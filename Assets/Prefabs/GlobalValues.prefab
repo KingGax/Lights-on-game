@@ -52,7 +52,9 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 2048
-  enemyParent: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
   players: []
   localPlayerInstance: {fileID: 0}
   UIElements: {fileID: 0}
@@ -68,3 +70,4 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   p1spawn: {fileID: 0}
   p2Spawn: {fileID: 0}
+  fm: {fileID: 0}

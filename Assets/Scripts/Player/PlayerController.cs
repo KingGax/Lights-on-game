@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     Camera cam;
     public Light lantern;
-    public Weapon equiptedWeapon;
-    public List<Weapon> weapons;
+    public PlayerWeapon equiptedWeapon;
+    public List<PlayerWeapon> weapons;
     public LightObject lightSource;
 
     int weaponIndex = 0;
@@ -39,10 +39,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     [Header("Shooting")]
     public float shootBufferMax;
+    public float altShootBufferMax;
     public LayerMask aimTargetsMask;
     public float maxShootOffsetAngle;
-    float shootBuffer;
+    float shootBuffer = 0;
+    float altShootBuffer = 0;
+    bool altFireReleasedThisFrame = false;
     bool fireHeld = false;
+    bool altFireHeld = false;
+    float currentChargeSpeedModifier;
     public bool isTakingKnockback { get; set; }
 
 
@@ -102,6 +107,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         }
         weapons[wepIndex].EquipWeapon();
         equiptedWeapon = weapons[wepIndex];
+        currentChargeSpeedModifier = equiptedWeapon.chargeSpeedModifier;
     }
     public void SwitchWeapon() {
         weaponIndex = (weaponIndex + 1) % weapons.Count;
@@ -129,6 +135,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
             wep.UnequipWeapon();
         }
         weapons[weaponIndex].EquipWeapon();
+        currentChargeSpeedModifier = equiptedWeapon.chargeSpeedModifier;
 
         StartCoroutine("CountdownTimers");
     }
@@ -163,6 +170,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
             if (fireHeld) {
                 shootBuffer = shootBufferMax;
             }
+            if (altFireHeld) {
+                altShootBuffer = altShootBufferMax;
+            }
             playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
 
             if (dashBuffer > 0) {
@@ -171,12 +181,28 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                 }
             }
             //handles looking and shooting
-            if (shootBuffer > 0 && CanShoot()) {
+            if (equiptedWeapon.IsCharging()) {
+                if (altFireReleasedThisFrame) {
+                    altFireReleasedThisFrame = false;
+                    equiptedWeapon.ReleaseWeaponAlt();
+                }
+                else if (altFireHeld && CanShoot()) {
+                    Vector3 fireDirection = GetFireDirection();
+                    TurnTowards(fireDirection);
+                    equiptedWeapon.UseAlt();
+                }
+            }
+            else if (shootBuffer > 0 && CanShoot()) {
                 Vector3 fireDirection = GetFireDirection();
                 TurnTowards(fireDirection);
                 if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
                     bool didShoop = equiptedWeapon.Use();
                 }
+            }
+            else if (altFireHeld && CanShoot()) {
+                Vector3 fireDirection = GetFireDirection();
+                TurnTowards(fireDirection);
+                equiptedWeapon.UseAlt();
             }
             else {
                 if (movement != Vector2.zero) {
@@ -194,6 +220,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                 else {
                     if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
                         Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+                        if (equiptedWeapon.IsCharging()) {
+                            moveVector *= currentChargeSpeedModifier;
+                        }
                         moveVector.y = rb.velocity.y;
                         debugVel = moveVector;
                         rb.velocity = moveVector;
@@ -248,6 +277,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
             return;
         }
         fireHeld = mouseDown;
+    }
+
+    public void AttackAlt(bool mouseDown) {
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true) {
+            return;
+        }
+        if (!mouseDown) {
+            altFireReleasedThisFrame = true;
+        }
+        altFireHeld = mouseDown;
     }
 
     public void Dash() {
@@ -335,6 +374,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
             if (shootBuffer > 0) {
                 shootBuffer -= Time.deltaTime;
+            }
+            if (altShootBuffer > 0) {
+                altShootBuffer -= Time.deltaTime;
             }
 
             yield return null;
