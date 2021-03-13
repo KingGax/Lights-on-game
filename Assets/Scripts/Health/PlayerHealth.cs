@@ -52,10 +52,10 @@ public sealed class PlayerHealth : Health {
     }
 
 
-    public override void Damage(float damage)
+    public override void Damage(float damage, float stunDuration)
     {
         //base.Damage(damage);
-        pv.RPC("DamageRPC", RpcTarget.All, damage);
+        pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);
         if (isLocal){
             hb.UpdateHealth(health);
         } else {
@@ -70,9 +70,9 @@ public sealed class PlayerHealth : Health {
     }
 
     [PunRPC]
-    protected override void DamageRPC(float damage){
+    protected override void DamageRPC(float damage, float stunDuration){
         //Debug.Log("Network damage!!!!!");
-        base.DamageRPC(damage);
+        base.DamageRPC(damage, stunDuration);
         if (!isLocal){
             //Debug.Log("Nonlocal");
             fhb.UpdateHealth(health);
@@ -83,7 +83,7 @@ public sealed class PlayerHealth : Health {
         if (other.gameObject.layer == bulletLayer && pv.IsMine) {
             BulletController bc = other.gameObject.GetComponent<BulletController>();
             if (bc != null) {
-                Damage(bc.damage);
+                Damage(bc.damage, bc.hitStunDuration);
                 bc.RequestDestroyBullet();
             } else {
                 Debug.LogError("Something on bullet layer does not have bullet controller");

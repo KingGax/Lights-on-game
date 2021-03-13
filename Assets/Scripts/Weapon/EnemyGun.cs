@@ -32,6 +32,6 @@ public class EnemyGun : Gun {
        
         GameObject newBullet = PhotonNetwork.Instantiate(bulletStr, firePoint.position, transform.rotation);
         BulletController bc = newBullet.GetComponent<BulletController>();
-        bc.Fire(damage, bulletSpeed, direction);
+        bc.Fire(damage, hitStunDuration, bulletSpeed, direction);
     }
 }

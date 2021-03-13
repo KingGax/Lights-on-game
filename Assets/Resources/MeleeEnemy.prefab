@@ -142,9 +142,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownLeft: 0
-  cooldownTime: 1
+  primaryCooldownTime: 2
   frozen: 0
   damage: 10
+  hitStunDuration: 0
   debug: 0
   maxAngle: 90
 --- !u!114 &1241870377558318710
@@ -364,6 +365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
   turnSpeed: 20
+  ignoresStun: 0
   damage: 15
   detectionThreshold: 16.14
   minDistance: 2
@@ -384,7 +386,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 20.16
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0

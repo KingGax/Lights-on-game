@@ -54,7 +54,7 @@ public class ContactWeapon : Weapon {
                     Health ds = other.gameObject.GetComponent<Health>();
                     if (ds != null)
                     {
-                        ds.Damage(damage);
+                        ds.Damage(damage, hitStunDuration);
                         IKnockbackable ks = other.gameObject.GetComponent<IKnockbackable>();
                         if (ks != null)
                         {

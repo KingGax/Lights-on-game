@@ -13,6 +13,8 @@ public abstract class Enemy : MonoBehaviour {
     protected bool aiEnabled;
     public Weapon weapon;
     public float turnSpeed;
+    public bool ignoresStun;
+    protected bool inStunnableState;
     protected GameObject playerObj;
     protected bool hasPlayerJoined;
     private LayerMask environmentAndPlayerMask;
@@ -33,6 +35,7 @@ public abstract class Enemy : MonoBehaviour {
     public void EnableAI() {
         if (pv.IsMine) {
             agent.enabled = true;
+            agent.isStopped = false;
             aiEnabled = true;
         }
     }
@@ -41,6 +44,22 @@ public abstract class Enemy : MonoBehaviour {
         if (pv.IsMine) {
             aiEnabled = false;
             agent.enabled = false;
+        }
+    }
+
+    public virtual void RequestHitStun(float duration){
+        if (inStunnableState){
+            agent.velocity = new Vector3(0,agent.velocity.y,0);
+            if (agent.enabled){
+                agent.isStopped = true;
+            }
+            Invoke("Unstop", duration);
+        }
+    }
+
+    void Unstop(){
+        if (agent.enabled){
+            agent.isStopped = false;
         }
     }
 

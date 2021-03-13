@@ -114,8 +114,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
   turnSpeed: 0
+  ignoresStun: 0
   bullet: {fileID: 3625585865830301468, guid: 4cdca7b79d0e71f40b4ec9fdaf02fc53, type: 3}
-  damage: 10
   bulletSpeed: 6
   detectionThreshold: 22.06
   shootingTimerMax: 6
@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 40
+  flashPeriod: 0.1
 --- !u!1 &2219964293367224281
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,9 +279,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownLeft: 0
-  cooldownTime: 0.8
+  primaryCooldownTime: 0.5
   frozen: 0
   damage: 10
+  hitStunDuration: 0
   debug: 0
   firePoint: {fileID: 5098959260098818084}
   bullet: {fileID: 3625585865830301468, guid: 4cdca7b79d0e71f40b4ec9fdaf02fc53, type: 3}
@@ -342,6 +344,7 @@ MonoBehaviour:
   childObjects: []
   smr: {fileID: 7832185270818603509}
   gunScript: {fileID: 5098959258325812034}
+  usesMeshRenderer: 0
 --- !u!114 &5098959258965637976
 MonoBehaviour:
   m_ObjectHideFlags: 0

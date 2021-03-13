@@ -57,6 +57,22 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwitchWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""1fac1ea4-8686-4d99-a7c9-adfea3606962"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""AltAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""4c839c3e-5dc2-472f-9ca5-c3fda2a31580"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -158,6 +174,28 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""Voice"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""816a5a60-d119-4d38-a5ca-d38ddff7d6b0"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""SwitchWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3371efcf-f30d-43b9-ac43-115ed909266f"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""AltAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -188,6 +226,8 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Voice = m_Player.FindAction("Voice", throwIfNotFound: true);
+        m_Player_SwitchWeapon = m_Player.FindAction("SwitchWeapon", throwIfNotFound: true);
+        m_Player_AltAttack = m_Player.FindAction("AltAttack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -242,6 +282,8 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Voice;
+    private readonly InputAction m_Player_SwitchWeapon;
+    private readonly InputAction m_Player_AltAttack;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -251,6 +293,8 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Voice => m_Wrapper.m_Player_Voice;
+        public InputAction @SwitchWeapon => m_Wrapper.m_Player_SwitchWeapon;
+        public InputAction @AltAttack => m_Wrapper.m_Player_AltAttack;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -275,6 +319,12 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Voice.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoice;
                 @Voice.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoice;
                 @Voice.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoice;
+                @SwitchWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchWeapon;
+                @SwitchWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchWeapon;
+                @SwitchWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchWeapon;
+                @AltAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltAttack;
+                @AltAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltAttack;
+                @AltAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltAttack;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -294,6 +344,12 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Voice.started += instance.OnVoice;
                 @Voice.performed += instance.OnVoice;
                 @Voice.canceled += instance.OnVoice;
+                @SwitchWeapon.started += instance.OnSwitchWeapon;
+                @SwitchWeapon.performed += instance.OnSwitchWeapon;
+                @SwitchWeapon.canceled += instance.OnSwitchWeapon;
+                @AltAttack.started += instance.OnAltAttack;
+                @AltAttack.performed += instance.OnAltAttack;
+                @AltAttack.canceled += instance.OnAltAttack;
             }
         }
     }
@@ -314,5 +370,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnVoice(InputAction.CallbackContext context);
+        void OnSwitchWeapon(InputAction.CallbackContext context);
+        void OnAltAttack(InputAction.CallbackContext context);
     }
 }

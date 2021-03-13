@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using System.Runtime.InteropServices;
 
 public class PlayerInputScript : MonoBehaviour {
-    
+
     private PlayerController pc;
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
@@ -24,9 +24,13 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.Movement.canceled += ctx => OnMovement(ctx);
         movementInputMap.Dash.started += ctx => Dash(ctx);
         movementInputMap.Light.started += _ => ChangeLight();
+        movementInputMap.SwitchWeapon.started += _ => SwitchWeapon();
+
 
         movementInputMap.Attack.started += ctx => AttackOne(ctx);
         movementInputMap.Attack.performed += ctx => AttackOne(ctx);
+        movementInputMap.AltAttack.started += ctx => AttackAlt(ctx);
+        movementInputMap.AltAttack.performed += ctx => AttackAlt(ctx);
 
         movementInputMap.Voice.started += ctx => VoiceControl(ctx);
     }
@@ -38,7 +42,11 @@ public class PlayerInputScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        
+
+    }
+
+    void SwitchWeapon() {
+        pc.SwitchWeapon();
     }
 
     public void EnableInput() {
@@ -66,6 +74,18 @@ public class PlayerInputScript : MonoBehaviour {
             }
             else {
                 pc.AttackOne(true);
+            }
+        }
+    }
+
+    void AttackAlt(InputAction.CallbackContext ctx) {
+        if (inputEnabled) {
+            if (ctx.performed) {
+                //performed in this case means released
+                pc.AttackAlt(false);
+            }
+            else {
+                pc.AttackAlt(true);
             }
         }
     }

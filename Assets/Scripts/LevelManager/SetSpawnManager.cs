@@ -8,8 +8,8 @@ public class SetSpawnManager : MonoBehaviour
     float spawnTimer = 0f;
     int waveNumber = 0;
     int highestWaveNumber = 0;
-    public void Initialise() {
-        EnemyContainer[] contArr = GlobalValues.Instance.enemyContainers.GetComponentsInChildren<EnemyContainer>();
+    public void Initialise(Transform enemyContParent) {
+        EnemyContainer[] contArr = enemyContParent.GetComponentsInChildren<EnemyContainer>();
         foreach (EnemyContainer cont in contArr) {
             containers.Add(cont);
             if (highestWaveNumber < cont.waveNumber) {
@@ -30,12 +30,12 @@ public class SetSpawnManager : MonoBehaviour
         return spawnTimer <= 0;
     }
 
-    public void SpawnWave(int waveNum) {
+    public void SpawnWave(int waveNum, Transform enemyParent) {
         float maxSpawnTime = 0f;
         waveNumber = waveNum;
         foreach (EnemyContainer cont in containers) {
             if (cont.waveNumber == waveNum) {
-                cont.StartWave(waveNum);
+                cont.StartWave(waveNum, enemyParent);
                 if (cont.waveOffset > maxSpawnTime) {
                     maxSpawnTime = cont.waveOffset;
                 }
