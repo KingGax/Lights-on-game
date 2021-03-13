@@ -7,7 +7,6 @@ public abstract class Weapon : MonoBehaviour {
     [HideInInspector]
     public float cooldownLeft;
     public float primaryCooldownTime;
-    public float alternateCooldownTime;
     public bool frozen;
     public float damage;
     public float hitStunDuration;
@@ -35,12 +34,8 @@ public abstract class Weapon : MonoBehaviour {
         return true;
     }
 
-    public bool UseAlt() {
-        if (!CanUse()) return false;
-        cooldownLeft = alternateCooldownTime; // Reset cooldown
-        UseWeaponAlt();
-        return true;
-    }
+    public virtual void UnequipWeapon() { }
+    public virtual void EquipWeapon() { }
 
     public virtual void Freeze() {
         frozen = true;
@@ -52,9 +47,6 @@ public abstract class Weapon : MonoBehaviour {
 
     // Logic for how weapon is used
     protected abstract void UseWeapon();
-    protected virtual void UseWeaponAlt() {}
-    public virtual void UnequipWeapon() { }
-    public virtual void EquipWeapon() { }
 
     public void FixedUpdate() {
         if (!frozen) {

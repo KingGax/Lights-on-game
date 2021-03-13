@@ -29,6 +29,8 @@ public class PlayerInputScript : MonoBehaviour {
 
         movementInputMap.Attack.started += ctx => AttackOne(ctx);
         movementInputMap.Attack.performed += ctx => AttackOne(ctx);
+        movementInputMap.AltAttack.started += ctx => AttackAlt(ctx);
+        movementInputMap.AltAttack.performed += ctx => AttackAlt(ctx);
 
         movementInputMap.Voice.started += ctx => VoiceControl(ctx);
     }
@@ -72,6 +74,18 @@ public class PlayerInputScript : MonoBehaviour {
             }
             else {
                 pc.AttackOne(true);
+            }
+        }
+    }
+
+    void AttackAlt(InputAction.CallbackContext ctx) {
+        if (inputEnabled) {
+            if (ctx.performed) {
+                //performed in this case means released
+                pc.AttackAlt(false);
+            }
+            else {
+                pc.AttackAlt(true);
             }
         }
     }

@@ -15,8 +15,6 @@ public class SniperEnemyController : Enemy
     public float shotFlashDuration;
     float losCheckTimer;
     public float losCheckTimerMax;
-    public GameObject bullet;
-    LightableColour bulletColour;
     float pathStoppingThreshold = 0.01f;
     public float maxLaserDistance;
     LineRenderer laser;
