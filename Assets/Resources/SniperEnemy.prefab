@@ -180,6 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownLeft: 0
   primaryCooldownTime: 0
+  alternateCooldownTime: 0
   frozen: 0
   damage: 40
   hitStunDuration: 0
@@ -599,6 +600,7 @@ MonoBehaviour:
   shootRecoverTimerMax: 2
   shotFlashDuration: 1
   losCheckTimerMax: 0.25
+  bullet: {fileID: 3625585865830301468, guid: 4cdca7b79d0e71f40b4ec9fdaf02fc53, type: 3}
   maxLaserDistance: 100
 --- !u!195 &8422467607395490074
 NavMeshAgent:
