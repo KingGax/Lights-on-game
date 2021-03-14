@@ -12,7 +12,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
     [SerializeField]
     public GameObject _roomListing;
 
-    private Dictionary<string, GameObject> cachedRoomList = new Dictionary<string, GameObject>();
+    public Dictionary<string, GameObject> cachedRoomList = new Dictionary<string, GameObject>();
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList) {
         for(int i=0; i<roomList.Count; i++) {
