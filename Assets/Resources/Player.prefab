@@ -635,7 +635,7 @@ MonoBehaviour:
   mr: {fileID: 4464539808011951477}
   chargeIndicator: {fileID: 6501161540499365057}
   firePoint: {fileID: 4464539808187896991}
-  bullet: {fileID: 3625585865830301468, guid: a9ea1950e094a964caf34672cc0a7e51, type: 3}
+  bullet: {fileID: 3625585865830301468, guid: 60c8217b79c83a943adedde206878651, type: 3}
   laser: {fileID: 5877428590250830343}
   bulletSpeed: 16
   maxChargeTime: 3
@@ -852,6 +852,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 4c839c3e-5dc2-472f-9ca5-c3fda2a31580
     m_ActionName: Player/AltAttack[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: eb7fc918-b88d-4cda-9fa1-dea493c92c45
+    m_ActionName: Player/HelpToggle[/Keyboard/h]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

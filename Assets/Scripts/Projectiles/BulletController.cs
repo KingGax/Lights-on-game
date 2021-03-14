@@ -13,11 +13,17 @@ public class BulletController : MonoBehaviour {
     protected float speed;
     protected Vector3 direction;
     protected Rigidbody rb;
+    protected ParticleSystem[] pSystems;
+    protected Collider collider;
+    protected Renderer renderer;
 
     public virtual void Awake() {
         rb = GetComponent<Rigidbody>();
         pv = GetComponent<PhotonView>();
-        Invoke("LocalDestroyBulllet", 3.0f);
+        collider = GetComponent<Collider>();
+        renderer = GetComponent<Renderer>();
+        pSystems = GetComponentsInChildren<ParticleSystem>();
+        Invoke("LocalDestroyBulllet", 10.0f);
     }
 
     [PunRPC]
@@ -53,21 +59,38 @@ public class BulletController : MonoBehaviour {
         pv.RPC("DestroyBullet", RpcTarget.All);
     }
 
+    private IEnumerator BeforeDeath() {
+        yield return new WaitForSeconds(2.0f);
+    }
+
     [PunRPC]
-    protected void DestroyBullet() {
+    protected IEnumerator DestroyBullet() {
+        rb.velocity = Vector3.zero;
+        CancelInvoke("RequestDestroyBullet");
+        collider.enabled = false;
+        renderer.enabled = false;
+        if (pSystems.Length > 0) {
+            //stop pSystems[0]
+            pSystems[0].Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            //start all other pSystems
+
+            for (int i = 1; i < pSystems.Length; i++) {
+                pSystems[i].Play(true);
+            }
+            IEnumerator beforeDeath = BeforeDeath();
+            yield return StartCoroutine(beforeDeath);
+        }
+
         if (pv.IsMine) {
             PhotonNetwork.Destroy(gameObject);
         }
-        else
-        {
+        else {
             LocalDestroyBulllet();
         }
     }
 
-    void LocalDestroyBulllet()
-    {
-        if (!pv.IsMine)
-        {
+    void LocalDestroyBulllet() {
+        if (!pv.IsMine) {
             gameObject.SetActive(false);
         }
     }
