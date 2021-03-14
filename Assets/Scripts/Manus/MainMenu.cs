@@ -6,7 +6,6 @@ using Photon.Pun;
 
 public class MainMenu : MonoBehaviourPunCallbacks {
     
-    private string _playerName;
 
     private bool isConnecting;
 
@@ -35,14 +34,6 @@ public class MainMenu : MonoBehaviourPunCallbacks {
     }
     public void PlayGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
-    public void SetPlayerName(string value){
-        if (!string.IsNullOrEmpty(value)) {
-            _playerName = value;
-            PhotonNetwork.NickName = _playerName;
-            PlayerPrefs.SetString(_playerName,value);
-        }
     }
 
     public override void OnJoinedRoom() {

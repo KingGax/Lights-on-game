@@ -27,11 +27,12 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         options.MaxPlayers = 2;
         options.PublishUserId = true;
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable() { {"name", _roomName }};
-        //properties.Add("name", _roomName);
         string[] lobbyOptions = new string[1];
         lobbyOptions[0] = "name";
         options.CustomRoomPropertiesForLobby = lobbyOptions;
         options.CustomRoomProperties = properties;
+
+        //Code for generating random string. Opted for using GUID instead
         // int charAmount = 6;
         // string roomCode = "";
         // PhotonNetwork.

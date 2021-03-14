@@ -25,6 +25,8 @@ public class RoomListingInfo : MonoBehaviour
 
     public void OnCLick_Button()
     {
-        PhotonNetwork.JoinRoom(_roomInfo.Name);
+        if(!string.IsNullOrEmpty(PhotonNetwork.NickName)){
+            PhotonNetwork.JoinRoom(_roomInfo.Name);
+        }
     }
 }
