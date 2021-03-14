@@ -73,6 +73,14 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""HelpToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""eb7fc918-b88d-4cda-9fa1-dea493c92c45"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -196,6 +204,17 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""AltAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""968e2c02-32d1-421f-868f-7fde85dbea0f"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""HelpToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -228,6 +247,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_Player_Voice = m_Player.FindAction("Voice", throwIfNotFound: true);
         m_Player_SwitchWeapon = m_Player.FindAction("SwitchWeapon", throwIfNotFound: true);
         m_Player_AltAttack = m_Player.FindAction("AltAttack", throwIfNotFound: true);
+        m_Player_HelpToggle = m_Player.FindAction("HelpToggle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -284,6 +304,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Voice;
     private readonly InputAction m_Player_SwitchWeapon;
     private readonly InputAction m_Player_AltAttack;
+    private readonly InputAction m_Player_HelpToggle;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -295,6 +316,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @Voice => m_Wrapper.m_Player_Voice;
         public InputAction @SwitchWeapon => m_Wrapper.m_Player_SwitchWeapon;
         public InputAction @AltAttack => m_Wrapper.m_Player_AltAttack;
+        public InputAction @HelpToggle => m_Wrapper.m_Player_HelpToggle;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -325,6 +347,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @AltAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltAttack;
                 @AltAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltAttack;
                 @AltAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltAttack;
+                @HelpToggle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHelpToggle;
+                @HelpToggle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHelpToggle;
+                @HelpToggle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHelpToggle;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -350,6 +375,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @AltAttack.started += instance.OnAltAttack;
                 @AltAttack.performed += instance.OnAltAttack;
                 @AltAttack.canceled += instance.OnAltAttack;
+                @HelpToggle.started += instance.OnHelpToggle;
+                @HelpToggle.performed += instance.OnHelpToggle;
+                @HelpToggle.canceled += instance.OnHelpToggle;
             }
         }
     }
@@ -372,5 +400,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnVoice(InputAction.CallbackContext context);
         void OnSwitchWeapon(InputAction.CallbackContext context);
         void OnAltAttack(InputAction.CallbackContext context);
+        void OnHelpToggle(InputAction.CallbackContext context);
     }
 }

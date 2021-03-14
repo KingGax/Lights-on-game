@@ -10,6 +10,7 @@ public class PlayerInputScript : MonoBehaviour {
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
     private bool inputEnabled = true;
+    private HelpTooltip helpView;
 
     [DllImport("__Internal")]
     private static extern void startRecogniser();
@@ -33,6 +34,7 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.AltAttack.performed += ctx => AttackAlt(ctx);
 
         movementInputMap.Voice.started += ctx => VoiceControl(ctx);
+        movementInputMap.HelpToggle.started += ctx => ToggleHelpTooltip(ctx);
     }
 
     // Start is called before the first frame update
@@ -124,6 +126,9 @@ public class PlayerInputScript : MonoBehaviour {
         if (inputEnabled) {
             startRecogniser();
         }
+    }
+    public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
+        helpView.ToggleVisibility();
     }
 }
 
