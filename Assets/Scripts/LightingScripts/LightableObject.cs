@@ -12,6 +12,7 @@ public class LightableObject : MonoBehaviour {
     public Material magentaMat;
     public Material cyanMat;
     public Material yellowMat;
+    public Material whiteMat;
     protected Material hiddenMaterial;
     protected Material defaultMaterial;
 
@@ -26,7 +27,7 @@ public class LightableObject : MonoBehaviour {
     bool appearing = false;
     Bounds physicsBounds;
     float boundingSphereSize;
-    int defaultLayer;
+    protected int defaultLayer;
     int hiddenLayer;
     Color objectColour;
     Vector4 objectColVector;
@@ -199,6 +200,9 @@ public class LightableObject : MonoBehaviour {
             case LightableColour.Yellow:
                 defaultMaterial = yellowMat;
                 break;
+            case LightableColour.White:
+                defaultMaterial = whiteMat;
+                break;
             default:
                 break;
         }
@@ -206,6 +210,7 @@ public class LightableObject : MonoBehaviour {
         objectColVector = objectColour;
         if (initialised && !overrideMeshRenderer) {
             meshRenderer.material = defaultMaterial;
+            GetHiddenMaterial();
         }
     }
 

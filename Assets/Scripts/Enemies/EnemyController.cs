@@ -7,7 +7,6 @@ using UnityEngine.AI;
 public class EnemyController : Enemy {
 
     public GameObject bullet;
-    public float damage;
     public float bulletSpeed;
     public float detectionThreshold;
     public float shootingTimerMax;
@@ -22,10 +21,12 @@ public class EnemyController : Enemy {
     float maxZ;
     public bool reactsToPlayerCover;
     public float missedShotReduction;
+    float hitStunTimer;
     float losCheckTimer;
     public float losCheckTimerMax;
     EnemyState enemyState;
     float pathStoppingThreshold = 0.01f;
+    bool hitStunned = false;
 
     enum EnemyState {
         Shooting, //Actively attacking the player
@@ -40,6 +41,8 @@ public class EnemyController : Enemy {
         StartCoroutine("EnemyTimers");
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
+        hitStunned = false;
+        inStunnableState = true;
     }
 
     public override void Awake()
@@ -122,6 +125,9 @@ public class EnemyController : Enemy {
     }
 
     void Patrol() {
+        //this could all be replaced with a call to SelectTarget() 
+        // (if SelectTarget() returned a tuple), but would need network testing
+        //{
         float minDist  = Mathf.Infinity;
         int index = 0;
         for (int i = 0; i < GlobalValues.Instance.players.Count; i++){
@@ -132,11 +138,25 @@ public class EnemyController : Enemy {
             }
         }
         playerObj = GlobalValues.Instance.players[index];
+        //}
         if (minDist < detectionThreshold)
         {
             ChangeToRepositioning();
         }
     }
+
+    public override void RequestHitStun(float duration)
+    {
+        if (inStunnableState) {
+            Debug.Log("Float stunned");
+            hitStunned = true;
+            hitStunTimer = duration;
+            weapon.cooldownLeft+=duration; //yes this is janky
+            //no i cannot see an easier way than restructuring the way weapons work (:
+            base.RequestHitStun(duration);  
+        }
+    }
+    
 
     void ChangeToShooting() {
         //Debug.Log("Started shooting");
@@ -151,13 +171,22 @@ public class EnemyController : Enemy {
     }
 
     void Shooting() {
-        float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
-        if (distToPlayer <= detectionThreshold) {
-            bool canSeePlayer = HasPlayerLOS(playerObj, detectionThreshold);
-            if (!canSeePlayer) {
-                if (reactsToPlayerCover) {
-                    //Debug.Log("Reacting!");
-                    ChangeToGettingLOS();
+        if (!hitStunned) {
+            float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
+            if (distToPlayer <= detectionThreshold) {
+                bool canSeePlayer = HasPlayerLOS(playerObj, detectionThreshold);
+                if (!canSeePlayer) {
+                    if (reactsToPlayerCover) {
+                        //Debug.Log("Reacting!");
+                        ChangeToGettingLOS();
+                    } else {
+                        Vector3 playerDirection = playerObj.transform.position - transform.position;
+                        playerDirection.y = 0f;
+                        TurnTowards(playerDirection);
+                        if (weapon.Use()) {
+                            shootingTimer -= missedShotReduction;
+                        }
+                    }
                 } else {
                     Vector3 playerDirection = playerObj.transform.position - transform.position;
                     playerDirection.y = 0f;
@@ -166,18 +195,11 @@ public class EnemyController : Enemy {
                         shootingTimer -= missedShotReduction;
                     }
                 }
-            } else {
-                Vector3 playerDirection = playerObj.transform.position - transform.position;
-                playerDirection.y = 0f;
-                TurnTowards(playerDirection);
-                if (weapon.Use()) {
-                    shootingTimer -= missedShotReduction;
-                }
             }
-        }
 
-        if (shootingTimer <= 0) {
-            ChangeToRepositioning();
+            if (shootingTimer <= 0) {
+                ChangeToRepositioning();
+            }
         }
     }
 
@@ -247,6 +269,12 @@ public class EnemyController : Enemy {
 
             if (losCheckTimer > 0) {
                 losCheckTimer -= Time.deltaTime;
+            }
+            if (hitStunTimer > 0) {
+                hitStunTimer -= Time.deltaTime;
+                if (hitStunTimer <= 0){
+                    hitStunned = false;
+                }
             }
             yield return null;
         }

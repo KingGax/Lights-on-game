@@ -10,13 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1369608689229774258}
   - component: {fileID: 8348226546433053400}
-  - component: {fileID: 3576521692594362796}
   m_Layer: 0
   m_Name: EnemyContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1369608689229774258
 Transform:
@@ -49,25 +48,3 @@ MonoBehaviour:
   enemyColour: 16711680
   enemyPrefab: {fileID: 774561292995369599, guid: 312f3d8bc7c5266409abdc52a58f7031,
     type: 3}
---- !u!114 &3576521692594362796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7491672133491731025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  observableSearch: 2
-  Synchronization: 3
-  OwnershipTransfer: 0
-  ObservedComponents: []
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
