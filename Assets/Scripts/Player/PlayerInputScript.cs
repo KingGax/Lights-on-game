@@ -34,7 +34,7 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.AltAttack.performed += ctx => AttackAlt(ctx);
 
         movementInputMap.Voice.started += ctx => VoiceControl(ctx);
-        movementInputMap.Help.started += ctx => ToggleHelpTooltip(ctx);
+        movementInputMap.HelpToggle.started += ctx => ToggleHelpTooltip(ctx);
     }
 
     // Start is called before the first frame update
