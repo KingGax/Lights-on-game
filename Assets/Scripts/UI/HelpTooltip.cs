@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class HelpTooltip : MonoBehaviour
 {
+    public GameObject container;
+    bool visible = false;
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Renderer>().enabled = false;
+        container.SetActive(false);
     }
 
     // Update is called once per frame
@@ -16,6 +18,7 @@ public class HelpTooltip : MonoBehaviour
         
     }
     public void ToggleVisibility() {
-        GetComponent<Renderer>().enabled = !GetComponent<Renderer>().enabled;
+        container.SetActive(!visible);
+        visible = !visible;
     }
 }
