@@ -7,7 +7,7 @@ mergeInto(LibraryManager.library, {
     startRecogniser__deps: ['startRecording'],
     startRecogniser: function() {
         console.log("Loaded Internal JS successfully");
-        _startRecording();
+        startRecording();
         //Starting record
         //Separate frontend function will handle return
     }
