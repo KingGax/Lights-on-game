@@ -326,7 +326,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         else if (colour == "RED")
             ChangeLightToColour(LanternColour.Red);
         else if (colour == "BLUE")
-            ChangeLightToColour(LanternColour.Blue)
+            ChangeLightToColour(LanternColour.Blue);
     }
 
     public void ChangeLightToColour(LanternColour col) {
