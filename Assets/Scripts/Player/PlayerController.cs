@@ -261,6 +261,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         isTakingKnockback = false;
     }
 
+    public void ChangeLightToColourText(string colour) {
+        if (colour == "GREEN")
+            ChangeLightToColour(LanternColour.Green);
+        else if (colour == "RED")
+            ChangeLightToColour(LanternColour.Red);
+        else if (colour == "BLUE")
+            ChangeLightToColour(LanternColour.Blue)
+    }
 
     public void ChangeLightToColour(LanternColour col) {
         switch (col) {
