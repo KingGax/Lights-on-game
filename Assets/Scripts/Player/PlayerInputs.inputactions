@@ -46,9 +46,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Help",
+                    "name": "SwitchWeapon",
                     "type": "Button",
-                    "id": "eec04b8f-6d17-4b04-aa11-5ff5f8382374",
+                    "id": "1fac1ea4-8686-4d99-a7c9-adfea3606962",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "AltAttack",
+                    "type": "Button",
+                    "id": "4c839c3e-5dc2-472f-9ca5-c3fda2a31580",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -156,12 +164,23 @@
                 },
                 {
                     "name": "",
-                    "id": "e3c64bb9-deb1-4a7b-9fac-3c9e29e1d15e",
-                    "path": "<Keyboard>/h",
+                    "id": "816a5a60-d119-4d38-a5ca-d38ddff7d6b0",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Help",
+                    "action": "SwitchWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3371efcf-f30d-43b9-ac43-115ed909266f",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "AltAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

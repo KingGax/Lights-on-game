@@ -12,194 +12,213 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     public @PlayerInputs()
     {
         asset = InputActionAsset.FromJson(@"{
-            ""name"": ""PlayerInputs"",
-            ""maps"": [
+    ""name"": ""PlayerInputs"",
+    ""maps"": [
+        {
+            ""name"": ""Player"",
+            ""id"": ""f9f6c326-c2d8-48cc-9b8b-a25c1886e1cd"",
+            ""actions"": [
                 {
-                    ""name"": ""Player"",
-                    ""id"": ""f9f6c326-c2d8-48cc-9b8b-a25c1886e1cd"",
-                    ""actions"": [
-                        {
-                            ""name"": ""Movement"",
-                            ""type"": ""Button"",
-                            ""id"": ""b8cfdf39-30e8-400a-b625-bfbd2832521a"",
-                            ""expectedControlType"": ""Button"",
-                            ""processors"": """",
-                            ""interactions"": """"
-                        },
-                        {
-                            ""name"": ""Light"",
-                            ""type"": ""Button"",
-                            ""id"": ""e015b30f-fbd9-4010-812e-d11cf5c6a8b0"",
-                            ""expectedControlType"": ""Button"",
-                            ""processors"": """",
-                            ""interactions"": """"
-                        },
-                        {
-                            ""name"": ""Attack"",
-                            ""type"": ""Button"",
-                            ""id"": ""7e2d5d8c-93db-4ea3-9c59-0d45eb60a89b"",
-                            ""expectedControlType"": ""Button"",
-                            ""processors"": """",
-                            ""interactions"": """"
-                        },
-                        {
-                            ""name"": ""Dash"",
-                            ""type"": ""Button"",
-                            ""id"": ""975de847-402d-4b37-864b-7134d012368a"",
-                            ""expectedControlType"": ""Button"",
-                            ""processors"": """",
-                            ""interactions"": """"
-                        },
-                        {
-                            ""name"": ""Voice"",
-                            ""type"": ""Button"",
-                            ""id"": ""a8d9ed23-7c7c-488d-b82e-edc27884c801"",
-                            ""expectedControlType"": ""Button"",
-                            ""processors"": """",
-                            ""interactions"": """"
-                        },
-                        {
-                            ""name"": ""Help"",
-                            ""type"": ""Button"",
-                            ""id"": ""eec04b8f-6d17-4b04-aa11-5ff5f8382374"",
-                            ""expectedControlType"": ""Button"",
-                            ""processors"": """",
-                            ""interactions"": """"
-                        }
-                    ],
-                    ""bindings"": [
-                        {
-                            ""name"": ""2D Vector"",
-                            ""id"": ""b09d4084-ae41-4e10-8fc7-4d9287ce8b8f"",
-                            ""path"": ""2DVector"",
-                            ""interactions"": """",
-                            ""processors"": """",
-                            ""groups"": """",
-                            ""action"": ""Movement"",
-                            ""isComposite"": true,
-                            ""isPartOfComposite"": false
-                        },
-                        {
-                            ""name"": ""up"",
-                            ""id"": ""be1649fd-70a9-4e7b-b235-ec4041a0be50"",
-                            ""path"": ""<Keyboard>/w"",
-                            ""interactions"": """",
-                            ""processors"": """",
-                            ""groups"": ""KeyboardMouse"",
-                            ""action"": ""Movement"",
-                            ""isComposite"": false,
-                            ""isPartOfComposite"": true
-                        },
-                        {
-                            ""name"": ""down"",
-                            ""id"": ""c72d36c1-da5f-4277-9761-c856fd30dff5"",
-                            ""path"": ""<Keyboard>/s"",
-                            ""interactions"": """",
-                            ""processors"": """",
-                            ""groups"": ""KeyboardMouse"",
-                            ""action"": ""Movement"",
-                            ""isComposite"": false,
-                            ""isPartOfComposite"": true
-                        },
-                        {
-                            ""name"": ""left"",
-                            ""id"": ""69fc213c-92cc-432a-8ac2-3acb53fa3eca"",
-                            ""path"": ""<Keyboard>/a"",
-                            ""interactions"": """",
-                            ""processors"": """",
-                            ""groups"": ""KeyboardMouse"",
-                            ""action"": ""Movement"",
-                            ""isComposite"": false,
-                            ""isPartOfComposite"": true
-                        },
-                        {
-                            ""name"": ""right"",
-                            ""id"": ""be30e818-cc94-4ab8-a69f-6a434aacdbe6"",
-                            ""path"": ""<Keyboard>/d"",
-                            ""interactions"": """",
-                            ""processors"": """",
-                            ""groups"": ""KeyboardMouse"",
-                            ""action"": ""Movement"",
-                            ""isComposite"": false,
-                            ""isPartOfComposite"": true
-                        },
-                        {
-                            ""name"": """",
-                            ""id"": ""10681b88-1a15-4cb4-97e8-60aa070eede4"",
-                            ""path"": ""<Keyboard>/q"",
-                            ""interactions"": """",
-                            ""processors"": """",
-                            ""groups"": ""KeyboardMouse"",
-                            ""action"": ""Light"",
-                            ""isComposite"": false,
-                            ""isPartOfComposite"": false
-                        },
-                        {
-                            ""name"": """",
-                            ""id"": ""d0a34fec-86ed-434c-9c7a-dc247d955af8"",
-                            ""path"": ""<Mouse>/leftButton"",
-                            ""interactions"": ""Press(behavior=1)"",
-                            ""processors"": """",
-                            ""groups"": ""KeyboardMouse"",
-                            ""action"": ""Attack"",
-                            ""isComposite"": false,
-                            ""isPartOfComposite"": false
-                        },
-                        {
-                            ""name"": """",
-                            ""id"": ""c1bb3fcc-8f51-48d0-99ee-d393cfc5f809"",
-                            ""path"": ""<Keyboard>/space"",
-                            ""interactions"": """",
-                            ""processors"": """",
-                            ""groups"": ""KeyboardMouse"",
-                            ""action"": ""Dash"",
-                            ""isComposite"": false,
-                            ""isPartOfComposite"": false
-                        },
-                        {
-                            ""name"": """",
-                            ""id"": ""d10967b1-722f-4544-a38c-ac0b5c1f6509"",
-                            ""path"": ""<Keyboard>/c"",
-                            ""interactions"": """",
-                            ""processors"": """",
-                            ""groups"": ""KeyboardMouse"",
-                            ""action"": ""Voice"",
-                            ""isComposite"": false,
-                            ""isPartOfComposite"": false
-                        },
-                        {
-                            ""name"": """",
-                            ""id"": ""e3c64bb9-deb1-4a7b-9fac-3c9e29e1d15e"",
-                            ""path"": ""<Keyboard>/h"",
-                            ""interactions"": """",
-                            ""processors"": """",
-                            ""groups"": ""KeyboardMouse"",
-                            ""action"": ""Help"",
-                            ""isComposite"": false,
-                            ""isPartOfComposite"": false
-                        }
-                    ]
+                    ""name"": ""Movement"",
+                    ""type"": ""Button"",
+                    ""id"": ""b8cfdf39-30e8-400a-b625-bfbd2832521a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Light"",
+                    ""type"": ""Button"",
+                    ""id"": ""e015b30f-fbd9-4010-812e-d11cf5c6a8b0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e2d5d8c-93db-4ea3-9c59-0d45eb60a89b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""975de847-402d-4b37-864b-7134d012368a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Voice"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8d9ed23-7c7c-488d-b82e-edc27884c801"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwitchWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""1fac1ea4-8686-4d99-a7c9-adfea3606962"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""AltAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""4c839c3e-5dc2-472f-9ca5-c3fda2a31580"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
-            ""controlSchemes"": [
+            ""bindings"": [
                 {
-                    ""name"": ""KeyboardMouse"",
-                    ""bindingGroup"": ""KeyboardMouse"",
-                    ""devices"": [
-                        {
-                            ""devicePath"": ""<Keyboard>"",
-                            ""isOptional"": false,
-                            ""isOR"": false
-                        },
-                        {
-                            ""devicePath"": ""<Mouse>"",
-                            ""isOptional"": false,
-                            ""isOR"": false
-                        }
-                    ]
+                    ""name"": ""2D Vector"",
+                    ""id"": ""b09d4084-ae41-4e10-8fc7-4d9287ce8b8f"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""be1649fd-70a9-4e7b-b235-ec4041a0be50"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""c72d36c1-da5f-4277-9761-c856fd30dff5"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""69fc213c-92cc-432a-8ac2-3acb53fa3eca"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""be30e818-cc94-4ab8-a69f-6a434aacdbe6"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10681b88-1a15-4cb4-97e8-60aa070eede4"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Light"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0a34fec-86ed-434c-9c7a-dc247d955af8"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c1bb3fcc-8f51-48d0-99ee-d393cfc5f809"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d10967b1-722f-4544-a38c-ac0b5c1f6509"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Voice"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""816a5a60-d119-4d38-a5ca-d38ddff7d6b0"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""SwitchWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3371efcf-f30d-43b9-ac43-115ed909266f"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""AltAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
-        }");
+        }
+    ],
+    ""controlSchemes"": [
+        {
+            ""name"": ""KeyboardMouse"",
+            ""bindingGroup"": ""KeyboardMouse"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
+}");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
@@ -207,7 +226,8 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Voice = m_Player.FindAction("Voice", throwIfNotFound: true);
-        m_Player_Help = m_Player.FindAction("Help", throwIfNotFound: true);
+        m_Player_SwitchWeapon = m_Player.FindAction("SwitchWeapon", throwIfNotFound: true);
+        m_Player_AltAttack = m_Player.FindAction("AltAttack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -262,7 +282,8 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Voice;
-    private readonly InputAction m_Player_Help;
+    private readonly InputAction m_Player_SwitchWeapon;
+    private readonly InputAction m_Player_AltAttack;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -272,7 +293,8 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Voice => m_Wrapper.m_Player_Voice;
-        public InputAction @Help => m_Wrapper.m_Player_Help;
+        public InputAction @SwitchWeapon => m_Wrapper.m_Player_SwitchWeapon;
+        public InputAction @AltAttack => m_Wrapper.m_Player_AltAttack;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -297,9 +319,12 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Voice.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoice;
                 @Voice.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoice;
                 @Voice.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVoice;
-                @Help.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHelp;
-                @Help.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHelp;
-                @Help.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHelp;
+                @SwitchWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchWeapon;
+                @SwitchWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchWeapon;
+                @SwitchWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchWeapon;
+                @AltAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltAttack;
+                @AltAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltAttack;
+                @AltAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltAttack;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -319,9 +344,12 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Voice.started += instance.OnVoice;
                 @Voice.performed += instance.OnVoice;
                 @Voice.canceled += instance.OnVoice;
-                @Help.started += instance.OnHelp;
-                @Help.performed += instance.OnHelp;
-                @Help.canceled += instance.OnHelp;
+                @SwitchWeapon.started += instance.OnSwitchWeapon;
+                @SwitchWeapon.performed += instance.OnSwitchWeapon;
+                @SwitchWeapon.canceled += instance.OnSwitchWeapon;
+                @AltAttack.started += instance.OnAltAttack;
+                @AltAttack.performed += instance.OnAltAttack;
+                @AltAttack.canceled += instance.OnAltAttack;
             }
         }
     }
@@ -342,6 +370,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnVoice(InputAction.CallbackContext context);
-        void OnHelp(InputAction.CallbackContext context);
+        void OnSwitchWeapon(InputAction.CallbackContext context);
+        void OnAltAttack(InputAction.CallbackContext context);
     }
 }
