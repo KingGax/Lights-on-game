@@ -17,14 +17,24 @@ public class LightableEnemy : LightableMultiObject {
     protected void InitialiseEnemyRPC(LightableColour newCol, string parentName)
     {
         transform.parent.SetParent(GameObject.Find(parentName).transform);
-        colour = newCol;
+        colour = newCol;        
         if (initialised) {
             SetColour();
+            gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
+            Debug.Log("Set colour!");
+            
         }
+    }
+    public override void Start() {
+        base.Start();
+        gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
     }
     public void InitialiseEnemy(LightableColour newCol, Transform parent)
     {
         transform.parent.SetParent(parent);
+        if (initialised){
+            gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
+        }
         pv.RPC("InitialiseEnemyRPC", RpcTarget.All, newCol, parent.gameObject.name);
     }
 
@@ -42,6 +52,8 @@ public class LightableEnemy : LightableMultiObject {
         enemy.EnableAI();
         enemy.weapon.UnFreeze();
         transform.parent.gameObject.layer = defaultEnemyLayer;
+        enemy.GetComponent<EnemyHealth>().InitialiseMaterials();
+
     }
 
     override public void Disappear() {

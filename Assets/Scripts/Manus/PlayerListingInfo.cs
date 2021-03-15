@@ -12,6 +12,8 @@ public class PlayerListingInfo : MonoBehaviour
     [SerializeField]
     private Text text;
 
+    
+
     private Player _player;
 
     public void SetPlayerInfo(Player player)

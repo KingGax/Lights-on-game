@@ -7,9 +7,10 @@ public class LightableRangedEnemy : LightableEnemy
     public SkinnedMeshRenderer smr;
     public EnemyGun gunScript;
     private Animator anim;
+    public bool usesMeshRenderer = false; //allows for non-modelled ranged enemies, remove once sniper has a model
 
     public override void Start() {
-        overrideMeshRenderer = true;
+        overrideMeshRenderer = !usesMeshRenderer;
         anim = transform.parent.GetComponent<Animator>();
         base.Start();
     }
