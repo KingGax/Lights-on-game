@@ -20,7 +20,12 @@ public class PlayerGun : PlayerWeapon
     public float laserThickness;
     float chargeTime = 0f;
     float laserDist = 0f;
+    PhotonView pv;
 
+
+    public void Awake() {
+        pv = gameObject.GetPhotonView();
+    }
 
     public override void UnequipWeapon() {
         mr.enabled = false;
@@ -34,7 +39,7 @@ public class PlayerGun : PlayerWeapon
     }
 
     void ShowChargeIndicator() {
-        chargeIndicator.enabled = false;
+        chargeIndicator.enabled = true;
     }
 
     public override void EquipWeapon() {
@@ -75,12 +80,17 @@ public class PlayerGun : PlayerWeapon
         chargeTime = 0f;
         charging = false;
         cooldownLeft = altFiredCooldownTime;
+        pv.RPC("AltFireRPC", RpcTarget.All, firePoint.position, GetHitPoint());
+        FireLaser(laserDist);
+        HideChargeIndicator();
+    }
+
+    [PunRPC]
+    public void AltFireRPC(Vector3 pos1, Vector3 pos2) {
         laser.SetPosition(0, firePoint.position);
         laser.SetPosition(1, GetHitPoint());
         laser.enabled = true;
-        FireLaser(laserDist);
         Invoke("DisableLaser", 0.3f);
-        HideChargeIndicator();
     }
 
     private void FireLaser(float dist) {
