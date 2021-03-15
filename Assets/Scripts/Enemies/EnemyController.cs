@@ -148,7 +148,7 @@ public class EnemyController : Enemy {
     public override void RequestHitStun(float duration)
     {
         if (inStunnableState) {
-            Debug.Log("Float stunned");
+            //Debug.Log("Float stunned");
             hitStunned = true;
             hitStunTimer = duration;
             weapon.cooldownLeft+=duration; //yes this is janky
