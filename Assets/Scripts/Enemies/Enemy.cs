@@ -96,6 +96,6 @@ public abstract class Enemy : MonoBehaviour {
 
     protected void TurnTowards(Vector3 direction)
     {
-        transform.forward = Vector3.RotateTowards(transform.forward, direction, Time.deltaTime * turnSpeed, 0.0f);
+        transform.forward = Vector3.RotateTowards(transform.forward, direction, Time.deltaTime * turnSpeed, 0.5f);
     }
 }

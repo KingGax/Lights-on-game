@@ -23,6 +23,8 @@ public class SniperEnemyController : Enemy
     int flashesRemaining = 0;
     float flashTimerMax = 0.1f;
     float flashTimer;
+    GameObject targetGO;
+    Transform targetTF;
     
     enum EnemyState {
         Shooting, //Actively attacking the player
@@ -39,6 +41,8 @@ public class SniperEnemyController : Enemy
         enemyState = EnemyState.Patrolling;
         laser = GetComponentInChildren<LineRenderer>();
         shotFlashDuration = flashNum * flashTimerMax + 0.02f;
+        targetGO = new GameObject();
+        targetTF = targetGO.transform;
         //hitStunned = false;
         inStunnableState = true;
     }
@@ -122,7 +126,7 @@ public class SniperEnemyController : Enemy
 
     Vector3 GetLaserPosition(){
         RaycastHit hit;
-        Vector3 playerDirection = GetPlayerDirection();
+        Vector3 playerDirection = transform.forward; //GetPlayerDirection();
         if (Physics.Raycast(transform.position, playerDirection, out hit, maxLaserDistance, GlobalValues.Instance.environment | GlobalValues.Instance.playerLayer)){
             return hit.point;
         } else{
@@ -158,8 +162,10 @@ public class SniperEnemyController : Enemy
         hasFlashed = false;
         //activate laser
         laser.enabled = true;
+        Vector3 hitPos = GetLaserPosition();
         laser.SetPosition(0, transform.position);
-        laser.SetPosition(1, GetLaserPosition());
+        laser.SetPosition(1, hitPos);
+        targetTF.position = hitPos;
         shootPrepareTimer = shootPrepareTimerMax;
         Debug.Log("Preparing shot");
     }
@@ -167,7 +173,9 @@ public class SniperEnemyController : Enemy
     void ShootPrepare(){
         Vector3 playerDirection = GetPlayerDirection();
         TurnTowards(playerDirection); //not working
-        laser.SetPosition(1, GetLaserPosition());
+        Vector3 hitPos = GetLaserPosition();
+        laser.SetPosition(1, hitPos);
+        targetTF.position = hitPos;
         if (shootPrepareTimer <= shotFlashDuration && !hasFlashed){
             hasFlashed = true;
             inStunnableState = false; //enemy can't be hitstunned while about to shoot
@@ -193,6 +201,7 @@ public class SniperEnemyController : Enemy
         Vector3 playerDirection = playerObj.transform.position - transform.position;
         playerDirection.y = 0f;
         TurnTowards(playerDirection);
+        weapon.SetTarget(targetGO);
         weapon.Use();
         ChangeToShootRecover();
     }
