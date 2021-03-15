@@ -119,6 +119,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         GlobalValues.Instance.AddPlayer(gameObject);
         if (_cameraWork != null) {
             if (photonView.IsMine) {
+                gameObject.name = "LocalPlayer";
                 _cameraWork.OnStartFollowing();
                 GlobalValues.Instance.localPlayerInstance = this.gameObject;
             }
