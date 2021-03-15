@@ -9,6 +9,7 @@ public abstract class PlayerWeapon : Weapon
     public float chargeSpeedModifier = 1f;
     public float altDamage;
     public float altHistunDuration;
+    public float equipCooldown;
     protected override abstract void UseWeapon();
     protected virtual void UseWeaponAlt() { }
 

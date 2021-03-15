@@ -10,6 +10,7 @@ public class PlayerSword : PlayerWeapon {
     private Vector3 initialAngle;
     private PhotonView weaponPhotonView;
     public MeshRenderer mr;
+    private bool active = false;
 
     public void Awake() {
         initialAngle = transform.parent.localEulerAngles;
@@ -19,15 +20,19 @@ public class PlayerSword : PlayerWeapon {
     [PunRPC]
     protected void RPCUseWeapon(double time) {
         alreadyHit.Clear();
+        active = true;
         float dt = (float)(PhotonNetwork.Time - time);
         cooldownLeft = primaryCooldownTime - dt;
     }
 
     public override void UnequipWeapon() {
         mr.enabled = false;
+        cooldownLeft = 0f;
+        active = false;
     }
     public override void EquipWeapon() {
         mr.enabled = true;
+        cooldownLeft = equipCooldown;
     }
 
     protected override void UseWeapon() {
@@ -46,7 +51,7 @@ public class PlayerSword : PlayerWeapon {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (!CanUse() && !frozen && !alreadyHit.Contains(other)) {
+        if (!CanUse() && !frozen && !alreadyHit.Contains(other) && active) {
             alreadyHit.Add(other);
             Health ds = other.gameObject.GetComponent<Health>();
             if (ds != null) {
