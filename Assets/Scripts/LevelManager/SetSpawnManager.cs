@@ -41,7 +41,7 @@ public class SetSpawnManager : MonoBehaviour
                 }
             }
         }
-        spawnTimer = maxSpawnTime;
+        spawnTimer = Mathf.Max(maxSpawnTime,0.1f);
     }
 
     // Update is called once per frame

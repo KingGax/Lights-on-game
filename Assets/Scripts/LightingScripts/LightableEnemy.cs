@@ -14,7 +14,7 @@ public class LightableEnemy : LightableMultiObject {
     PhotonView pv;
 
     [PunRPC]
-    protected void InitialiseEnemyRPC(LightableColour newCol, string parentName)
+    protected virtual void InitialiseEnemyRPC(LightableColour newCol, string parentName)
     {
         transform.parent.SetParent(GameObject.Find(parentName).transform);
         colour = newCol;        
@@ -29,9 +29,8 @@ public class LightableEnemy : LightableMultiObject {
         base.Start();
         gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
     }
-    public void InitialiseEnemy(LightableColour newCol, Transform parent)
+    public virtual void InitialiseEnemy(LightableColour newCol, Transform parent)
     {
-        transform.parent.SetParent(parent);
         if (initialised){
             gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
         }

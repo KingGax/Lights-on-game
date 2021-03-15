@@ -21,6 +21,10 @@ public abstract class Weapon : MonoBehaviour {
         target = GlobalValues.Instance.players[index];
     }
 
+    public void SetTarget(GameObject g){
+        target = g;
+    }
+
     // Can be overriden to include bullets left for specific weapons etc
     public virtual bool CanUse() {
         return cooldownLeft <= 0 && !frozen;
