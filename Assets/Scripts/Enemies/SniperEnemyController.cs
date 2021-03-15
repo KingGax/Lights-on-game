@@ -12,12 +12,17 @@ public class SniperEnemyController : Enemy
     float shootPrepareTimer;
     public float shootRecoverTimerMax;
     float shootRecoverTimer;
-    public float shotFlashDuration;
+    float shotFlashDuration;
     float losCheckTimer;
     public float losCheckTimerMax;
     float pathStoppingThreshold = 0.01f;
     public float maxLaserDistance;
     LineRenderer laser;
+    bool hasFlashed = false;
+    int flashNum = 7;
+    int flashesRemaining = 0;
+    float flashTimerMax = 0.1f;
+    float flashTimer;
     
     enum EnemyState {
         Shooting, //Actively attacking the player
@@ -33,6 +38,7 @@ public class SniperEnemyController : Enemy
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
         laser = GetComponentInChildren<LineRenderer>();
+        shotFlashDuration = flashNum * flashTimerMax + 0.02f;
         //hitStunned = false;
         inStunnableState = true;
     }
@@ -60,6 +66,20 @@ public class SniperEnemyController : Enemy
                 return;
             }
         } 
+        if (flashesRemaining > 0 && flashTimer <= 0){
+            
+            if (flashesRemaining % 2 == 0){
+                // mat.SetColor("_BaseColor", Color.red);     
+                // mat.SetColor("_EmissionColour", Color.white); 
+                laser.enabled = false;         
+            } else {
+                laser.enabled = true; 
+                // mat.SetColor("_BaseColor", baseCol);
+                // mat.SetColor("_EmissionColour", emisCol);
+            }
+            flashesRemaining--;
+            flashTimer = flashTimerMax;
+        }
         //playerObj = GlobalValues.Instance.players[0];
         if (aiEnabled) {
             switch (enemyState) {
@@ -81,6 +101,22 @@ public class SniperEnemyController : Enemy
                 default:
                     break;
             }
+        }
+    }
+
+    public override void RequestHitStun(float duration)
+    {
+        if (inStunnableState) {
+            //Debug.Log("Float stunned");
+            //hitStunned = true;
+            //hitStunTimer = duration;
+            if (shootPrepareTimer >0){
+                shootPrepareTimer += duration;
+            } else if (shootRecoverTimer > 0){
+                shootRecoverTimer += duration;
+            }
+           
+            base.RequestHitStun(duration);  
         }
     }
 
@@ -119,7 +155,7 @@ public class SniperEnemyController : Enemy
 
     void ChangeToShootPrepare(){
         enemyState = EnemyState.ShootPrepare;
-        
+        hasFlashed = false;
         //activate laser
         laser.enabled = true;
         laser.SetPosition(0, transform.position);
@@ -132,9 +168,10 @@ public class SniperEnemyController : Enemy
         Vector3 playerDirection = GetPlayerDirection();
         TurnTowards(playerDirection); //not working
         laser.SetPosition(1, GetLaserPosition());
-        if (shootPrepareTimer <= shotFlashDuration){
+        if (shootPrepareTimer <= shotFlashDuration && !hasFlashed){
+            hasFlashed = true;
             inStunnableState = false; //enemy can't be hitstunned while about to shoot
-            //flash
+            flashesRemaining = flashNum;
         }
         if (shootPrepareTimer <= 0){
             Debug.Log("Sniper shooting");
@@ -213,6 +250,10 @@ public class SniperEnemyController : Enemy
 
             if (losCheckTimer > 0) {
                 losCheckTimer -= Time.deltaTime;
+            }
+
+            if (flashTimer > 0) {
+                flashTimer -= Time.deltaTime;
             }
             // if (hitStunTimer > 0) {
             //     hitStunTimer -= Time.deltaTime;
