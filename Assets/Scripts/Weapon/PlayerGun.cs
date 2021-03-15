@@ -18,22 +18,35 @@ public class PlayerGun : PlayerWeapon
     public float altFiredCooldownTime;
     public float maxLaserDistance;
     public float laserThickness;
-    float chargeTime = 0;
+    float chargeTime = 0f;
     float laserDist = 0f;
 
 
     public override void UnequipWeapon() {
         mr.enabled = false;
+        charging = false;
+        chargeTime = 0f;
+        HideChargeIndicator();
     }
+
+    void HideChargeIndicator() {
+        chargeIndicator.enabled = false;
+    }
+
+    void ShowChargeIndicator() {
+        chargeIndicator.enabled = false;
+    }
+
     public override void EquipWeapon() {
         mr.enabled = true;
+        cooldownLeft = equipCooldown;
     }
 
     protected override void UseWeaponAlt() {
         chargeTime += alternateCooldownTime;
         charging = true;
         if (chargeTime > minChargeTime) {
-            chargeIndicator.enabled = true;
+            ShowChargeIndicator();
         }
         if (chargeTime > maxChargeTime) {
             FireAlt();
@@ -55,7 +68,7 @@ public class PlayerGun : PlayerWeapon
     private void FailAlt() {
         chargeTime = 0f;
         charging = false;
-        chargeIndicator.enabled = false;
+        HideChargeIndicator();
     }
 
     private void FireAlt() {
@@ -67,7 +80,7 @@ public class PlayerGun : PlayerWeapon
         laser.enabled = true;
         FireLaser(laserDist);
         Invoke("DisableLaser", 0.3f);
-        chargeIndicator.enabled = false;
+        HideChargeIndicator();
     }
 
     private void FireLaser(float dist) {

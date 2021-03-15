@@ -402,6 +402,7 @@ MonoBehaviour:
   chargeSpeedModifier: 1
   altDamage: 0
   altHistunDuration: 0
+  equipCooldown: 0.3
   maxAngle: 90
   mr: {fileID: 2904101012751432585}
 --- !u!1 &4464539807790254506
@@ -631,6 +632,7 @@ MonoBehaviour:
   chargeSpeedModifier: 0.6
   altDamage: 30
   altHistunDuration: 0.2
+  equipCooldown: 0
   primaryFire: {fileID: 0}
   mr: {fileID: 4464539808011951477}
   chargeIndicator: {fileID: 6501161540499365057}
