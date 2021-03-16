@@ -53,9 +53,15 @@ public class GlobalValues : MonoBehaviour {
             }
         }
     }
+    private void UpdateGlobalValues() {
+        _instance.respawnPoint = respawnPoint;
+        _instance.p1spawn = p1spawn;
+        _instance.p2Spawn = p2Spawn;
+    }
 
     private void Awake() {
         if (_instance != null && _instance != this) {
+            UpdateGlobalValues();
             Destroy(this.gameObject);
         } else {
             DontDestroyOnLoad(gameObject);
