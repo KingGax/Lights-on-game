@@ -11,6 +11,8 @@ jobs:
     name: Build my project ✨
     runs-on: ubuntu-latest
     steps:
+      - name: Install FFMPEG 😍
+        run: sudo apt install ffmpeg
       # Checkout
       - name: Checkout repository 👀
         uses: actions/checkout@v2
