@@ -11,8 +11,6 @@ jobs:
     name: Build my project ✨
     runs-on: ubuntu-latest
     steps:
-      - name: Install FFMPEG 😍
-        run: sudo apt install ffmpeg
       # Checkout
       - name: Checkout repository 👀
         uses: actions/checkout@v2
@@ -33,7 +31,7 @@ jobs:
       - name: Build project 🔨
         uses: game-ci/unity-builder@v2.0-alpha-6
         with:
-          targetPlatform: WebGL
+          targetPlatform: webgl
 
       # Output
       # - uses: actions/upload-artifact@v1
