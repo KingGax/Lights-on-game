@@ -13,6 +13,8 @@ public class FloorManager : MonoBehaviour
     float minEventTimer = 0.4f;
     bool[] roomEventsTriggered;
     public List<RoomObjective> levels;
+    public List<Transform> p1SpawnPoints;
+    public List<Transform> p2SpawnPoints;
     PhotonView pv;
     // Start is called before the first frame update
     void Start()
@@ -44,6 +46,15 @@ public class FloorManager : MonoBehaviour
             }
         }
         
+    }
+
+    public Vector3 GetSpawnPoint() {
+        if (pv.IsMine) {
+            return p1SpawnPoints[p1RoomNum].position;
+        }
+        else {
+            return p2SpawnPoints[p2RoomNum].position;
+        }
     }
 
     public void SetPlayerNum(int numPlayers) {

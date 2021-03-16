@@ -10,6 +10,7 @@ public class PlayerInputScript : MonoBehaviour {
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
     private bool inputEnabled = true;
+    public SpriteRenderer micRenderer;
     private HelpTooltip helpView;
 
     [DllImport("__Internal")]
@@ -124,6 +125,7 @@ public class PlayerInputScript : MonoBehaviour {
     public void VoiceControl(InputAction.CallbackContext ctx)
     {
         if (inputEnabled) {
+            micRenderer.enabled = true;
             startRecogniser();
         }
     }

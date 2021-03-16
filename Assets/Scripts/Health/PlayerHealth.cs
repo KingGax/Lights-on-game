@@ -45,7 +45,7 @@ public sealed class PlayerHealth : Health {
         }*/
     }
     private void Revive() {
-        transform.position = GlobalValues.Instance.respawnPoint.position;
+        transform.position = GlobalValues.Instance.fm.GetSpawnPoint();
         health = maxHealth;
         pc.SetMovementEnabled(true);
         hb.UpdateHealth(health);

@@ -12,6 +12,9 @@ public class PlayerGun : PlayerWeapon
     public Transform firePoint;
     public GameObject bullet;
     public LineRenderer laser;
+    public LineRenderer laserSight;
+    public Material chargedSightMat;
+    public Material unChargedSightMat;
     public float bulletSpeed;
     public float maxChargeTime;
     public float minChargeTime;
@@ -36,10 +39,15 @@ public class PlayerGun : PlayerWeapon
 
     void HideChargeIndicator() {
         chargeIndicator.enabled = false;
+        laserSight.material = unChargedSightMat;
+        laserSight.enabled = false;
+        laserSight.widthMultiplier = 0.1f;
     }
 
     void ShowChargeIndicator() {
         chargeIndicator.enabled = true;
+        laserSight.material = chargedSightMat;
+        laserSight.widthMultiplier = 0.2f;
     }
 
     public override void EquipWeapon() {
@@ -55,6 +63,16 @@ public class PlayerGun : PlayerWeapon
         }
         if (chargeTime > maxChargeTime) {
             FireAlt();
+        }
+    }
+    private void Update() {
+        if (charging) {
+            laserSight.enabled = true;
+            laserSight.SetPosition(0, firePoint.position);
+            laserSight.SetPosition(1, GetHitPoint());
+        }
+        else {
+            laserSight.enabled = false;
         }
     }
 

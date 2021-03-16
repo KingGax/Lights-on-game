@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     public static GameObject LocalPlayerInstance;
 
     Camera cam;
+    public SpriteRenderer micRenderer;
     public Light lantern;
     public PlayerWeapon equiptedWeapon;
     public List<PlayerWeapon> weapons;
@@ -322,6 +323,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     }
 
     public void ChangeLightToColourText(string colour) {
+        micRenderer.enabled = false;
         if (colour == "GREEN")
             ChangeLightToColour(LanternColour.Green);
         else if (colour == "RED")

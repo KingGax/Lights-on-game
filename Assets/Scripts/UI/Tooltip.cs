@@ -18,18 +18,26 @@ public class Tooltip : MonoBehaviour {
     private Transform target;
     private float t;
     protected PhotonView pv;
+    public bool parented;
+    private Transform parentTransform;
 
     public void Awake() {
         pv = gameObject.GetComponent<PhotonView>();
         target = transform;
         Text = text;
         Orientation = orientation;
+        if (parented) {
+            parentTransform = transform.parent;
+        }
     }
 
     public void FixedUpdate() {
         t += Time.fixedDeltaTime;
         transform.position = target.position
             + new Vector3(0.0f, 0.01f * Mathf.Sin(t), 0.0f);
+        if (orientation == TooltipOrientation.Camera && parented) {
+            transform.rotation = Quaternion.Euler(0, -parentTransform.rotation.y - 148.5f, 0);
+        }
     }
 
     public void Open() {
