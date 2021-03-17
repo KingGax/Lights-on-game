@@ -182,7 +182,6 @@ public class SniperEnemyController : Enemy
             flashesRemaining = flashNum;
         }
         if (shootPrepareTimer <= 0){
-            Debug.Log("Sniper shooting");
             ChangeToShooting();
         }
     }
@@ -211,7 +210,6 @@ public class SniperEnemyController : Enemy
         shootRecoverTimer = shootRecoverTimerMax;
         inStunnableState = true;
         agent.enabled = true;
-        Debug.Log("Reloading weapon");
     }
 
     void ShootRecover(){

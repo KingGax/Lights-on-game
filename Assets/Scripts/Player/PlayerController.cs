@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     [Header("Shooting")]
     public float shootBufferMax;
     public float altShootBufferMax;
+    public float reloadSpeedModifier;
+    public float reloadBufferMax;
     public LayerMask aimTargetsMask;
     public float maxShootOffsetAngle;
     float shootBuffer = 0;
@@ -49,6 +51,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     bool fireHeld = false;
     bool altFireHeld = false;
     float currentChargeSpeedModifier;
+    float reloadBuffer;
+    bool reloading;
     public bool isTakingKnockback { get; set; }
 
 
@@ -158,7 +162,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     }
 
     bool CanShoot() {
-        return !dashing;
+        return !dashing && !reloading;
     }
 
     void TurnTowards(Vector3 direction) {
@@ -169,6 +173,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     void Update() {
         if (photonView == null || !photonView.IsMine) return;
         if (movementEnabled) {
+            reloading = equiptedWeapon.IsReloading();
             if (fireHeld) {
                 shootBuffer = shootBufferMax;
             }
@@ -206,6 +211,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                 TurnTowards(fireDirection);
                 equiptedWeapon.UseAlt();
             }
+            else if (reloading && shootBuffer > 0 || altFireHeld) {
+                Vector3 fireDirection = GetFireDirection();
+                TurnTowards(fireDirection);
+            }
             else {
                 if (movement != Vector2.zero) {
                     if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
@@ -220,6 +229,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                     HandleDash();
                 }
                 else {
+                    if (reloadBuffer > 0 && CanShoot()) {
+                        equiptedWeapon.Reload();
+                    }
                     if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
                         Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
                         if (equiptedWeapon.IsCharging()) {
@@ -356,6 +368,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         movement = newMovementInput;
     }
 
+    public void Reload() {
+        reloadBuffer = reloadBufferMax;
+        
+    }
+
     private void OnCollisionEnter(Collision other) {
         if((GlobalValues.Instance.environment | (1 << other.gameObject.layer)) == GlobalValues.Instance.environment && isTakingKnockback){
             EndKnockback();
@@ -388,6 +405,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
             }
             if (altShootBuffer > 0) {
                 altShootBuffer -= Time.deltaTime;
+            }
+            if (reloadBuffer > 0) {
+                reloadBuffer -= Time.deltaTime;
             }
 
             yield return null;

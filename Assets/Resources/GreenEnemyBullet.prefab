@@ -300,7 +300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2444059516702995818}
   - component: {fileID: 1002329620312940721}
-  - component: {fileID: 8387880423667345128}
+  - component: {fileID: 4652619071502537811}
   m_Layer: 6
   m_Name: LightHitboxes
   m_TagString: Untagged
@@ -335,7 +335,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8387880423667345128
+--- !u!114 &4652619071502537811
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -344,13 +344,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4639867085047918538}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17c74faceb25f0845bbab2d313c95b0a, type: 3}
+  m_Script: {fileID: 11500000, guid: fde84f7e55519ba49924b4ef91fdf6c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 65280
-  greenMat: {fileID: 0}
-  blueMat: {fileID: 0}
-  redMat: {fileID: 0}
+  greenMat: {fileID: 2100000, guid: 64da707fbfcd4314ab905a68dc897800, type: 2}
+  blueMat: {fileID: 2100000, guid: 9946f4367c844404f8160254d2d415da, type: 2}
+  redMat: {fileID: 2100000, guid: 2b015d14e3840664d827749ba6f0265a, type: 2}
   magentaMat: {fileID: 0}
   cyanMat: {fileID: 0}
   yellowMat: {fileID: 0}
