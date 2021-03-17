@@ -4,8 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Photon.Pun;
 
-public class PlayerGun : PlayerWeapon
-{
+public class PlayerGun : PlayerWeapon {
     public Gun primaryFire;
     public MeshRenderer mr;
     public MeshRenderer chargeIndicator;
@@ -56,14 +55,20 @@ public class PlayerGun : PlayerWeapon
     }
 
     protected override void UseWeaponAlt() {
-        chargeTime += alternateCooldownTime;
-        charging = true;
-        if (chargeTime > minChargeTime) {
-            ShowChargeIndicator();
+        if (ammo > 0) {
+            chargeTime += alternateCooldownTime;
+            charging = true;
+            if (chargeTime > minChargeTime) {
+                ShowChargeIndicator();
+            }
+            if (chargeTime > maxChargeTime) {
+                FireAlt();
+            }
         }
-        if (chargeTime > maxChargeTime) {
-            FireAlt();
+        else {
+            Reload();
         }
+        
     }
     private void Update() {
         if (charging) {
@@ -97,6 +102,7 @@ public class PlayerGun : PlayerWeapon
     private void FireAlt() {
         chargeTime = 0f;
         charging = false;
+        ammo -= 2;
         cooldownLeft = altFiredCooldownTime;
         pv.RPC("AltFireRPC", RpcTarget.All, firePoint.position, GetHitPoint());
         FireLaser(laserDist);
@@ -138,8 +144,15 @@ public class PlayerGun : PlayerWeapon
 
 
     protected override void UseWeapon() {
-        GameObject newBullet = PhotonNetwork.Instantiate(bullet.name, firePoint.position, transform.rotation);
-        BulletController bc = newBullet.GetComponent<BulletController>();
-        bc.Fire(damage, hitStunDuration, bulletSpeed, transform.up);
+        if (ammo > 0) {
+            ammo -= 1;
+            GameObject newBullet = PhotonNetwork.Instantiate(bullet.name, firePoint.position, transform.rotation);
+            BulletController bc = newBullet.GetComponent<BulletController>();
+            bc.Fire(damage, hitStunDuration, bulletSpeed, transform.up);
+        }
+        else {
+            Reload();
+        }
+        
     }
 }

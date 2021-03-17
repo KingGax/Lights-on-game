@@ -489,6 +489,8 @@ MonoBehaviour:
   altDamage: 0
   altHistunDuration: 0
   equipCooldown: 0.3
+  maxAmmo: 0
+  reloadTime: 0
   maxAngle: 90
   mr: {fileID: 2904101012751432585}
 --- !u!1 &4464539807790254506
@@ -719,7 +721,9 @@ MonoBehaviour:
   chargeSpeedModifier: 0.6
   altDamage: 30
   altHistunDuration: 0.2
-  equipCooldown: 0
+  equipCooldown: 0.3
+  maxAmmo: 6
+  reloadTime: 1
   primaryFire: {fileID: 0}
   mr: {fileID: 4464539808011951477}
   chargeIndicator: {fileID: 6501161540499365057}
@@ -972,6 +976,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: eb7fc918-b88d-4cda-9fa1-dea493c92c45
     m_ActionName: Player/HelpToggle[/Keyboard/h]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 94bf84f0-59e4-4fca-9f95-2a718df06eb9
+    m_ActionName: Player/Pause[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

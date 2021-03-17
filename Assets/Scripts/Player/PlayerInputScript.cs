@@ -27,7 +27,7 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.Movement.canceled += ctx => OnMovement(ctx);
         movementInputMap.Dash.started += ctx => Dash(ctx);
         movementInputMap.Light.started += _ => ChangeLight();
-        movementInputMap.SwitchWeapon.started += _ => SwitchWeapon();
+        //movementInputMap.SwitchWeapon.started += _ => SwitchWeapon(); disabled for showcase
 
 
         movementInputMap.Attack.started += ctx => AttackOne(ctx);
