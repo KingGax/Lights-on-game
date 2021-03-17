@@ -10,7 +10,6 @@ public class PlayerInputScript : MonoBehaviour {
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
     private bool inputEnabled = true;
-    private bool gamePaused = false;
     public SpriteRenderer micRenderer;
     private HelpTooltip helpView;
 
@@ -37,7 +36,7 @@ public class PlayerInputScript : MonoBehaviour {
 
         movementInputMap.Voice.started += ctx => VoiceControl(ctx);
         movementInputMap.HelpToggle.started += ctx => ToggleHelpTooltip(ctx);
-        movementInputMap.Pause.started += ctx => TogglePause(ctx);
+        movementInputMap.Pause.started += ctx => ToggleMenu(ctx);
     }
 
     // Start is called before the first frame update
@@ -133,12 +132,8 @@ public class PlayerInputScript : MonoBehaviour {
     public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
         helpView.ToggleVisibility();
     }
-    public void TogglePause(InputAction.CallbackContext ctx) {
-        gamePaused = !gamePaused;
-        if(gamePaused)
-            Time.timeScale = 0f;
-        else
-            Time.timeScale = 1;
+    public void ToggleMenu(InputAction.CallbackContext ctx) {
+
     }
 }
 
