@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
         } else {
             if (PlayerController.LocalPlayerInstance == null) {
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
+                DontDestroyOnLoad(GlobalValues.Instance.gameObject);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 if (PhotonNetwork.IsMasterClient) {
                     PhotonNetwork.Instantiate(this.playerPrefab.name, GlobalValues.Instance.p1spawn.position, Quaternion.identity, 0);
@@ -33,7 +34,13 @@ public class GameManager : MonoBehaviourPunCallbacks {
                 }
                 
             } else {
-                Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
+                if (PhotonNetwork.IsMasterClient) {
+                    GlobalValues.Instance.players[0].transform.position = GlobalValues.Instance.p1spawn.position;
+                }
+                else {
+                    GlobalValues.Instance.players[1].transform.position = GlobalValues.Instance.p1spawn.position;
+                }
+                //Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
             }
         }
     }

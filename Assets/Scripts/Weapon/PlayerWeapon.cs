@@ -2,18 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerWeapon : Weapon
-{
+public abstract class PlayerWeapon : Weapon {
     public float alternateCooldownTime;
     protected bool charging = false;
     public float chargeSpeedModifier = 1f;
     public float altDamage;
     public float altHistunDuration;
     public float equipCooldown;
+    public int maxAmmo;
+    public float reloadTime;
+    protected int ammo;
+    private bool reloading;
     protected override abstract void UseWeapon();
     protected virtual void UseWeaponAlt() { }
 
     public virtual void ReleaseWeaponAlt() { }
+
+    public virtual void Reload() {
+        Invoke("FillAmmo", reloadTime);
+        reloading = true;
+    }
+
+    private void FillAmmo() {
+        ammo = maxAmmo;
+        reloading = false;
+    }
+    public void InterruptReload() {
+        reloading = false;
+        CancelInvoke("FillAmmo");
+    }
+
+
+    public bool IsReloading() {
+        return reloading;
+    }
+
+    public override bool CanUse() {
+        return base.CanUse() && !reloading;
+    }
 
     public bool IsCharging() {
         return charging;
