@@ -130,7 +130,9 @@ public class PlayerInputScript : MonoBehaviour {
         }
     }
     public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
-        helpView.ToggleVisibility();
+        GameObject controlsHelp = GlobalValues.Instance.UIElements.transform.Find("ControlsHelp").gameObject;
+        HelpTooltip actualScript = controlsHelp.GetComponent<HelpTooltip>();;
+        actualScript.ToggleVisibility();
     }
     public void ToggleMenu(InputAction.CallbackContext ctx) {
 
