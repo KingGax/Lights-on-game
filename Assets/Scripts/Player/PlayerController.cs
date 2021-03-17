@@ -194,25 +194,25 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                     equiptedWeapon.ReleaseWeaponAlt();
                 }
                 else if (altFireHeld && CanShoot()) {
-                    Vector3 fireDirection = GetFireDirection();
+                    Vector3 fireDirection = GetFireDirection(false);
                     TurnTowards(fireDirection);
                     equiptedWeapon.UseAlt();
                 }
             }
             else if (shootBuffer > 0 && CanShoot()) {
-                Vector3 fireDirection = GetFireDirection();
+                Vector3 fireDirection = GetFireDirection(true);
                 TurnTowards(fireDirection);
                 if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
                     bool didShoop = equiptedWeapon.Use();
                 }
             }
             else if (altFireHeld && CanShoot()) {
-                Vector3 fireDirection = GetFireDirection();
+                Vector3 fireDirection = GetFireDirection(false);
                 TurnTowards(fireDirection);
                 equiptedWeapon.UseAlt();
             }
             else if (reloading && shootBuffer > 0 || altFireHeld) {
-                Vector3 fireDirection = GetFireDirection();
+                Vector3 fireDirection = GetFireDirection(altFireHeld);
                 TurnTowards(fireDirection);
             }
             else {
@@ -266,7 +266,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         rb.velocity = dashDirection * dashSpeed;
     }
 
-    Vector3 GetFireDirection() {
+    Vector3 GetFireDirection(bool lockToEnemies) {
         //Create a ray from the Mouse click position
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
@@ -274,7 +274,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         float enter = 0.0f;
 
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100f, aimTargetsMask)) {
+        if (Physics.Raycast(ray, out hit, 100f, aimTargetsMask) && lockToEnemies) {
             Vector3 hitPoint = playerPlane.ClosestPointOnPlane(hit.point);
             Vector3 fireDirection = Vector3.ProjectOnPlane(hit.point - transform.position, XZPlaneNormal);
             return fireDirection;
