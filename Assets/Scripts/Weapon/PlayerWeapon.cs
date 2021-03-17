@@ -19,8 +19,10 @@ public abstract class PlayerWeapon : Weapon {
     public virtual void ReleaseWeaponAlt() { }
 
     public virtual void Reload() {
-        Invoke("FillAmmo", reloadTime);
-        reloading = true;
+        if (ammo < maxAmmo) {
+            Invoke("FillAmmo", reloadTime);
+            reloading = true;
+        }
     }
 
     private void FillAmmo() {
@@ -30,6 +32,10 @@ public abstract class PlayerWeapon : Weapon {
     public void InterruptReload() {
         reloading = false;
         CancelInvoke("FillAmmo");
+    }
+
+    public int GetAmmo() {
+        return ammo;
     }
 
 

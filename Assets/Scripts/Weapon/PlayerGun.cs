@@ -23,10 +23,16 @@ public class PlayerGun : PlayerWeapon {
     float chargeTime = 0f;
     float laserDist = 0f;
     PhotonView pv;
+    AmmoUI ammoScript;
 
 
     public void Awake() {
         pv = gameObject.GetPhotonView();
+        ammo = maxAmmo;
+    }
+    protected override void Start() {
+        base.Start();
+        ammoScript = GlobalValues.Instance.GetComponentInChildren<AmmoUI>();
     }
 
     public override void UnequipWeapon() {

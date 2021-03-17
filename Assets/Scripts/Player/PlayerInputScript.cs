@@ -37,16 +37,16 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.Voice.started += ctx => VoiceControl(ctx);
         movementInputMap.HelpToggle.started += ctx => ToggleHelpTooltip(ctx);
         movementInputMap.Pause.started += ctx => ToggleMenu(ctx);
+        movementInputMap.Reload.started += _ => Reload();
     }
 
     // Start is called before the first frame update
     void Start() {
         pc = GetComponent<PlayerController>();
     }
-
-    // Update is called once per frame
-    void Update() {
-
+    
+    void Reload() {
+        pc.Reload();
     }
 
     void SwitchWeapon() {
