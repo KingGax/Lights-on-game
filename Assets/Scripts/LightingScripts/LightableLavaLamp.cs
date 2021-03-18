@@ -9,7 +9,7 @@ public class LightableLavaLamp : LightableObstacle
     public Material lavaBlue;
     public Material lavaRed;
     private Material lavaColour;
-    private Animator anim;
+    public Animator anim;
     
     float animSpeed;
     // Start is called before the first frame update
@@ -17,7 +17,6 @@ public class LightableLavaLamp : LightableObstacle
     {
         base.Start();
         animSpeed = Random.Range(0.95f, 1.05f);
-        anim = GetComponent<Animator>();
         anim.speed = animSpeed;
         float startTime = Random.Range(0, 1f);
         anim.Play("lava_Time", 0, startTime);
