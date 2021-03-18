@@ -36,19 +36,34 @@ public class ContactWeapon : Weapon {
         alreadyHit.Clear();
     }
 
+    [PunRPC]
+    protected void HitRPC(){
+        if (pv.IsMine) {
+            parentScript.ChangeToChargeEnd();
+        }
+    }
+
     private void OnTriggerEnter(Collider other) {
-        if (active && !frozen) {
-            if (!alreadyHit.Contains(other)) {
-                alreadyHit.Add(other);
-                Health ds = other.gameObject.GetComponent<Health>();
-                if (ds != null) {
-                    ds.Damage(damage);
-                    IKnockbackable ks = other.gameObject.GetComponent<IKnockbackable>();
-                    if (ks != null) {
-                        Vector3 dir = gameObject.transform.forward; // this might need to be changed
-                        ks.TakeKnockback(dir, knockback, knockbackDuration);
+        if (other.gameObject == GlobalValues.Instance.localPlayerInstance)
+        {
+            if (active && !frozen)
+            {
+                if (!alreadyHit.Contains(other))
+                {
+                    alreadyHit.Add(other);
+                    Health ds = other.gameObject.GetComponent<Health>();
+                    if (ds != null)
+                    {
+                        ds.Damage(damage, hitStunDuration);
+                        IKnockbackable ks = other.gameObject.GetComponent<IKnockbackable>();
+                        if (ks != null)
+                        {
+                            Vector3 dir = gameObject.transform.forward; // this might need to be changed
+                            ks.TakeKnockback(dir, knockback, knockbackDuration);
+                        }
+                        pv.RPC("HitRPC", RpcTarget.All);
+                        //parentScript.ChangeToChargeEnd();
                     }
-                    parentScript.ChangeToChargeEnd();
                 }
             }
         }

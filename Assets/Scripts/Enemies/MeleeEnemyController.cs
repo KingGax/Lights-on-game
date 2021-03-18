@@ -28,6 +28,7 @@ public class MeleeEnemyController : Enemy {
     // Start is called before the first frame update
     void Start() {
         StartCoroutine("EnemyTimers");
+        inStunnableState = true;
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
         losCheckTimer = losCheckTimerMax;
@@ -118,7 +119,9 @@ public class MeleeEnemyController : Enemy {
         }
         Vector3 playerDirection = playerObj.transform.position - transform.position;
         playerDirection.y = 0f;
-        TurnTowards(playerDirection);
+        if (distToPlayer < engageDistance) {
+            TurnTowards(playerDirection);
+        }
         weapon.Use();
     }
 

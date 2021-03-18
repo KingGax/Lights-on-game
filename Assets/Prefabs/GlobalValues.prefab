@@ -52,16 +52,22 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 2048
-  enemyParent: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
   players: []
   localPlayerInstance: {fileID: 0}
   UIElements: {fileID: 0}
   defaultGreen: {fileID: 2100000, guid: 64da707fbfcd4314ab905a68dc897800, type: 2}
   defaultBlue: {fileID: 2100000, guid: 9946f4367c844404f8160254d2d415da, type: 2}
   defaultRed: {fileID: 2100000, guid: 2b015d14e3840664d827749ba6f0265a, type: 2}
-  hiddenGreen: {fileID: 2100000, guid: 8f11fdc70c4489545a3cc5c076bc9f28, type: 2}
-  hiddenBlue: {fileID: 2100000, guid: 33a21e221bfdbc44ebed8bec0f161f13, type: 2}
+  hiddenGreen: {fileID: 2100000, guid: 33a21e221bfdbc44ebed8bec0f161f13, type: 2}
+  hiddenBlue: {fileID: 2100000, guid: 8f11fdc70c4489545a3cc5c076bc9f28, type: 2}
   hiddenRed: {fileID: 2100000, guid: 056448445b83bcc47af30e8c22e07305, type: 2}
   hiddenCyan: {fileID: 2100000, guid: eadad1fa87e0c2b4c82f095caa0d9fad, type: 2}
-  hiddenYellow: {fileID: 0}
-  hiddenMagenta: {fileID: 0}
+  hiddenYellow: {fileID: 2100000, guid: 32a23dafe956eb842a6c9481a9b8eb8e, type: 2}
+  hiddenMagenta: {fileID: 2100000, guid: 74b764fe43af5964591b6ab3de861dc9, type: 2}
+  respawnPoint: {fileID: 0}
+  p1spawn: {fileID: 0}
+  p2Spawn: {fileID: 0}
+  fm: {fileID: 0}

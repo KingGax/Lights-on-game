@@ -6,18 +6,23 @@ public abstract class Weapon : MonoBehaviour {
 
     [HideInInspector]
     public float cooldownLeft;
-    public float cooldownTime;
+    public float primaryCooldownTime;
     public bool frozen;
     public float damage;
+    public float hitStunDuration;
     public bool debug;
     protected GameObject target = null;
 
 
-    void Start() {
+    protected virtual void Start() {
         cooldownLeft = 0;
     }
     public void SetTarget(int index){
         target = GlobalValues.Instance.players[index];
+    }
+
+    public void SetTarget(GameObject g){
+        target = g;
     }
 
     // Can be overriden to include bullets left for specific weapons etc
@@ -28,10 +33,13 @@ public abstract class Weapon : MonoBehaviour {
     // Returns true if succeeds
     public bool Use() {
         if (!CanUse()) return false;
-        cooldownLeft = cooldownTime; // Reset cooldown
+        cooldownLeft = primaryCooldownTime; // Reset cooldown
         UseWeapon();
         return true;
     }
+
+    public virtual void UnequipWeapon() { }
+    public virtual void EquipWeapon() { }
 
     public virtual void Freeze() {
         frozen = true;

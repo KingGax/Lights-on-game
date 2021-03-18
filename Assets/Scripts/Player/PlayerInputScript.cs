@@ -2,12 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Runtime.InteropServices;
 
 public class PlayerInputScript : MonoBehaviour {
-    
+
     private PlayerController pc;
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
+    private bool inputEnabled = true;
+    public SpriteRenderer micRenderer;
+    private HelpTooltip helpView;
+
+    [DllImport("__Internal")]
+    private static extern void startRecogniser();
 
     void Awake() {
         inputController = new PlayerInputs();
@@ -19,19 +26,39 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.Movement.canceled += ctx => OnMovement(ctx);
         movementInputMap.Dash.started += ctx => Dash(ctx);
         movementInputMap.Light.started += _ => ChangeLight();
+        //movementInputMap.SwitchWeapon.started += _ => SwitchWeapon(); disabled for showcase
+
 
         movementInputMap.Attack.started += ctx => AttackOne(ctx);
         movementInputMap.Attack.performed += ctx => AttackOne(ctx);
+        movementInputMap.AltAttack.started += ctx => AttackAlt(ctx);
+        movementInputMap.AltAttack.performed += ctx => AttackAlt(ctx);
+
+        movementInputMap.Voice.started += ctx => VoiceControl(ctx);
+        movementInputMap.HelpToggle.started += ctx => ToggleHelpTooltip(ctx);
+        movementInputMap.Pause.started += ctx => ToggleMenu(ctx);
+        movementInputMap.Reload.started += _ => Reload();
     }
 
     // Start is called before the first frame update
     void Start() {
         pc = GetComponent<PlayerController>();
     }
+    
+    void Reload() {
+        pc.Reload();
+    }
 
-    // Update is called once per frame
-    void Update() {
-        
+    void SwitchWeapon() {
+        pc.SwitchWeapon();
+    }
+
+    public void EnableInput() {
+        inputEnabled = true;
+    }
+
+    public void DisableInput() {
+        inputEnabled = false;
     }
 
     private void OnEnable() {
@@ -40,29 +67,51 @@ public class PlayerInputScript : MonoBehaviour {
 
     private void OnDisable() {
         inputController.Disable();
+        pc.OnMovement(Vector2.zero);
     }
 
     void AttackOne(InputAction.CallbackContext ctx) {
+        if (inputEnabled) {
+            if (ctx.performed) {
+                //performed in this case means released
+                pc.AttackOne(false);
+            }
+            else {
+                pc.AttackOne(true);
+            }
+        }
+    }
 
-        if (ctx.performed) {
-            //performed in this case means released
-            pc.AttackOne(false);
-        } else {
-            pc.AttackOne(true);
+    void AttackAlt(InputAction.CallbackContext ctx) {
+        if (inputEnabled) {
+            if (ctx.performed) {
+                //performed in this case means released
+                pc.AttackAlt(false);
+            }
+            else {
+                pc.AttackAlt(true);
+            }
         }
     }
 
     void ChangeLight() {
-        pc.ChangeLight();
+        if (inputEnabled) {
+            pc.ChangeLight();
+        }
     }
 
     void Dash(InputAction.CallbackContext ctx) {
-        pc.Dash();
+        if (inputEnabled) {
+            pc.Dash();
+        }
     }
 
     public void OnMovement(InputAction.CallbackContext ctx) {
-        Vector2 newMovementInput = ctx.ReadValue<Vector2>();
-        pc.OnMovement(newMovementInput);
+        if (inputEnabled) {
+            Vector2 newMovementInput = ctx.ReadValue<Vector2>();
+            pc.OnMovement(newMovementInput);
+        }
+        
 
         // Vector3 directionVector = transform.position - new Vector3(newMovementInput.x, 0, newMovementInput.y);
         // transform.LookAt(directionVector);
@@ -74,4 +123,19 @@ public class PlayerInputScript : MonoBehaviour {
 
         //transform.Rotate(new Vector3(0, 30, 0), Space.World);
     }
+    public void VoiceControl(InputAction.CallbackContext ctx) {
+        if (inputEnabled) {
+            micRenderer.enabled = true;
+            startRecogniser();
+        }
+    }
+    public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
+        GameObject controlsHelp = GlobalValues.Instance.UIElements.transform.Find("ControlsHelp").gameObject;
+        HelpTooltip actualScript = controlsHelp.GetComponent<HelpTooltip>();;
+        actualScript.ToggleVisibility();
+    }
+    public void ToggleMenu(InputAction.CallbackContext ctx) {
+
+    }
 }
+

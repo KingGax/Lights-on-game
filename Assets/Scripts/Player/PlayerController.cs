@@ -11,6 +11,7 @@ public enum LanternColour {
 }
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnockbackable {
     
+    Vector2 debugVel;
     public float turnSpeed;
     public float moveSpeed;
 
@@ -18,10 +19,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     public static GameObject LocalPlayerInstance;
 
     Camera cam;
+    public SpriteRenderer micRenderer;
     public Light lantern;
-    public Weapon equiptedWeapon;
+    public PlayerWeapon equiptedWeapon;
+    public List<PlayerWeapon> weapons;
     public LightObject lightSource;
 
+    int weaponIndex = 0;
     Rigidbody rb;
     Vector2 movement;
     Vector3 cameraForward;
@@ -36,10 +40,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     [Header("Shooting")]
     public float shootBufferMax;
+    public float altShootBufferMax;
+    public float reloadSpeedModifier;
+    public float reloadBufferMax;
     public LayerMask aimTargetsMask;
     public float maxShootOffsetAngle;
-    float shootBuffer;
+    float shootBuffer = 0;
+    float altShootBuffer = 0;
+    bool altFireReleasedThisFrame = false;
     bool fireHeld = false;
+    bool altFireHeld = false;
+    float currentChargeSpeedModifier;
+    float reloadBuffer;
+    bool reloading;
     public bool isTakingKnockback { get; set; }
 
 
@@ -54,6 +67,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     bool dashing = false;
     Vector3 dashDirection;
     bool canDash = true;
+
+    bool movementEnabled = true;
 
     #region IPunObservable implementation
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
@@ -74,7 +89,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
             PlayerController.LocalPlayerInstance = this.gameObject;
-            Debug.Log("Henlo");
             GameObject UI = Instantiate(UIElements);
             DontDestroyOnLoad(UI);
             FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
@@ -90,12 +104,27 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         
             
     }
+    
+    [PunRPC] 
+    public void SetWeaponRPC(int wepIndex) {
+        foreach (Weapon wep in weapons) {
+            wep.UnequipWeapon();
+        }
+        weapons[wepIndex].EquipWeapon();
+        equiptedWeapon = weapons[wepIndex];
+        currentChargeSpeedModifier = equiptedWeapon.chargeSpeedModifier;
+    }
+    public void SwitchWeapon() {
+        weaponIndex = (weaponIndex + 1) % weapons.Count;
+        photonView.RPC("SetWeaponRPC", RpcTarget.All, weaponIndex);
+    }
 
     void Start() {
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
         GlobalValues.Instance.AddPlayer(gameObject);
         if (_cameraWork != null) {
             if (photonView.IsMine) {
+                gameObject.name = "LocalPlayer";
                 _cameraWork.OnStartFollowing();
                 GlobalValues.Instance.localPlayerInstance = this.gameObject;
             }
@@ -104,11 +133,24 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         }
 
         rb = gameObject.GetComponent<Rigidbody>();
-        cameraForward = Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal);
-        cameraRight = Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal);
+        cameraForward = Vector3.Normalize(Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal));
+        cameraRight = Vector3.Normalize(Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal));
         lantern.color = colours[colourIndex];
-        
+
+        foreach (Weapon wep in weapons) {
+            wep.UnequipWeapon();
+        }
+        weapons[weaponIndex].EquipWeapon();
+        currentChargeSpeedModifier = equiptedWeapon.chargeSpeedModifier;
+
         StartCoroutine("CountdownTimers");
+    }
+
+    public void SetMovementEnabled(bool enabled) {
+        movementEnabled = enabled;
+        if (!enabled) {
+            rb.velocity = Vector3.zero;
+        }
     }
 
     [PunRPC]
@@ -120,7 +162,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     }
 
     bool CanShoot() {
-        return !dashing;
+        return !dashing && !reloading;
     }
 
     void TurnTowards(Vector3 direction) {
@@ -129,47 +171,82 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     // Update is called once per frame
     void Update() {
-        if (fireHeld) {
-            shootBuffer = shootBufferMax;
-        }
-        playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
+        if (photonView == null || !photonView.IsMine) return;
+        if (movementEnabled) {
+            reloading = equiptedWeapon.IsReloading();
+            if (fireHeld) {
+                shootBuffer = shootBufferMax;
+            }
+            if (altFireHeld) {
+                altShootBuffer = altShootBufferMax;
+            }
+            playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
 
-        if (dashBuffer > 0) {
-            if (!dashing && canDash) {
-                StartDash();
+            if (dashBuffer > 0) {
+                if (!dashing && canDash) {
+                    StartDash();
+                }
+            }
+            //handles looking and shooting
+            if (equiptedWeapon.IsCharging()) {
+                if (altFireReleasedThisFrame) {
+                    altFireReleasedThisFrame = false;
+                    equiptedWeapon.ReleaseWeaponAlt();
+                }
+                else if (altFireHeld && CanShoot()) {
+                    Vector3 fireDirection = GetFireDirection(false);
+                    TurnTowards(fireDirection);
+                    equiptedWeapon.UseAlt();
+                }
+            }
+            else if (shootBuffer > 0 && CanShoot()) {
+                Vector3 fireDirection = GetFireDirection(true);
+                TurnTowards(fireDirection);
+                if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
+                    bool didShoop = equiptedWeapon.Use();
+                }
+            }
+            else if (altFireHeld && CanShoot()) {
+                Vector3 fireDirection = GetFireDirection(false);
+                TurnTowards(fireDirection);
+                equiptedWeapon.UseAlt();
+            }
+            else if (reloading && shootBuffer > 0 || altFireHeld) {
+                Vector3 fireDirection = GetFireDirection(altFireHeld);
+                TurnTowards(fireDirection);
+            }
+            else {
+                if (movement != Vector2.zero) {
+                    if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
+                        Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+                        TurnTowards(moveVector);
+                    }
+
+                }
+            }
+            if (!isTakingKnockback) {
+                if (dashing) {
+                    HandleDash();
+                }
+                else {
+                    if (reloadBuffer > 0 && CanShoot()) {
+                        equiptedWeapon.Reload();
+                    }
+                    if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
+                        Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
+                        if (equiptedWeapon.IsCharging()) {
+                            moveVector *= currentChargeSpeedModifier;
+                        }
+                        moveVector.y = rb.velocity.y;
+                        debugVel = moveVector;
+                        rb.velocity = moveVector;
+                    }
+                }
             }
         }
-        
-        //handles looking and shooting
-        if (shootBuffer > 0 && CanShoot()) {
-            Vector3 fireDirection = GetFireDirection();
-            TurnTowards(fireDirection);
-            if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
-                bool didShoop = equiptedWeapon.Use();
-            }
-        } else {
-            if (movement != Vector2.zero) {
-                if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
-                    Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
-                    TurnTowards(moveVector);
-                }
-                
-            }
-        }
-        if (!isTakingKnockback)
-        {
-            if (dashing)
-            {
-                HandleDash();
-            }
-            else
-            {
-                if (photonView.IsMine == true || PhotonNetwork.IsConnected == false)
-                {
-                    Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
-                    moveVector.y = rb.velocity.y;
-                    rb.velocity = moveVector;
-                }
+        else {
+            if (!isTakingKnockback) {
+                rb.velocity = new Vector3(0,rb.velocity.y,0);
             }
         }
     }
@@ -189,7 +266,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         rb.velocity = dashDirection * dashSpeed;
     }
 
-    Vector3 GetFireDirection() {
+    Vector3 GetFireDirection(bool lockToEnemies) {
         //Create a ray from the Mouse click position
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
@@ -197,7 +274,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         float enter = 0.0f;
 
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100f, aimTargetsMask)) {
+        if (Physics.Raycast(ray, out hit, 100f, aimTargetsMask) && lockToEnemies) {
             Vector3 hitPoint = playerPlane.ClosestPointOnPlane(hit.point);
             Vector3 fireDirection = Vector3.ProjectOnPlane(hit.point - transform.position, XZPlaneNormal);
             return fireDirection;
@@ -214,6 +291,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
             return;
         }
         fireHeld = mouseDown;
+    }
+
+    public void AttackAlt(bool mouseDown) {
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true) {
+            return;
+        }
+        if (!mouseDown) {
+            altFireReleasedThisFrame = true;
+        }
+        altFireHeld = mouseDown;
     }
 
     public void Dash() {
@@ -247,6 +334,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         isTakingKnockback = false;
     }
 
+    public void ChangeLightToColourText(string colour) {
+        micRenderer.enabled = false;
+        if (colour == "GREEN")
+            ChangeLightToColour(LanternColour.Green);
+        else if (colour == "RED")
+            ChangeLightToColour(LanternColour.Red);
+        else if (colour == "BLUE")
+            ChangeLightToColour(LanternColour.Blue);
+    }
 
     public void ChangeLightToColour(LanternColour col) {
         switch (col) {
@@ -272,9 +368,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         movement = newMovementInput;
     }
 
+    public void Reload() {
+        reloadBuffer = reloadBufferMax;
+        
+    }
+
     private void OnCollisionEnter(Collision other) {
-        if (other.gameObject.layer != GlobalValues.Instance.environment && isTakingKnockback) {
-            Debug.Log("Collided with environment");
+        if((GlobalValues.Instance.environment | (1 << other.gameObject.layer)) == GlobalValues.Instance.environment && isTakingKnockback){
             EndKnockback();
         }
     }
@@ -302,6 +402,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
             if (shootBuffer > 0) {
                 shootBuffer -= Time.deltaTime;
+            }
+            if (altShootBuffer > 0) {
+                altShootBuffer -= Time.deltaTime;
+            }
+            if (reloadBuffer > 0) {
+                reloadBuffer -= Time.deltaTime;
             }
 
             yield return null;

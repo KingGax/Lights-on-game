@@ -16,4 +16,6 @@ public class LightableObstacle : LightableObject {
         obstacle.enabled = false;
         base.Disappear();
     }
+
+    
 }

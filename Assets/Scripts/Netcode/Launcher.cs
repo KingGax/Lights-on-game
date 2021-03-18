@@ -12,6 +12,8 @@ namespace LightsOn {
         [SerializeField]
         private GameObject progressLabel;
 
+        public string levelToLoad;
+
         bool isConnecting;
 
         public override void OnConnectedToMaster() {
@@ -70,7 +72,7 @@ namespace LightsOn {
         public override void OnJoinedRoom() {
             // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
-                PhotonNetwork.LoadLevel("Room");
+                PhotonNetwork.LoadLevel(levelToLoad);
             }
         }
     }

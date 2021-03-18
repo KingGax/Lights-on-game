@@ -23,10 +23,24 @@ public class GameManager : MonoBehaviourPunCallbacks {
         } else {
             if (PlayerController.LocalPlayerInstance == null) {
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
+                DontDestroyOnLoad(GlobalValues.Instance.gameObject);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+                if (PhotonNetwork.IsMasterClient) {
+                    PhotonNetwork.Instantiate(this.playerPrefab.name, GlobalValues.Instance.p1spawn.position, Quaternion.identity, 0);
+                }
+                else
+                {
+                    PhotonNetwork.Instantiate(this.playerPrefab.name, GlobalValues.Instance.p2Spawn.position, Quaternion.identity, 0);
+                }
+                
             } else {
-                Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
+                if (PhotonNetwork.IsMasterClient) {
+                    GlobalValues.Instance.players[0].transform.position = GlobalValues.Instance.p1spawn.position;
+                }
+                else {
+                    GlobalValues.Instance.players[1].transform.position = GlobalValues.Instance.p1spawn.position;
+                }
+                //Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
             }
         }
     }
@@ -54,7 +68,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
 
     public override void OnPlayerLeftRoom(Player other) {
         Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
-        GlobalValues.Instance.players.RemoveAt(GlobalValues.Instance.players.Count-1);
+        GlobalValues.Instance.PlayerLeft();
         if (PhotonNetwork.IsMasterClient) {
             Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
             //LoadArena();

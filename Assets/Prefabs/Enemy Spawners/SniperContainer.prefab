@@ -1,0 +1,207 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6239503826970766390
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1369608689229774258, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369608689229774258, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -17.555672
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369608689229774258, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369608689229774258, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 31.832573
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369608689229774258, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369608689229774258, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369608689229774258, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369608689229774258, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369608689229774258, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369608689229774258, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369608689229774258, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7491672133491731025, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: m_Name
+      value: SniperContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8348226546433053400, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: enemyColour
+      value: 65280
+      objectReference: {fileID: 0}
+    - target: {fileID: 8348226546433053400, guid: 56f62ee580f83d4429590cfc6ad49080,
+        type: 3}
+      propertyPath: enemyPrefab
+      value: 
+      objectReference: {fileID: 8422467607395490075, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 56f62ee580f83d4429590cfc6ad49080, type: 3}
+--- !u!4 &5014468415303995780 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1369608689229774258, guid: 56f62ee580f83d4429590cfc6ad49080,
+    type: 3}
+  m_PrefabInstance: {fileID: 6239503826970766390}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6326625651737828565
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5014468415303995780}
+    m_Modifications:
+    - target: {fileID: 1522194069032540506, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522194069568622618, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636379291012574628, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623274431902070355, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3572886232308386183, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851904009237811754, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607020542400, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490048, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490048, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490048, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490048, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 12.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490048, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490048, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490048, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490048, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490048, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490048, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490048, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490075, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_Name
+      value: SniperEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467607395490079, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422467608246325926, guid: 0e68f1241e6048e47a7dc861bab8e291,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1636379291012574628, guid: 0e68f1241e6048e47a7dc861bab8e291, type: 3}
+    - {fileID: 2623274431902070355, guid: 0e68f1241e6048e47a7dc861bab8e291, type: 3}
+    - {fileID: 1522194069568622619, guid: 0e68f1241e6048e47a7dc861bab8e291, type: 3}
+    - {fileID: 1522194069568622618, guid: 0e68f1241e6048e47a7dc861bab8e291, type: 3}
+    - {fileID: 7170417606261523717, guid: 0e68f1241e6048e47a7dc861bab8e291, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 0e68f1241e6048e47a7dc861bab8e291, type: 3}

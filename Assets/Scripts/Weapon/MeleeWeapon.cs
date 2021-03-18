@@ -19,7 +19,7 @@ public class MeleeWeapon : Weapon {
     protected void RPCUseWeapon(double time) {
         alreadyHit.Clear();
         float dt = (float)(PhotonNetwork.Time - time);
-        cooldownLeft = cooldownTime - dt;
+        cooldownLeft = primaryCooldownTime - dt;
     }
 
     protected override void UseWeapon() { 
@@ -29,7 +29,7 @@ public class MeleeWeapon : Weapon {
     public void Update() {
         if (!CanUse()) {
             Vector3 a = new Vector3(
-                maxAngle * Mathf.Sin((cooldownLeft / cooldownTime) * Mathf.PI),
+                maxAngle * Mathf.Sin((cooldownLeft / primaryCooldownTime) * Mathf.PI),
                 0,
                 0
             );
@@ -38,11 +38,16 @@ public class MeleeWeapon : Weapon {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (!CanUse() && !frozen && !alreadyHit.Contains(other)) {
-            alreadyHit.Add(other);
-            Health ds = other.gameObject.GetComponent<Health>();
-            if (ds != null) {
-                ds.Damage(damage);
+        if (other.gameObject == GlobalValues.Instance.localPlayerInstance)
+        {
+            if (!CanUse() && !frozen && !alreadyHit.Contains(other))
+            {
+                alreadyHit.Add(other);
+                Health ds = other.gameObject.GetComponent<Health>();
+                if (ds != null)
+                {
+                    ds.Damage(damage, hitStunDuration);
+                }
             }
         }
     }

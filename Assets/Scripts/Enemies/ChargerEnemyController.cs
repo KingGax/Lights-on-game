@@ -22,13 +22,16 @@ public class ChargerEnemyController : Enemy
     float playerPositionPoll;
     public GameObject weaponParent;
     public ContactWeapon weaponScript;
+    public float backoffThreshold;
+    float pathStoppingThreshold = 0.01f;
     enum EnemyState
     {
         Charging, //Charging towards the player
         Patrolling, //Moving/idle state - hasn't engaged the player yet
         ChargeStart, //Preparing to charge
         ChargeEnd, //Charge has ended
-        Stunned //Stunned, eg from colliding with a wall while charging
+        Stunned, //Stunned, eg from colliding with a wall while charging
+        Backoff //Started charging too close to enemy, backing off
     }
     // Start is called before the first frame update
     void Start()
@@ -80,24 +83,30 @@ public class ChargerEnemyController : Enemy
         //animation stuff here
         if (chargeStartTimer <= 0)
         {
-            ChangeToCharging();
+            if (Vector3.Distance(playerObj.transform.position, gameObject.transform.position) < backoffThreshold){
+                ChangeToBackingOff();
+            } else {
+                ChangeToCharging();
+            }
         }
     }
 
     void ChangeToCharging()
     {
+        inStunnableState = false;
         chargeTimer = chargeTimerMax;
         agent.enabled = true;
         agent.destination = playerObj.transform.position;
         enemyState = EnemyState.Charging;
         weapon.Use();
-        //[activate melee weapon]
     }
     void Charge()
     {
         if (playerPositionPoll <= 0)
         {
-            agent.destination = playerObj.transform.position;
+            NavMeshHit destPos;
+            NavMesh.SamplePosition(playerObj.transform.position, out destPos, 2f, NavMesh.AllAreas);
+            agent.destination = destPos.position;
             playerPositionPoll = playerPositionPollMax;
         }
         if (chargeTimer <= 0)
@@ -109,6 +118,7 @@ public class ChargerEnemyController : Enemy
     public void ChangeToChargeEnd()
     {
         weaponScript.Deactivate();
+        inStunnableState = true;
         chargeTimer = 0f;
         playerPositionPoll = 0f;
         //[deactivate melee weapon]
@@ -135,6 +145,27 @@ public class ChargerEnemyController : Enemy
     {
         enemyState = EnemyState.Patrolling;
         //do nothing at the moment
+    }
+    
+    void ChangeToBackingOff(){
+        Vector3 backOffPos = gameObject.transform.position + Vector3.Normalize(gameObject.transform.position - playerObj.transform.position) * backoffThreshold * 2; //backoff in opposite direction of player
+        NavMeshHit navmeshPos;
+        if (NavMesh.SamplePosition(backOffPos, out navmeshPos, 5f, NavMesh.AllAreas)){
+            agent.enabled = true;
+            Debug.Log("Navmeshpos: " +navmeshPos.position);
+            agent.destination = navmeshPos.position;
+            enemyState = EnemyState.Backoff;
+        } else {
+            Debug.Log("No navigable area was found for state: Backoff.");
+            ChangeToPatrolling();
+        }
+    }
+
+    void BackingOff(){
+        float dist = agent.remainingDistance;
+        if (dist != Mathf.Infinity && agent.remainingDistance <= pathStoppingThreshold) {
+            ChangeToChargeStart();
+        }
     }
 
     // Update is called once per frame
@@ -169,6 +200,9 @@ public class ChargerEnemyController : Enemy
                     break;
                 case EnemyState.Stunned:
                     //do nothing at the moment
+                    break;
+                case EnemyState.Backoff:
+                    BackingOff();
                     break;
                 default:
                     break;
