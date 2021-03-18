@@ -255,6 +255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d155421011ba4942bbc2be54bff24bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colour: {r: 0, g: 0, b: 0, a: 0}
+  colour1: 0
 --- !u!114 &130754189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,9 +596,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17c74faceb25f0845bbab2d313c95b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRed: 0
-  isBlue: 0
-  isGreen: 1
+  colour: 0
+  greenMat: {fileID: 0}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
+  magentaMat: {fileID: 0}
+  cyanMat: {fileID: 0}
+  yellowMat: {fileID: 0}
+  whiteMat: {fileID: 0}
   colourRange: 0
 --- !u!135 &593292425
 SphereCollider:
@@ -787,9 +794,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17c74faceb25f0845bbab2d313c95b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRed: 0
-  isBlue: 1
-  isGreen: 1
+  colour: 0
+  greenMat: {fileID: 0}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
+  magentaMat: {fileID: 0}
+  cyanMat: {fileID: 0}
+  yellowMat: {fileID: 0}
+  whiteMat: {fileID: 0}
   colourRange: 0
 --- !u!135 &863192133
 SphereCollider:
@@ -1765,6 +1777,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 130331166746090463, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4464539808157270193, guid: cd25f25df35954c408f7a0c56b0d288d,
         type: 3}
       propertyPath: m_RootOrder
@@ -1825,6 +1842,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6294330096512230151, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: viewIdField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7128256771448038727, guid: cd25f25df35954c408f7a0c56b0d288d,
+        type: 3}
+      propertyPath: viewIdField
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd25f25df35954c408f7a0c56b0d288d, type: 3}
 --- !u!1 &1629029454
@@ -1871,9 +1898,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17c74faceb25f0845bbab2d313c95b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRed: 1
-  isBlue: 0
-  isGreen: 0
+  colour: 0
+  greenMat: {fileID: 0}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
+  magentaMat: {fileID: 0}
+  cyanMat: {fileID: 0}
+  yellowMat: {fileID: 0}
+  whiteMat: {fileID: 0}
   colourRange: 0
 --- !u!135 &1629029457
 SphereCollider:
