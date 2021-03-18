@@ -12,7 +12,8 @@ public class GlobalValues : MonoBehaviour {
     public LayerMask enemyLayer;
     public List<GameObject> players;
     public GameObject localPlayerInstance;
-    public GameObject UIElements; 
+    public GameObject UIElements;
+    public GameObject MenuItem;
     public Material defaultGreen;
     public Material defaultBlue;
     public Material defaultRed;
