@@ -17,7 +17,7 @@ public class FloorManager : MonoBehaviour
     public List<Transform> p2SpawnPoints;
     public List<NavigationPoint> p1NavPoints;
     public List<NavigationPoint> p2NavPoints;
-    NavigationManager navManager;
+    //NavigationManager navManager;
     PhotonView pv;
     // Start is called before the first frame update
     void Start()
@@ -35,7 +35,7 @@ public class FloorManager : MonoBehaviour
             }
             
         }
-        navManager = GetComponent<NavigationManager>();
+        //navManager = GetComponent<NavigationManager>();
     }
 
     // Update is called once per frame
@@ -53,14 +53,16 @@ public class FloorManager : MonoBehaviour
         
     }
 
+
+
     public Vector3 GetSpawnPoint() {
         Debug.Log("Getting spawn point");
         if (pv.IsMine) {
-            navManager.SetPoints(true);
+            //navManager.SetPoints(true);
             return p1SpawnPoints[p1RoomNum].position;
         }
         else {
-            navManager.SetPoints(false);
+            //navManager.SetPoints(false);
             return p2SpawnPoints[p2RoomNum].position;
         }
     }
