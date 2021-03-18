@@ -26,7 +26,7 @@ public class FloatingHealthBar : HealthBar
     }
 
     void Update() {
-        transform.rotation = Quaternion.Euler(0, -parentTransform.rotation.y-148.5f, 0);
+        transform.rotation = Quaternion.Euler(0, -parentTransform.rotation.y-135f, 0);
         //transform.LookAt(Camera.main.transform.position);
         //transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
     }

@@ -6,7 +6,7 @@ using Photon.Pun;
 public class FloorManager : MonoBehaviour
 {
     bool twoPlayers = false;
-    int p1RoomNum=0;
+    int p1RoomNum=0; 
     int p2RoomNum=0;
     int numPlayers;
     float startEventTimer = 0f;
@@ -15,11 +15,15 @@ public class FloorManager : MonoBehaviour
     public List<RoomObjective> levels;
     public List<Transform> p1SpawnPoints;
     public List<Transform> p2SpawnPoints;
+    public List<NavigationPoint> p1NavPoints;
+    public List<NavigationPoint> p2NavPoints;
+    NavigationManager navManager;
     PhotonView pv;
     // Start is called before the first frame update
     void Start()
     {
         pv = gameObject.GetPhotonView();
+        
         numPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
         roomEventsTriggered = new bool[levels.Count];
         for (int i = 0; i < roomEventsTriggered.Length; i++) {
@@ -31,6 +35,7 @@ public class FloorManager : MonoBehaviour
             }
             
         }
+        navManager = GetComponent<NavigationManager>();
     }
 
     // Update is called once per frame
@@ -50,9 +55,11 @@ public class FloorManager : MonoBehaviour
 
     public Vector3 GetSpawnPoint() {
         if (pv.IsMine) {
+            navManager.SetPoints(true);
             return p1SpawnPoints[p1RoomNum].position;
         }
         else {
+            navManager.SetPoints(false);
             return p2SpawnPoints[p2RoomNum].position;
         }
     }
