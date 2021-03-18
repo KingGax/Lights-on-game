@@ -131,6 +131,8 @@ public class PlayerGun : PlayerWeapon {
                 health.Damage(altDamage, altHistunDuration);
             }
         }
+
+        AudioManager.PlaySFX(SoundClips.Instance.SFXLazer, firePoint.position);
     }
 
     private void DisableLaser() {
@@ -155,6 +157,7 @@ public class PlayerGun : PlayerWeapon {
             GameObject newBullet = PhotonNetwork.Instantiate(bullet.name, firePoint.position, transform.rotation);
             BulletController bc = newBullet.GetComponent<BulletController>();
             bc.Fire(damage, hitStunDuration, bulletSpeed, transform.up);
+            AudioManager.PlaySFX(SoundClips.Instance.SFXShoot, firePoint.position);
         }
         else {
             Reload();

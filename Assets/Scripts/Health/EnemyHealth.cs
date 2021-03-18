@@ -17,8 +17,8 @@ public class EnemyHealth : Health
     float flashTimerMax = 0.1f;
     float flashTimer;
     bool canFlicker = false;
-    public override void Start()
-    {
+
+    public override void Start() {
         base.Start();
         controller = gameObject.GetComponent<Enemy>();
         healthBar = gameObject.GetComponentInChildren<FloatingHealthBar>();
@@ -27,8 +27,7 @@ public class EnemyHealth : Health
         StartCoroutine("Timers");
     }
 
-    public override void Damage(float damage, float stunDuration)
-    {
+    public override void Damage(float damage, float stunDuration) {
         pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);//DamageRPC(damage);
         healthBar.UpdateHealth(health);
     }
@@ -48,30 +47,29 @@ public class EnemyHealth : Health
     }
 
     [PunRPC]
-    protected override void DamageRPC(float damage, float stunDuration)
-    {
+    protected override void DamageRPC(float damage, float stunDuration) {
         health -= damage;
-        if (pv.IsMine){
+        if (pv.IsMine) {
             controller.RequestHitStun(stunDuration);
-            if (canFlicker){
+            if (canFlicker) {
                 if (flashesRemaining == 0){
                     flashesRemaining = flashNum;
                 }
             }
+
             if(health <= 0) {
                 
                 Die();
             }
         }
+
         healthBar.UpdateHealth(health);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (flashesRemaining > 0 && flashTimer <= 0){
+    void Update() {
+        if (flashesRemaining > 0 && flashTimer <= 0) {
             
-            if (flashesRemaining % 2 == 0){
+            if (flashesRemaining % 2 == 0) {
                 mat.SetColor("_BaseColor", Color.red);     
                 mat.SetColor("_EmissionColour", Color.white);          
             } else {
