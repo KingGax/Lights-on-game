@@ -81,6 +81,22 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""94bf84f0-59e4-4fca-9f95-2a718df06eb9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""02578706-a338-4ade-aa91-80d3eeeeb50a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -215,6 +231,28 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""HelpToggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fbbd26c9-ab4f-4e75-899c-2c1fb9371da0"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ac0e4261-340a-40c6-9a0e-8db262cc2812"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -248,6 +286,8 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_Player_SwitchWeapon = m_Player.FindAction("SwitchWeapon", throwIfNotFound: true);
         m_Player_AltAttack = m_Player.FindAction("AltAttack", throwIfNotFound: true);
         m_Player_HelpToggle = m_Player.FindAction("HelpToggle", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -305,6 +345,8 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_SwitchWeapon;
     private readonly InputAction m_Player_AltAttack;
     private readonly InputAction m_Player_HelpToggle;
+    private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_Reload;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -317,6 +359,8 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @SwitchWeapon => m_Wrapper.m_Player_SwitchWeapon;
         public InputAction @AltAttack => m_Wrapper.m_Player_AltAttack;
         public InputAction @HelpToggle => m_Wrapper.m_Player_HelpToggle;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -350,6 +394,12 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @HelpToggle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHelpToggle;
                 @HelpToggle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHelpToggle;
                 @HelpToggle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHelpToggle;
+                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Reload.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @Reload.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @Reload.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -378,6 +428,12 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @HelpToggle.started += instance.OnHelpToggle;
                 @HelpToggle.performed += instance.OnHelpToggle;
                 @HelpToggle.canceled += instance.OnHelpToggle;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
             }
         }
     }
@@ -401,5 +457,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnSwitchWeapon(InputAction.CallbackContext context);
         void OnAltAttack(InputAction.CallbackContext context);
         void OnHelpToggle(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
 }

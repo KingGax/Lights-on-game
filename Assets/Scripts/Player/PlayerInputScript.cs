@@ -26,7 +26,7 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.Movement.canceled += ctx => OnMovement(ctx);
         movementInputMap.Dash.started += ctx => Dash(ctx);
         movementInputMap.Light.started += _ => ChangeLight();
-        movementInputMap.SwitchWeapon.started += _ => SwitchWeapon();
+        //movementInputMap.SwitchWeapon.started += _ => SwitchWeapon(); disabled for showcase
 
 
         movementInputMap.Attack.started += ctx => AttackOne(ctx);
@@ -36,16 +36,17 @@ public class PlayerInputScript : MonoBehaviour {
 
         movementInputMap.Voice.started += ctx => VoiceControl(ctx);
         movementInputMap.HelpToggle.started += ctx => ToggleHelpTooltip(ctx);
+        movementInputMap.Pause.started += ctx => ToggleMenu(ctx);
+        movementInputMap.Reload.started += _ => Reload();
     }
 
     // Start is called before the first frame update
     void Start() {
         pc = GetComponent<PlayerController>();
     }
-
-    // Update is called once per frame
-    void Update() {
-
+    
+    void Reload() {
+        pc.Reload();
     }
 
     void SwitchWeapon() {
@@ -122,15 +123,19 @@ public class PlayerInputScript : MonoBehaviour {
 
         //transform.Rotate(new Vector3(0, 30, 0), Space.World);
     }
-    public void VoiceControl(InputAction.CallbackContext ctx)
-    {
+    public void VoiceControl(InputAction.CallbackContext ctx) {
         if (inputEnabled) {
             micRenderer.enabled = true;
             startRecogniser();
         }
     }
     public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
-        helpView.ToggleVisibility();
+        GameObject controlsHelp = GlobalValues.Instance.UIElements.transform.Find("ControlsHelp").gameObject;
+        HelpTooltip actualScript = controlsHelp.GetComponent<HelpTooltip>();;
+        actualScript.ToggleVisibility();
+    }
+    public void ToggleMenu(InputAction.CallbackContext ctx) {
+
     }
 }
 

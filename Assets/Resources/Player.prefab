@@ -489,6 +489,8 @@ MonoBehaviour:
   altDamage: 0
   altHistunDuration: 0
   equipCooldown: 0.3
+  maxAmmo: 0
+  reloadTime: 0
   maxAngle: 90
   mr: {fileID: 2904101012751432585}
 --- !u!1 &4464539807790254506
@@ -717,9 +719,11 @@ MonoBehaviour:
   debug: 0
   alternateCooldownTime: 0.1
   chargeSpeedModifier: 0.6
-  altDamage: 30
+  altDamage: 35
   altHistunDuration: 0.2
-  equipCooldown: 0
+  equipCooldown: 0.3
+  maxAmmo: 8
+  reloadTime: 0.5
   primaryFire: {fileID: 0}
   mr: {fileID: 4464539808011951477}
   chargeIndicator: {fileID: 6501161540499365057}
@@ -729,9 +733,9 @@ MonoBehaviour:
   laserSight: {fileID: 9136689840320416127}
   chargedSightMat: {fileID: 2100000, guid: cb281970abe402646abf2d40ce425592, type: 2}
   unChargedSightMat: {fileID: 2100000, guid: 1d477de1ee8c7d342b2c244b1cba4853, type: 2}
-  bulletSpeed: 16
+  bulletSpeed: 24
   maxChargeTime: 6
-  minChargeTime: 1
+  minChargeTime: 0.8
   altFiredCooldownTime: 0.5
   maxLaserDistance: 100
   laserThickness: 0.3
@@ -906,6 +910,8 @@ MonoBehaviour:
     type: 3}
   shootBufferMax: 0.1
   altShootBufferMax: 0
+  reloadSpeedModifier: 1
+  reloadBufferMax: 0.25
   aimTargetsMask:
     serializedVersion: 2
     m_Bits: 256
@@ -972,6 +978,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: eb7fc918-b88d-4cda-9fa1-dea493c92c45
     m_ActionName: Player/HelpToggle[/Keyboard/h]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 94bf84f0-59e4-4fca-9f95-2a718df06eb9
+    m_ActionName: Player/Pause[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 02578706-a338-4ade-aa91-80d3eeeeb50a
+    m_ActionName: Player/Reload[/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

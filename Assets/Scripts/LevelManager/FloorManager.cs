@@ -64,6 +64,13 @@ public class FloorManager : MonoBehaviour
         }
     }
 
+    public int GetPlayerRoom(bool player1) {
+        if (player1) {
+            return p1RoomNum;
+        }
+        return p2RoomNum;
+    }
+
     public void SetPlayerNum(int numPlayers) {
         if (numPlayers == 1) {
             twoPlayers = false;
