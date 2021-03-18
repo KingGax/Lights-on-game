@@ -63,7 +63,7 @@ public class NavigationManager : MonoBehaviour
     }
 
     public void UpdateManager(Vector3 gate){
-        if (navigationPoints[navIndex]){
+        if (navigationPoints[navIndex].transform.position == gate){
             navIndex++;
         } else { //backtracking
             //navIndex--; //do nothing for now, to prevent entering and leaving from the same side, etc.
