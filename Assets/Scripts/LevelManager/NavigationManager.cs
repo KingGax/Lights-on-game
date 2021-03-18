@@ -5,6 +5,7 @@ using Photon.Pun;
 
 public class NavigationManager : MonoBehaviour
 {
+    bool initialised = false;
     public List<NavigationPoint> navigationPoints;
     NavArrowController arrow;
     FloorManager floorManager;
@@ -17,8 +18,10 @@ public class NavigationManager : MonoBehaviour
         pv = gameObject.GetPhotonView();
         floorManager = GetComponent<FloorManager>();
         arrow = GlobalValues.Instance.UIElements.GetComponentInChildren<NavArrowController>();
-        arrow.UpdateTarget(navigationPoints[navIndex].transform);
-        arrow.SetEnabled(navigationEnabled);
+        if (initialised){
+            arrow.UpdateTarget(navigationPoints[navIndex].transform);
+            arrow.SetEnabled(navigationEnabled);
+        }
     }
 
     [PunRPC]
@@ -31,6 +34,8 @@ public class NavigationManager : MonoBehaviour
     }
 
     public void SetPoints(bool master){
+        Debug.Log("Setting navpoints");
+        initialised = true;
         if (master){
             navigationPoints = floorManager.p1NavPoints;
             
