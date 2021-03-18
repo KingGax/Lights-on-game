@@ -5,11 +5,11 @@ using UnityEngine;
 public class HelpTooltip : MonoBehaviour
 {
     public GameObject controlHelpObject;
-    bool visible = false;
+    bool visible = true;
     // Start is called before the first frame update
     void Start()
     {
-        controlHelpObject.SetActive(false);
+        //controlHelpObject.SetActive(false);
     }
 
     // Update is called once per frame
