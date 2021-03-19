@@ -21,7 +21,7 @@ public class WinScript : MonoBehaviour {
 
     [PunRPC]
     public void ChangeSceneRPC() {
-        if (PhotonNetwork.IsMasterClient && !loadingLevel) {
+        if (PhotonNetwork.IsMasterClient && !loadingLevel && GlobalValues.Instance.fm.GetObjectivesTriggered()) {
             loadingLevel = true;
             PhotonNetwork.LoadLevel(sceneName);
         }

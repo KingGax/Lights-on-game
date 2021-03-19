@@ -49,6 +49,10 @@ public class RoomObjective : MonoBehaviour
             door.UnlockDoor();
         }
     }
+
+    public virtual bool ObjectiveComplete() {
+        return true;
+    }
     protected void LockExitGlobal() {
         pv.RPC("LockExitLocal", RpcTarget.All);
     }
