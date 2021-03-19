@@ -1,12 +1,12 @@
 using UnityEngine;
 
 public enum LightableColour {
-    Red = 0xff0000,
-    Green = 0x00ff00,
-    Blue = 0x0000ff,
-    Cyan = 0x00ffff,
-    Magenta = 0xff00ff,
-    Yellow = 0xffff00,
+    Red = 0xff3d3d,
+    Green = 0x3dff3d,
+    Blue = 0x3d3dff,
+    Cyan = 0x3dffff,
+    Magenta = 0xff3dff,
+    Yellow = 0xffff3d,
     White = 0xffffff,
 }
 
