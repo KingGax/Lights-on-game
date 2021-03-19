@@ -12,6 +12,7 @@ public class FloorManager : MonoBehaviour
     float startEventTimer = 0f;
     float minEventTimer = 0.4f;
     bool[] roomEventsTriggered;
+    bool[] objectivesComplete;
     public List<RoomObjective> levels;
     public List<Transform> p1SpawnPoints;
     public List<Transform> p2SpawnPoints;
@@ -27,12 +28,15 @@ public class FloorManager : MonoBehaviour
         numPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
         twoPlayers = numPlayers == 2;
         roomEventsTriggered = new bool[levels.Count];
+        objectivesComplete = new bool[levels.Count];
         for (int i = 0; i < roomEventsTriggered.Length; i++) {
             if (levels[i] != null) {
                 roomEventsTriggered[i] = false;
+                objectivesComplete[i] = false;
             }
             else {
                 roomEventsTriggered[i] = true;
+                objectivesComplete[i] = true;
             }
             
         }
@@ -66,6 +70,24 @@ public class FloorManager : MonoBehaviour
             //navManager.SetPoints(false);
             return p2SpawnPoints[p2RoomNum].position;
         }
+    }
+
+    public bool GetObjectivesTriggered() {
+        foreach (bool objective in roomEventsTriggered) {
+            if (!objective) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public bool GetObjectivesComplete() {
+        foreach (bool objective in objectivesComplete) {
+            if (!objective) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public int GetPlayerRoom(bool player1) {
