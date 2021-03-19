@@ -78,7 +78,7 @@ public class SniperEnemyController : Enemy
         if (pv == null) return;
         if (!pv.IsMine){
             if (RPCLaserEnabled){
-                TrackLaser();
+                TrackLaser(false);
             } else {
                 return;
             }
@@ -191,9 +191,11 @@ public class SniperEnemyController : Enemy
         Debug.Log("Preparing shot");
     }
 
-    void TrackLaser(){
+    void TrackLaser(bool isMaster){
         Vector3 playerDirection = GetPlayerDirection();
-        TurnTowards(playerDirection); 
+        if (isMaster){
+            TurnTowards(playerDirection); 
+        }
         Vector3 hitPos = GetLaserPosition();
         laser.SetPosition(1, hitPos);
         targetTF.position = hitPos;
@@ -205,7 +207,7 @@ public class SniperEnemyController : Enemy
     }
 
     void ShootPrepare(){
-        TrackLaser();
+        TrackLaser(true);
         if (shootPrepareTimer <= 0){
             ChangeToShooting();
         }
