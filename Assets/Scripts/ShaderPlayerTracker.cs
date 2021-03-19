@@ -38,11 +38,11 @@ public class ShaderPlayerTracker : MonoBehaviour {
         }
         else {
             if (twoPlayers) {
-                shaderMaterial.SetColor("Color_1", p2Lantern.colour);
+                shaderMaterial.SetColor("Color_1", p2Lantern.lightableColour.DisplayColour());
                 shaderMaterial.SetVector("Vector3_1", p2.transform.position);
             }
             shaderMaterial.SetVector("Vector3_8cf38a4ca0cb4f6589592a89d233cd7f", p1.transform.position);
-            shaderMaterial.SetColor("Color_0e196a011788488595d0f269674a173d", p1Lantern.colour);
+            shaderMaterial.SetColor("Color_0e196a011788488595d0f269674a173d", p1Lantern.lightableColour.DisplayColour());
         }
     }
 }

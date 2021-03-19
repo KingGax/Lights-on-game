@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     Color lightColour;
     Color[] colours = { new Color(1, 0, 0), new Color(0, 1, 0), new Color(0, 0, 1) };
+    LightableColour[] lightableColours = {LightableColour.Red, LightableColour.Green, LightableColour.Blue };
     int colourIndex = 0;
     Plane playerPlane;
 
@@ -158,7 +159,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         colourIndex = newIndex;
         lantern.color = colours[colourIndex];
         lightSource.colour = colours[colourIndex];
-        lightSource.ChangeColour();
+        lightSource.ChangeColour(lightableColours[colourIndex]);
     }
 
     bool CanShoot() {
@@ -319,7 +320,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         lantern.color = colours[colourIndex];
         lightSource.colour = colours[colourIndex];
         photonView.RPC("UpdateLightColour", RpcTarget.OthersBuffered, colourIndex);
-        lightSource.ChangeColour();
+        lightSource.ChangeColour(lightableColours[colourIndex]);
         AudioManager.PlaySFX(SoundClips.Instance.SFXLightChange, transform.position);
     }
 
@@ -362,7 +363,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
         lantern.color = colours[colourIndex];
         lightSource.colour = colours[colourIndex];
-        lightSource.ChangeColour();
+        lightSource.ChangeColour(lightableColours[colourIndex]);
+        photonView.RPC("UpdateLightColour", RpcTarget.OthersBuffered, colourIndex);
     }
 
     public void OnMovement(Vector2 newMovementInput) {
