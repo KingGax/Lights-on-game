@@ -25,6 +25,7 @@ public class FloorManager : MonoBehaviour
         pv = gameObject.GetPhotonView();
         
         numPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
+        twoPlayers = numPlayers == 2;
         roomEventsTriggered = new bool[levels.Count];
         for (int i = 0; i < roomEventsTriggered.Length; i++) {
             if (levels[i] != null) {
