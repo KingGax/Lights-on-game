@@ -320,6 +320,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         lightSource.colour = colours[colourIndex];
         photonView.RPC("UpdateLightColour", RpcTarget.OthersBuffered, colourIndex);
         lightSource.ChangeColour();
+        AudioManager.PlaySFX(SoundClips.Instance.SFXLightChange, transform.position);
     }
 
     public void TakeKnockback(Vector3 dir, float magnitude, float duration) {

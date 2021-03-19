@@ -26,7 +26,9 @@ public class LightableExitDoor : LightableObject
         lockedLight.SetActive(false);
         unlockedLight.SetActive(true);
         
+        AudioManager.PlaySFX(SoundClips.Instance.SFXDoorOpen, transform.position);
     }
+
     public override void Appear() {
         if (!disappeared) {
             base.Appear();

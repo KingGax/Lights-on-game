@@ -281,7 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ea7ded0536df1499510eb9b9d02f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 70
+  maxHealth: 160
 --- !u!114 &3310510555419601188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,7 +303,7 @@ MonoBehaviour:
   chargeTimerMax: 8
   chargeStartTimerMax: 1
   chargeEndTimerMax: 1
-  detectionThreshold: 15.95
+  detectionThreshold: 40
   playerPositionPollMax: 0.3
   weaponParent: {fileID: 457646602811709762}
   weaponScript: {fileID: 6992758575231790886}
@@ -357,7 +357,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1.23
-  m_Speed: 10
+  m_Speed: 18
   m_Acceleration: 12
   avoidancePriority: 50
   m_AngularSpeed: 240

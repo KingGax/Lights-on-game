@@ -367,10 +367,10 @@ MonoBehaviour:
   turnSpeed: 20
   ignoresStun: 0
   damage: 15
-  detectionThreshold: 16.14
+  detectionThreshold: 40
   minDistance: 2
-  engageDistance: 2
-  chasingSpeed: 5
+  engageDistance: 2.51
+  chasingSpeed: 7
   attackingMoveSpeed: 3
   reactsToPlayerCover: 0
   missedShotReduction: 0
@@ -461,7 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ea7ded0536df1499510eb9b9d02f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 60
+  maxHealth: 100
 --- !u!1001 &8418049891014018831
 PrefabInstance:
   m_ObjectHideFlags: 0
