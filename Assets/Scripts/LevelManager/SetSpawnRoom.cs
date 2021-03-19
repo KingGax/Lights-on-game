@@ -62,8 +62,8 @@ public class SetSpawnRoom : RoomObjective {
 
     private void UpdateEndGameTooltip() {
         int left = CountEnemies();
-        Tooltip t = EndTooltip.GetComponent<Tooltip>();
-        t.Text = "Defeat " + left + " more enemies";
+        // Tooltip t = EndTooltip.GetComponent<Tooltip>();
+        // t.Text = "Defeat " + left + " more enemies";
     }
 
     void StartNewSetWave() {

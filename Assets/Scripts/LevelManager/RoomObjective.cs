@@ -8,7 +8,7 @@ public class RoomObjective : MonoBehaviour
     protected PhotonView pv;
     public List<LightableExitDoor> exits;
     public List<LightableExitDoor> entrances;
-    public GameObject EndTooltip;
+    //public GameObject EndTooltip;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +32,7 @@ public class RoomObjective : MonoBehaviour
         foreach (LightableExitDoor door in exits) {
             door.UnlockDoor();
         }
-        EndTooltip.SetActive(false);
+        //EndTooltip.SetActive(false);
     }
 
     [PunRPC]
