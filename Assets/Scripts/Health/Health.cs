@@ -31,6 +31,7 @@ public class Health : MonoBehaviour {
     }
 
     public virtual void Die() {
+        AudioManager.PlaySFX(SoundClips.Instance.SFXKill, transform.position);
         PhotonNetwork.Destroy(gameObject);
     }
 }
