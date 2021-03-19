@@ -11,6 +11,7 @@ public class LightObject : MonoBehaviour {
     public LightableColour colour1;
     Light playerLantern;
     float lightRange;
+    private float range;
     SphereCollider sphere;
     int lightLayer;
 
@@ -23,18 +24,28 @@ public class LightObject : MonoBehaviour {
         colour = playerLantern.color;
         sphere = GetComponent<SphereCollider>();
         lightRange = playerLantern.range;
-        sphere.radius = lightRange / 1.3f;
+        range = lightRange / 1.8f;
+        sphere.radius = range;
         lightLayer = 1 << LayerMask.NameToLayer("LightingHitboxes");
     }
 
     public void Update() {
-        playerLantern = GetComponent<Light>();
+        /*playerLantern = GetComponent<Light>();
         sphere = GetComponent<SphereCollider>();
         lightRange = playerLantern.range;
-        sphere.radius = lightRange / 1.3f;
+        sphere.radius = lightRange / 1.3f;*/
+    }
+
+    public float GetRange() {
+        return range;
+    }
+
+    private void UpdateMyColour() {
+        colour = playerLantern.color;
     }
 
     public void ChangeColour() {
+        UpdateMyColour();
         Collider[] hitColliders = Physics.OverlapSphere(transform.position+sphere.center, sphere.radius,lightLayer);
         foreach (var hitCollider in hitColliders) {
             LightableObject ls = hitCollider.GetComponent<LightableObject>();

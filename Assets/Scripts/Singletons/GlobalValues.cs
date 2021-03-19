@@ -12,7 +12,8 @@ public class GlobalValues : MonoBehaviour {
     public LayerMask enemyLayer;
     public List<GameObject> players;
     public GameObject localPlayerInstance;
-    public GameObject UIElements; 
+    public GameObject UIElements;
+    public GameObject MenuItem;
     public Material defaultGreen;
     public Material defaultBlue;
     public Material defaultRed;
@@ -26,6 +27,7 @@ public class GlobalValues : MonoBehaviour {
     public Transform p1spawn;
     public Transform p2Spawn;
     public FloorManager fm;
+    public NavigationManager navManager;
     
     public static GlobalValues Instance { get { return _instance; } }
 
@@ -57,6 +59,8 @@ public class GlobalValues : MonoBehaviour {
         _instance.respawnPoint = respawnPoint;
         _instance.p1spawn = p1spawn;
         _instance.p2Spawn = p2Spawn;
+        _instance.fm = fm;
+        _instance.navManager = navManager;
     }
 
     private void Awake() {

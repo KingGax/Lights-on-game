@@ -108,7 +108,7 @@ public class PlayerGun : PlayerWeapon {
     private void FireAlt() {
         chargeTime = 0f;
         charging = false;
-        ammo -= 2;
+        ammo = Mathf.Max(0, ammo - 2);
         cooldownLeft = altFiredCooldownTime;
         pv.RPC("AltFireRPC", RpcTarget.All, firePoint.position, GetHitPoint());
         FireLaser(laserDist);

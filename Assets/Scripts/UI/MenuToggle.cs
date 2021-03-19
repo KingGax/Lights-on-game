@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HelpTooltip : MonoBehaviour
+public class MenuToggle : MonoBehaviour
 {
-    public GameObject controlHelpObject;
+    public GameObject MenuItem;
     bool visible = true;
     // Start is called before the first frame update
     void Start()
     {
-        //controlHelpObject.SetActive(false);
+        GlobalValues.Instance.MenuItem = MenuItem;
+        MenuItem.SetActive(false);
     }
 
     // Update is called once per frame
@@ -18,7 +19,7 @@ public class HelpTooltip : MonoBehaviour
         
     }
     public void ToggleVisibility() {
-        controlHelpObject.SetActive(!visible);
+        MenuItem.SetActive(!visible);
         visible = !visible;
     }
 }

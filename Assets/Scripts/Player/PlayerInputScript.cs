@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Runtime.InteropServices;
+using UnityEngine.UI;
 
 public class PlayerInputScript : MonoBehaviour {
 
@@ -11,7 +12,8 @@ public class PlayerInputScript : MonoBehaviour {
     private PlayerInputs.PlayerActions movementInputMap;
     private bool inputEnabled = true;
     public SpriteRenderer micRenderer;
-    private HelpTooltip helpView;
+    private HelpTooltip helpView = null;
+    private MenuToggle menuView = null;
 
     [DllImport("__Internal")]
     private static extern void startRecogniser();
@@ -130,12 +132,17 @@ public class PlayerInputScript : MonoBehaviour {
         }
     }
     public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
-        GameObject controlsHelp = GlobalValues.Instance.UIElements.transform.Find("ControlsHelp").gameObject;
-        HelpTooltip actualScript = controlsHelp.GetComponent<HelpTooltip>();;
-        actualScript.ToggleVisibility();
+        if(helpView == null) {
+            GameObject controlsHelp = GlobalValues.Instance.UIElements.transform.Find("ControlsHelp").gameObject;
+            HelpTooltip actualScript = controlsHelp.GetComponent<HelpTooltip>();
+            helpView = actualScript;
+        }
+        helpView.ToggleVisibility();
     }
     public void ToggleMenu(InputAction.CallbackContext ctx) {
-
+        if(menuView == null)
+            menuView = GlobalValues.Instance.MenuItem.GetComponent<MenuToggle>();
+        menuView.ToggleVisibility();
     }
 }
 
