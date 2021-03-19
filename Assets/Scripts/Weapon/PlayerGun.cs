@@ -61,7 +61,7 @@ public class PlayerGun : PlayerWeapon {
     }
 
     protected override void UseWeaponAlt() {
-        if (ammo > 1) {
+        if (ammo > 0) {
             chargeTime += alternateCooldownTime;
             charging = true;
             if (chargeTime > minChargeTime) {
