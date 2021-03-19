@@ -68,7 +68,7 @@ public class NavigationManager : MonoBehaviour
         } else { //backtracking
             //navIndex--; //do nothing for now, to prevent entering and leaving from the same side, etc.
         }
-        Debug.Log("Point: " + navigationPoints[navIndex].transform.position);
+        //Debug.Log("Point: " + navigationPoints[navIndex].transform.position);
         arrow.UpdateTarget(navigationPoints[navIndex].transform);
         
     }

@@ -49,13 +49,14 @@ public class EnemyHealth : Health
     [PunRPC]
     protected override void DamageRPC(float damage, float stunDuration) {
         health -= damage;
-        if (pv.IsMine) {
-            controller.RequestHitStun(stunDuration);
-            if (canFlicker) {
+        if (canFlicker) {
                 if (flashesRemaining == 0){
                     flashesRemaining = flashNum;
                 }
             }
+        if (pv.IsMine) {
+            controller.RequestHitStun(stunDuration);
+            
 
             if(health <= 0) {
                 
