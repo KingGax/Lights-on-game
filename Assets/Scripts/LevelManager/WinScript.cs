@@ -7,6 +7,7 @@ using Photon.Pun;
 public class WinScript : MonoBehaviour {
     public string sceneName;
     int playerLayer;
+    bool loadingLevel = false;
     PhotonView pv;
     private void Start() {
         playerLayer = LayerMask.NameToLayer("Player");
@@ -20,7 +21,8 @@ public class WinScript : MonoBehaviour {
 
     [PunRPC]
     public void ChangeSceneRPC() {
-        if (PhotonNetwork.IsMasterClient) {
+        if (PhotonNetwork.IsMasterClient && !loadingLevel) {
+            loadingLevel = true;
             PhotonNetwork.LoadLevel(sceneName);
         }
     }
