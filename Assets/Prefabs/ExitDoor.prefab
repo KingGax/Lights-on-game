@@ -1,5 +1,63 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6270349288408630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8035876749034542561}
+  - component: {fileID: 9157192527173160564}
+  - component: {fileID: 7790637828463595243}
+  m_Layer: 13
+  m_Name: PuzzleTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8035876749034542561
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6270349288408630}
+  m_LocalRotation: {x: 0, y: -0, z: 0.9999552, w: -0.009468333}
+  m_LocalPosition: {x: -0.3944, y: 0.4819, z: 0.4004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7523048508340863575}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 181.085}
+--- !u!65 &9157192527173160564
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6270349288408630}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.067420766, y: 0.023840636, z: 0.072930984}
+  m_Center: {x: -0.28398424, y: 0.4880829, z: -0.3628079}
+--- !u!114 &7790637828463595243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6270349288408630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 283638a640e38914f9b3f6352c4e736e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  door: {fileID: 6102697586365027021}
 --- !u!1 &7146346670031165677
 GameObject:
   m_ObjectHideFlags: 0
@@ -34,6 +92,7 @@ Transform:
   - {fileID: 8065249564727648301}
   - {fileID: 8065249564034229159}
   - {fileID: 8065249564880233512}
+  - {fileID: 8035876749034542561}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: -90, z: 0}
