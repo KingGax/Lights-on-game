@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Light Range Shader
+  m_Name: Light Catcher
   m_Shader: {fileID: -6465566751694194690, guid: a0310368361b23a41a0a6ca7978784db,
     type: 3}
   m_ShaderKeywords: 
@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Cubemap_d9d6c659f04b40719216bdd1835fb8d7:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -33,10 +37,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_dc4d66f007f1473396bf01ec30d43ab3: 0
+    - Vector1_dc4d66f007f1473396bf01ec30d43ab3: 9.67
     m_Colors:
-    - Color_0e196a011788488595d0f269674a173d: {r: 0, g: 0, b: 0, a: 0}
-    - Color_1: {r: 0, g: 0, b: 0, a: 0}
-    - Vector3_1: {r: 0, g: 0, b: 0, a: 0}
-    - Vector3_8cf38a4ca0cb4f6589592a89d233cd7f: {r: -33.4, g: 7.5, b: -48.81, a: 0}
+    - Color_0e196a011788488595d0f269674a173d: {r: 0.110918716, g: 0.12201058, b: 2.1185474,
+        a: 0}
+    - Color_1: {r: 4, g: 0.078431375, b: 0, a: 0}
+    - Vector3_1: {r: 32.8, g: 0.25, b: 9.12, a: 0}
+    - Vector3_8cf38a4ca0cb4f6589592a89d233cd7f: {r: -6.13, g: -0.34, b: -23.06, a: 0}
   m_BuildTextureStacks: []
