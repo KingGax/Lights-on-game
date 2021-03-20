@@ -62,7 +62,7 @@ public class BouncyBall : MonoBehaviour
             Ray ray = new Ray(transform.position, transform.forward);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + 2, dynamicEnvironmentMask)){
+            if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + 1, dynamicEnvironmentMask)){
                 //Reflect direcion and adjust rotation
                 if(bouncesLeft == 0){
                     Respawn();
@@ -74,7 +74,8 @@ public class BouncyBall : MonoBehaviour
                 rigidBody.velocity = reflectDirection.normalized * speed;
 
                 bouncesLeft -= 1;
-            } else if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .1f, staticEnvironmentMask)){
+            } else if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + 1, staticEnvironmentMask)){
+                Debug.Log("Hit static wall");
                 Respawn();
             }
         }
