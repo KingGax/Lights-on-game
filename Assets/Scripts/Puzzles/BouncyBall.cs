@@ -30,6 +30,8 @@ public class BouncyBall : MonoBehaviour
         spawnPosition = transform.position;
         spawnRotation = transform.rotation;
         rigidBody = this.gameObject.GetComponent<Rigidbody>();
+
+        Debug.Log("awake bouncy ball");
     }
     void Start()
     {
@@ -37,7 +39,7 @@ public class BouncyBall : MonoBehaviour
         
     }
 
-    void Respawn()
+    public void Respawn()
     {
         if(!PhotonNetwork.IsMasterClient) return;
         this.transform.position = spawnPosition;
@@ -49,9 +51,10 @@ public class BouncyBall : MonoBehaviour
 
     public void ActivateBall()
     {
-        if(!PhotonNetwork.IsMasterClient) return;
+        if(!PhotonNetwork.IsMasterClient || isActivated) return;
         Debug.Log("activated");
         this.isActivated = true;
+        Debug.Log(transform.forward.normalized * speed);
         rigidBody.velocity = transform.forward.normalized * speed;
     }
 

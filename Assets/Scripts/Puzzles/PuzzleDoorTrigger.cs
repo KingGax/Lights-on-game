@@ -15,9 +15,14 @@ public class PuzzleDoorTrigger : MonoBehaviour
 
         //Debug.Log(other.gameObject.layer);
         if(other.gameObject.layer == 17){
-            door.UnlockDoor();
+            if(!unlocked){
+                door.UnlockDoor();
+                other.transform.gameObject.GetComponent<BouncyBall>().DestroyBall();
+            }
+            else
+                other.transform.gameObject.GetComponent<BouncyBall>().Respawn();
             unlocked = true;
-            other.transform.gameObject.GetComponent<BouncyBall>().DestroyBall();
+
         }
     }
 }
