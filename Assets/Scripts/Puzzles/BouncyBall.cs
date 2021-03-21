@@ -13,9 +13,9 @@ public class BouncyBall : MonoBehaviour
 
     private int dynamicEnvironmentMask = 1 << 13;
 
-    private float speed = 15;
+    public float speed = 15;
 
-    private int bouncesLeft = 3;
+    private int bouncesLeft = 4;
 
     private bool isActivated = false;
 
@@ -44,7 +44,7 @@ public class BouncyBall : MonoBehaviour
         if(!PhotonNetwork.IsMasterClient) return;
         this.transform.position = spawnPosition;
         this.transform.rotation = spawnRotation;
-        this.bouncesLeft = 3;
+        this.bouncesLeft = 4;
         this.isActivated = false;
         rigidBody.velocity = Vector3.zero;
     }
@@ -69,21 +69,23 @@ public class BouncyBall : MonoBehaviour
             Ray ray = new Ray(transform.position, transform.forward);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + 1, dynamicEnvironmentMask)){
+            if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .5f, dynamicEnvironmentMask)){
                 //Reflect direcion and adjust rotation
                 if(bouncesLeft == 0){
                     Respawn();
-    
+                    return;
                 }
                 Vector3 reflectDirection = Vector3.Reflect(ray.direction,hit.normal);
                 float rotation = 90 - Mathf.Atan2(reflectDirection.z,reflectDirection.x) * Mathf.Rad2Deg;
                 transform.eulerAngles = new Vector3(0,rotation,0);
                 rigidBody.velocity = reflectDirection.normalized * speed;
+                Debug.Log("bounce");
 
                 bouncesLeft -= 1;
-            } else if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + 1, staticEnvironmentMask)){
+            } else if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .5f, staticEnvironmentMask)){
                 Debug.Log("Hit static wall");
                 Respawn();
+                return;
             }
         }
     }
