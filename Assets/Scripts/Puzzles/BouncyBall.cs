@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class BouncyBall : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class BouncyBall : MonoBehaviour
 
     void Respawn()
     {
+        if(!PhotonNetwork.IsMasterClient) return;
         this.transform.position = spawnPosition;
         this.transform.rotation = spawnRotation;
         this.bouncesLeft = 3;
@@ -47,6 +49,7 @@ public class BouncyBall : MonoBehaviour
 
     public void ActivateBall()
     {
+        if(!PhotonNetwork.IsMasterClient) return;
         Debug.Log("activated");
         this.isActivated = true;
         rigidBody.velocity = transform.forward.normalized * speed;
@@ -55,6 +58,7 @@ public class BouncyBall : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(!PhotonNetwork.IsMasterClient) return;
         if(isActivated)
         {
             //transform.Translate(Vector3.forward * Time.deltaTime * speed);
@@ -82,7 +86,8 @@ public class BouncyBall : MonoBehaviour
     }
 
     public void DestroyBall(){
-        Destroy(this.gameObject);
+        if(PhotonNetwork.IsMasterClient)
+        PhotonNetwork.Destroy(this.gameObject);
     }
 
 }
