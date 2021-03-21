@@ -174,6 +174,8 @@ public class SniperEnemyController : Enemy
             laser.SetPosition(0, transform.position);
             laser.SetPosition(1, hitPos);
             targetTF.position = hitPos;
+            hasFlashed = false;
+            shootPrepareTimer = shootPrepareTimerMax;
         }
     }
 

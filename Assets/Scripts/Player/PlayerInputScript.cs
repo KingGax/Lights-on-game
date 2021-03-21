@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Runtime.InteropServices;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class PlayerInputScript : MonoBehaviour {
 
@@ -14,6 +15,8 @@ public class PlayerInputScript : MonoBehaviour {
     public SpriteRenderer micRenderer;
     private HelpTooltip helpView = null;
     private MenuToggle menuView = null;
+    private PhotonView pv;
+
 
     [DllImport("__Internal")]
     private static extern void startRecogniser();
@@ -45,6 +48,7 @@ public class PlayerInputScript : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         pc = GetComponent<PlayerController>();
+        pv = GetComponent<PhotonView>();
     }
     
     void Reload() {
@@ -126,23 +130,30 @@ public class PlayerInputScript : MonoBehaviour {
         //transform.Rotate(new Vector3(0, 30, 0), Space.World);
     }
     public void VoiceControl(InputAction.CallbackContext ctx) {
-        if (inputEnabled) {
-            micRenderer.enabled = true;
-            startRecogniser();
+        if (pv.IsMine) {
+            if (inputEnabled) {
+                micRenderer.enabled = true;
+                startRecogniser();
+            }
         }
     }
     public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
-        if(helpView == null) {
-            GameObject controlsHelp = GlobalValues.Instance.UIElements.transform.Find("ControlsHelp").gameObject;
-            HelpTooltip actualScript = controlsHelp.GetComponent<HelpTooltip>();
-            helpView = actualScript;
+        if (pv.IsMine) {
+            if (helpView == null) {
+                GameObject controlsHelp = GlobalValues.Instance.UIElements.transform.Find("ControlsHelp").gameObject;
+                HelpTooltip actualScript = controlsHelp.GetComponent<HelpTooltip>();
+                helpView = actualScript;
+            }
+            helpView.ToggleVisibility();
         }
-        helpView.ToggleVisibility();
     }
     public void ToggleMenu(InputAction.CallbackContext ctx) {
-        if(menuView == null)
-            menuView = GlobalValues.Instance.MenuItem.GetComponent<MenuToggle>();
-        menuView.ToggleVisibility();
+        if (pv.IsMine) {
+            if (menuView == null)
+                menuView = GlobalValues.Instance.MenuItem.GetComponent<MenuToggle>();
+            menuView.ToggleVisibility();
+        }
+        
     }
 }
 
