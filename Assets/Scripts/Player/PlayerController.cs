@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     public List<PlayerWeapon> weapons;
     public LightObject lightSource;
 
+    public MeshRenderer playerRenderer;
     int weaponIndex = 0;
     Rigidbody rb;
     Vector2 movement;
@@ -35,12 +36,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     Color lightColour;
     Color[] colours = { new Color(1, 0, 0), new Color(0, 1, 0), new Color(0, 0, 1) };
+    LightableColour[] lightableColours = {LightableColour.Red, LightableColour.Green, LightableColour.Blue };
     int colourIndex = 0;
     Plane playerPlane;
 
     [Header("Shooting")]
     public float shootBufferMax;
     public float altShootBufferMax;
+    public float reloadSpeedModifier;
+    public float reloadBufferMax;
     public LayerMask aimTargetsMask;
     public float maxShootOffsetAngle;
     float shootBuffer = 0;
@@ -49,21 +53,28 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     bool fireHeld = false;
     bool altFireHeld = false;
     float currentChargeSpeedModifier;
+    float reloadBuffer;
+    bool reloading;
+    private int hiddenLayer;
+    private int defaultLayer;
+
     public bool isTakingKnockback { get; set; }
 
 
     [Header("Dashing")]
+    public ParticleSystem dashParticles;
     public float dashSpeed;
     public float dashDurationTimerMax;
     public float dashCooldownMax;
     public float dashBufferMax;
+    public float dashVulnerability;
     float dashDurationTimer = 0;
     float dashCooldown = 0;
     float dashBuffer = 0;
     bool dashing = false;
     Vector3 dashDirection;
     bool canDash = true;
-
+    bool hidden = false;
     bool movementEnabled = true;
 
     #region IPunObservable implementation
@@ -80,7 +91,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     void Awake() {
         lightSource = GetComponentInChildren<LightObject>();
         cam = Camera.main;
-        
+        defaultLayer = gameObject.layer;
+        hiddenLayer = LayerMask.NameToLayer("HiddenPlayer");
         // #Important
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
@@ -154,11 +166,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         colourIndex = newIndex;
         lantern.color = colours[colourIndex];
         lightSource.colour = colours[colourIndex];
-        lightSource.ChangeColour();
+        lightSource.ChangeColour(lightableColours[colourIndex]);
     }
 
     bool CanShoot() {
-        return !dashing;
+        return !dashing && !reloading;
     }
 
     void TurnTowards(Vector3 direction) {
@@ -169,6 +181,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     void Update() {
         if (photonView == null || !photonView.IsMine) return;
         if (movementEnabled) {
+            reloading = equiptedWeapon.IsReloading();
             if (fireHeld) {
                 shootBuffer = shootBufferMax;
             }
@@ -182,6 +195,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                     StartDash();
                 }
             }
+            if (hidden && !dashing) {
+                ShowPlayer();
+            }
             //handles looking and shooting
             if (equiptedWeapon.IsCharging()) {
                 if (altFireReleasedThisFrame) {
@@ -189,22 +205,26 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                     equiptedWeapon.ReleaseWeaponAlt();
                 }
                 else if (altFireHeld && CanShoot()) {
-                    Vector3 fireDirection = GetFireDirection();
+                    Vector3 fireDirection = GetFireDirection(false);
                     TurnTowards(fireDirection);
                     equiptedWeapon.UseAlt();
                 }
             }
             else if (shootBuffer > 0 && CanShoot()) {
-                Vector3 fireDirection = GetFireDirection();
+                Vector3 fireDirection = GetFireDirection(true);
                 TurnTowards(fireDirection);
                 if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
                     bool didShoop = equiptedWeapon.Use();
                 }
             }
             else if (altFireHeld && CanShoot()) {
-                Vector3 fireDirection = GetFireDirection();
+                Vector3 fireDirection = GetFireDirection(false);
                 TurnTowards(fireDirection);
                 equiptedWeapon.UseAlt();
+            }
+            else if (reloading && shootBuffer > 0 || altFireHeld) {
+                Vector3 fireDirection = GetFireDirection(altFireHeld);
+                TurnTowards(fireDirection);
             }
             else {
                 if (movement != Vector2.zero) {
@@ -220,6 +240,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                     HandleDash();
                 }
                 else {
+                    if (reloadBuffer > 0 && CanShoot()) {
+                        equiptedWeapon.Reload();
+                    }
                     if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
                         Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
                         if (equiptedWeapon.IsCharging()) {
@@ -242,6 +265,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     void StartDash() {
         dashing = true;
         canDash = false;
+        HidePlayer();
         dashDurationTimer = dashDurationTimerMax;
         if (movement == Vector2.zero) {
             dashDirection = transform.forward;
@@ -250,11 +274,28 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         }
     }
 
+    void HidePlayer() {
+        gameObject.layer = hiddenLayer;
+        dashParticles.Play();
+        playerRenderer.enabled = false;
+        hidden = true;
+    }
+
+    void ShowPlayer() {
+        gameObject.layer = defaultLayer;
+        playerRenderer.enabled = true;
+        dashParticles.Play();
+        hidden = false;
+    }
+
     void HandleDash() {
+        if (!hidden && dashDurationTimer < dashVulnerability) {
+            ShowPlayer();
+        }
         rb.velocity = dashDirection * dashSpeed;
     }
 
-    Vector3 GetFireDirection() {
+    Vector3 GetFireDirection(bool lockToEnemies) {
         //Create a ray from the Mouse click position
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
@@ -262,7 +303,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         float enter = 0.0f;
 
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100f, aimTargetsMask)) {
+        if (Physics.Raycast(ray, out hit, 100f, aimTargetsMask) && lockToEnemies) {
             Vector3 hitPoint = playerPlane.ClosestPointOnPlane(hit.point);
             Vector3 fireDirection = Vector3.ProjectOnPlane(hit.point - transform.position, XZPlaneNormal);
             return fireDirection;
@@ -307,7 +348,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         lantern.color = colours[colourIndex];
         lightSource.colour = colours[colourIndex];
         photonView.RPC("UpdateLightColour", RpcTarget.OthersBuffered, colourIndex);
-        lightSource.ChangeColour();
+        lightSource.ChangeColour(lightableColours[colourIndex]);
+        AudioManager.PlaySFX(SoundClips.Instance.SFXLightChange, transform.position);
     }
 
     public void TakeKnockback(Vector3 dir, float magnitude, float duration) {
@@ -349,11 +391,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
         lantern.color = colours[colourIndex];
         lightSource.colour = colours[colourIndex];
-        lightSource.ChangeColour();
+        lightSource.ChangeColour(lightableColours[colourIndex]);
+        photonView.RPC("UpdateLightColour", RpcTarget.OthersBuffered, colourIndex);
     }
 
     public void OnMovement(Vector2 newMovementInput) {
         movement = newMovementInput;
+    }
+
+    public void Reload() {
+        reloadBuffer = reloadBufferMax;
+        
     }
 
     private void OnCollisionEnter(Collision other) {
@@ -388,6 +436,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
             }
             if (altShootBuffer > 0) {
                 altShootBuffer -= Time.deltaTime;
+            }
+            if (reloadBuffer > 0) {
+                reloadBuffer -= Time.deltaTime;
             }
 
             yield return null;

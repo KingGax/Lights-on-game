@@ -27,18 +27,22 @@ public class GameManager : MonoBehaviourPunCallbacks {
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 if (PhotonNetwork.IsMasterClient) {
                     PhotonNetwork.Instantiate(this.playerPrefab.name, GlobalValues.Instance.p1spawn.position, Quaternion.identity, 0);
+                    GlobalValues.Instance.navManager.SetPlayer(false);
                 }
                 else
                 {
                     PhotonNetwork.Instantiate(this.playerPrefab.name, GlobalValues.Instance.p2Spawn.position, Quaternion.identity, 0);
+                    GlobalValues.Instance.navManager.SetPlayer(true);
                 }
                 
             } else {
                 if (PhotonNetwork.IsMasterClient) {
                     GlobalValues.Instance.players[0].transform.position = GlobalValues.Instance.p1spawn.position;
+                    GlobalValues.Instance.navManager.SetPlayer(false);
                 }
                 else {
-                    GlobalValues.Instance.players[1].transform.position = GlobalValues.Instance.p1spawn.position;
+                    GlobalValues.Instance.players[0].transform.position = GlobalValues.Instance.p2Spawn.position;
+                    GlobalValues.Instance.navManager.SetPlayer(true);
                 }
                 //Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
             }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Runtime.InteropServices;
+using UnityEngine.UI;
+using Photon.Pun;
 
 public class PlayerInputScript : MonoBehaviour {
 
@@ -11,7 +13,10 @@ public class PlayerInputScript : MonoBehaviour {
     private PlayerInputs.PlayerActions movementInputMap;
     private bool inputEnabled = true;
     public SpriteRenderer micRenderer;
-    private HelpTooltip helpView;
+    private HelpTooltip helpView = null;
+    private MenuToggle menuView = null;
+    private PhotonView pv;
+
 
     [DllImport("__Internal")]
     private static extern void startRecogniser();
@@ -26,7 +31,7 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.Movement.canceled += ctx => OnMovement(ctx);
         movementInputMap.Dash.started += ctx => Dash(ctx);
         movementInputMap.Light.started += _ => ChangeLight();
-        movementInputMap.SwitchWeapon.started += _ => SwitchWeapon();
+        //movementInputMap.SwitchWeapon.started += _ => SwitchWeapon(); disabled for showcase
 
 
         movementInputMap.Attack.started += ctx => AttackOne(ctx);
@@ -36,16 +41,18 @@ public class PlayerInputScript : MonoBehaviour {
 
         movementInputMap.Voice.started += ctx => VoiceControl(ctx);
         movementInputMap.HelpToggle.started += ctx => ToggleHelpTooltip(ctx);
+        movementInputMap.Pause.started += ctx => ToggleMenu(ctx);
+        movementInputMap.Reload.started += _ => Reload();
     }
 
     // Start is called before the first frame update
     void Start() {
         pc = GetComponent<PlayerController>();
+        pv = GetComponent<PhotonView>();
     }
-
-    // Update is called once per frame
-    void Update() {
-
+    
+    void Reload() {
+        pc.Reload();
     }
 
     void SwitchWeapon() {
@@ -122,15 +129,31 @@ public class PlayerInputScript : MonoBehaviour {
 
         //transform.Rotate(new Vector3(0, 30, 0), Space.World);
     }
-    public void VoiceControl(InputAction.CallbackContext ctx)
-    {
-        if (inputEnabled) {
-            micRenderer.enabled = true;
-            startRecogniser();
+    public void VoiceControl(InputAction.CallbackContext ctx) {
+        if (pv.IsMine) {
+            if (inputEnabled) {
+                micRenderer.enabled = true;
+                startRecogniser();
+            }
         }
     }
     public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
-        helpView.ToggleVisibility();
+        if (pv.IsMine) {
+            if (helpView == null) {
+                GameObject controlsHelp = GlobalValues.Instance.UIElements.transform.Find("ControlsHelp").gameObject;
+                HelpTooltip actualScript = controlsHelp.GetComponent<HelpTooltip>();
+                helpView = actualScript;
+            }
+            helpView.ToggleVisibility();
+        }
+    }
+    public void ToggleMenu(InputAction.CallbackContext ctx) {
+        if (pv.IsMine) {
+            if (menuView == null)
+                menuView = GlobalValues.Instance.MenuItem.GetComponent<MenuToggle>();
+            menuView.ToggleVisibility();
+        }
+        
     }
 }
 

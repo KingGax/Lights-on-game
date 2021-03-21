@@ -6,31 +6,41 @@ using Photon.Pun;
 public class FloorManager : MonoBehaviour
 {
     bool twoPlayers = false;
-    int p1RoomNum=0;
+    int p1RoomNum=0; 
     int p2RoomNum=0;
     int numPlayers;
     float startEventTimer = 0f;
     float minEventTimer = 0.4f;
     bool[] roomEventsTriggered;
+    bool[] objectivesComplete;
     public List<RoomObjective> levels;
     public List<Transform> p1SpawnPoints;
     public List<Transform> p2SpawnPoints;
+    public List<NavigationPoint> p1NavPoints;
+    public List<NavigationPoint> p2NavPoints;
+    //NavigationManager navManager;
     PhotonView pv;
     // Start is called before the first frame update
     void Start()
     {
         pv = gameObject.GetPhotonView();
+        
         numPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
+        twoPlayers = numPlayers == 2;
         roomEventsTriggered = new bool[levels.Count];
+        objectivesComplete = new bool[levels.Count];
         for (int i = 0; i < roomEventsTriggered.Length; i++) {
             if (levels[i] != null) {
                 roomEventsTriggered[i] = false;
+                objectivesComplete[i] = false;
             }
             else {
                 roomEventsTriggered[i] = true;
+                objectivesComplete[i] = true;
             }
             
         }
+        //navManager = GetComponent<NavigationManager>();
     }
 
     // Update is called once per frame
@@ -48,13 +58,43 @@ public class FloorManager : MonoBehaviour
         
     }
 
+
+
     public Vector3 GetSpawnPoint() {
+        Debug.Log("Getting spawn point");
         if (pv.IsMine) {
+            //navManager.SetPoints(true);
             return p1SpawnPoints[p1RoomNum].position;
         }
         else {
+            //navManager.SetPoints(false);
             return p2SpawnPoints[p2RoomNum].position;
         }
+    }
+
+    public bool GetObjectivesTriggered() {
+        foreach (bool objective in roomEventsTriggered) {
+            if (!objective) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public bool GetObjectivesComplete() {
+        foreach (bool objective in objectivesComplete) {
+            if (!objective) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int GetPlayerRoom(bool player1) {
+        if (player1) {
+            return p1RoomNum;
+        }
+        return p2RoomNum;
     }
 
     public void SetPlayerNum(int numPlayers) {
