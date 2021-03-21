@@ -14,7 +14,7 @@ public class PuzzleRoom : RoomObjective
     // Start is called before the first frame update
     void Start()
     {
-        
+        pv = gameObject.GetPhotonView();
     }
 
     public override void StartObjective() {
