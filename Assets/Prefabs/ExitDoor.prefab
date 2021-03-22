@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8035876749034542561}
   - component: {fileID: 9157192527173160564}
-  - component: {fileID: 7790637828463595243}
+  - component: {fileID: 2675731711142473462}
   m_Layer: 13
   m_Name: PuzzleTrigger
   m_TagString: Untagged
@@ -45,7 +45,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.067420766, y: 0.023840636, z: 0.072930984}
   m_Center: {x: -0.28398424, y: 0.4880829, z: -0.3628079}
---- !u!114 &7790637828463595243
+--- !u!114 &2675731711142473462
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,9 +54,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6270349288408630}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 283638a640e38914f9b3f6352c4e736e, type: 3}
+  m_Script: {fileID: 11500000, guid: a154bb9a3f5aa4246a50f6e5846eff98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unlocked: 0
   door: {fileID: 6102697586365027021}
 --- !u!1 &7146346670031165677
 GameObject:
