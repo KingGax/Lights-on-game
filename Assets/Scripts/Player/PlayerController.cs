@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     public List<PlayerWeapon> weapons;
     public LightObject lightSource;
 
+    public MeshRenderer playerRenderer;
     int weaponIndex = 0;
     Rigidbody rb;
     Vector2 movement;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     Color lightColour;
     Color[] colours = { new Color(1, 0, 0), new Color(0, 1, 0), new Color(0, 0, 1) };
+    LightableColour[] lightableColours = {LightableColour.Red, LightableColour.Green, LightableColour.Blue };
     int colourIndex = 0;
     Plane playerPlane;
 
@@ -53,21 +55,26 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     float currentChargeSpeedModifier;
     float reloadBuffer;
     bool reloading;
-    public bool isTakingKnockback { get; set; }
+    private int hiddenLayer;
+    private int defaultLayer;
 
+    public bool isTakingKnockback { get; set; }
+    public MeshRenderer gunRenderer;
 
     [Header("Dashing")]
+    public ParticleSystem dashParticles;
     public float dashSpeed;
     public float dashDurationTimerMax;
     public float dashCooldownMax;
     public float dashBufferMax;
+    public float dashVulnerability;
     float dashDurationTimer = 0;
     float dashCooldown = 0;
     float dashBuffer = 0;
     bool dashing = false;
     Vector3 dashDirection;
     bool canDash = true;
-
+    bool hidden = false;
     bool movementEnabled = true;
 
     #region IPunObservable implementation
@@ -84,7 +91,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     void Awake() {
         lightSource = GetComponentInChildren<LightObject>();
         cam = Camera.main;
-        
+        defaultLayer = gameObject.layer;
+        hiddenLayer = LayerMask.NameToLayer("HiddenPlayer");
         // #Important
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
@@ -158,7 +166,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         colourIndex = newIndex;
         lantern.color = colours[colourIndex];
         lightSource.colour = colours[colourIndex];
-        lightSource.ChangeColour();
+        lightSource.ChangeColour(lightableColours[colourIndex]);
     }
 
     bool CanShoot() {
@@ -186,6 +194,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                 if (!dashing && canDash) {
                     StartDash();
                 }
+            }
+            if (hidden && !dashing) {
+                ShowPlayer();
             }
             //handles looking and shooting
             if (equiptedWeapon.IsCharging()) {
@@ -254,6 +265,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     void StartDash() {
         dashing = true;
         canDash = false;
+        HidePlayer();
         dashDurationTimer = dashDurationTimerMax;
         if (movement == Vector2.zero) {
             dashDirection = transform.forward;
@@ -262,7 +274,26 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         }
     }
 
+    void HidePlayer() {
+        gameObject.layer = hiddenLayer;
+        dashParticles.Play();
+        playerRenderer.enabled = false;
+        gunRenderer.enabled = false;
+        hidden = true;
+    }
+
+    void ShowPlayer() {
+        gameObject.layer = defaultLayer;
+        playerRenderer.enabled = true;
+        gunRenderer.enabled = true;
+        dashParticles.Play();
+        hidden = false;
+    }
+
     void HandleDash() {
+        if (!hidden && dashDurationTimer < dashVulnerability) {
+            ShowPlayer();
+        }
         rb.velocity = dashDirection * dashSpeed;
     }
 
@@ -319,7 +350,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         lantern.color = colours[colourIndex];
         lightSource.colour = colours[colourIndex];
         photonView.RPC("UpdateLightColour", RpcTarget.OthersBuffered, colourIndex);
-        lightSource.ChangeColour();
+        lightSource.ChangeColour(lightableColours[colourIndex]);
         AudioManager.PlaySFX(SoundClips.Instance.SFXLightChange, transform.position);
     }
 
@@ -362,7 +393,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
         lantern.color = colours[colourIndex];
         lightSource.colour = colours[colourIndex];
-        lightSource.ChangeColour();
+        lightSource.ChangeColour(lightableColours[colourIndex]);
+        photonView.RPC("UpdateLightColour", RpcTarget.OthersBuffered, colourIndex);
     }
 
     public void OnMovement(Vector2 newMovementInput) {

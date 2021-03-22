@@ -9,6 +9,8 @@ public enum LightableColour {
     Yellow = 0xffff00,
     White = 0xffffff,
 }
+
+
 /*
  * 
  * Red = 0xff3d3d,
@@ -36,6 +38,26 @@ public static class LightableColourMethods {
                 return new Color(1, 0, 1);
             case LightableColour.Yellow:
                 return new Color(1, 1, 0);
+            case LightableColour.White:
+            default:
+                return new Color(1, 1, 1); ;
+        }
+    }
+
+    public static Color DisplayColour(this LightableColour colour) {
+        switch (colour) {
+            case LightableColour.Red:
+                return new Color(1, 0.1f, 0.1f);
+            case LightableColour.Green:
+                return new Color(0.1f, 1, 0.1f);
+            case LightableColour.Blue:
+                return new Color(0.1f, 0.1f, 1);
+            case LightableColour.Cyan:
+                return new Color(0.239f, 1, 1);
+            case LightableColour.Magenta:
+                return new Color(1, 0.239f, 1);
+            case LightableColour.Yellow:
+                return new Color(1, 1, 0.239f);
             case LightableColour.White:
             default:
                 return new Color(1, 1, 1); ;

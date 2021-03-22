@@ -25,6 +25,7 @@ public class SniperEnemyController : Enemy
     float flashTimer;
     GameObject targetGO;
     Transform targetTF;
+    bool RPCLaserEnabled = false;
     
     enum EnemyState {
         Shooting, //Actively attacking the player
@@ -60,16 +61,6 @@ public class SniperEnemyController : Enemy
     // Update is called once per frame
     void Update()
     {
-        if (pv == null || !pv.IsMine) return;
-        if (!hasPlayerJoined){
-            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
-                hasPlayerJoined = true;
-                int index = SelectTarget();
-                weapon.SetTarget(index);
-            } else {
-                return;
-            }
-        } 
         if (flashesRemaining > 0 && flashTimer <= 0){
             
             if (flashesRemaining % 2 == 0){
@@ -84,6 +75,24 @@ public class SniperEnemyController : Enemy
             flashesRemaining--;
             flashTimer = flashTimerMax;
         }
+        if (pv == null) return;
+        if (!pv.IsMine){
+            if (RPCLaserEnabled){
+                TrackLaser(false);
+            } else {
+                return;
+            }
+        }
+        if (!hasPlayerJoined){
+            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+                hasPlayerJoined = true;
+                int index = SelectTarget();
+                weapon.SetTarget(index);
+            } else {
+                return;
+            }
+        } 
+        
         //playerObj = GlobalValues.Instance.players[0];
         if (aiEnabled) {
             switch (enemyState) {
@@ -156,6 +165,19 @@ public class SniperEnemyController : Enemy
             ChangeToGettingLOS();
         }
     }
+    [PunRPC]
+    protected void ChangeLaserStateRPC(bool isStarting){
+        RPCLaserEnabled = isStarting;
+        laser.enabled = isStarting;
+        if (isStarting){
+            Vector3 hitPos = GetLaserPosition();
+            laser.SetPosition(0, transform.position);
+            laser.SetPosition(1, hitPos);
+            targetTF.position = hitPos;
+            hasFlashed = false;
+            shootPrepareTimer = shootPrepareTimerMax;
+        }
+    }
 
     void ChangeToShootPrepare(){
         enemyState = EnemyState.ShootPrepare;
@@ -165,14 +187,17 @@ public class SniperEnemyController : Enemy
         Vector3 hitPos = GetLaserPosition();
         laser.SetPosition(0, transform.position);
         laser.SetPosition(1, hitPos);
+        pv.RPC("ChangeLaserStateRPC", RpcTarget.All, true);
         targetTF.position = hitPos;
         shootPrepareTimer = shootPrepareTimerMax;
         Debug.Log("Preparing shot");
     }
 
-    void ShootPrepare(){
+    void TrackLaser(bool isMaster){
         Vector3 playerDirection = GetPlayerDirection();
-        TurnTowards(playerDirection); //not working
+        if (isMaster){
+            TurnTowards(playerDirection); 
+        }
         Vector3 hitPos = GetLaserPosition();
         laser.SetPosition(1, hitPos);
         targetTF.position = hitPos;
@@ -181,6 +206,10 @@ public class SniperEnemyController : Enemy
             inStunnableState = false; //enemy can't be hitstunned while about to shoot
             flashesRemaining = flashNum;
         }
+    }
+
+    void ShootPrepare(){
+        TrackLaser(true);
         if (shootPrepareTimer <= 0){
             ChangeToShooting();
         }
@@ -191,6 +220,7 @@ public class SniperEnemyController : Enemy
         agent.enabled = false;
         enemyState = EnemyState.Shooting;
         laser.enabled = false;
+        pv.RPC("ChangeLaserStateRPC", RpcTarget.All, false);
         // } else {
         //     ChangeToGettingLOS();
         // }

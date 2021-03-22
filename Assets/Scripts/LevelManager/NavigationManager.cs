@@ -24,9 +24,15 @@ public class NavigationManager : MonoBehaviour
         
         floorManager = GlobalValues.Instance.fm;
         if (playerSet){
+            Debug.Log("playerset");
             SetPoints();
+            Debug.Log("playerset");
+            Debug.Log(navigationPoints.Count);
+            Debug.Log(navIndex);
             arrow.UpdateTarget(navigationPoints[navIndex].transform);
+            Debug.Log("playerset");
             arrow.SetEnabled(navigationEnabled);
+            Debug.Log("playerset");
         }
         started = true;
     }
@@ -68,7 +74,7 @@ public class NavigationManager : MonoBehaviour
         } else { //backtracking
             //navIndex--; //do nothing for now, to prevent entering and leaving from the same side, etc.
         }
-        Debug.Log("Point: " + navigationPoints[navIndex].transform.position);
+        //Debug.Log("Point: " + navigationPoints[navIndex].transform.position);
         arrow.UpdateTarget(navigationPoints[navIndex].transform);
         
     }

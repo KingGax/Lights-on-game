@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
                     GlobalValues.Instance.navManager.SetPlayer(false);
                 }
                 else {
-                    GlobalValues.Instance.players[1].transform.position = GlobalValues.Instance.p2Spawn.position;
+                    GlobalValues.Instance.players[0].transform.position = GlobalValues.Instance.p2Spawn.position;
                     GlobalValues.Instance.navManager.SetPlayer(true);
                 }
                 //Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);

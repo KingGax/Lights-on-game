@@ -232,7 +232,7 @@ public class LightableObject : MonoBehaviour {
         }
 
         Vector4 lightColour = Vector4.zero;
-        for (int i = 0; i < lights.Count; i++) {
+        for (int i = 1; i < lights.Count; i++) {
             lightColour += (Vector4)lights[i].colour;
         }
 

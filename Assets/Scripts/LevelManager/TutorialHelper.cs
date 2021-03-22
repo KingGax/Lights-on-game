@@ -10,6 +10,7 @@ public class TutorialHelper : MonoBehaviour
     public Transform tutorialBotEnemyTransform;
 
     public List<string> tooltipMessages;
+    private int currentTooltipIndex = -1;
     private Tooltip tip;
     bool playerFound = false;
     public Vector3 offset;
@@ -22,7 +23,7 @@ public class TutorialHelper : MonoBehaviour
     private bool delayingChange = false;
     private bool trackingPlayer1 = true;
     private bool finished = false;
-    private int currentTooltipIndex = -1;
+    
 
     void Awake() {
         inputController = new PlayerInputs();

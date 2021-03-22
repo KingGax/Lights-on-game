@@ -5,9 +5,13 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 
 public class WinScript : MonoBehaviour {
+
+    public Animator transition;
     public string sceneName;
     int playerLayer;
+    bool loadingLevel = false;
     PhotonView pv;
+
     private void Start() {
         playerLayer = LayerMask.NameToLayer("Player");
         pv = gameObject.GetPhotonView();
@@ -19,8 +23,11 @@ public class WinScript : MonoBehaviour {
     }
 
     [PunRPC]
-    public void ChangeSceneRPC() {
-        if (PhotonNetwork.IsMasterClient) {
+    public IEnumerator ChangeSceneRPC() {
+        if (PhotonNetwork.IsMasterClient && !loadingLevel && GlobalValues.Instance.fm.GetObjectivesTriggered()) {
+            loadingLevel = true;
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(1);
             PhotonNetwork.LoadLevel(sceneName);
         }
     }

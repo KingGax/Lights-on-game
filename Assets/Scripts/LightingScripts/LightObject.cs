@@ -8,7 +8,7 @@ using System;
 public class LightObject : MonoBehaviour {
 
     public Color colour;
-    public LightableColour colour1;
+    public LightableColour lightableColour;
     Light playerLantern;
     float lightRange;
     private float range;
@@ -16,7 +16,7 @@ public class LightObject : MonoBehaviour {
     int lightLayer;
 
     public void Awake() {
-        colour1 = LightableColour.Red;
+        lightableColour = LightableColour.Red;
     }
 
     public void Start() {
@@ -40,12 +40,9 @@ public class LightObject : MonoBehaviour {
         return range;
     }
 
-    private void UpdateMyColour() {
-        colour = playerLantern.color;
-    }
 
-    public void ChangeColour() {
-        UpdateMyColour();
+    public void ChangeColour(LightableColour newcolour) {
+        lightableColour = newcolour;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position+sphere.center, sphere.radius,lightLayer);
         foreach (var hitCollider in hitColliders) {
             LightableObject ls = hitCollider.GetComponent<LightableObject>();
