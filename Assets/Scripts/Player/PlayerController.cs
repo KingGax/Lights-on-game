@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     private int defaultLayer;
 
     public bool isTakingKnockback { get; set; }
-
+    public MeshRenderer gunRenderer;
 
     [Header("Dashing")]
     public ParticleSystem dashParticles;
@@ -278,12 +278,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         gameObject.layer = hiddenLayer;
         dashParticles.Play();
         playerRenderer.enabled = false;
+        gunRenderer.enabled = false;
         hidden = true;
     }
 
     void ShowPlayer() {
         gameObject.layer = defaultLayer;
         playerRenderer.enabled = true;
+        gunRenderer.enabled = true;
         dashParticles.Play();
         hidden = false;
     }
