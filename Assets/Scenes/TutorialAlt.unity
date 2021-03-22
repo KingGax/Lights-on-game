@@ -2057,6 +2057,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5129e33801325ce4b9eb9beedd1a5005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transition: {fileID: 0}
+  sceneName: 
 --- !u!65 &307131683
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2511,108 +2513,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7aa64292c08dbcb4aa67293509dc37ae, type: 3}
---- !u!1 &370414634 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2399395757381233913, guid: 7aa64292c08dbcb4aa67293509dc37ae,
-    type: 3}
-  m_PrefabInstance: {fileID: 370414633}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &370414635
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 370414634}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f7a77030c411602629014963c9715876, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &401871096
 GameObject:
   m_ObjectHideFlags: 0
@@ -6244,6 +6144,10 @@ MonoBehaviour:
   levels:
   - {fileID: 1760940662}
   - {fileID: 1165512450}
+  p1SpawnPoints: []
+  p2SpawnPoints: []
+  p1NavPoints: []
+  p2NavPoints: []
 --- !u!1 &1165512446
 GameObject:
   m_ObjectHideFlags: 0
@@ -6317,7 +6221,6 @@ MonoBehaviour:
   entrances:
   - {fileID: 2065118017}
   - {fileID: 555372341}
-  EndTooltip: {fileID: 1233627032}
   enemyContainers: {fileID: 1344586728}
   enemyParent: {fileID: 2013696019}
 --- !u!1001 &1204831253
@@ -6934,12 +6837,6 @@ PrefabInstance:
 --- !u!4 &1233627031 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1233627030}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1233627032 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5073535058441529888, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
     type: 3}
   m_PrefabInstance: {fileID: 1233627030}
   m_PrefabAsset: {fileID: 0}
@@ -9987,7 +9884,6 @@ MonoBehaviour:
   - {fileID: 2065118017}
   - {fileID: 555372341}
   entrances: []
-  EndTooltip: {fileID: 317719940}
   enemyContainersP1: {fileID: 1882931319}
   enemyParentP1: {fileID: 1235966786}
   enemyContainersP2: {fileID: 1511293419}
