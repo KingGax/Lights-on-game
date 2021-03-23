@@ -138,7 +138,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                 GlobalValues.Instance.localPlayerInstance = this.gameObject;
             }
             else {
-                rb.isKinematic = false;
+                rb.isKinematic = true;
             }
         } else {
             Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
