@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class TutorialHelper : MonoBehaviour
 {
@@ -30,18 +31,18 @@ public class TutorialHelper : MonoBehaviour
 
         movementInputMap = inputController.Player;
 
-        movementInputMap.Movement.performed += ctx => { performedMove = true; };
-        movementInputMap.Movement.started += ctx => { performedMove = true; };
-        movementInputMap.Movement.canceled += ctx => { performedMove = true; };
-        movementInputMap.Dash.started += ctx => { performedDash = true; };
-        movementInputMap.Light.started += ctx => { performedLight = true; };
+        movementInputMap.Movement.performed += ctx => { if (PhotonNetwork.IsMasterClient == trackingPlayer1) performedMove = true; };
+        movementInputMap.Movement.started += ctx => { if (PhotonNetwork.IsMasterClient == trackingPlayer1) performedMove = true; };
+        movementInputMap.Movement.canceled += ctx => { if (PhotonNetwork.IsMasterClient == trackingPlayer1) performedMove = true; };
+        movementInputMap.Dash.started += ctx => { if (PhotonNetwork.IsMasterClient == trackingPlayer1) performedDash = true; };
+        movementInputMap.Light.started += ctx => { if (PhotonNetwork.IsMasterClient == trackingPlayer1) performedLight = true; };
 
 
 
-        movementInputMap.Attack.started += ctx => { performedShoot = true; };
-        movementInputMap.Attack.performed += ctx => { performedShoot = true; };
-        movementInputMap.AltAttack.started += ctx => { performedRightClick = true; };
-        movementInputMap.AltAttack.performed += ctx => { performedRightClick = true; };
+        movementInputMap.Attack.started += ctx => { if (PhotonNetwork.IsMasterClient == trackingPlayer1) performedShoot = true; };
+        movementInputMap.Attack.performed += ctx => { if (PhotonNetwork.IsMasterClient == trackingPlayer1) performedShoot = true; };
+        movementInputMap.AltAttack.started += ctx => { if (PhotonNetwork.IsMasterClient == trackingPlayer1) performedRightClick = true; };
+        movementInputMap.AltAttack.performed += ctx => { if (PhotonNetwork.IsMasterClient == trackingPlayer1) performedRightClick = true; };
 
     }
 

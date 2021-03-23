@@ -64,6 +64,26 @@ public static class LightableColourMethods {
         }
     }
 
+    public static Color DoorLightColour(this LightableColour colour) {
+        switch (colour) {
+            case LightableColour.Red:
+                return new Color(1, 0.1f, 0.1f);
+            case LightableColour.Green:
+                return new Color(0.1f, 1, 0.1f);
+            case LightableColour.Blue:
+                return new Color(0.1f, 0.1f, 1);
+            case LightableColour.Cyan:
+                return new Color(0.239f, 1, 1);
+            case LightableColour.Magenta:
+                return new Color(1, 0.239f, 1);
+            case LightableColour.Yellow:
+                return new Color(1, 1, 0.239f);
+            case LightableColour.White:
+            default:
+                return new Color(1, 1, 1); ;
+        }
+    }
+
     public static LightableColour MergeWith(this LightableColour s1, LightableColour with) {
         Vector4 lightColour = (Vector4)with.ToColor() + (Vector4)s1.ToColor();
         lightColour = new Vector4(

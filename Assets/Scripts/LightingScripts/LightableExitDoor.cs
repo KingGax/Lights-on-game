@@ -5,8 +5,7 @@ using Photon.Pun;
 
 public class LightableExitDoor : LightableObject
 {
-    public GameObject lockedLight;
-    public GameObject unlockedLight;
+    public Light light;
     public LightableColour unlockedColour;
     bool disappeared = false;
 
@@ -16,16 +15,14 @@ public class LightableExitDoor : LightableObject
         disappeared = false;
         transform.parent.gameObject.layer = defaultLayer;
         SetColour();
-        lockedLight.SetActive(true);
-        unlockedLight.SetActive(false);
-
+    }
+    public override void SetColour() {
+        base.SetColour();
+        light.color = colour.DoorLightColour();
     }
     public void UnlockDoor() {
         colour = unlockedColour;
         SetColour();
-        lockedLight.SetActive(false);
-        unlockedLight.SetActive(true);
-        
         AudioManager.PlaySFX(SoundClips.Instance.SFXDoorOpen, transform.position);
     }
 

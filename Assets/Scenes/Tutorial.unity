@@ -4952,7 +4952,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &724000126
 PrefabInstance:
@@ -5953,36 +5953,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!1 &903116883
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 903116884}
-  m_Layer: 0
-  m_Name: Tooltips
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &903116884
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 903116883}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.274018, y: 10.961522, z: -76.56958}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &903888092
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7681,6 +7651,16 @@ PrefabInstance:
       propertyPath: navigationManager
       value: 
       objectReference: {fileID: 1135315296}
+    - target: {fileID: 7553400094141532137, guid: 19950b6d5d82c904b83bbb4bae2d4f6f,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 5.323579
+      objectReference: {fileID: 0}
+    - target: {fileID: 7553400094141532137, guid: 19950b6d5d82c904b83bbb4bae2d4f6f,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -1.6917892
+      objectReference: {fileID: 0}
     - target: {fileID: 7553400094141532138, guid: 19950b6d5d82c904b83bbb4bae2d4f6f,
         type: 3}
       propertyPath: m_RootOrder
@@ -7694,7 +7674,7 @@ PrefabInstance:
     - target: {fileID: 7553400094141532138, guid: 19950b6d5d82c904b83bbb4bae2d4f6f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.004
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: 7553400094141532138, guid: 19950b6d5d82c904b83bbb4bae2d4f6f,
         type: 3}
@@ -8552,7 +8532,7 @@ Transform:
   - {fileID: 760241973}
   - {fileID: 2134964862}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1410662313
 PrefabInstance:
@@ -9734,7 +9714,7 @@ Transform:
   m_Children:
   - {fileID: 1042002727}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1683731457
 PrefabInstance:
@@ -11231,7 +11211,7 @@ Transform:
   m_Children:
   - {fileID: 1848611348}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1951924459
 MonoBehaviour:
@@ -11248,10 +11228,10 @@ MonoBehaviour:
   tutorialBotEnemyTransform: {fileID: 2005645773}
   tooltipMessages:
   - WASD to move
-  - Space to dash
-  - Q to change light colour
+  - Press space to dash
+  - Press Q to change light colour
   - Use your light to make obstacles/doors disappear and enemies freeze
-  - Click to shoot the enemies
+  - Hold left click to shoot the enemies
   - Hold then release right click to shoot a piercing laser
   - 'Hold right click to charge, release to shoot. Hit all three bots with the same
     laser! '
