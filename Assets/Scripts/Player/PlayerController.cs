@@ -130,17 +130,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     void Start() {
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
         GlobalValues.Instance.AddPlayer(gameObject);
+        rb = gameObject.GetComponent<Rigidbody>();
         if (_cameraWork != null) {
             if (photonView.IsMine) {
                 gameObject.name = "LocalPlayer";
                 _cameraWork.OnStartFollowing();
                 GlobalValues.Instance.localPlayerInstance = this.gameObject;
             }
+            else {
+                rb.isKinematic = false;
+            }
         } else {
             Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
         }
-
-        rb = gameObject.GetComponent<Rigidbody>();
         cameraForward = Vector3.Normalize(Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal));
         cameraRight = Vector3.Normalize(Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal));
         lantern.color = colours[colourIndex];
