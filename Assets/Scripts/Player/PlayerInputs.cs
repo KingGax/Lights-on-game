@@ -97,6 +97,14 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SpectatorToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""5d5261e0-c0e9-4414-8f02-2e0fda1d3a2e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -253,6 +261,17 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bd5d27d2-5009-4a30-94e6-bb9655249956"",
+                    ""path"": ""<Keyboard>/rightBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""SpectatorToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -288,6 +307,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_Player_HelpToggle = m_Player.FindAction("HelpToggle", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
+        m_Player_SpectatorToggle = m_Player.FindAction("SpectatorToggle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -347,6 +367,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_HelpToggle;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_Reload;
+    private readonly InputAction m_Player_SpectatorToggle;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -361,6 +382,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @HelpToggle => m_Wrapper.m_Player_HelpToggle;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
+        public InputAction @SpectatorToggle => m_Wrapper.m_Player_SpectatorToggle;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -400,6 +422,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Reload.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
                 @Reload.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
                 @Reload.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @SpectatorToggle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpectatorToggle;
+                @SpectatorToggle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpectatorToggle;
+                @SpectatorToggle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpectatorToggle;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -434,6 +459,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Reload.started += instance.OnReload;
                 @Reload.performed += instance.OnReload;
                 @Reload.canceled += instance.OnReload;
+                @SpectatorToggle.started += instance.OnSpectatorToggle;
+                @SpectatorToggle.performed += instance.OnSpectatorToggle;
+                @SpectatorToggle.canceled += instance.OnSpectatorToggle;
             }
         }
     }
@@ -459,5 +487,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnHelpToggle(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnSpectatorToggle(InputAction.CallbackContext context);
     }
 }
