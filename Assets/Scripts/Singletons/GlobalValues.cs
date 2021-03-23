@@ -29,6 +29,7 @@ public class GlobalValues : MonoBehaviour {
     public Transform p2Spawn;
     public FloorManager fm;
     public NavigationManager navManager;
+    public bool micEnabled = true;
     
     public static GlobalValues Instance { get { return _instance; } }
 
@@ -37,6 +38,9 @@ public class GlobalValues : MonoBehaviour {
             players.Add(player);
             fm.SetPlayerNum(players.Count);
         }
+    }
+    public void updateMicPermissions(bool micEnabledValue) {
+        micEnabled = micEnabledValue;
     }
 
     public void PlayerLeft()
