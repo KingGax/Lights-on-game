@@ -8,16 +8,16 @@ public class WinScript : MonoBehaviour {
 
     public Animator transition;
     public string sceneName;
-    int playerLayer;
+    LayerMask playerLayers;
     bool loadingLevel = false;
     PhotonView pv;
 
     private void Start() {
-        playerLayer = LayerMask.NameToLayer("Player");
+        playerLayers = GlobalValues.Instance.playerOrHiddenPlayerMask;
         pv = gameObject.GetPhotonView();
     }
     private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.layer == playerLayer) {
+        if (((1<<other.gameObject.layer) | playerLayers) != 0) {
             pv.RPC("ChangeSceneRPC", RpcTarget.All);
         }
     }
