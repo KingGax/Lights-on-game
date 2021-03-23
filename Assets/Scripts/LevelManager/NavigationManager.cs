@@ -59,6 +59,7 @@ public class NavigationManager : MonoBehaviour
     public void SetPoints(){
         Debug.Log("Setting navpoints");
         //initialised = true;
+        arrow.enabled = true;
         if (isMaster){
             navigationPoints = floorManager.p1NavPoints;
         } else {
@@ -70,7 +71,12 @@ public class NavigationManager : MonoBehaviour
 
     public void UpdateManager(Vector3 gate){
         if (navigationPoints[navIndex].transform.position == gate){
-            navIndex++;
+            if (navIndex < navigationPoints.Count-1){
+                navIndex++;
+            } else {
+                arrow.enabled = false;
+                return;
+            }
         } else { //backtracking
             //navIndex--; //do nothing for now, to prevent entering and leaving from the same side, etc.
         }

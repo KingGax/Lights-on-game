@@ -40,9 +40,11 @@ public class NavArrowController : MonoBehaviour
     void Update()
     {
         if (isEnabled){
-            //need to rotate z based upon player's rotation difference 
-            float rotation = Vector3.Angle(Vector3.forward, target.position - origin.position) * (-1f * AngleDir(target.position - origin.position)) + 45f;
-            transform.rotation = Quaternion.Euler(0, 0, rotation);
+            if (target != null && origin != null){
+                //need to rotate z based upon player's rotation difference 
+                float rotation = Vector3.Angle(Vector3.forward, target.position - origin.position) * (-1f * AngleDir(target.position - origin.position)) + 45f;
+                transform.rotation = Quaternion.Euler(0, 0, rotation);
+            }
         }
     }
 }
