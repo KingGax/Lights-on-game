@@ -163,6 +163,10 @@ public class TutorialHelper : MonoBehaviour
             default:
                 break;
         }
+        if (GlobalValues.Instance.fm.GetPlayerRoom(trackingPlayer1) > 1) {
+            currentTooltipIndex = tooltipMessages.Count;
+            Invoke("NextEvent", tooltipChangeDelay/2);
+        }
     }
 
 }
