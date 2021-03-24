@@ -75,8 +75,27 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
+    void AddToPlayerCount(int amount){ //this should use CAS and hence be network-safe
+        Room room = PhotonNetwork.CurrentRoom;
+        int playerCount = (int)room.CustomProperties["playerCount"];
+        Debug.Log("Original count: " + playerCount);
+        ExitGames.Client.Photon.Hashtable expectedVals = new ExitGames.Client.Photon.Hashtable();
+        expectedVals.Add("playerCount", playerCount);
+        int newPlayerCount  = playerCount  + amount;
+        ExitGames.Client.Photon.Hashtable newVals = new ExitGames.Client.Photon.Hashtable();
+        newVals.Add("playerCount", newPlayerCount);
+        room.SetCustomProperties(newVals, expectedVals);
+        StartCoroutine(Printer(0.2f));
+        IEnumerator Printer(float delay){
+            yield return new WaitForSeconds(delay);
+            Room newRoom = PhotonNetwork.CurrentRoom;
+            Debug.Log("New count: " + (int)newRoom.CustomProperties["playerCount"]);
+        }
+    }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        AddToPlayerCount(1);
         if (cachedPlayerList.Count < 2){
             GameObject listing =  Instantiate(_playerListing,_content);
             PlayerListingInfo roomInfo = listing.GetComponent<PlayerListingInfo>();
@@ -105,6 +124,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             PlayerListingInfo roomInfo = listing.GetComponent<PlayerListingInfo>();
             roomInfo.SetPlayerInfo(player, false);
             cachedSpectatorList[player.UserId] = listing;
+            AddToPlayerCount(-1);
         } else if (cachedPlayerList.Count < 2 && cachedSpectatorList.ContainsKey(player.UserId)){
             //Debug.Log("Spectator found!");
             Destroy(cachedSpectatorList[player.UserId]);
@@ -113,11 +133,13 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             PlayerListingInfo roomInfo = listing.GetComponent<PlayerListingInfo>();
             roomInfo.SetPlayerInfo(player, true);
             cachedPlayerList[player.UserId] = listing;
+            AddToPlayerCount(1);
         }
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        AddToPlayerCount(-1);
         if (cachedPlayerList.ContainsKey(otherPlayer.UserId)){
             Destroy(cachedPlayerList[otherPlayer.UserId]);
             cachedPlayerList.Remove(otherPlayer.UserId);
