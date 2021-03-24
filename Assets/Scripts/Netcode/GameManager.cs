@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
-
+using Photon.Pun.UtilityScripts;
 
 public class GameManager : MonoBehaviourPunCallbacks {
 
@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",this);
         } else {
             if (PlayerController.LocalPlayerInstance == null) {
+                
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                 DontDestroyOnLoad(GlobalValues.Instance.gameObject);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
@@ -63,15 +64,18 @@ public class GameManager : MonoBehaviourPunCallbacks {
 
     public override void OnPlayerEnteredRoom(Player other) {
         Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
-
+        Debug.Log(other.ActorNumber);
         if (PhotonNetwork.IsMasterClient) {
             Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
             //LoadArena();
         }
     }
 
+
+
     public override void OnPlayerLeftRoom(Player other) {
         Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
+        Debug.Log(other.ActorNumber);
         GlobalValues.Instance.PlayerLeft();
         if (PhotonNetwork.IsMasterClient) {
             Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom

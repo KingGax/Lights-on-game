@@ -31,6 +31,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         lobbyOptions[0] = "name";
         options.CustomRoomPropertiesForLobby = lobbyOptions;
         options.CustomRoomProperties = properties;
+        options.CleanupCacheOnLeave = false;
 
         //Code for generating random string. Opted for using GUID instead
         // int charAmount = 6;

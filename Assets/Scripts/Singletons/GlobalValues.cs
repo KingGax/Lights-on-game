@@ -41,7 +41,7 @@ public class GlobalValues : MonoBehaviour {
 
     public void PlayerLeft()
     {
-        for (int i = 0; i < players.Count; i++)
+        /*for (int i = 0; i < players.Count; i++)
         {
             if (players[i] == null)
             {
@@ -54,7 +54,7 @@ public class GlobalValues : MonoBehaviour {
                     players[i] = players[i - 1];
                 }
             }
-        }
+        }*/
     }
     private void UpdateGlobalValues() {
         _instance.respawnPoint = respawnPoint;
