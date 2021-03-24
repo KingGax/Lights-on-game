@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class TutorialHelper : MonoBehaviour
 {
@@ -30,16 +31,16 @@ public class TutorialHelper : MonoBehaviour
 
         movementInputMap = inputController.Player;
 
-        movementInputMap.Movement.performed += ctx => { performedMove = true; };
+        movementInputMap.Movement.performed += ctx => {  performedMove = true; };
         movementInputMap.Movement.started += ctx => { performedMove = true; };
         movementInputMap.Movement.canceled += ctx => { performedMove = true; };
-        movementInputMap.Dash.started += ctx => { performedDash = true; };
-        movementInputMap.Light.started += ctx => { performedLight = true; };
+        movementInputMap.Dash.started += ctx => {  performedDash = true; };
+        movementInputMap.Light.started += ctx => {  performedLight = true; };
 
 
 
-        movementInputMap.Attack.started += ctx => { performedShoot = true; };
-        movementInputMap.Attack.performed += ctx => { performedShoot = true; };
+        movementInputMap.Attack.started += ctx => {  performedShoot = true; };
+        movementInputMap.Attack.performed += ctx => {  performedShoot = true; };
         movementInputMap.AltAttack.started += ctx => { performedRightClick = true; };
         movementInputMap.AltAttack.performed += ctx => { performedRightClick = true; };
 
@@ -105,7 +106,7 @@ public class TutorialHelper : MonoBehaviour
                 break;
         }
         if (currentTooltipIndex < tooltipMessages.Count) {
-            tip.Text = tooltipMessages[currentTooltipIndex];
+            tip.SetTextLocal(tooltipMessages[currentTooltipIndex]);
         }
         else {
             tip.gameObject.SetActive(false);
@@ -161,6 +162,10 @@ public class TutorialHelper : MonoBehaviour
                 break;
             default:
                 break;
+        }
+        if (GlobalValues.Instance.fm.GetPlayerRoom(trackingPlayer1) > 1) {
+            currentTooltipIndex = tooltipMessages.Count;
+            Invoke("NextEvent", tooltipChangeDelay/2);
         }
     }
 

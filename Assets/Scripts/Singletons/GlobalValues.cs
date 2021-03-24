@@ -10,6 +10,7 @@ public class GlobalValues : MonoBehaviour {
     public LayerMask environment;
     public LayerMask playerLayer;
     public LayerMask enemyLayer;
+    public LayerMask playerOrHiddenPlayerMask; 
     public List<GameObject> players;
     public GameObject localPlayerInstance;
     public GameObject UIElements;

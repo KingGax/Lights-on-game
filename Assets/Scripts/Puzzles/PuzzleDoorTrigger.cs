@@ -18,10 +18,11 @@ public class PuzzleDoorTrigger : MonoBehaviour
             if(!unlocked){
                 door.UnlockDoor();
                 other.transform.gameObject.GetComponent<BouncyBall>().DestroyBall();
+                unlocked = true;
             }
             else
                 other.transform.gameObject.GetComponent<BouncyBall>().Respawn();
-            unlocked = true;
+            
 
         }
     }

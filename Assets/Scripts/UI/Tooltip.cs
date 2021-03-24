@@ -48,6 +48,10 @@ public class Tooltip : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
+    public void SetTextLocal(string text) {
+        SetTextRPC(text);
+    }
+
 
     [PunRPC]
     protected void SetTextRPC(string text) {

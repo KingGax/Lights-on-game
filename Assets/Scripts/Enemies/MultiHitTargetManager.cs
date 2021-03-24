@@ -29,9 +29,6 @@ public class MultiHitTargetManager : MonoBehaviour
                 }
             }
             if (allHit) {
-                foreach (TargetDummyHealth health in healths) {
-                    health.KillTarget();
-                }
                 destroyed = true;
                 PhotonNetwork.Destroy(gameObject);
             }

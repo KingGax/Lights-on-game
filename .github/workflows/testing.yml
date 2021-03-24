@@ -1,0 +1,33 @@
+name: Tests 😍
+
+on:
+  push:
+    branches: 
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+  build:
+    name: Build my project ✨
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Checkout repository 👀
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      # Cache
+      - uses: actions/cache@v2
+        with:
+          path: Library
+          key: Lights-on-Library
+
+      # Test
+      - name: Run tests
+        uses: game-ci/unity-test-runner@v2

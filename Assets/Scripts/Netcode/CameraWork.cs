@@ -21,11 +21,12 @@ public class CameraWork : MonoBehaviour {
     [Tooltip("The Smoothing for the camera to follow the target")]
     [SerializeField]
     private float smoothSpeed = 0.125f;
-
+    private int playerIndex = 0;
     public Vector3 offset;
 
     // cached transform of the target
     Transform cameraTransform;
+    Transform targetTransform;
 
     // maintain a flag internally to reconnect if target is lost or camera is switched
     bool isFollowing;
@@ -52,20 +53,31 @@ public class CameraWork : MonoBehaviour {
         }
     }
 
+    public void TargetPlayer(int index){
+        playerIndex = index % GlobalValues.Instance.players.Count;
+        targetTransform = GlobalValues.Instance.players[playerIndex].transform; 
+    }
+
+    public void SwitchPlayer() {
+        playerIndex = (playerIndex + 1) % GlobalValues.Instance.players.Count;
+        targetTransform = GlobalValues.Instance.players[playerIndex].transform; 
+    }
+
     // Raises the start following event.
     // Use this when you don't know at the time of editing what to follow, typically instances managed by the photon network.
     public void OnStartFollowing() {
         cameraTransform = Camera.main.transform;
+        targetTransform = transform;
         isFollowing = true;
         // we don't smooth anything, we go straight to the right camera shot
         Cut();
     }
 
     private void Follow() {
-        cameraTransform.position = this.transform.position + offset;
+        cameraTransform.position = targetTransform.position + offset;
     }
 
     private void Cut() {
-        cameraTransform.position = this.transform.position + offset;
+        cameraTransform.position = targetTransform.position + offset;
     }
 }
