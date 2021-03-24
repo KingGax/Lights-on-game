@@ -10,6 +10,7 @@ public abstract class Enemy : MonoBehaviour {
     
     protected PhotonView pv;
     protected NavMeshAgent agent;
+    protected Animator animator;
     protected bool aiEnabled;
     public Weapon weapon;
     public float turnSpeed;

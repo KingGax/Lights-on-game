@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
     public override void OnPlayerEnteredRoom(Player other) {
         Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
         Debug.Log(other.ActorNumber);
+        Debug.Log("Entered room.");
         if (PhotonNetwork.IsMasterClient) {
             Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
             //LoadArena();
