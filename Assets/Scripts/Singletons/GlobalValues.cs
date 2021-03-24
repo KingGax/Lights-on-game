@@ -14,6 +14,7 @@ public class GlobalValues : MonoBehaviour {
     public List<GameObject> players;
     public GameObject localPlayerInstance;
     public GameObject UIElements;
+    public GameObject UIPrefab;
     public GameObject MenuItem;
     public Material defaultGreen;
     public Material defaultBlue;
@@ -71,6 +72,9 @@ public class GlobalValues : MonoBehaviour {
         } else {
             DontDestroyOnLoad(gameObject);
             _instance = this;
+            GameObject UI = Instantiate(UIPrefab);
+            DontDestroyOnLoad(UI);
+            _instance.UIElements = UI;
         }
     }
 }

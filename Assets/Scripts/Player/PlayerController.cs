@@ -99,8 +99,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
             PlayerController.LocalPlayerInstance = this.gameObject;
-            GameObject UI = Instantiate(UIElements);
-            DontDestroyOnLoad(UI);
             FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
             fhb.enabled = false;
             fhb.gameObject.GetComponent<Canvas>().enabled = false;
@@ -114,7 +112,37 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         
             
     }
-    
+
+    public void UpdateLocalPlayerInstance() {
+        photonView.RPC("UpdateLocalPlayerInstanceRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void UpdateLocalPlayerInstanceRPC() {
+        if (photonView.IsMine) {
+            PlayerController.LocalPlayerInstance = this.gameObject;
+            FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
+            fhb.enabled = false;
+            fhb.gameObject.GetComponent<Canvas>().enabled = false;
+            //cam.GetComponent<CameraController>().bindToPlayer(this.gameObject.transform);
+        }
+        else {
+
+        }
+        CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
+        if (_cameraWork != null) {
+            if (photonView.IsMine) {
+                gameObject.name = "LocalPlayer";
+                _cameraWork.OnStartFollowing();
+                GlobalValues.Instance.localPlayerInstance = this.gameObject;
+            }
+            else {
+                rb.isKinematic = true;
+            }
+        }
+    }
+
+
     [PunRPC] 
     public void SetWeaponRPC(int wepIndex) {
         foreach (Weapon wep in weapons) {
@@ -130,7 +158,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     }
 
     void Start() {
-        
+        Debug.Log("START");
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
         GlobalValues.Instance.AddPlayer(gameObject);
         int index = GlobalValues.Instance.players.IndexOf(gameObject);
