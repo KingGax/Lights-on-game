@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
-
+using Photon.Realtime;
 public enum LanternColour {
     Red,
     Green,
@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     bool canDash = true;
     bool hidden = false;
     bool movementEnabled = true;
+    bool spectator = false;
 
     #region IPunObservable implementation
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
@@ -128,8 +129,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     }
 
     void Start() {
+        
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
         GlobalValues.Instance.AddPlayer(gameObject);
+        int index = GlobalValues.Instance.players.IndexOf(gameObject);
+        Debug.Log("Index in players list: " + index);
+        Room room = PhotonNetwork.CurrentRoom;
+        int playerCount = (int)room.CustomProperties["playerCount"]; 
+        Debug.Log("Player count: "+ playerCount);
+        if (index >= playerCount){
+            Debug.Log("Retargeting!");
+            spectator = true;
+            _cameraWork.TargetPlayer(0);
+        }
         rb = gameObject.GetComponent<Rigidbody>();
         if (_cameraWork != null) {
             if (photonView.IsMine) {

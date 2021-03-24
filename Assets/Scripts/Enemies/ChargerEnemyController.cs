@@ -38,6 +38,7 @@ public class ChargerEnemyController : Enemy
     {
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
+        animator = GetComponent<Animator>();
         started = true;
         weaponScript.damage = damage;
         weaponScript.knockback = knockback;
@@ -81,8 +82,10 @@ public class ChargerEnemyController : Enemy
     void ChargeStart()
     {
         //animation stuff here
-        if (chargeStartTimer <= 0)
-        {
+        //-- time passes before charges/backs off so do anim here
+        animator.SetBool("chargeStart", true);
+        if (chargeStartTimer <= 0) {
+            animator.SetBool("chargeStart", false);
             if (Vector3.Distance(playerObj.transform.position, gameObject.transform.position) < backoffThreshold){
                 ChangeToBackingOff();
             } else {
