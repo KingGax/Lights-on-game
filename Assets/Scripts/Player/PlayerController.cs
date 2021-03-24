@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     public MeshRenderer gunRenderer;
 
     [Header("Dashing")]
+    public TrailRenderer dashTrail;
     public ParticleSystem dashParticles;
     public float dashSpeed;
     public float dashDurationTimerMax;
@@ -194,6 +195,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     // Update is called once per frame
     void Update() {
         if (photonView == null || !photonView.IsMine) return;
+
+        if (dashTrail.time > 0) {
+                dashTrail.time -= Time.deltaTime;
+        }
+
         if (movementEnabled) {
             reloading = equiptedWeapon.IsReloading();
             if (fireHeld) {
@@ -274,6 +280,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                 rb.velocity = new Vector3(0,rb.velocity.y,0);
             }
         }
+
+
     }
 
     void StartDash() {
@@ -291,6 +299,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     void HidePlayer() {
         gameObject.layer = hiddenLayer;
         dashParticles.Play();
+        dashTrail.time = 1.0f;
         playerRenderer.enabled = false;
         gunRenderer.enabled = false;
         hidden = true;
@@ -300,7 +309,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         gameObject.layer = defaultLayer;
         playerRenderer.enabled = true;
         gunRenderer.enabled = true;
-        dashParticles.Play();
         hidden = false;
     }
 
@@ -446,7 +454,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
             if (dashBuffer > 0) {
                 dashBuffer -= Time.deltaTime;
             }
-
             if (shootBuffer > 0) {
                 shootBuffer -= Time.deltaTime;
             }
