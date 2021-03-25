@@ -41,10 +41,12 @@ public class GlobalValues : MonoBehaviour {
             fm.SetPlayerNum(players.Count);
         }
     }
-    public void updateMicPermissions(bool micEnabledValue, bool permissionsDenied = false) {
+    public void updateMicPermissions(bool micEnabledValue) {
         micEnabled = micEnabledValue;
-        if(permissionsDenied)
-            micEditable = false;
+    }
+    public void disableMicFrontend() {
+        updateMicPermissions(false);
+        micEditable = false;
     }
 
     public void PlayerLeft()
