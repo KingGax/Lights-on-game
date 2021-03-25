@@ -7,6 +7,8 @@ public sealed class PlayerHealth : Health {
     HealthBar hb;
     FloatingHealthBar fhb;
     PlayerController pc;
+
+    public Animator animator;
     
     bool isLocal = false;
     public override void Start() {
@@ -58,6 +60,7 @@ public sealed class PlayerHealth : Health {
         pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);
         if (isLocal){
             hb.UpdateHealth(health);
+            animator.SetTrigger("onHit");
         } else {
             fhb.UpdateHealth(health);
         }

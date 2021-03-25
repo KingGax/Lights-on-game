@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     bool movementEnabled = true;
     bool spectator = false;
 
+
     #region IPunObservable implementation
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
