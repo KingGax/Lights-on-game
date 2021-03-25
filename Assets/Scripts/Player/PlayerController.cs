@@ -124,6 +124,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
             FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
             fhb.enabled = false;
             fhb.gameObject.GetComponent<Canvas>().enabled = false;
+            GlobalValues.Instance.navManager.SetPlayer(GlobalValues.Instance.players[0] != GlobalValues.Instance.localPlayerInstance);
             //cam.GetComponent<CameraController>().bindToPlayer(this.gameObject.transform);
         }
         else {

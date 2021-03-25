@@ -8,7 +8,7 @@ using Photon.Pun.UtilityScripts;
 
 public class GameManager : MonoBehaviourPunCallbacks {
 
-    public PlayerController otherPC;
+    private PlayerController otherPC;
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
 
@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviourPunCallbacks {
             if (PlayerController.LocalPlayerInstance == null) {
                 
                 if (PhotonNetwork.LocalPlayer.ActorNumber < 3) {
+                    Debug.Log("SETPOS");
+                    Debug.Log("Actor number " + PhotonNetwork.LocalPlayer.ActorNumber);
                     Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                     DontDestroyOnLoad(GlobalValues.Instance.gameObject);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
                     }
                 }
             } else {
+                Debug.Log("SETPOS");
                 if (PhotonNetwork.IsMasterClient) {
                     GlobalValues.Instance.players[0].transform.position = GlobalValues.Instance.p1spawn.position;
                     GlobalValues.Instance.navManager.SetPlayer(false);

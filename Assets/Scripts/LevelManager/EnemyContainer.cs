@@ -25,7 +25,7 @@ public class EnemyContainer : MonoBehaviour {
     }
 
     private void Spawn() {
-        GameObject entity = PhotonNetwork.Instantiate(enemyPrefab.name, transform.position, Quaternion.identity);
+        GameObject entity = PhotonNetwork.InstantiateRoomObject(enemyPrefab.name, transform.position, Quaternion.identity);
         LightableEnemy lightScript = entity.GetComponentInChildren<LightableEnemy>();
         lightScript.InitialiseEnemy(enemyColour, enemyParent);
     }
