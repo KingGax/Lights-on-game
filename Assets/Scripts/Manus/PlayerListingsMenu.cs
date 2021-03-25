@@ -25,6 +25,8 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     int readyPlayers = 0;
     public Button spectateButton;
 
+    bool initialised = false;
+
     public Dictionary<string, GameObject> cachedPlayerList = new Dictionary<string, GameObject>();
     public Dictionary<string, GameObject> cachedSpectatorList = new Dictionary<string, GameObject>();
 
@@ -39,9 +41,11 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         StartCoroutine("SyncedLobbyTimers");
         if (PhotonNetwork.IsMasterClient) {
             cachedPlayerList.Clear();
+            initialised = true;
         } else {
             GameObject lobby = GameObject.Find("Lobby");
             transform.SetParent(lobby.transform);
+            transform.position = new Vector3(lobby.transform.position.x-10, lobby.transform.position.y, lobby.transform.position.z);
         }
     }
 
@@ -79,29 +83,36 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             
             Player player = elem.Value;
             if (counter < Mathf.Min(PhotonNetwork.CurrentRoom.Players.Count, 2)){ 
+                PlayerListingInfo playerInfo;
                 if (cachedPlayerList.ContainsKey(player.UserId)){
-                    PlayerListingInfo playerInfo = cachedPlayerList[player.UserId].GetComponent<PlayerListingInfo>();
-                    playerInfo.SetPlayerInfo(player, false);
+                    playerInfo = cachedPlayerList[player.UserId].GetComponent<PlayerListingInfo>();
+                    // bool rdy = playerInfo.isReady;
+                    // playerInfo.SetPlayerInfo(player, false);
+                    // playerInfo.isReady = rdy;
                 }
                 else {
+                    Debug.Log("Building for new player");
                     GameObject listing =  Instantiate(_playerListing,_content);
                     listing.name = player.UserId;
-                    PlayerListingInfo playerInfo = listing.GetComponent<PlayerListingInfo>();
+                    playerInfo = listing.GetComponent<PlayerListingInfo>();
                     playerInfo.SetPlayerInfo(player, false);
                     cachedPlayerList[player.UserId] = listing;
                 }
+                UpdateReadyListings(player.UserId, playerInfo.isReady);
             } else {
+                PlayerListingInfo playerInfo;
                 if (cachedSpectatorList.ContainsKey(player.UserId)){
-                    PlayerListingInfo playerInfo = cachedPlayerList[player.UserId].GetComponent<PlayerListingInfo>();
-                    playerInfo.SetPlayerInfo(player, true);
+                    playerInfo = cachedPlayerList[player.UserId].GetComponent<PlayerListingInfo>();
+                    //playerInfo.SetPlayerInfo(player, true);
                 }
                 else {
                     GameObject listing =  Instantiate(_playerListing,_specContent);
                     listing.name = player.UserId;
-                    PlayerListingInfo playerInfo = listing.GetComponent<PlayerListingInfo>();
+                    playerInfo = listing.GetComponent<PlayerListingInfo>();
                     playerInfo.SetPlayerInfo(player, true);
                     cachedPlayerList[player.UserId] = listing;
                 }
+                UpdateSpectatorListings(player.UserId, playerInfo._spectator);
             }
             counter++;
         }
@@ -132,8 +143,47 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         
     }
 
+    [PunRPC] 
+    public void SetTruthValuesRPC(string UserID, bool isSpectator, bool isReady){
+        if (!pv.IsMine && initialised == false){
+            initialised = true;
+            PlayerListingInfo listingInfo;
+            if (isSpectator){
+                listingInfo = cachedSpectatorList[UserID].GetComponent<PlayerListingInfo>();
+                listingInfo._spectator = isSpectator;
+                listingInfo.isReady = isReady;
+                
+            } else {
+                listingInfo = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
+                listingInfo._spectator = isSpectator;
+                listingInfo.isReady = isReady;
+                
+            }
+            UpdateSpectatorListings(UserID, listingInfo._spectator);
+            UpdateReadyListings(UserID, listingInfo.isReady);
+        }
+    }
+
+    public void SetTruthValues(){
+        if (cachedPlayerList.Count == 0 && cachedSpectatorList.Count == 0){
+            GetCurrentPlayers();
+        }
+        foreach(KeyValuePair<int, Player> elem in PhotonNetwork.CurrentRoom.Players) {
+            PlayerListingInfo listingInfo;
+            if (cachedPlayerList.ContainsKey(elem.Value.UserId)){
+                listingInfo = cachedPlayerList[elem.Value.UserId].GetComponent<PlayerListingInfo>();
+                pv.RPC("SetTruthValuesRPC", RpcTarget.All, elem.Value.UserId, listingInfo._spectator, listingInfo.isReady);
+            } else if (cachedSpectatorList.ContainsKey(elem.Value.UserId)){
+                listingInfo = cachedSpectatorList[elem.Value.UserId].GetComponent<PlayerListingInfo>();
+                pv.RPC("SetTruthValuesRPC", RpcTarget.All, elem.Value.UserId, listingInfo._spectator, listingInfo.isReady);
+            }
+            
+        } 
+    }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        Debug.Log("Player entered");
         if (cachedPlayerList.Count < 2){
             AddToPlayerCount(1);
             GameObject listing =  Instantiate(_playerListing,_content);
@@ -148,6 +198,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             roomInfo.SetPlayerInfo(newPlayer, true);
             cachedPlayerList[newPlayer.UserId] = listing;
         }
+        SetTruthValues();
     }
 
     void UpdateReadyListings(string UserID, bool isReady){ //updates text colour
@@ -168,6 +219,11 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
             _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
         }
+    }
+
+    [PunRPC]
+    public void AddToReadyPlayers(int val){
+        readyPlayers+=val;
     }
 
     [PunRPC] 
@@ -213,7 +269,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                 if (cachedPlayerList.ContainsKey(UserID))
                 {
                     if (cachedPlayerList[UserID].GetComponent<PlayerListingInfo>().isReady){
-                        readyPlayers--;
+                        pv.RPC("AddToReadyPlayers", RpcTarget.All, -1);
                     }
                     Destroy(cachedPlayerList[UserID]);
                     cachedPlayerList.Remove(player.UserId);

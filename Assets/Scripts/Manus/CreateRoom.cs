@@ -11,7 +11,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
 
     [SerializeField]
     private string _roomName;
-    public int maxAllowedSpectators = 6;
+    public int maxAllowedSpectators = 0;
     public Button playButton;
     private string glyphs = "abcdefghijklmnopqrstuvwxyz0123456789";
 
