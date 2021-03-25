@@ -136,8 +136,12 @@ public class PlayerInputScript : MonoBehaviour {
     public void VoiceControl(InputAction.CallbackContext ctx) {
         if (pv.IsMine) {
             if (inputEnabled) {
-                micRenderer.enabled = true;
-                startRecogniser();
+                if(GlobalValues.Instance.micEnabled) {
+                    micRenderer.enabled = true;
+                    startRecogniser();
+                }
+                else
+                    ChangeLight();
             }
         }
     }
