@@ -52,6 +52,8 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     public bool isReady(){
         Room room = PhotonNetwork.CurrentRoom;
+        Debug.Log("Player count: " + (int)room.CustomProperties["playerCount"]);
+        Debug.Log("ReadyPlayers: "+ readyPlayers);
         if (readyPlayers == (int)room.CustomProperties["playerCount"]){
             return true;
         }
@@ -210,7 +212,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                 PlayerListingInfo listing = cachedPlayerList[player.UserId].GetComponent<PlayerListingInfo>();
                 if (!listing._spectator){
                     listing.isReady = !listing.isReady;
-                    ToggleReadyRPC(player.UserId, listing.isReady);
+                    pv.RPC("ToggleReadyRPC", RpcTarget.All, player.UserId, listing.isReady);
                 }
             } else{
                 Debug.Log("Attempting to 'Ready' as spectator.");
