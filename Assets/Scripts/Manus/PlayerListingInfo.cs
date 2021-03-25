@@ -11,7 +11,9 @@ public class PlayerListingInfo : MonoBehaviour
 
     [SerializeField]
     private Text text;
-    bool _spectator;
+    public bool _spectator;
+    public bool isReady;
+
 
     
 
@@ -21,6 +23,7 @@ public class PlayerListingInfo : MonoBehaviour
     {
         _player = player;
         text.text = player.NickName;
+        isReady = false;
         _spectator = spectator;
     }
 
