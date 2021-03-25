@@ -22,14 +22,15 @@ public class Lobby : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsMasterClient)
         {
             startButton.SetActive(true);
+            Vector3 newLoc = transform.position + new Vector3(-10, 0, 0);
+            GameObject listings = PhotonNetwork.Instantiate(listingsPrefab.name, newLoc, new Quaternion(0, 0, 0, 0), 0);
+            //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
+            listings.transform.SetParent(transform);
         }
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
         t.text = PhotonNetwork.CurrentRoom.Name;
         loadingScene = false;
-        Vector3 newLoc = transform.position + new Vector3(-10, 0, 0);
-        GameObject listings = PhotonNetwork.Instantiate(listingsPrefab.name, newLoc, new Quaternion(0, 0, 0, 0), 0);
-        //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
-        listings.transform.SetParent(transform);
+        
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)

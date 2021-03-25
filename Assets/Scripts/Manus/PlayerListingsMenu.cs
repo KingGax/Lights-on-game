@@ -139,8 +139,8 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             cachedPlayerList[newPlayer.UserId] = listing;
         }
     }
-
-    void UpdateReadyListings(string UserID, bool isReady){ //updates text colour
+    [PunRPC]
+    void UpdateReadyListingsRPC(string UserID, bool isReady){ //updates text colour
         PlayerListingInfo listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
         if (isReady){
             _content.Find(listing.name).GetComponentInChildren<Text>().color = readyColour;
@@ -149,7 +149,18 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    void UpdateSpectatorListings(string UserID, bool isSpectator){ //updates text colour
+    void UpdateReadyListings(string UserID, bool isReady){ //updates text colour
+        pv.RPC("UpdateReadyListingsRPC", RpcTarget.All, UserID, isReady);
+        // PlayerListingInfo listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
+        // if (isReady){
+        //     _content.Find(listing.name).GetComponentInChildren<Text>().color = readyColour;
+        // } else {
+        //     _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
+        // }
+    }
+
+    [PunRPC]
+    void UpdateSpectatorListingsRPC(string UserID, bool isSpectator){ //updates text colour
         PlayerListingInfo listing;
         if (isSpectator){
              listing = cachedSpectatorList[UserID].GetComponent<PlayerListingInfo>();
@@ -158,6 +169,18 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
             _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
         }
+    }
+
+    void UpdateSpectatorListings(string UserID, bool isSpectator){ //updates text colour
+        // PlayerListingInfo listing;
+        // if (isSpectator){
+        //      listing = cachedSpectatorList[UserID].GetComponent<PlayerListingInfo>();
+        //     _specContent.Find(listing.name).GetComponentInChildren<Text>().color = specColour;
+        // } else {
+        //     listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
+        //     _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
+        // }
+        pv.RPC("UpdateSpectatorListingsRPC", RpcTarget.All, UserID, isSpectator);
     }
 
     [PunRPC] 
