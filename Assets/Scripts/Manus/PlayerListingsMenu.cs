@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 {
@@ -12,22 +14,44 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     [SerializeField]
     private Transform _specContent;
 
+    public Color readyColour = Color.green;
+    public Color unreadyColour = Color.red;
+    public Color specColour = Color.black;
+
 
     [SerializeField]
     public GameObject _playerListing;
+    PhotonView pv;
+    int readyPlayers = 0;
+    public Button spectateButton;
 
-    private Dictionary<string, GameObject> cachedPlayerList = new Dictionary<string, GameObject>();
-    private Dictionary<string, GameObject> cachedSpectatorList = new Dictionary<string, GameObject>();
+    Dictionary<string, GameObject> cachedPlayerList = new Dictionary<string, GameObject>();
+    Dictionary<string, GameObject> cachedSpectatorList = new Dictionary<string, GameObject>();
+
+    public float readyCooldownMax;
+    float readyCooldown;
+    public float spectateCooldownMax;
+    float spectateCooldown;
 
     void Awake()
     {
         cachedPlayerList.Clear();
+        pv = GetComponent<PhotonView>();
+        StartCoroutine("SyncedLobbyTimers");
     }
 
     public override void OnEnable()
     {
         base.OnEnable();
         GetCurrentPlayers();
+    }
+
+    public bool isReady(){
+        Room room = PhotonNetwork.CurrentRoom;
+        if (readyPlayers == (int)room.CustomProperties["playerCount"]){
+            return true;
+        }
+        return false;
     }
 
     public override void OnDisable()
@@ -75,22 +99,29 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    void AddToPlayerCount(int amount){ //this should use CAS and hence be network-safe
-        Room room = PhotonNetwork.CurrentRoom;
-        int playerCount = (int)room.CustomProperties["playerCount"];
-        Debug.Log("Original count: " + playerCount);
-        ExitGames.Client.Photon.Hashtable expectedVals = new ExitGames.Client.Photon.Hashtable();
-        expectedVals.Add("playerCount", playerCount);
-        int newPlayerCount  = playerCount  + amount;
-        ExitGames.Client.Photon.Hashtable newVals = new ExitGames.Client.Photon.Hashtable();
-        newVals.Add("playerCount", newPlayerCount);
-        room.SetCustomProperties(newVals, expectedVals);
-        StartCoroutine(Printer(0.2f));
-        IEnumerator Printer(float delay){
-            yield return new WaitForSeconds(delay);
-            Room newRoom = PhotonNetwork.CurrentRoom;
-            Debug.Log("New count: " + (int)newRoom.CustomProperties["playerCount"]);
-        }
+    bool AddToPlayerCount(int amount){ //this should use CAS and hence be network-safe BUT IT ISN'T :(((((
+            Room room = PhotonNetwork.CurrentRoom;
+            int playerCount = (int)room.CustomProperties["playerCount"];
+            Debug.Log("Original count: " + playerCount);
+            ExitGames.Client.Photon.Hashtable expectedVals = new ExitGames.Client.Photon.Hashtable();
+            expectedVals.Add("playerCount", playerCount);
+            int newPlayerCount  = playerCount  + amount;
+            ExitGames.Client.Photon.Hashtable newVals = new ExitGames.Client.Photon.Hashtable();
+            newVals.Add("playerCount", newPlayerCount);
+            //room.SetCustomProperties(newVals);
+            if (!room.SetCustomProperties(newVals, expectedVals)){
+                return false;
+            } else {
+                //debug
+                StartCoroutine(Printer(0.2f));
+                IEnumerator Printer(float delay){
+                    yield return new WaitForSeconds(delay);
+                    Room newRoom = PhotonNetwork.CurrentRoom;
+                    Debug.Log("New count: " + (int)newRoom.CustomProperties["playerCount"]);
+                }
+                return true;
+            }
+        
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -107,33 +138,118 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             roomInfo.SetPlayerInfo(newPlayer, true);
             cachedPlayerList[newPlayer.UserId] = listing;
         }
-        
     }
 
-    public void SwapSpecateState(){
-        Photon.Realtime.Player player = PhotonNetwork.LocalPlayer;
+    void UpdateReadyListings(string UserID, bool isReady){ //updates text colour
+        PlayerListingInfo listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
+        if (isReady){
+            _content.Find(listing.name).GetComponentInChildren<Text>().color = readyColour;
+        } else {
+            _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
+        }
+    }
+
+    void UpdateSpectatorListings(string UserID, bool isSpectator){ //updates text colour
+        PlayerListingInfo listing;
+        if (isSpectator){
+             listing = cachedSpectatorList[UserID].GetComponent<PlayerListingInfo>();
+            _specContent.Find(listing.name).GetComponentInChildren<Text>().color = specColour;
+        } else {
+            listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
+            _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
+        }
+    }
+
+    [PunRPC] 
+    public void ToggleReadyRPC(string UserID, bool toReady){
+        if (toReady){
+            readyPlayers++;
+        } else{
+            readyPlayers--;
+        }
+        UpdateReadyListings(UserID, toReady);
+    }
+
+    public void ToggleReady(){
+        if (readyCooldown <= 0){
+            readyCooldown = readyCooldownMax;
+            Photon.Realtime.Player player = PhotonNetwork.LocalPlayer;
+            if (cachedPlayerList.ContainsKey(player.UserId)){
+                PlayerListingInfo listing = cachedPlayerList[player.UserId].GetComponent<PlayerListingInfo>();
+                if (!listing._spectator){
+                    listing.isReady = !listing.isReady;
+                    ToggleReadyRPC(player.UserId, listing.isReady);
+                }
+            } else{
+                Debug.Log("Attempting to 'Ready' as spectator.");
+            }
+        }
+    }
+
+    [PunRPC] 
+    public void SwapSpectateStateRPC(string UserID, bool toSpectator){
         Room room = PhotonNetwork.CurrentRoom;
-        int maxSpectators = room.MaxPlayers - 2;
-        // Debug.Log("Max players: " + room.MaxPlayers);
-        // Debug.Log("Attempting swap for player: " + player.NickName);
-        if (cachedSpectatorList.Count < maxSpectators && cachedPlayerList.ContainsKey(player.UserId)){
-            //Debug.Log("Player found!");
-            Destroy(cachedPlayerList[player.UserId]);
-            cachedPlayerList.Remove(player.UserId);
-            GameObject listing =  Instantiate(_playerListing,_specContent);
-            PlayerListingInfo roomInfo = listing.GetComponent<PlayerListingInfo>();
-            roomInfo.SetPlayerInfo(player, false);
-            cachedSpectatorList[player.UserId] = listing;
-            AddToPlayerCount(-1);
-        } else if (cachedPlayerList.Count < 2 && cachedSpectatorList.ContainsKey(player.UserId)){
-            //Debug.Log("Spectator found!");
-            Destroy(cachedSpectatorList[player.UserId]);
-            cachedSpectatorList.Remove(player.UserId);
-            GameObject listing =  Instantiate(_playerListing,_content);
-            PlayerListingInfo roomInfo = listing.GetComponent<PlayerListingInfo>();
-            roomInfo.SetPlayerInfo(player, true);
-            cachedPlayerList[player.UserId] = listing;
-            AddToPlayerCount(1);
+        Photon.Realtime.Player player = null;
+        foreach (Photon.Realtime.Player p in room.Players.Values){ //I hate this but photon doesn't leave me much choice as far as I can tell
+            if (p.UserId == UserID){
+                player = p;
+            }
+        }
+        if (player != null){
+            if (toSpectator)
+            {
+                if (cachedPlayerList.ContainsKey(UserID))
+                {
+                    if (cachedPlayerList[UserID].GetComponent<PlayerListingInfo>().isReady){
+                        readyPlayers--;
+                    }
+                    Destroy(cachedPlayerList[UserID]);
+                    cachedPlayerList.Remove(player.UserId);
+                    GameObject listing = Instantiate(_playerListing, _specContent);
+                    PlayerListingInfo playerInfo = listing.GetComponent<PlayerListingInfo>();
+                    playerInfo.SetPlayerInfo(player, true);
+                    cachedSpectatorList[player.UserId] = listing;
+                }
+            }
+            else
+            {
+                if (cachedSpectatorList.ContainsKey(UserID))
+                {
+                    Destroy(cachedSpectatorList[player.UserId]);
+                    cachedSpectatorList.Remove(player.UserId);
+                    GameObject listing = Instantiate(_playerListing, _content);
+                    PlayerListingInfo playerInfo = listing.GetComponent<PlayerListingInfo>();
+                    playerInfo.SetPlayerInfo(player, false);
+                    cachedPlayerList[player.UserId] = listing;
+                }
+            }
+            UpdateSpectatorListings(UserID, toSpectator);
+        }
+    }
+
+    public void SwapSpectateState(){
+        if (spectateCooldown <= 0){
+            spectateCooldown = spectateCooldownMax;
+            if (pv == null) return;
+            Photon.Realtime.Player player = PhotonNetwork.LocalPlayer;
+            Room room = PhotonNetwork.CurrentRoom;
+            int maxSpectators = room.MaxPlayers - 2;
+            if (cachedSpectatorList.Count < maxSpectators && cachedPlayerList.ContainsKey(player.UserId)){
+                if (AddToPlayerCount(-1)){
+                pv.RPC("SwapSpectateStateRPC", RpcTarget.All, player.UserId, true);
+                spectateButton.GetComponentInChildren<TextMeshProUGUI>().text = "Player";
+                } else {
+                    Debug.Log("Error: another player is currently attempting to swap. [PLACEHOLDER]");
+                }
+            } else if (cachedPlayerList.Count < 2 && cachedSpectatorList.ContainsKey(player.UserId)){
+                if (AddToPlayerCount(1)){
+                    pv.RPC("SwapSpectateStateRPC", RpcTarget.All, player.UserId, false);
+                    spectateButton.GetComponentInChildren<TextMeshProUGUI>().text = "Spectator";
+                } else {
+                    Debug.Log("Error: another player is currently attempting to swap. [PLACEHOLDER]");
+                }
+                
+            }
         }
     }
 
@@ -146,6 +262,18 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         } else if (cachedSpectatorList.ContainsKey(otherPlayer.UserId)) {
             Destroy(cachedSpectatorList[otherPlayer.UserId]);
             cachedSpectatorList.Remove(otherPlayer.UserId);
+        }
+    }
+
+    private IEnumerator SyncedLobbyTimers() {
+        while (true) {
+            if (readyCooldown > 0) {
+                readyCooldown -= Time.deltaTime;
+            }
+            if (spectateCooldown > 0) {
+                spectateCooldown -= Time.deltaTime;
+            }
+            yield return null;
         }
     }
 }

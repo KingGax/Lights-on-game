@@ -11,7 +11,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
 
     [SerializeField]
     private string _roomName;
-    public int maxAllowedSpectators = 6;
+    public int maxAllowedSpectators = 0;
     public Button playButton;
     private string glyphs = "abcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -30,7 +30,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable() { {"name", _roomName }, {"playerCount", 1}};
         string[] lobbyOptions = new string[2];
         lobbyOptions[0] = "name";
-        lobbyOptions[1] = "playerCount";
+        lobbyOptions[1] = "playerCount"; //number of players, as opposed to spectators
         options.CustomRoomPropertiesForLobby = lobbyOptions;
         options.CustomRoomProperties = properties;
 
