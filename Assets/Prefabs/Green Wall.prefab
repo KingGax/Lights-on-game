@@ -95,7 +95,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 1, z: 0.25}
   m_Center: {x: 0.000000029802322, y: 0, z: 0}
 --- !u!208 &3226231415409489470
 NavMeshObstacle:
@@ -170,8 +170,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74337ec1b8c777746a30a1f919762c2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRed: 0
-  isBlue: 0
-  isGreen: 1
+  colour: 0
+  greenMat: {fileID: 0}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
+  magentaMat: {fileID: 0}
+  cyanMat: {fileID: 0}
+  yellowMat: {fileID: 0}
+  whiteMat: {fileID: 0}
   colourRange: 0
   obstacle: {fileID: 3226231415409489470}

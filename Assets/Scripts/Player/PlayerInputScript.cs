@@ -15,6 +15,7 @@ public class PlayerInputScript : MonoBehaviour {
     private HelpTooltip helpView = null;
     private MenuToggle menuView = null;
     private PhotonView pv;
+    CameraWork cameraWork;
 
 
     [DllImport("__Internal")]
@@ -42,12 +43,15 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.HelpToggle.started += ctx => ToggleHelpTooltip(ctx);
         movementInputMap.Pause.started += ctx => ToggleMenu(ctx);
         movementInputMap.Reload.started += _ => Reload();
+        movementInputMap.SpectatorToggle.started += _ => cameraWork.SwitchPlayer();
+
     }
 
     // Start is called before the first frame update
     void Start() {
         pc = GetComponent<PlayerController>();
         pv = GetComponent<PhotonView>();
+        cameraWork = GetComponent<CameraWork>();
     }
     
     void Reload() {

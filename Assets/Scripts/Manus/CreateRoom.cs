@@ -11,6 +11,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
 
     [SerializeField]
     private string _roomName;
+    public int maxAllowedSpectators = 6;
     public Button playButton;
     private string glyphs = "abcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -24,13 +25,15 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
             return;
 
         RoomOptions options = new RoomOptions();
-        options.MaxPlayers = 2;
+        options.MaxPlayers = System.Convert.ToByte(2 + maxAllowedSpectators);
         options.PublishUserId = true;
-        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable() { {"name", _roomName }};
-        string[] lobbyOptions = new string[1];
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable() { {"name", _roomName }, {"playerCount", 1}};
+        string[] lobbyOptions = new string[2];
         lobbyOptions[0] = "name";
+        lobbyOptions[1] = "playerCount";
         options.CustomRoomPropertiesForLobby = lobbyOptions;
         options.CustomRoomProperties = properties;
+        options.CleanupCacheOnLeave = false;
 
         //Code for generating random string. Opted for using GUID instead
         // int charAmount = 6;

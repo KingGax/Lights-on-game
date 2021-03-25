@@ -14,6 +14,7 @@ public class GlobalValues : MonoBehaviour {
     public List<GameObject> players;
     public GameObject localPlayerInstance;
     public GameObject UIElements;
+    public GameObject UIPrefab;
     public GameObject MenuItem;
     public Material defaultGreen;
     public Material defaultBlue;
@@ -45,7 +46,7 @@ public class GlobalValues : MonoBehaviour {
 
     public void PlayerLeft()
     {
-        for (int i = 0; i < players.Count; i++)
+        /*for (int i = 0; i < players.Count; i++)
         {
             if (players[i] == null)
             {
@@ -58,7 +59,7 @@ public class GlobalValues : MonoBehaviour {
                     players[i] = players[i - 1];
                 }
             }
-        }
+        }*/
     }
     private void UpdateGlobalValues() {
         _instance.respawnPoint = respawnPoint;
@@ -75,6 +76,9 @@ public class GlobalValues : MonoBehaviour {
         } else {
             DontDestroyOnLoad(gameObject);
             _instance = this;
+            GameObject UI = Instantiate(UIPrefab);
+            DontDestroyOnLoad(UI);
+            _instance.UIElements = UI;
         }
     }
 }
