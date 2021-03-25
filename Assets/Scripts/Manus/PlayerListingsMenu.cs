@@ -38,6 +38,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         cachedPlayerList.Clear();
         pv = GetComponent<PhotonView>();
         StartCoroutine("SyncedLobbyTimers");
+        if (!PhotonNetwork.IsMasterClient) {
+            GameObject lobby = GameObject.Find("Lobby");
+            transform.SetParent(lobby.transform);
+        }
     }
 
     public override void OnEnable()

@@ -26,10 +26,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             GameObject listings = PhotonNetwork.Instantiate(listingsPrefab.name, newLoc, new Quaternion(0, 0, 0, 0), 0);
             //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
-        } else {
-            PlayerListingsMenu listings = transform.parent.parent.GetComponentInChildren<PlayerListingsMenu>();
-            listings.transform.SetParent(transform);
-        }
+        } 
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
         t.text = PhotonNetwork.CurrentRoom.Name;
         loadingScene = false;
