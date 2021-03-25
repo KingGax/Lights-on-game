@@ -11,6 +11,7 @@ public class PlayerInputScript : MonoBehaviour {
     private PlayerController pc;
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
+    private bool inputEnabled = true;
     public SpriteRenderer micRenderer;
     private HelpTooltip helpView = null;
     private MenuToggle menuView = null;
@@ -134,12 +135,14 @@ public class PlayerInputScript : MonoBehaviour {
     }
     public void VoiceControl(InputAction.CallbackContext ctx) {
         if (pv.IsMine) {
-            if (GlobalValues.Instance.micEnabled) {
-                micRenderer.enabled = true;
-                startRecogniser();
+            if (inputEnabled) {
+                if(GlobalValues.Instance.micEnabled) {
+                    micRenderer.enabled = true;
+                    startRecogniser();
+                }
+                else
+                    ChangeLight();
             }
-            else 
-                ChangeLight();
         }
     }
     public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
