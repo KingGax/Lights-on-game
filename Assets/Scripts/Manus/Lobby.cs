@@ -27,7 +27,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
         } else {
-            PlayerListingsMenu listings = transform.parent.GetComponentInChildren<PlayerListingsMenu>();
+            PlayerListingsMenu listings = transform.parent.parent.GetComponentInChildren<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
         }
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
