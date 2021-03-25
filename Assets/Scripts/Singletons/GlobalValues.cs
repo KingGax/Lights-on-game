@@ -31,6 +31,7 @@ public class GlobalValues : MonoBehaviour {
     public FloorManager fm;
     public NavigationManager navManager;
     public bool micEnabled = true;
+    public bool micEditable = true;
     
     public static GlobalValues Instance { get { return _instance; } }
 
@@ -42,6 +43,10 @@ public class GlobalValues : MonoBehaviour {
     }
     public void updateMicPermissions(bool micEnabledValue) {
         micEnabled = micEnabledValue;
+    }
+    public void disableMicFrontend() {
+        updateMicPermissions(false);
+        micEditable = false;
     }
 
     public void PlayerLeft()
