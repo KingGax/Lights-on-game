@@ -80,6 +80,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                 }
                 else {
                     GameObject listing =  Instantiate(_playerListing,_content);
+                    listing.name = player.UserId;
                     PlayerListingInfo playerInfo = listing.GetComponent<PlayerListingInfo>();
                     playerInfo.SetPlayerInfo(player, false);
                     cachedPlayerList[player.UserId] = listing;
@@ -91,6 +92,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                 }
                 else {
                     GameObject listing =  Instantiate(_playerListing,_specContent);
+                    listing.name = player.UserId;
                     PlayerListingInfo playerInfo = listing.GetComponent<PlayerListingInfo>();
                     playerInfo.SetPlayerInfo(player, true);
                     cachedPlayerList[player.UserId] = listing;
@@ -129,11 +131,13 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         AddToPlayerCount(1);
         if (cachedPlayerList.Count < 2){
             GameObject listing =  Instantiate(_playerListing,_content);
+            listing.name = newPlayer.UserId;
             PlayerListingInfo roomInfo = listing.GetComponent<PlayerListingInfo>();
             roomInfo.SetPlayerInfo(newPlayer, false);
             cachedPlayerList[newPlayer.UserId] = listing;
         } else {
             GameObject listing =  Instantiate(_playerListing,_specContent);
+            listing.name = newPlayer.UserId;
             PlayerListingInfo roomInfo = listing.GetComponent<PlayerListingInfo>();
             roomInfo.SetPlayerInfo(newPlayer, true);
             cachedPlayerList[newPlayer.UserId] = listing;
@@ -197,6 +201,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         if (readyCooldown <= 0){
             readyCooldown = readyCooldownMax;
             Photon.Realtime.Player player = PhotonNetwork.LocalPlayer;
+            Debug.Log(player.UserId);
             if (cachedPlayerList.ContainsKey(player.UserId)){
                 PlayerListingInfo listing = cachedPlayerList[player.UserId].GetComponent<PlayerListingInfo>();
                 if (!listing._spectator){
@@ -229,6 +234,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                     Destroy(cachedPlayerList[UserID]);
                     cachedPlayerList.Remove(player.UserId);
                     GameObject listing = Instantiate(_playerListing, _specContent);
+                    listing.name = player.UserId;
                     PlayerListingInfo playerInfo = listing.GetComponent<PlayerListingInfo>();
                     playerInfo.SetPlayerInfo(player, true);
                     cachedSpectatorList[player.UserId] = listing;
@@ -241,6 +247,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                     Destroy(cachedSpectatorList[player.UserId]);
                     cachedSpectatorList.Remove(player.UserId);
                     GameObject listing = Instantiate(_playerListing, _content);
+                    listing.name = player.UserId;
                     PlayerListingInfo playerInfo = listing.GetComponent<PlayerListingInfo>();
                     playerInfo.SetPlayerInfo(player, false);
                     cachedPlayerList[player.UserId] = listing;
