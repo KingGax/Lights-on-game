@@ -243,7 +243,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     // Update is called once per frame
     void Update() {
-        Debug.Log(transform.position);
         if (photonView == null || !photonView.IsMine) return;
         
         if (dashTrail.time > 0) {
