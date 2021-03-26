@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     bool spectator = false;
     bool initialised = false;
 
+
     #region IPunObservable implementation
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
@@ -135,8 +136,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                 Debug.Log("mmine");
                 PlayerController.LocalPlayerInstance = this.gameObject;
                 FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
-                fhb.enabled = false;
                 fhb.gameObject.GetComponent<Canvas>().enabled = false;
+                fhb.enabled = false;
                 GlobalValues.Instance.navManager.SetPlayer(GlobalValues.Instance.players[0] != GlobalValues.Instance.localPlayerInstance);
                 CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
                 if (_cameraWork != null) {
