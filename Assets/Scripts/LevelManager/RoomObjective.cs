@@ -54,17 +54,17 @@ public class RoomObjective : MonoBehaviour
         return true;
     }
     protected void LockExitGlobal() {
-        pv.RPC("LockExitLocal", RpcTarget.All);
+        pv.RPC("LockExitLocal", RpcTarget.AllBuffered);
     }
     protected void UnlockExitGlobal() {
-        pv.RPC("UnlockExitLocal", RpcTarget.All);
+        pv.RPC("UnlockExitLocal", RpcTarget.AllBuffered);
     }
 
     protected void UnlockEntrancesGlobal() {
-        pv.RPC("UnlockEntrancesLocal", RpcTarget.All);
+        pv.RPC("UnlockEntrancesLocal", RpcTarget.AllBuffered);
     }
     protected void LockEntrancesGlobal() {
-        pv.RPC("LockEntrancesLocal", RpcTarget.All);
+        pv.RPC("LockEntrancesLocal", RpcTarget.AllBuffered);
     }
 
 

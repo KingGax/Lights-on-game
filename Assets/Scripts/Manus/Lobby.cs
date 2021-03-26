@@ -13,6 +13,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     private GameObject startButton;
     [SerializeField]
     private GameObject roomCode;
+    public GameObject listingsPrefab;
 
     private bool loadingScene = false;
 
@@ -21,10 +22,15 @@ public class Lobby : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsMasterClient)
         {
             startButton.SetActive(true);
-        }
+            Vector3 newLoc = transform.position + new Vector3(-10, 0, 0);
+            GameObject listings = PhotonNetwork.Instantiate(listingsPrefab.name, newLoc, new Quaternion(0, 0, 0, 0), 0);
+            //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
+            listings.transform.SetParent(transform);
+        } 
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
         t.text = PhotonNetwork.CurrentRoom.Name;
         loadingScene = false;
+        
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -36,8 +42,13 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public void StartGame() {
         if(loadingScene == false){
-            loadingScene = true;
-            PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+            PlayerListingsMenu listingsMenu = GetComponentInChildren<PlayerListingsMenu>();
+            if (listingsMenu.isReady()){
+                loadingScene = true;
+                PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+            } else {
+                Debug.Log("Please ensure everyone is 'Ready' before starting the game.");
+            }
         }
     }
 
@@ -52,6 +63,6 @@ public class Lobby : MonoBehaviourPunCallbacks
     public void CopyRoomCodeToClipboard() {
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
         GUIUtility.systemCopyBuffer = t.text;
-        Debug.Log("coppied to clipboard: " + t.text);
+        Debug.Log("copied to clipboard: " + t.text);
     }
 }

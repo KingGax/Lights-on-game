@@ -9,7 +9,7 @@ public enum LanternColour {
     Green,
     Blue,
 }
-public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnockbackable {
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnockbackable, IOnPhotonViewOwnerChange {
     
     Vector2 debugVel;
     public float turnSpeed;
@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     bool hidden = false;
     bool movementEnabled = true;
     bool spectator = false;
+    bool initialised = false;
 
 
     #region IPunObservable implementation
@@ -91,8 +92,18 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     }
     #endregion
 
+    void IOnPhotonViewOwnerChange.OnOwnerChange(Player newOwner, Player oldOwner) {
+        Debug.Log("owner changed");
+        if (PhotonNetwork.LocalPlayer == newOwner) {
+            Debug.Log("i am new owner");
+            UpdateLocalPlayerInstance();
+        }
+    }
+
     void Awake() {
+        photonView.AddCallbackTarget(this);
         lightSource = GetComponentInChildren<LightObject>();
+        rb = gameObject.GetComponent<Rigidbody>();
         cam = Camera.main;
         defaultLayer = gameObject.layer;
         hiddenLayer = LayerMask.NameToLayer("HiddenPlayer");
@@ -100,8 +111,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
             PlayerController.LocalPlayerInstance = this.gameObject;
-            GameObject UI = Instantiate(UIElements);
-            DontDestroyOnLoad(UI);
             FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
             fhb.enabled = false;
             fhb.gameObject.GetComponent<Canvas>().enabled = false;
@@ -112,10 +121,50 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
         DontDestroyOnLoad(this.gameObject);
-        
+        initialised = true;
             
     }
-    
+
+    /*public void UpdateLocalPlayerInstance() {
+        photonView.RPC("UpdateLocalPlayerInstanceRPC", RpcTarget.All);
+    }*/
+
+    void UpdateLocalPlayerInstance() {
+        Debug.Log("initialise");
+        if (initialised) {
+            if (photonView.IsMine) {
+                Debug.Log("mmine");
+                PlayerController.LocalPlayerInstance = this.gameObject;
+                FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
+                fhb.enabled = false;
+                fhb.gameObject.GetComponent<Canvas>().enabled = false;
+                GlobalValues.Instance.navManager.SetPlayer(GlobalValues.Instance.players[0] != GlobalValues.Instance.localPlayerInstance);
+                CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
+                if (_cameraWork != null) {
+                    if (photonView.IsMine) {
+                        gameObject.name = "LocalPlayer";
+                        _cameraWork.OnStartFollowing();
+                        GlobalValues.Instance.localPlayerInstance = this.gameObject;
+                        rb.isKinematic = false;
+                    }
+                    else {
+                        
+                    }
+                }
+                //cam.GetComponent<CameraController>().bindToPlayer(this.gameObject.transform);
+            }
+            else {
+                rb.isKinematic = true;
+                Invoke("UpdateLocalPlayerInstance", 0.5f);
+            }
+        }
+        else {
+            Invoke("UpdateLocalPlayerInstance", 0.5f);
+        }
+        
+    }
+
+
     [PunRPC] 
     public void SetWeaponRPC(int wepIndex) {
         foreach (Weapon wep in weapons) {
@@ -131,7 +180,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     }
 
     void Start() {
-        
+        Debug.Log("START");
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
         GlobalValues.Instance.AddPlayer(gameObject);
         int index = GlobalValues.Instance.players.IndexOf(gameObject);
@@ -144,7 +193,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
             spectator = true;
             _cameraWork.TargetPlayer(0);
         }
-        rb = gameObject.GetComponent<Rigidbody>();
         if (_cameraWork != null) {
             if (photonView.IsMine) {
                 gameObject.name = "LocalPlayer";
@@ -195,8 +243,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     // Update is called once per frame
     void Update() {
+        Debug.Log(transform.position);
         if (photonView == null || !photonView.IsMine) return;
-
+        
         if (dashTrail.time > 0) {
                 dashTrail.time -= Time.deltaTime;
         }
