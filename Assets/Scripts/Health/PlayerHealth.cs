@@ -5,7 +5,7 @@ public sealed class PlayerHealth : Health {
 
     int bulletLayer;
     HealthBar hb;
-    FloatingHealthBar fhb;
+    public FloatingHealthBar fhb;
     PlayerController pc;
 
     public Animator animator;
@@ -22,7 +22,6 @@ public sealed class PlayerHealth : Health {
             hb.UpdateHealth(health);
         } else {
             isLocal = false;
-            fhb = GetComponentInChildren<FloatingHealthBar>();
             fhb.UpdateMaxHealth(maxHealth);
             fhb.UpdateHealth(health);
         }
