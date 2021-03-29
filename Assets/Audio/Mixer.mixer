@@ -67,7 +67,9 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 6ca901264ec9d06f0bafeaf9c8289368
+    name: Track1Vol
   m_AudioMixerGroupViews:
   - guids:
     - ce9991863f0861e6191d1a3c8bff11d1
@@ -125,11 +127,12 @@ AudioMixerSnapshotController:
     0263360338e4ad3eda531f0ebed0ad69: 0.796
     0e266f63ee4fdfabeba6ff8f611e1290: 10
     4cc57d75e9770f2f2aa0d1318ab17f30: 0.455
+    6ca901264ec9d06f0bafeaf9c8289368: 0.002556324
     129181b60e710204d8430ca0e912a607: 0.652
     0d1942975d7003856bebf2ecba6f8856: 0.521
     7c508d1a9123ff22fbf7c42e98a47bef: 4.96
     f03d369b8cdc8a365b1bc4eabb7723c3: 0.025578512
-    d8d5d0cbd5f45d66aaa67ac4e3730e84: -10.34521
+    d8d5d0cbd5f45d66aaa67ac4e3730e84: -5.145858e-11
     3afe01bd63c7fcb9e9750a095c2f7e1b: 0.54
     b7f8a7bd2679f1f73822169c13646dea: 10
     e665b2ee2b0861f98a1c5a46f8cb43fd: 0.266

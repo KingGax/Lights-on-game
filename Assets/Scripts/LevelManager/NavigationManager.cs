@@ -24,15 +24,9 @@ public class NavigationManager : MonoBehaviour
         
         floorManager = GlobalValues.Instance.fm;
         if (playerSet){
-            Debug.Log("playerset");
             SetPoints();
-            Debug.Log("playerset");
-            Debug.Log(navigationPoints.Count);
-            Debug.Log(navIndex);
             arrow.UpdateTarget(navigationPoints[navIndex].transform);
-            Debug.Log("playerset");
             arrow.SetEnabled(navigationEnabled);
-            Debug.Log("playerset");
         }
         started = true;
     }
@@ -57,7 +51,6 @@ public class NavigationManager : MonoBehaviour
     }
 
     public void SetPoints(){
-        Debug.Log("Setting navpoints");
         //initialised = true;
         arrow.enabled = true;
         if (isMaster){

@@ -16,6 +16,7 @@ public class WinScript : MonoBehaviour {
         playerLayers = GlobalValues.Instance.playerOrHiddenPlayerMask;
         pv = gameObject.GetPhotonView();
     }
+
     private void OnTriggerEnter(Collider other) {
         if (((1<<other.gameObject.layer) | playerLayers) != 0) {
             pv.RPC("ChangeSceneRPC", RpcTarget.All);

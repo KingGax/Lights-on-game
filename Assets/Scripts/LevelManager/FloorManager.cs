@@ -61,7 +61,6 @@ public class FloorManager : MonoBehaviour
 
 
     public Vector3 GetSpawnPoint() {
-        Debug.Log("Getting spawn point");
         if (pv.IsMine) {
             //navManager.SetPoints(true);
             return p1SpawnPoints[p1RoomNum].position;
