@@ -7,8 +7,10 @@ using Photon.Realtime;
 using Photon.Pun.UtilityScripts;
 
 public class GameManager : MonoBehaviourPunCallbacks {
-
-    public PlayerController otherPC;
+    private GameObject otherPlayerGO;
+    private Player otherPlayer;
+    private PlayerController otherPC;
+    private PhotonView pv;
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
 
@@ -18,13 +20,19 @@ public class GameManager : MonoBehaviourPunCallbacks {
         SceneManager.LoadScene(0);
     }
 
+    private void Awake() {
+        pv = gameObject.GetPhotonView();
+    }
+
     void Start() {
         if (playerPrefab == null) {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",this);
         } else {
             if (PlayerController.LocalPlayerInstance == null) {
+                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
                 
                 if (PhotonNetwork.LocalPlayer.ActorNumber < 3) {
+                    Debug.Log("Actor number " + PhotonNetwork.LocalPlayer.ActorNumber);
                     Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                     DontDestroyOnLoad(GlobalValues.Instance.gameObject);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
@@ -36,6 +44,9 @@ public class GameManager : MonoBehaviourPunCallbacks {
                         PhotonNetwork.Instantiate(this.playerPrefab.name, GlobalValues.Instance.p2Spawn.position, Quaternion.identity, 0);
                         GlobalValues.Instance.navManager.SetPlayer(true);
                     }
+                }
+                else {
+                    pv.RPC("RequestOwnership", RpcTarget.MasterClient);
                 }
             } else {
                 if (PhotonNetwork.IsMasterClient) {
@@ -64,30 +75,38 @@ public class GameManager : MonoBehaviourPunCallbacks {
     }
 
     public override void OnPlayerEnteredRoom(Player other) {
+        otherPlayer = other;
         Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
         Debug.Log("Entered room.");
         if (other.ActorNumber > 2) {
-            GameObject otherPlayerGO;
+            
             if (GlobalValues.Instance.localPlayerInstance == GlobalValues.Instance.players[0]) {
                  otherPlayerGO = GlobalValues.Instance.players[1];
             }
             else {
                 otherPlayerGO = GlobalValues.Instance.players[0];
             }
-            PhotonView otherPlayerView = otherPlayerGO.GetPhotonView();
-            otherPlayerView.TransferOwnership(other);
-            otherPC = otherPlayerGO.GetComponent<PlayerController>();
-            Invoke("DelayedTransfer", 2.0f);
         }
         if (PhotonNetwork.IsMasterClient) {
             Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
             //LoadArena();
         }
+        //Invoke("DelayOwnership", 2.0f);
     }
 
-    private void DelayedTransfer() {
-        otherPC.UpdateLocalPlayerInstance();
+    [PunRPC]
+    void RequestOwnership() {
+        PhotonView otherPlayerView = otherPlayerGO.GetPhotonView();
+        otherPlayerView.TransferOwnership(otherPlayer);
     }
+
+    void DelayOwnership() {
+        
+    }
+
+    /*private void DelayedTransfer() {
+        otherPC.UpdateLocalPlayerInstance();
+    }*/
 
 
 

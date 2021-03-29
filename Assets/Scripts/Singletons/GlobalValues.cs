@@ -46,6 +46,9 @@ public class GlobalValues : MonoBehaviour {
     }
     public void disableMicFrontend() {
         updateMicPermissions(false);
+        PlayerController pc = GetComponent<PlayerController>();
+        pc.micRenderer.enabled = false;
+        pc.ChangeLight();
         micEditable = false;
     }
 

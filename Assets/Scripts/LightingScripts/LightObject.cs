@@ -17,12 +17,12 @@ public class LightObject : MonoBehaviour {
 
     public void Awake() {
         lightableColour = LightableColour.Red;
+        sphere = GetComponent<SphereCollider>();
     }
 
     public void Start() {
         playerLantern = GetComponent<Light>();
         colour = playerLantern.color;
-        sphere = GetComponent<SphereCollider>();
         lightRange = playerLantern.range;
         range = lightRange / 1.8f;
         sphere.radius = range;
