@@ -33,7 +33,6 @@ public class EnemyHealth : Health
     }
 
     public void InitialiseMaterials(){
-        //Debug.Log("Material init");
         if (gameObject.GetComponents<Renderer>().Length == 0){
             renderer = gameObject.GetComponentInChildren<Renderer>();
         } else {

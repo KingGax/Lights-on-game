@@ -16,7 +16,7 @@ public class AmmoUI : MonoBehaviour
     PlayerController playerScript;
 
     private void Start() {
-        text = GetComponent<TextMeshProUGUI>();
+        text = GetComponentInChildren<TextMeshProUGUI>();
     }
     public void SetCurrentWeapon(PlayerWeapon wep) {
         currentWeapon = wep;
@@ -57,7 +57,7 @@ public class AmmoUI : MonoBehaviour
 
     public void UpdateDisplay() {
         if (reloading) {
-            text.text = "Reloading!";
+            text.SetText("Reloading!");
         }
         else if (ammo != displayedAmmo) {
             text.SetText("Ammo: " + ammo.ToString() + "/" + maxAmmo.ToString());

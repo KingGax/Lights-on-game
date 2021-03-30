@@ -8,10 +8,11 @@ public class NavArrowController : MonoBehaviour
     Transform target;
     Transform origin;
     bool isEnabled;
+    bool playerFound = false;
     // Start is called before the first frame update
     void Start()
     {
-        origin = GlobalValues.Instance.localPlayerInstance.transform;
+        
     }
 
     public void UpdateTarget(Transform newTarget){
@@ -40,7 +41,13 @@ public class NavArrowController : MonoBehaviour
     void Update()
     {
         if (isEnabled){
-            if (target != null && origin != null){
+            if (!playerFound) {
+                if (GlobalValues.Instance.localPlayerInstance != null) {
+                    playerFound = true;
+                    origin = GlobalValues.Instance.localPlayerInstance.transform;
+                }
+            }
+            else if (target != null && origin != null){
                 //need to rotate z based upon player's rotation difference 
                 float rotation = Vector3.Angle(Vector3.forward, target.position - origin.position) * (-1f * AngleDir(target.position - origin.position)) + 45f;
                 transform.rotation = Quaternion.Euler(0, 0, rotation);

@@ -35,8 +35,10 @@ public class NavigationManager : MonoBehaviour
     protected void SetPointsRPC(){
         if (!isMaster){
             navigationPoints = floorManager.p1NavPoints;
+            navIndex = floorManager.GetPlayerRoom(true);
         } else {
             navigationPoints = floorManager.p2NavPoints;
+            navIndex = floorManager.GetPlayerRoom(false);
         }
     }
 
@@ -73,7 +75,6 @@ public class NavigationManager : MonoBehaviour
         } else { //backtracking
             //navIndex--; //do nothing for now, to prevent entering and leaving from the same side, etc.
         }
-        //Debug.Log("Point: " + navigationPoints[navIndex].transform.position);
         arrow.UpdateTarget(navigationPoints[navIndex].transform);
         
     }

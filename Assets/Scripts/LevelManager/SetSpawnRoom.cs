@@ -22,16 +22,17 @@ public class SetSpawnRoom : RoomObjective {
     void Start() {
         spawnScript = gameObject.AddComponent<SetSpawnManager>();
         pv = gameObject.GetPhotonView();
-        if (pv == null || !pv.IsMine) {
-            spawnScript.enabled = false;
-        }
-        else {
-            spawnScript.Initialise(enemyContainers.transform);
-        }
+        spawnScript.Initialise(enemyContainers.transform);
+    }
+
+    [PunRPC]
+    void SetStartedRPC(bool _started) {
+        started = _started;
     }
 
     public override void StartObjective() {
         started = true;
+        pv.RPC("SetStartedRPC", RpcTarget.AllBufferedViaServer, true);
         LockEntrancesGlobal();
         LockExitGlobal();
         StartNewSetWave();
@@ -66,8 +67,14 @@ public class SetSpawnRoom : RoomObjective {
         // t.Text = "Defeat " + left + " more enemies";
     }
 
+    [PunRPC]
+    void SetWaveCounterRPC(int num) {
+        currentWaveCounter = num;
+    }
+
     void StartNewSetWave() {
         currentWaveCounter += 1;
+        pv.RPC("SetWaveCounterRPC", RpcTarget.AllBufferedViaServer, currentWaveCounter);
         if (spawnScript.SpawnedAllWaves()) {
             allWavesSpawned = true;
         }

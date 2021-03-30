@@ -12,11 +12,13 @@ public class NavigationPoint : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (((1 << other.gameObject.layer) & GlobalValues.Instance.playerOrHiddenPlayerMask) != 0) {
-            if (GlobalValues.Instance.localPlayerInstance.transform.position == other.transform.position) {
-                navigationManager.UpdateManager(transform.position);
+        if (((1 << other.gameObject.layer) & GlobalValues.Instance.playerOrHiddenPlayerMask) != 0){
+            //PhotonView pv = other.gameObject.GetComponent<PhotonView>();
+            if (GlobalValues.Instance.localPlayerInstance.transform.position != null) {
+                if (GlobalValues.Instance.localPlayerInstance.transform.position == other.transform.position) {
+                    navigationManager.UpdateManager(transform.position);
+                }
             }
         }
-        
     }
 }

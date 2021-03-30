@@ -123,7 +123,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 4428705219240259766}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.9193047
   m_Height: 7.4300003
   m_Direction: 1
@@ -136,7 +136,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4428705219240259766}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: d117b33ca5bf65944bcc3e8609019047, type: 2}
   m_CullingMode: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4428705219240259766}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46fe11834d5c73643b7a6f9e4572a204, type: 3}
   m_Name: 
@@ -190,6 +190,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -7740463069152841852, guid: 751b41b294e3b9145937c3990f21dc8f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2326738358307565847, guid: 751b41b294e3b9145937c3990f21dc8f,
         type: 3}
@@ -290,6 +295,11 @@ PrefabInstance:
         type: 3}
       propertyPath: endTime
       value: 37.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6537671382832788429, guid: 751b41b294e3b9145937c3990f21dc8f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6537671382832788429, guid: 751b41b294e3b9145937c3990f21dc8f,
         type: 3}

@@ -11,16 +11,20 @@ public class PlayerListingInfo : MonoBehaviour
 
     [SerializeField]
     private Text text;
+    public bool _spectator;
+    public bool isReady;
+
 
     
 
     private Player _player;
 
-    public void SetPlayerInfo(Player player)
+    public void SetPlayerInfo(Player player, bool spectator)
     {
         _player = player;
         text.text = player.NickName;
-
+        isReady = false;
+        _spectator = spectator;
     }
 
     public void OnCLick_Button()

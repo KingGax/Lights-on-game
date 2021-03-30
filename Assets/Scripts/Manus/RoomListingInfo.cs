@@ -12,8 +12,6 @@ public class RoomListingInfo : MonoBehaviour
     [SerializeField]
     private Text text;
 
-
-
     private RoomInfo _roomInfo;
 
     public void SetRoomInfo(RoomInfo roomInfo)

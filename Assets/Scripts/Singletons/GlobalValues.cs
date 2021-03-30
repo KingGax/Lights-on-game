@@ -14,6 +14,8 @@ public class GlobalValues : MonoBehaviour {
     public List<GameObject> players;
     public GameObject localPlayerInstance;
     public GameObject UIElements;
+    public GameObject UIPrefab;
+    public GameObject boidManagerPrefab;
     public GameObject MenuItem;
     public Material defaultGreen;
     public Material defaultBlue;
@@ -29,6 +31,8 @@ public class GlobalValues : MonoBehaviour {
     public Transform p2Spawn;
     public FloorManager fm;
     public NavigationManager navManager;
+    public bool micEnabled = true;
+    public bool micEditable = true;
     
     public static GlobalValues Instance { get { return _instance; } }
 
@@ -38,10 +42,20 @@ public class GlobalValues : MonoBehaviour {
             fm.SetPlayerNum(players.Count);
         }
     }
+    public void updateMicPermissions(bool micEnabledValue) {
+        micEnabled = micEnabledValue;
+    }
+    public void disableMicFrontend() {
+        updateMicPermissions(false);
+        PlayerController pc = GetComponent<PlayerController>();
+        pc.micRenderer.enabled = false;
+        pc.ChangeLight();
+        micEditable = false;
+    }
 
     public void PlayerLeft()
     {
-        for (int i = 0; i < players.Count; i++)
+        /*for (int i = 0; i < players.Count; i++)
         {
             if (players[i] == null)
             {
@@ -54,7 +68,7 @@ public class GlobalValues : MonoBehaviour {
                     players[i] = players[i - 1];
                 }
             }
-        }
+        }*/
     }
     private void UpdateGlobalValues() {
         _instance.respawnPoint = respawnPoint;
@@ -71,6 +85,9 @@ public class GlobalValues : MonoBehaviour {
         } else {
             DontDestroyOnLoad(gameObject);
             _instance = this;
+            GameObject UI = Instantiate(UIPrefab);
+            DontDestroyOnLoad(UI);
+            _instance.UIElements = UI;
         }
     }
 }

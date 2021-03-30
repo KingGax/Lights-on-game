@@ -53,6 +53,11 @@ public class CameraWork : MonoBehaviour {
         }
     }
 
+    public void TargetPlayer(int index){
+        playerIndex = index % GlobalValues.Instance.players.Count;
+        targetTransform = GlobalValues.Instance.players[playerIndex].transform; 
+    }
+
     public void SwitchPlayer() {
         playerIndex = (playerIndex + 1) % GlobalValues.Instance.players.Count;
         targetTransform = GlobalValues.Instance.players[playerIndex].transform; 

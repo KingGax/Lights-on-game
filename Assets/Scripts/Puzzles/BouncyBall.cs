@@ -27,7 +27,7 @@ public class BouncyBall : MonoBehaviour {
     void Awake() {
         spawnPosition = transform.position;
         spawnRotation = transform.rotation;
-        rigidBody = this.gameObject.GetComponent<Rigidbody>();
+        //rigidBody = this.gameObject.GetComponent<Rigidbody>();
 
         Debug.Log("awake bouncy ball");
     }
@@ -38,7 +38,7 @@ public class BouncyBall : MonoBehaviour {
         this.transform.rotation = spawnRotation;
         this.bouncesLeft = 4;
         this.isActivated = false;
-        rigidBody.velocity = Vector3.zero;
+        //rigidBody.velocity = Vector3.zero;
     }
 
     public void ActivateBall() {
@@ -46,19 +46,20 @@ public class BouncyBall : MonoBehaviour {
         Debug.Log("activated");
         this.isActivated = true;
         Debug.Log(transform.forward.normalized * speed);
-        rigidBody.velocity = transform.forward.normalized * speed;
+        //rigidBody.velocity = transform.forward.normalized * speed;
     }
 
     // Update is called once per frame
     void FixedUpdate() {
         if(!PhotonNetwork.IsMasterClient) return;
-        if(isActivated) {
-            //transform.Translate(Vector3.forward * Time.deltaTime * speed);
+        if(isActivated)
+        {
+            transform.Translate(Vector3.forward * Time.fixedDeltaTime * speed);
 
             Ray ray = new Ray(transform.position, transform.forward);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .5f, dynamicEnvironmentMask)) {
+            if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .1f, dynamicEnvironmentMask)){
                 //Reflect direcion and adjust rotation
                 if(bouncesLeft == 0) {
                     Respawn();
@@ -67,11 +68,11 @@ public class BouncyBall : MonoBehaviour {
                 Vector3 reflectDirection = Vector3.Reflect(ray.direction,hit.normal);
                 float rotation = 90 - Mathf.Atan2(reflectDirection.z,reflectDirection.x) * Mathf.Rad2Deg;
                 transform.eulerAngles = new Vector3(0,rotation,0);
-                rigidBody.velocity = reflectDirection.normalized * speed;
+                //rigidBody.velocity = reflectDirection.normalized * speed;
                 Debug.Log("bounce");
 
                 bouncesLeft -= 1;
-            } else if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .5f, staticEnvironmentMask)) {
+            } else if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .1f, staticEnvironmentMask)){
                 Debug.Log("Hit static wall");
                 Respawn();
                 return;
