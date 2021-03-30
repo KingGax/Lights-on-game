@@ -30,9 +30,17 @@ public class MultiHitTargetManager : MonoBehaviour
             }
             if (allHit) {
                 destroyed = true;
-                PhotonNetwork.Destroy(gameObject);
+                pv.RPC("DestroyRPC", RpcTarget.AllBuffered);
             }
         }
         
+    }
+
+    [PunRPC]
+    public void DestroyRPC() {
+        if (pv.IsMine) {
+            PhotonNetwork.CleanRpcBufferIfMine(pv);
+        }
+        Destroy(gameObject);
     }
 }

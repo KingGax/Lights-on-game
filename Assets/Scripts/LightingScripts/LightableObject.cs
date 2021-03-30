@@ -39,12 +39,17 @@ public class LightableObject : MonoBehaviour {
     List<LightObject> currentLights = new List<LightObject>();
     MeshRenderer meshRenderer;
     Collider physicsCollider;
+    GameObject boidManagerPrefab;
+    GameObject boidManagerInstance;
+    protected bool canSwarm;
 
     virtual protected void Awake() {
         hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
     }
 
     public virtual void Start() {
+        canSwarm = true;
+        boidManagerPrefab = GlobalValues.Instance.boidManagerPrefab;
         AssignMaterials();
         if (!overrideMeshRenderer) {
             meshRenderer = transform.parent.GetComponent<MeshRenderer>();
@@ -90,6 +95,7 @@ public class LightableObject : MonoBehaviour {
             blueMat = gv.defaultBlue;
         }
     }
+
     Material GetHiddenMaterial() {
         GlobalValues gv = GlobalValues.Instance;
         switch (colour) {
@@ -141,10 +147,12 @@ public class LightableObject : MonoBehaviour {
             appearing = false;
         }
     }
+
     private bool ColourCheckWithDistance() {
         if (currentLights.Count == 0) {
             return false;
         }
+
         float closestLight = float.MaxValue;
         Vector4 lightColour = new Vector4(0, 0, 0, 1f);
         foreach (LightObject lo in currentLights) {
@@ -153,14 +161,15 @@ public class LightableObject : MonoBehaviour {
                 closestLight = dist;
             }
         }
+
         foreach (LightObject lo in currentLights) {
             float dist = Vector3.Distance(transform.position, lo.gameObject.transform.position);
             if (dist < lightAlwaysConsideredDist || dist < lightOverpowerRatio * closestLight) {
                 lightColour += (Vector4)lo.colour;
             }
         }
-        lightColour = new Vector4(Mathf.Clamp(lightColour.x, 0.0f, 1.0f), Mathf.Clamp(lightColour.y, 0.0f, 1.0f), Mathf.Clamp(lightColour.z, 0.0f, 1.0f), 1.0f);
 
+        lightColour = new Vector4(Mathf.Clamp(lightColour.x, 0.0f, 1.0f), Mathf.Clamp(lightColour.y, 0.0f, 1.0f), Mathf.Clamp(lightColour.z, 0.0f, 1.0f), 1.0f);
         Vector4 lightColVector = lightColour;
         Vector4 colourDif = lightColVector - objectColVector;
         return colourDif.magnitude <= colourRange;
@@ -170,8 +179,7 @@ public class LightableObject : MonoBehaviour {
     public void ColourChanged() {
         if (CheckColours(currentLights)) {
             StartDisappear();
-        }
-        else {
+        } else {
             StartAppearing();
         }
     }
@@ -206,6 +214,7 @@ public class LightableObject : MonoBehaviour {
             default:
                 break;
         }
+
         objectColour = CalculateColour();
         objectColVector = objectColour;
         if (initialised && !overrideMeshRenderer) {
@@ -269,7 +278,12 @@ public class LightableObject : MonoBehaviour {
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         }
         transform.parent.gameObject.layer = hiddenLayer;
-
+        if (canSwarm){
+            boidManagerInstance = Instantiate(boidManagerPrefab, transform.position, transform.rotation);
+            BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
+            man.SetMat(CalculateColour());
+            man.Spawn();
+        }
         Tooltip[] tooltips = GetComponentsInChildren<Tooltip>();
         foreach (Tooltip t in tooltips) {
             t.Dismiss();
@@ -287,6 +301,9 @@ public class LightableObject : MonoBehaviour {
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         }
         transform.parent.gameObject.layer = defaultLayer;
+        if (canSwarm){
+            Destroy(boidManagerInstance);
+        }
         //move for optimisation at some point
         Light[] lights = GetComponentsInChildren<Light>();
         foreach (Light l in lights) {
@@ -307,8 +324,7 @@ public class LightableObject : MonoBehaviour {
                 appearing = false;
                 CancelInvoke("TryAppear");
             }
-        }
-        else {
+        } else {
             disappearOnStart = true;
         }
 
@@ -324,8 +340,7 @@ public class LightableObject : MonoBehaviour {
             currentLights.Remove(newLight);
             if (CheckColours(currentLights)) {
                 StartDisappear();
-            }
-            else {
+            } else {
                 StartAppearing();
             }
         }

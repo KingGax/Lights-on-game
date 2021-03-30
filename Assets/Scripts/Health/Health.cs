@@ -30,8 +30,17 @@ public class Health : MonoBehaviour {
         pv.RPC("DamageRPC", RpcTarget.All, damage);
     }
 
+    [PunRPC]
+    public void DieRPC() {
+        if (pv.IsMine) {
+            PhotonNetwork.CleanRpcBufferIfMine(pv);
+        }
+        Destroy(gameObject);
+
+    }
+
     public virtual void Die() {
         AudioManager.PlaySFX(SoundClips.Instance.SFXKill, transform.position);
-        PhotonNetwork.Destroy(gameObject);
+        pv.RPC("DieRPC", RpcTarget.AllBuffered);
     }
 }

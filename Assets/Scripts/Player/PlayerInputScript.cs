@@ -17,7 +17,7 @@ public class PlayerInputScript : MonoBehaviour {
     private MenuToggle menuView = null;
     private PhotonView pv;
     CameraWork cameraWork;
-
+    Animator cameraAnimator;
 
     [DllImport("__Internal")]
     private static extern void startRecogniser();
@@ -32,6 +32,8 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.Movement.canceled += ctx => OnMovement(ctx);
         movementInputMap.Dash.started += ctx => Dash(ctx);
         movementInputMap.Light.started += _ => ChangeLight();
+        movementInputMap.ChangePersp.started += _ => ChangePerspective();
+
         //movementInputMap.SwitchWeapon.started += _ => SwitchWeapon(); disabled for showcase
 
 
@@ -53,6 +55,7 @@ public class PlayerInputScript : MonoBehaviour {
         pc = GetComponent<PlayerController>();
         pv = GetComponent<PhotonView>();
         cameraWork = GetComponent<CameraWork>();
+        cameraAnimator = Camera.main.gameObject.GetComponent<Animator>();
     }
     
     void Reload() {
@@ -107,6 +110,12 @@ public class PlayerInputScript : MonoBehaviour {
     void ChangeLight() {
         if (inputEnabled) {
             pc.ChangeLight();
+        }
+    }
+
+    void ChangePerspective() {
+        if (inputEnabled) {
+            cameraAnimator.SetTrigger("changePersp");
         }
     }
 

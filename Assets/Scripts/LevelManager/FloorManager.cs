@@ -52,16 +52,21 @@ public class FloorManager : MonoBehaviour
                 if (!roomEventsTriggered[p1RoomNum]) {
                     levels[p1RoomNum].StartObjective();
                     roomEventsTriggered[p1RoomNum] = true;
+                    pv.RPC("UpdateRoomObjectivesRPC", RpcTarget.AllBufferedViaServer, p1RoomNum);
                 }
             }
         }
         
     }
 
+    [PunRPC]
+    private void UpdateRoomObjectivesRPC(int roomNum) {
+        roomEventsTriggered[roomNum] = true;
+    }
+
 
 
     public Vector3 GetSpawnPoint() {
-        Debug.Log("Getting spawn point");
         if (pv.IsMine) {
             //navManager.SetPoints(true);
             return p1SpawnPoints[p1RoomNum].position;
@@ -106,24 +111,38 @@ public class FloorManager : MonoBehaviour
         }
     }
 
-    public void UpdateLocation(GameObject player, int roomNum) {
-        if (twoPlayers) {
-            if (player == GlobalValues.Instance.players[1]) {
-                p2RoomNum = roomNum;
-            }
-            else if (player == GlobalValues.Instance.players[0]) {
-                p1RoomNum = roomNum;
-            }
-            else
-            {
-                Debug.LogError("Non player triggered entrance");
-            }
-        }
-        else if (player == GlobalValues.Instance.players[0]) {
+    [PunRPC]
+    private void UpdateLocationRPC(bool isFirstPlayer, int roomNum) {
+        if (isFirstPlayer) {
             p1RoomNum = roomNum;
         }
         else {
-            Debug.LogError("Non player triggered entrance");
+            p2RoomNum = roomNum;
         }
+    }
+
+    public void UpdateLocation(GameObject player, int roomNum) {
+        if (PhotonNetwork.IsMasterClient) {
+            if (twoPlayers) {
+                if (player == GlobalValues.Instance.players[1]) {
+                    pv.RPC("UpdateLocationRPC", RpcTarget.AllBufferedViaServer, false, roomNum);
+                    //p2RoomNum = roomNum;
+                }
+                else if (player == GlobalValues.Instance.players[0]) {
+                    pv.RPC("UpdateLocationRPC", RpcTarget.AllBufferedViaServer, true, roomNum);
+                    //p1RoomNum = roomNum;
+                }
+                else {
+                    Debug.LogError("Non player triggered entrance");
+                }
+            }
+            else if (player == GlobalValues.Instance.players[0]) {
+                pv.RPC("UpdateLocationRPC", RpcTarget.AllBufferedViaServer, true, roomNum);
+                //p1RoomNum = roomNum;
+            }
+            else {
+                Debug.LogError("Non player triggered entrance");
+            }
+        } 
     }
 }

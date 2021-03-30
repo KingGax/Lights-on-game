@@ -93,9 +93,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     #endregion
 
     void IOnPhotonViewOwnerChange.OnOwnerChange(Player newOwner, Player oldOwner) {
-        Debug.Log("owner changed");
         if (PhotonNetwork.LocalPlayer == newOwner) {
-            Debug.Log("i am new owner");
             UpdateLocalPlayerInstance();
         }
     }
@@ -130,10 +128,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     }*/
 
     void UpdateLocalPlayerInstance() {
-        Debug.Log("initialise");
         if (initialised) {
             if (photonView.IsMine) {
-                Debug.Log("mmine");
                 PlayerController.LocalPlayerInstance = this.gameObject;
                 FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
                 fhb.gameObject.GetComponent<Canvas>().enabled = false;
@@ -145,6 +141,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                         gameObject.name = "LocalPlayer";
                         _cameraWork.OnStartFollowing();
                         GlobalValues.Instance.localPlayerInstance = this.gameObject;
+                        PlayerHealth h = GetComponent<PlayerHealth>();
+                        h.Start();
                         rb.isKinematic = false;
                     }
                     else {
@@ -180,16 +178,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     }
 
     void Start() {
-        Debug.Log("START");
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
         GlobalValues.Instance.AddPlayer(gameObject);
         int index = GlobalValues.Instance.players.IndexOf(gameObject);
-        Debug.Log("Index in players list: " + index);
         Room room = PhotonNetwork.CurrentRoom;
         int playerCount = (int)room.CustomProperties["playerCount"]; 
-        Debug.Log("Player count: "+ playerCount);
         if (index >= playerCount){
-            Debug.Log("Retargeting!");
             spectator = true;
             _cameraWork.TargetPlayer(0);
         }

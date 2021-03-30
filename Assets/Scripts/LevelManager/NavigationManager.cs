@@ -24,15 +24,9 @@ public class NavigationManager : MonoBehaviour
         
         floorManager = GlobalValues.Instance.fm;
         if (playerSet){
-            Debug.Log("playerset");
             SetPoints();
-            Debug.Log("playerset");
-            Debug.Log(navigationPoints.Count);
-            Debug.Log(navIndex);
             arrow.UpdateTarget(navigationPoints[navIndex].transform);
-            Debug.Log("playerset");
             arrow.SetEnabled(navigationEnabled);
-            Debug.Log("playerset");
         }
         started = true;
     }
@@ -41,8 +35,10 @@ public class NavigationManager : MonoBehaviour
     protected void SetPointsRPC(){
         if (!isMaster){
             navigationPoints = floorManager.p1NavPoints;
+            navIndex = floorManager.GetPlayerRoom(true);
         } else {
             navigationPoints = floorManager.p2NavPoints;
+            navIndex = floorManager.GetPlayerRoom(false);
         }
     }
 
@@ -57,7 +53,6 @@ public class NavigationManager : MonoBehaviour
     }
 
     public void SetPoints(){
-        Debug.Log("Setting navpoints");
         //initialised = true;
         arrow.enabled = true;
         if (isMaster){
@@ -80,7 +75,6 @@ public class NavigationManager : MonoBehaviour
         } else { //backtracking
             //navIndex--; //do nothing for now, to prevent entering and leaving from the same side, etc.
         }
-        //Debug.Log("Point: " + navigationPoints[navIndex].transform.position);
         arrow.UpdateTarget(navigationPoints[navIndex].transform);
         
     }

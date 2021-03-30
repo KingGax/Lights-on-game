@@ -44,8 +44,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             initialised = true;
         } else {
             GameObject lobby = GameObject.Find("Lobby");
-            transform.SetParent(lobby.transform);
-            transform.position = new Vector3(lobby.transform.position.x-10, lobby.transform.position.y, lobby.transform.position.z);
+            if (lobby != null) {
+                transform.SetParent(lobby.transform);
+                transform.position = new Vector3(lobby.transform.position.x - 10, lobby.transform.position.y, lobby.transform.position.z);
+            }
         }
     }
 

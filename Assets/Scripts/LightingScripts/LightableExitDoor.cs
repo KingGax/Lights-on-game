@@ -10,6 +10,10 @@ public class LightableExitDoor : LightableObject
     bool disappeared = false;
 
     // Start is called before the first frame update
+    public override void Start() {
+        base.Start();
+        canSwarm = false;
+    }
     public void LockDoor() {
         colour = LightableColour.White;
         disappeared = false;

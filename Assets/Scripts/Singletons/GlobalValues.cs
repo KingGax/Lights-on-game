@@ -15,6 +15,7 @@ public class GlobalValues : MonoBehaviour {
     public GameObject localPlayerInstance;
     public GameObject UIElements;
     public GameObject UIPrefab;
+    public GameObject boidManagerPrefab;
     public GameObject MenuItem;
     public Material defaultGreen;
     public Material defaultBlue;

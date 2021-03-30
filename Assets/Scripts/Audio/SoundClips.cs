@@ -5,8 +5,6 @@ public class SoundClips : MonoBehaviour {
     private static SoundClips _instance;
     public static SoundClips Instance { get { return _instance; } }
 
-    public AudioClip Overworld;
-
     public AudioClip SFXLazer;
     public AudioClip SFXShoot;
     public AudioClip SFXDoorOpen;
