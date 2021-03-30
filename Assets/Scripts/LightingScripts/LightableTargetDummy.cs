@@ -12,11 +12,11 @@ public class LightableTargetDummy : LightableEnemy
     }
     [PunRPC]
     protected override void InitialiseEnemyRPC(LightableColour newCol, string parentName) {
-        if (useParentTransform) {
+        /*if (useParentTransform) {
             parentTransform.SetParent(GameObject.Find(parentName).transform);
         }
         else {
             transform.parent.SetParent(GameObject.Find(parentName).transform);
-        }
+        }*/
     }
 }

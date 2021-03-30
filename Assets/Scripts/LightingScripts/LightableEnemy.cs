@@ -12,29 +12,42 @@ public class LightableEnemy : LightableMultiObject {
     int hiddenEnemyLayer;
     LayerMask enemyReappearPreventionLayers;
     PhotonView pv;
+    private LightableColour initCol;
+    private string parentName;
+    private bool initialiseOnStart = false;
 
     [PunRPC]
     protected virtual void InitialiseEnemyRPC(LightableColour newCol, string parentName)
     {
-        transform.parent.SetParent(GameObject.Find(parentName).transform);
         colour = newCol;        
         if (initialised) {
             SetColour();
             gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
-            Debug.Log("Set colour!");
-            
         }
     }
     public override void Start() {
         base.Start();
         gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
+        if (initialiseOnStart) {
+            pv.RPC("InitialiseEnemyRPC", RpcTarget.AllBuffered, initCol, parentName);
+        }
     }
-    public virtual void InitialiseEnemy(LightableColour newCol, Transform parent)
+    public virtual void InitialiseEnemy(LightableColour newCol, string _parentName)
     {
         if (initialised){
             gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
+            pv.RPC("InitialiseEnemyRPC", RpcTarget.AllBuffered, newCol, _parentName);
         }
-        pv.RPC("InitialiseEnemyRPC", RpcTarget.AllBuffered, newCol, parent.gameObject.name);
+        else {
+            initCol = newCol;
+            parentName = _parentName;
+            initialiseOnStart = true;
+        }
+        
+    }
+
+    private void OnEnable() {
+        pv = gameObject.GetPhotonView();
     }
 
 

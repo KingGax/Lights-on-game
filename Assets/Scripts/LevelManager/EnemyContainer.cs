@@ -18,16 +18,20 @@ public class EnemyContainer : MonoBehaviour {
 
     public void StartWave(int waveNum, Transform parent) {
         enemyParent = parent;
+        
         if (waveNum == waveNumber) {
-            Invoke("Spawn", waveOffset);
+            Spawn();
         }
         
     }
 
     private void Spawn() {
         GameObject entity = PhotonNetwork.InstantiateRoomObject(enemyPrefab.name, transform.position, Quaternion.identity);
-        LightableEnemy lightScript = entity.GetComponentInChildren<LightableEnemy>();
-        lightScript.InitialiseEnemy(enemyColour, enemyParent);
+        //LightableEnemy lightScript = entity.GetComponentInChildren<LightableEnemy>();
+        //lightScript.InitialiseEnemy(enemyColour, enemyParent.gameObject.name);
+        EnemySpawnInitialiser spawnScript = entity.GetComponentInChildren<EnemySpawnInitialiser>();
+        spawnScript.SetupSpawner(enemyColour, PhotonNetwork.Time + waveOffset, enemyParent.gameObject.name);
+
     }
 
 

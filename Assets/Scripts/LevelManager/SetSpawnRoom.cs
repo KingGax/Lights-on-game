@@ -66,8 +66,14 @@ public class SetSpawnRoom : RoomObjective {
         // t.Text = "Defeat " + left + " more enemies";
     }
 
+    [PunRPC]
+    void SetWaveCounterRPC(int num) {
+        currentWaveCounter = num;
+    }
+
     void StartNewSetWave() {
         currentWaveCounter += 1;
+        pv.RPC("SetWaveCounterRPC", RpcTarget.AllBufferedViaServer, currentWaveCounter);
         if (spawnScript.SpawnedAllWaves()) {
             allWavesSpawned = true;
         }
