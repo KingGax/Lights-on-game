@@ -2,7 +2,7 @@ name: Tests 😍
 
 on:
   push:
-    branches: 
+    branches:
       - dev
   pull_request:
     branches:
@@ -31,3 +31,33 @@ jobs:
       # Test
       - name: Run tests
         uses: game-ci/unity-test-runner@v2
+
+      - name: Spam Discord 😝
+        uses: appleboy/discord-action@master
+        if: ${{ failure() }}
+        with:
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+          color: #35b5bb
+          username: "HMSSFGD Minister for Game Testing"
+          message: "@everyone Regression testing has failed 😨"
+
+      - name: Spam Discord 😝
+        uses: appleboy/discord-action@master
+        if: ${{ success() }}
+        with:
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+          color: #35b5bb
+          username: "HMSSFGD Minister for Game Testing"
+          message: "Regression testing has passed! 🥳"
+
+      - name: Spam Discord 😝
+        uses: appleboy/discord-action@master
+        if: ${{ cancelled() }}
+        with:
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+          color: #35b5bb
+          username: "HMSSFGD Minister for Game Testing"
+          message: "Someone cancelled testing... 😠"
