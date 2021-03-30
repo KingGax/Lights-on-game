@@ -6,8 +6,7 @@ using Photon.Pun;
 public class EnemySpawnInitialiser : MonoBehaviour
 {
     public PhotonView pv;
-    public PhotonView[] childPVs;
-    public PhotonView enemyView;
+    private PhotonView[] childPVs;
     public GameObject enemy;
     private double spawnTime = double.MaxValue;
     private LightableColour enemyCol;
