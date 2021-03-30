@@ -33,6 +33,7 @@ public class PlayerInputScript : MonoBehaviour {
         movementInputMap.Dash.started += ctx => Dash(ctx);
         movementInputMap.Light.started += _ => ChangeLight();
         movementInputMap.ChangePersp.started += _ => ChangePerspective();
+        movementInputMap.ChangeRot.started += _ => ChangeRotation();
 
         //movementInputMap.SwitchWeapon.started += _ => SwitchWeapon(); disabled for showcase
 
@@ -116,6 +117,12 @@ public class PlayerInputScript : MonoBehaviour {
     void ChangePerspective() {
         if (inputEnabled) {
             cameraAnimator.SetTrigger("changePersp");
+        }
+    }
+
+    void ChangeRotation() {
+        if (inputEnabled) {
+            cameraAnimator.SetTrigger("changeRot");
         }
     }
 

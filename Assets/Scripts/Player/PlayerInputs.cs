@@ -113,6 +113,14 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ChangeRot"",
+                    ""type"": ""Button"",
+                    ""id"": ""a306812e-6984-478d-8b9c-43a2612eb5e8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -291,6 +299,17 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""ChangePersp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a45bd7d7-2c06-4796-9814-ec60f527028b"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""ChangeRot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -328,6 +347,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_SpectatorToggle = m_Player.FindAction("SpectatorToggle", throwIfNotFound: true);
         m_Player_ChangePersp = m_Player.FindAction("ChangePersp", throwIfNotFound: true);
+        m_Player_ChangeRot = m_Player.FindAction("ChangeRot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -389,6 +409,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_SpectatorToggle;
     private readonly InputAction m_Player_ChangePersp;
+    private readonly InputAction m_Player_ChangeRot;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -405,6 +426,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputAction @SpectatorToggle => m_Wrapper.m_Player_SpectatorToggle;
         public InputAction @ChangePersp => m_Wrapper.m_Player_ChangePersp;
+        public InputAction @ChangeRot => m_Wrapper.m_Player_ChangeRot;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -450,6 +472,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @ChangePersp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangePersp;
                 @ChangePersp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangePersp;
                 @ChangePersp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangePersp;
+                @ChangeRot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeRot;
+                @ChangeRot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeRot;
+                @ChangeRot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeRot;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -490,6 +515,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @ChangePersp.started += instance.OnChangePersp;
                 @ChangePersp.performed += instance.OnChangePersp;
                 @ChangePersp.canceled += instance.OnChangePersp;
+                @ChangeRot.started += instance.OnChangeRot;
+                @ChangeRot.performed += instance.OnChangeRot;
+                @ChangeRot.canceled += instance.OnChangeRot;
             }
         }
     }
@@ -517,5 +545,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnSpectatorToggle(InputAction.CallbackContext context);
         void OnChangePersp(InputAction.CallbackContext context);
+        void OnChangeRot(InputAction.CallbackContext context);
     }
 }
