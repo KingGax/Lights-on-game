@@ -113,6 +113,9 @@ public class PlayerGun : PlayerWeapon {
         pv.RPC("AltFireRPC", RpcTarget.All, firePoint.position, GetHitPoint());
         FireLaser(laserDist);
         HideChargeIndicator();
+        if (ammo <= 0) {
+            Reload();
+        }
     }
 
     [PunRPC]
@@ -152,16 +155,13 @@ public class PlayerGun : PlayerWeapon {
 
 
     protected override void UseWeapon() {
-        if (ammo > 0) {
-            ammo -= 1;
-            GameObject newBullet = PhotonNetwork.Instantiate(bullet.name, firePoint.position, transform.rotation);
-            BulletController bc = newBullet.GetComponent<BulletController>();
-            bc.Fire(damage, hitStunDuration, bulletSpeed, transform.up);
-            AudioManager.PlaySFX(SoundClips.Instance.SFXShoot, firePoint.position);
-        }
-        else {
+        ammo -= 1;
+        GameObject newBullet = PhotonNetwork.Instantiate(bullet.name, firePoint.position, transform.rotation);
+        BulletController bc = newBullet.GetComponent<BulletController>();
+        bc.Fire(damage, hitStunDuration, bulletSpeed, transform.up);
+        AudioManager.PlaySFX(SoundClips.Instance.SFXShoot, firePoint.position);
+        if (ammo <= 0) {
             Reload();
-        }
-        
+        }        
     }
 }

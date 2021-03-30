@@ -105,6 +105,14 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ChangePersp"",
+                    ""type"": ""Button"",
+                    ""id"": ""c3b593d1-ae6e-495d-8a18-5add1634b221"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -272,6 +280,17 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""SpectatorToggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02e80c23-39d4-463b-94b0-e5154070c40f"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""ChangePersp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -308,6 +327,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_SpectatorToggle = m_Player.FindAction("SpectatorToggle", throwIfNotFound: true);
+        m_Player_ChangePersp = m_Player.FindAction("ChangePersp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -368,6 +388,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_SpectatorToggle;
+    private readonly InputAction m_Player_ChangePersp;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -383,6 +404,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputAction @SpectatorToggle => m_Wrapper.m_Player_SpectatorToggle;
+        public InputAction @ChangePersp => m_Wrapper.m_Player_ChangePersp;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -425,6 +447,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @SpectatorToggle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpectatorToggle;
                 @SpectatorToggle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpectatorToggle;
                 @SpectatorToggle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpectatorToggle;
+                @ChangePersp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangePersp;
+                @ChangePersp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangePersp;
+                @ChangePersp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangePersp;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -462,6 +487,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @SpectatorToggle.started += instance.OnSpectatorToggle;
                 @SpectatorToggle.performed += instance.OnSpectatorToggle;
                 @SpectatorToggle.canceled += instance.OnSpectatorToggle;
+                @ChangePersp.started += instance.OnChangePersp;
+                @ChangePersp.performed += instance.OnChangePersp;
+                @ChangePersp.canceled += instance.OnChangePersp;
             }
         }
     }
@@ -488,5 +516,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnSpectatorToggle(InputAction.CallbackContext context);
+        void OnChangePersp(InputAction.CallbackContext context);
     }
 }
