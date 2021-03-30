@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class BouncyBall : MonoBehaviour
-{
+public class BouncyBall : MonoBehaviour {
 
     public Transform ball;
 
@@ -25,22 +24,15 @@ public class BouncyBall : MonoBehaviour
     private Quaternion spawnRotation;
     // Start is called before the first frame update
 
-    void Awake()
-    {
+    void Awake() {
         spawnPosition = transform.position;
         spawnRotation = transform.rotation;
         //rigidBody = this.gameObject.GetComponent<Rigidbody>();
 
         Debug.Log("awake bouncy ball");
     }
-    void Start()
-    {
-        
-        
-    }
 
-    public void Respawn()
-    {
+    public void Respawn() {
         if(!PhotonNetwork.IsMasterClient) return;
         this.transform.position = spawnPosition;
         this.transform.rotation = spawnRotation;
@@ -49,8 +41,7 @@ public class BouncyBall : MonoBehaviour
         //rigidBody.velocity = Vector3.zero;
     }
 
-    public void ActivateBall()
-    {
+    public void ActivateBall() {
         if(!PhotonNetwork.IsMasterClient || isActivated) return;
         Debug.Log("activated");
         this.isActivated = true;
@@ -59,8 +50,7 @@ public class BouncyBall : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         if(!PhotonNetwork.IsMasterClient) return;
         if(isActivated)
         {
@@ -71,7 +61,7 @@ public class BouncyBall : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .1f, dynamicEnvironmentMask)){
                 //Reflect direcion and adjust rotation
-                if(bouncesLeft == 0){
+                if(bouncesLeft == 0) {
                     Respawn();
                     return;
                 }
@@ -90,7 +80,7 @@ public class BouncyBall : MonoBehaviour
         }
     }
 
-    public void DestroyBall(){
+    public void DestroyBall() {
         if(PhotonNetwork.IsMasterClient)
         PhotonNetwork.Destroy(this.gameObject);
     }

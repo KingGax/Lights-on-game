@@ -95,6 +95,7 @@ public class LightableObject : MonoBehaviour {
             blueMat = gv.defaultBlue;
         }
     }
+
     Material GetHiddenMaterial() {
         GlobalValues gv = GlobalValues.Instance;
         switch (colour) {
@@ -146,10 +147,12 @@ public class LightableObject : MonoBehaviour {
             appearing = false;
         }
     }
+
     private bool ColourCheckWithDistance() {
         if (currentLights.Count == 0) {
             return false;
         }
+
         float closestLight = float.MaxValue;
         Vector4 lightColour = new Vector4(0, 0, 0, 1f);
         foreach (LightObject lo in currentLights) {
@@ -158,14 +161,15 @@ public class LightableObject : MonoBehaviour {
                 closestLight = dist;
             }
         }
+
         foreach (LightObject lo in currentLights) {
             float dist = Vector3.Distance(transform.position, lo.gameObject.transform.position);
             if (dist < lightAlwaysConsideredDist || dist < lightOverpowerRatio * closestLight) {
                 lightColour += (Vector4)lo.colour;
             }
         }
-        lightColour = new Vector4(Mathf.Clamp(lightColour.x, 0.0f, 1.0f), Mathf.Clamp(lightColour.y, 0.0f, 1.0f), Mathf.Clamp(lightColour.z, 0.0f, 1.0f), 1.0f);
 
+        lightColour = new Vector4(Mathf.Clamp(lightColour.x, 0.0f, 1.0f), Mathf.Clamp(lightColour.y, 0.0f, 1.0f), Mathf.Clamp(lightColour.z, 0.0f, 1.0f), 1.0f);
         Vector4 lightColVector = lightColour;
         Vector4 colourDif = lightColVector - objectColVector;
         return colourDif.magnitude <= colourRange;
@@ -175,8 +179,7 @@ public class LightableObject : MonoBehaviour {
     public void ColourChanged() {
         if (CheckColours(currentLights)) {
             StartDisappear();
-        }
-        else {
+        } else {
             StartAppearing();
         }
     }
@@ -211,6 +214,7 @@ public class LightableObject : MonoBehaviour {
             default:
                 break;
         }
+
         objectColour = CalculateColour();
         objectColVector = objectColour;
         if (initialised && !overrideMeshRenderer) {
@@ -320,8 +324,7 @@ public class LightableObject : MonoBehaviour {
                 appearing = false;
                 CancelInvoke("TryAppear");
             }
-        }
-        else {
+        } else {
             disappearOnStart = true;
         }
 
@@ -337,8 +340,7 @@ public class LightableObject : MonoBehaviour {
             currentLights.Remove(newLight);
             if (CheckColours(currentLights)) {
                 StartDisappear();
-            }
-            else {
+            } else {
                 StartAppearing();
             }
         }

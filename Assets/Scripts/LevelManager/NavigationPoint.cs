@@ -6,17 +6,11 @@ using Photon.Pun;
 public class NavigationPoint : MonoBehaviour
 {
     private NavigationManager navigationManager;
-    // Start is called before the first frame update
-    void Start()
-    {
+
+    void Start() {
         navigationManager = GlobalValues.Instance.navManager;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter(Collider other) {
         if (((1 << other.gameObject.layer) & GlobalValues.Instance.playerOrHiddenPlayerMask) != 0){
             //PhotonView pv = other.gameObject.GetComponent<PhotonView>();
