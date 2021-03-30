@@ -5,6 +5,11 @@ using UnityEngine;
 public class LightableEnemyBullet : LightableObject
 {
     public TrailRenderer bulletTrail;
+    public override void Start()
+    {
+        base.Start();
+        canSwarm = false;
+    }
     public override void Appear() {
         base.Appear();
         bulletTrail.emitting = true;

@@ -39,12 +39,17 @@ public class LightableObject : MonoBehaviour {
     List<LightObject> currentLights = new List<LightObject>();
     MeshRenderer meshRenderer;
     Collider physicsCollider;
+    GameObject boidManagerPrefab;
+    GameObject boidManagerInstance;
+    protected bool canSwarm;
 
     virtual protected void Awake() {
         hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
     }
 
     public virtual void Start() {
+        canSwarm = true;
+        boidManagerPrefab = GlobalValues.Instance.boidManagerPrefab;
         AssignMaterials();
         if (!overrideMeshRenderer) {
             meshRenderer = transform.parent.GetComponent<MeshRenderer>();
@@ -269,7 +274,12 @@ public class LightableObject : MonoBehaviour {
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         }
         transform.parent.gameObject.layer = hiddenLayer;
-
+        if (canSwarm){
+            boidManagerInstance = Instantiate(boidManagerPrefab, transform.position, transform.rotation);
+            BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
+            man.SetMat(CalculateColour());
+            man.Spawn();
+        }
         Tooltip[] tooltips = GetComponentsInChildren<Tooltip>();
         foreach (Tooltip t in tooltips) {
             t.Dismiss();
@@ -287,6 +297,9 @@ public class LightableObject : MonoBehaviour {
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         }
         transform.parent.gameObject.layer = defaultLayer;
+        if (canSwarm){
+            Destroy(boidManagerInstance);
+        }
         //move for optimisation at some point
         Light[] lights = GetComponentsInChildren<Light>();
         foreach (Light l in lights) {
