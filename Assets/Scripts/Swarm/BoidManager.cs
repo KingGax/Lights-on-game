@@ -86,7 +86,7 @@ public class BoidManager : MonoBehaviour
             agents.Add(a);
         }
         updateCentreTimer = 0f;
-        //StartCoroutine("Timers");
+        StartCoroutine("Timers");
     }
 
     Vector3 GetAveragePos(){
@@ -103,7 +103,7 @@ public class BoidManager : MonoBehaviour
     {
         //camera.transform.rotation = Quaternion.Lerp(camera.transform.rotation, Quaternion.LookRotation(boidCentre - camera.transform.position), Time.deltaTime);
         
-        //updateCentreTimer -= Time.deltaTime;
+        updateCentreTimer -= Time.deltaTime;
         //Physics.l
         //camera.transform.LookAt(boidCentre);
         //SmoothLook(boidCentre);
@@ -113,7 +113,8 @@ public class BoidManager : MonoBehaviour
     IEnumerator Timers(){
         while (true){
             if (updateCentreTimer <= 0){
-                boidCentre = GetAveragePos();
+                boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax) + 1f, transform.position.z + Random.Range(zMin+0.01f, zMax));
+                //boidCentre = GetAveragePos();
                 updateCentreTimer = updateCentreTimerMax;
             }
             yield return null;
