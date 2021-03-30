@@ -17,14 +17,16 @@ public class GameManager : MonoBehaviourPunCallbacks {
 
     // Called when the local player left the room. We need to load the launcher scene.
     public override void OnLeftRoom() {
-        GameObject destroyOnLoad = new GameObject();
-
         foreach (GameObject p in GlobalValues.Instance.players) {
-            p.transform.SetParent(destroyOnLoad.transform);
+            //p.transform.SetParent(destroyOnLoad.transform);
+            Destroy(p);
         }
-        GlobalValues.Instance.UIElements.gameObject.transform.SetParent(destroyOnLoad.transform);
-        AudioManager.Instance.transform.SetParent(destroyOnLoad.transform);
-        GlobalValues.Instance.gameObject.transform.SetParent(destroyOnLoad.transform);
+        Destroy(GlobalValues.Instance.UIElements.gameObject);
+        //GlobalValues.Instance.UIElements.gameObject.transform.SetParent(destroyOnLoad.transform);
+        //Destroy(AudioManager.Instance.gameObject);
+        //AudioManager.Instance.transform.SetParent(destroyOnLoad.transform);
+        //GlobalValues.Instance.gameObject.transform.SetParent(destroyOnLoad.transform);
+        Destroy(GlobalValues.Instance.gameObject);
         SceneManager.LoadScene(0);
     }
 
