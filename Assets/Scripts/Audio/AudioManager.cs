@@ -15,6 +15,9 @@ public class AudioManager : MonoBehaviour {
     private double nextStartTime = 0;
     private bool running = false;
 
+    private double nextTransitionEnd = 0;
+    private float transitionLength = 3.0f;
+
     public static AudioManager Instance { get { return _instance; } }
 
     public void Awake() {
@@ -39,6 +42,19 @@ public class AudioManager : MonoBehaviour {
             nextStartTime += getSectionLength();
             audioSources[freeAudioSource].SetScheduledEndTime(nextStartTime);
             freeAudioSource = 1 - freeAudioSource;
+        }
+
+        if (time > nextTransitionEnd) {
+            nextTransitionEnd = nextStartTime;
+            mixer.SetFloat("Track1HighPass", 10.0f);
+            mixer.SetFloat("Track2HighPass", 10.0f);
+        } else if (time + transitionLength > nextTransitionEnd) {
+            float delta = Mathf.Sin(Mathf.PI/2 * (float)(nextTransitionEnd - time) / transitionLength);
+            float pctTransition = 1.0f - Mathf.Min(1.0f, Mathf.Max(delta, 0.0f));
+            Debug.Log(pctTransition);
+            float frq = 10.0f + 2990.0f * pctTransition;
+            mixer.SetFloat("Track1HighPass", frq);
+            mixer.SetFloat("Track2HighPass", frq);
         }
     }
 
