@@ -14,15 +14,19 @@ public class SetSpawnRoom : RoomObjective {
     private bool allWavesSpawned = false;
     bool doorUnlocked = false;
     private int currentWaveCounter = -1;
-    
+    int[] numEnemiesInFutureWaves;
     public GameObject enemyContainers;
     public GameObject enemyParent;
+    ObjectiveTextManager objectiveText;
     bool started = false;
+    int prevNumEnemies = -1;
 
     void Start() {
+        objectiveText = GlobalValues.Instance.UIElements.GetComponentInChildren<ObjectiveTextManager>();
         spawnScript = gameObject.AddComponent<SetSpawnManager>();
         pv = gameObject.GetPhotonView();
         spawnScript.Initialise(enemyContainers.transform);
+        numEnemiesInFutureWaves = spawnScript.GetWaveSums();
     }
 
     [PunRPC]
@@ -56,15 +60,13 @@ public class SetSpawnRoom : RoomObjective {
                     StartNewSetWave();
                 }
             }
-
-            UpdateEndGameTooltip();
+            if (currentWaveCounter < numEnemiesInFutureWaves.Length) {
+                if (prevNumEnemies != GetEnemiesLeft()) {
+                    prevNumEnemies = GetEnemiesLeft();
+                    objectiveText.RefreshEnemyObjective(prevNumEnemies);
+                }
+            }
         }
-    }
-
-    private void UpdateEndGameTooltip() {
-        int left = CountEnemies();
-        // Tooltip t = EndTooltip.GetComponent<Tooltip>();
-        // t.Text = "Defeat " + left + " more enemies";
     }
 
     [PunRPC]
@@ -81,6 +83,16 @@ public class SetSpawnRoom : RoomObjective {
         else {
             spawnScript.SpawnWave(currentWaveCounter, enemyParent.transform);
         }
+    }
+
+    public int GetEnemiesLeft() {
+        if (currentWaveCounter < numEnemiesInFutureWaves.Length) {
+            return CountEnemies() + numEnemiesInFutureWaves[currentWaveCounter];
+        }
+        else {
+            return 0;
+        }
+        
     }
 
     int CountEnemies() {

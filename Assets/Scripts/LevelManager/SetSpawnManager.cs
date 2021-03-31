@@ -9,17 +9,29 @@ public class SetSpawnManager : MonoBehaviour
     float spawnTimer = 0f;
     int waveNumber = 0;
     int highestWaveNumber = 0;
+    int[] waveSums;
     PhotonView pv;
 
     private void Awake() {
         pv = GetComponent<PhotonView>();
     }
+
+    public int[] GetWaveSums() {
+        return waveSums;
+    }
+
     public void Initialise(Transform enemyContParent) {
         EnemyContainer[] contArr = enemyContParent.GetComponentsInChildren<EnemyContainer>();
         foreach (EnemyContainer cont in contArr) {
             containers.Add(cont);
             if (highestWaveNumber < cont.waveNumber) {
                 highestWaveNumber = cont.waveNumber;
+            }
+        }
+        waveSums = new int[highestWaveNumber+1];
+        foreach (EnemyContainer cont in containers) {
+            for (int i = 0; i < cont.waveNumber; i++) {
+                waveSums[i] += 1;
             }
         }
     }
