@@ -284,7 +284,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""02e80c23-39d4-463b-94b0-e5154070c40f"",
-                    ""path"": ""<Keyboard>/ctrl"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
