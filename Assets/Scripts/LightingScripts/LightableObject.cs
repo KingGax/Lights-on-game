@@ -6,13 +6,7 @@ public class LightableObject : MonoBehaviour {
 
     public LightableColour colour;
 
-    public Material greenMat;
-    public Material blueMat;
-    public Material redMat;
-    public Material magentaMat;
-    public Material cyanMat;
-    public Material yellowMat;
-    public Material whiteMat;
+    public ColouredMaterial materials;
     protected Material hiddenMaterial;
     protected Material defaultMaterial;
 
@@ -50,7 +44,6 @@ public class LightableObject : MonoBehaviour {
     public virtual void Start() {
         canSwarm = true;
         boidManagerPrefab = GlobalValues.Instance.boidManagerPrefab;
-        AssignMaterials();
         if (!overrideMeshRenderer) {
             meshRenderer = transform.parent.GetComponent<MeshRenderer>();
         }
@@ -79,21 +72,6 @@ public class LightableObject : MonoBehaviour {
             }
         }
         distCheckThisFrame = !distCheckThisFrame;
-    }
-
-    void AssignMaterials() {
-        GlobalValues gv = GlobalValues.Instance;
-        if (greenMat == null) {
-            greenMat = gv.defaultGreen;
-        }
-
-        if (redMat == null) {
-            redMat = gv.defaultRed;
-        }
-
-        if (blueMat == null) {
-            blueMat = gv.defaultBlue;
-        }
     }
 
     Material GetHiddenMaterial() {
@@ -189,31 +167,7 @@ public class LightableObject : MonoBehaviour {
     }
 
     public virtual void SetColour() {
-        switch (colour) {
-            case LightableColour.Red:
-                defaultMaterial = redMat;
-                break;
-            case LightableColour.Green:
-                defaultMaterial = greenMat;
-                break;
-            case LightableColour.Blue:
-                defaultMaterial = blueMat;
-                break;
-            case LightableColour.Cyan:
-                defaultMaterial = cyanMat;
-                break;
-            case LightableColour.Magenta:
-                defaultMaterial = magentaMat;
-                break;
-            case LightableColour.Yellow:
-                defaultMaterial = yellowMat;
-                break;
-            case LightableColour.White:
-                defaultMaterial = whiteMat;
-                break;
-            default:
-                break;
-        }
+        defaultMaterial = materials.get(colour);
 
         objectColour = CalculateColour();
         objectColVector = objectColour;

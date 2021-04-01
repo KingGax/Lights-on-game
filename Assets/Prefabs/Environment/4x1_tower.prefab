@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 8800039060954350919}
   - component: {fileID: 8800039060954350921}
   - component: {fileID: 8800039060954350918}
+  - component: {fileID: 3130790604259746849}
   m_Layer: 6
   m_Name: LightingHitboxes
   m_TagString: Untagged
@@ -161,13 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 65280
-  greenMat: {fileID: 2100000, guid: 5bdd67e0cb043ba4b94566e308d58375, type: 2}
-  blueMat: {fileID: 2100000, guid: 8514e08191bd426448ca607c567497f5, type: 2}
-  redMat: {fileID: 2100000, guid: 42b023289ead6f340bb88b3500f8a8f9, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  materials: {fileID: 3130790604259746849}
   colourRange: 0
   obstacle: {fileID: 8800039060567979520}
 --- !u!65 &8800039060954350918
@@ -183,6 +178,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.047999952, y: 0.19775434, z: 0.11264014}
   m_Center: {x: -0.027463341, y: 0.10020622, z: 0.055683017}
+--- !u!114 &3130790604259746849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800039060954350916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1a1625c6e25d40994a61e1b766c95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  red: {fileID: 2100000, guid: 42b023289ead6f340bb88b3500f8a8f9, type: 2}
+  green: {fileID: 2100000, guid: 5bdd67e0cb043ba4b94566e308d58375, type: 2}
+  blue: {fileID: 2100000, guid: 8514e08191bd426448ca607c567497f5, type: 2}
+  magenta: {fileID: 0}
+  cyan: {fileID: 0}
+  yellow: {fileID: 0}
+  white: {fileID: 0}
 --- !u!1 &8800039061487141587
 GameObject:
   m_ObjectHideFlags: 0

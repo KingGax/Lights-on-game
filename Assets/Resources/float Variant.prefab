@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 3394436948647086397}
   - component: {fileID: 572271050614777695}
   - component: {fileID: 4223883103436828894}
+  - component: {fileID: 8712832887540940583}
   m_Layer: 6
   m_Name: LightHitboxes
   m_TagString: Untagged
@@ -302,16 +303,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 16711680
-  greenMat: {fileID: 2100000, guid: 348b1730e45edba49aa34bd0b96b05af, type: 2}
-  blueMat: {fileID: 2100000, guid: 6ed6308305f8b2f4385f29e23eb41306, type: 2}
-  redMat: {fileID: 2100000, guid: b054dcf8ea2f5594c8f086ade5469e83, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  materials: {fileID: 0}
   colourRange: 0
   childObjects: []
   smr: {fileID: 5313805127700934067}
+--- !u!114 &8712832887540940583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5942700268144151793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1a1625c6e25d40994a61e1b766c95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  red: {fileID: 2100000, guid: b054dcf8ea2f5594c8f086ade5469e83, type: 2}
+  green: {fileID: 2100000, guid: 348b1730e45edba49aa34bd0b96b05af, type: 2}
+  blue: {fileID: 2100000, guid: 6ed6308305f8b2f4385f29e23eb41306, type: 2}
+  magenta: {fileID: 0}
+  cyan: {fileID: 0}
+  yellow: {fileID: 0}
+  white: {fileID: 0}
 --- !u!1 &7672520738233504966
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,12 +513,6 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: b054dcf8ea2f5594c8f086ade5469e83, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64a36b542fe38014baf24c47b4008f9d, type: 3}
---- !u!1 &3335349122974984866 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 64a36b542fe38014baf24c47b4008f9d,
-    type: 3}
-  m_PrefabInstance: {fileID: 2488488980142135283}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2666793948515004440 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 64a36b542fe38014baf24c47b4008f9d,
@@ -514,6 +522,12 @@ Transform:
 --- !u!137 &5313805127700934067 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 7725518439608744512, guid: 64a36b542fe38014baf24c47b4008f9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2488488980142135283}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3335349122974984866 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 64a36b542fe38014baf24c47b4008f9d,
     type: 3}
   m_PrefabInstance: {fileID: 2488488980142135283}
   m_PrefabAsset: {fileID: 0}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4572524631972166932}
   - component: {fileID: 6257321526559279917}
   - component: {fileID: 784378440847209564}
+  - component: {fileID: 4583931183395365586}
   m_Layer: 6
   m_Name: LightingHitboxes
   m_TagString: Untagged
@@ -58,15 +59,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 16711680
-  greenMat: {fileID: 2100000, guid: c0b263d65f86e674ebcfbcfdfee68bbc, type: 2}
-  blueMat: {fileID: 2100000, guid: ce6eda492ec80dc4392a2e4d7b699fe7, type: 2}
-  redMat: {fileID: 2100000, guid: 41bfd82afac98a14e8b91045d0d225db, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  materials: {fileID: 4583931183395365586}
   colourRange: 0
   obstacle: {fileID: 6721472320104233768}
+--- !u!114 &4583931183395365586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3376260717869664803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1a1625c6e25d40994a61e1b766c95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  red: {fileID: 2100000, guid: 41bfd82afac98a14e8b91045d0d225db, type: 2}
+  green: {fileID: 2100000, guid: c0b263d65f86e674ebcfbcfdfee68bbc, type: 2}
+  blue: {fileID: 2100000, guid: ce6eda492ec80dc4392a2e4d7b699fe7, type: 2}
+  magenta: {fileID: 0}
+  cyan: {fileID: 0}
+  yellow: {fileID: 0}
+  white: {fileID: 0}
 --- !u!1 &4893177743839663106
 GameObject:
   m_ObjectHideFlags: 0

@@ -298,6 +298,7 @@ GameObject:
   - component: {fileID: 5098959258965637977}
   - component: {fileID: 5098959258965637976}
   - component: {fileID: 5098959258965637982}
+  - component: {fileID: 3365920726249230153}
   m_Layer: 6
   m_Name: LightHitboxes
   m_TagString: Untagged
@@ -332,13 +333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 16711680
-  greenMat: {fileID: 2100000, guid: d4315665b0f67f248958e92b4fdb9c97, type: 2}
-  blueMat: {fileID: 2100000, guid: bc438a40d2f9a944586de42203b541c9, type: 2}
-  redMat: {fileID: 2100000, guid: d735b6612bcc98c428a67dae90f66ba0, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  materials: {fileID: 3365920726249230153}
   colourRange: 0
   childObjects: []
   smr: {fileID: 7832185270818603509}
@@ -379,6 +374,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.54, z: 1}
   m_Center: {x: 0, y: 0.53, z: 0}
+--- !u!114 &3365920726249230153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5098959258965637978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1a1625c6e25d40994a61e1b766c95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  red: {fileID: 2100000, guid: d735b6612bcc98c428a67dae90f66ba0, type: 2}
+  green: {fileID: 2100000, guid: d4315665b0f67f248958e92b4fdb9c97, type: 2}
+  blue: {fileID: 2100000, guid: bc438a40d2f9a944586de42203b541c9, type: 2}
+  magenta: {fileID: 0}
+  cyan: {fileID: 0}
+  yellow: {fileID: 0}
+  white: {fileID: 0}
 --- !u!1 &5098959260098818087
 GameObject:
   m_ObjectHideFlags: 0

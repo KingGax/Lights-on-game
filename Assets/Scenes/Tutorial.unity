@@ -1576,13 +1576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 65280
-  greenMat: {fileID: 2100000, guid: c0b263d65f86e674ebcfbcfdfee68bbc, type: 2}
-  blueMat: {fileID: 2100000, guid: ce6eda492ec80dc4392a2e4d7b699fe7, type: 2}
-  redMat: {fileID: 2100000, guid: 41bfd82afac98a14e8b91045d0d225db, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  materials: {fileID: 0}
   colourRange: 0
   obstacle: {fileID: 2076927932}
 --- !u!65 &217430164
@@ -2826,6 +2820,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1854086285}
     m_Modifications:
+    - target: {fileID: 4782256518951279575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
+        type: 3}
+      propertyPath: colour
+      value: 16711680
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782256518951279575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
+        type: 3}
+      propertyPath: unlockedColour
+      value: 16711680
+      objectReference: {fileID: 0}
     - target: {fileID: 4892123908154149241, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
       propertyPath: viewIdField
@@ -2844,7 +2848,7 @@ PrefabInstance:
     - target: {fileID: 7146346670031165677, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
       propertyPath: m_Name
-      value: ExitDoor (4)
+      value: ExitDoor1P1
       objectReference: {fileID: 0}
     - target: {fileID: 7523048508340863575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
@@ -2939,18 +2943,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 381146351}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &381146353 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6102697586365027021, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
-    type: 3}
-  m_PrefabInstance: {fileID: 381146351}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0055e5c7fc72cfc4daea402b9c360ef7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &401871096
 GameObject:
   m_ObjectHideFlags: 0
@@ -3292,7 +3284,7 @@ PrefabInstance:
     - target: {fileID: 7146346670031165677, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
       propertyPath: m_Name
-      value: ExitDoor (1)
+      value: ExitDoor2P1
       objectReference: {fileID: 0}
     - target: {fileID: 7523048508340863575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
@@ -3372,9 +3364,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 464579382}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &464579385 stripped
+--- !u!114 &464579384 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6102697586365027021, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
+  m_CorrespondingSourceObject: {fileID: 4782256518951279575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
     type: 3}
   m_PrefabInstance: {fileID: 464579382}
   m_PrefabAsset: {fileID: 0}
@@ -4100,13 +4092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 65280
-  greenMat: {fileID: 2100000, guid: c0b263d65f86e674ebcfbcfdfee68bbc, type: 2}
-  blueMat: {fileID: 2100000, guid: ce6eda492ec80dc4392a2e4d7b699fe7, type: 2}
-  redMat: {fileID: 2100000, guid: 41bfd82afac98a14e8b91045d0d225db, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  materials: {fileID: 0}
   colourRange: 0
   obstacle: {fileID: 161431323}
 --- !u!65 &648489406
@@ -4859,7 +4845,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &724000126
 PrefabInstance:
@@ -5593,7 +5579,7 @@ PrefabInstance:
     - target: {fileID: 7146346670031165677, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
       propertyPath: m_Name
-      value: ExitDoor (2)
+      value: ExitDoor2P2
       objectReference: {fileID: 0}
     - target: {fileID: 7523048508340863575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
@@ -5675,7 +5661,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &863657891 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6102697586365027021, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
+  m_CorrespondingSourceObject: {fileID: 4782256518951279575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
     type: 3}
   m_PrefabInstance: {fileID: 863657889}
   m_PrefabAsset: {fileID: 0}
@@ -5730,13 +5716,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 255
-  greenMat: {fileID: 2100000, guid: c0b263d65f86e674ebcfbcfdfee68bbc, type: 2}
-  blueMat: {fileID: 2100000, guid: ce6eda492ec80dc4392a2e4d7b699fe7, type: 2}
-  redMat: {fileID: 2100000, guid: 41bfd82afac98a14e8b91045d0d225db, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  materials: {fileID: 0}
   colourRange: 0
   obstacle: {fileID: 2076927932}
 --- !u!65 &866647799
@@ -8023,11 +8003,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exits:
-  - {fileID: 464579385}
+  - {fileID: 464579384}
   - {fileID: 863657891}
   entrances:
-  - {fileID: 1769015927}
-  - {fileID: 381146353}
+  - {fileID: 0}
+  - {fileID: 0}
   enemyContainersP1: {fileID: 1123461446}
   enemyParentP1: {fileID: 2005645772}
   enemyContainersP2: {fileID: 196791511}
@@ -8617,13 +8597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 65280
-  greenMat: {fileID: 2100000, guid: c0b263d65f86e674ebcfbcfdfee68bbc, type: 2}
-  blueMat: {fileID: 2100000, guid: ce6eda492ec80dc4392a2e4d7b699fe7, type: 2}
-  redMat: {fileID: 2100000, guid: 41bfd82afac98a14e8b91045d0d225db, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  materials: {fileID: 0}
   colourRange: 0
   obstacle: {fileID: 161431323}
 --- !u!65 &1430654536
@@ -9577,8 +9551,8 @@ MonoBehaviour:
   exits:
   - {fileID: 8065249563295924571}
   entrances:
-  - {fileID: 464579385}
-  - {fileID: 863657891}
+  - {fileID: 0}
+  - {fileID: 0}
   enemyContainers: {fileID: 113585749}
   enemyParent: {fileID: 264770400}
 --- !u!114 &1659427684
@@ -10036,6 +10010,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1854086285}
     m_Modifications:
+    - target: {fileID: 4782256518951279575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
+        type: 3}
+      propertyPath: colour
+      value: 16711680
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782256518951279575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
+        type: 3}
+      propertyPath: unlockedColour
+      value: 16711680
+      objectReference: {fileID: 0}
     - target: {fileID: 4892123908154149241, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
       propertyPath: viewIdField
@@ -10054,7 +10038,7 @@ PrefabInstance:
     - target: {fileID: 7146346670031165677, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
       propertyPath: m_Name
-      value: ExitDoor (3)
+      value: ExitDoor1P2
       objectReference: {fileID: 0}
     - target: {fileID: 7523048508340863575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
@@ -10134,18 +10118,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1769015925}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1769015927 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6102697586365027021, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
-    type: 3}
-  m_PrefabInstance: {fileID: 1769015925}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0055e5c7fc72cfc4daea402b9c360ef7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1794677736
 GameObject:
   m_ObjectHideFlags: 0
@@ -10191,13 +10163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 255
-  greenMat: {fileID: 2100000, guid: c0b263d65f86e674ebcfbcfdfee68bbc, type: 2}
-  blueMat: {fileID: 2100000, guid: ce6eda492ec80dc4392a2e4d7b699fe7, type: 2}
-  redMat: {fileID: 2100000, guid: 41bfd82afac98a14e8b91045d0d225db, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  materials: {fileID: 0}
   colourRange: 0
   obstacle: {fileID: 161431323}
 --- !u!65 &1794677739
@@ -11670,13 +11636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 65280
-  greenMat: {fileID: 2100000, guid: c0b263d65f86e674ebcfbcfdfee68bbc, type: 2}
-  blueMat: {fileID: 2100000, guid: ce6eda492ec80dc4392a2e4d7b699fe7, type: 2}
-  redMat: {fileID: 2100000, guid: 41bfd82afac98a14e8b91045d0d225db, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  materials: {fileID: 0}
   colourRange: 0
   obstacle: {fileID: 2076927932}
 --- !u!65 &2006400546
@@ -11769,13 +11729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 255
-  greenMat: {fileID: 2100000, guid: c0b263d65f86e674ebcfbcfdfee68bbc, type: 2}
-  blueMat: {fileID: 2100000, guid: ce6eda492ec80dc4392a2e4d7b699fe7, type: 2}
-  redMat: {fileID: 2100000, guid: 41bfd82afac98a14e8b91045d0d225db, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  materials: {fileID: 0}
   colourRange: 0
   obstacle: {fileID: 161431323}
 --- !u!65 &2062084434
@@ -12078,13 +12032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 255
-  greenMat: {fileID: 2100000, guid: c0b263d65f86e674ebcfbcfdfee68bbc, type: 2}
-  blueMat: {fileID: 2100000, guid: ce6eda492ec80dc4392a2e4d7b699fe7, type: 2}
-  redMat: {fileID: 2100000, guid: 41bfd82afac98a14e8b91045d0d225db, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  materials: {fileID: 0}
   colourRange: 0
   obstacle: {fileID: 2076927932}
 --- !u!65 &2077069145
@@ -12794,7 +12742,7 @@ PrefabInstance:
     - target: {fileID: 7146346670031165677, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
       propertyPath: m_Name
-      value: ExitDoor
+      value: ExitDoor3
       objectReference: {fileID: 0}
     - target: {fileID: 7523048508340863575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
@@ -12855,7 +12803,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: d4adba2d9e36b6a4aab90ed4eb3129ab, type: 3}
 --- !u!114 &8065249563295924571 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6102697586365027021, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
+  m_CorrespondingSourceObject: {fileID: 4782256518951279575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
     type: 3}
   m_PrefabInstance: {fileID: 8065249563295924570}
   m_PrefabAsset: {fileID: 0}
@@ -12875,7 +12823,7 @@ PrefabInstance:
     - target: {fileID: 8922315890012122018, guid: 0b160f6e48833314a81c9e2f9df5a996,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8922315890012122018, guid: 0b160f6e48833314a81c9e2f9df5a996,
         type: 3}
