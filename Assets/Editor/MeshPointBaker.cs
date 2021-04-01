@@ -8,13 +8,19 @@ public class MeshPointBaker : Editor
 {
     public void OnEnable() {
         PointCloud script = (PointCloud)target;
-        script.Start();
+        script.LoadFile();
+        script.drawGizmos = true;
+    }
+
+    public void OnDisable() {
+        PointCloud script = (PointCloud)target;
+        script.drawGizmos = false;
     }
     public override void OnInspectorGUI() {
         PointCloud script = (PointCloud)target;
         DrawDefaultInspector();
         if (GUILayout.Button("Load File")) {
-            script.Start();
+            script.LoadFile();
         }
         if (GUILayout.Button("Generate")) {
             script.GeneratePoints();
