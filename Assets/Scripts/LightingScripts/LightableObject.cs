@@ -36,6 +36,7 @@ public class LightableObject : MonoBehaviour {
     GameObject boidManagerPrefab;
     GameObject boidManagerInstance;
     protected bool canSwarm;
+    public PointCloudSO cloudPoints;
 
     virtual protected void Awake() {
         hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
@@ -236,6 +237,9 @@ public class LightableObject : MonoBehaviour {
             boidManagerInstance = Instantiate(boidManagerPrefab, transform.position, transform.rotation);
             BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
             man.SetMat(CalculateColour());
+            if (cloudPoints != null) {
+                man.SetSpawnPoints(cloudPoints.points);
+            }
             man.Spawn();
         }
         Tooltip[] tooltips = GetComponentsInChildren<Tooltip>();

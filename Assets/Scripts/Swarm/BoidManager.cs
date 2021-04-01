@@ -36,6 +36,8 @@ public class BoidManager : MonoBehaviour
     public float updateCentreTimerMax;
     float updateCentreTimer;
     bool init = false;
+    private Vector3[] spawnPoints;
+    private bool spawnPointsSet = false;
     //Camera camera;
     List<AgentController> agents = new List<AgentController>();
     // Start is called before the first frame update
@@ -75,9 +77,22 @@ public class BoidManager : MonoBehaviour
         } 
     }
 
+    public void SetSpawnPoints(Vector3[] points) {
+        spawnPoints = points;
+        spawnPointsSet = true;
+        agentCount = points.Length;
+    }
+
     public void Spawn(){
         for (int i = 0; i < agentCount; i++){
-            Vector3 pos = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax), transform.position.z + Random.Range(zMin+0.01f, zMax));
+            Vector3 pos;
+            if (spawnPointsSet) {
+                pos = transform.position + spawnPoints[i];
+            }
+            else {
+                pos = new Vector3(transform.position.x + Random.Range(xMin + 0.01f, xMax), transform.position.y + Random.Range(yMin + 0.01f, yMax), transform.position.z + Random.Range(zMin + 0.01f, zMax));
+            }
+            
             GameObject g = Instantiate(agentPrefab, pos, new Quaternion(0,0,0,0));
             g.GetComponent<MeshRenderer>().material = agentMat;
             g.transform.SetParent(transform);
