@@ -22,7 +22,7 @@ public class LightableChargerEnemy : LightableEnemy
 
     public override void Disappear() {
         animator.speed = 0f;
-        smr.material = hiddenMaterial;
+        smr.material = hiddenMaterials.get(colour);
         smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         base.Disappear();
     }

@@ -25,7 +25,7 @@ public class LightableRangedEnemy : LightableEnemy
 
     public override void Disappear() {
         anim.speed = 0;
-        smr.material = hiddenMaterial;
+        smr.material = hiddenMaterials.get(colour);
         smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         base.Disappear();
     }

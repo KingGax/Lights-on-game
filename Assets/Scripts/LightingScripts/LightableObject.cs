@@ -7,7 +7,7 @@ public class LightableObject : MonoBehaviour {
     public LightableColour colour;
 
     public ColouredMaterial materials;
-    protected Material hiddenMaterial;
+    public ColouredMaterial hiddenMaterials;
     protected Material defaultMaterial;
 
     protected bool initialised = false;
@@ -55,7 +55,6 @@ public class LightableObject : MonoBehaviour {
         boundingSphereSize = Mathf.Max(physicsBounds.size.x, physicsBounds.size.y, physicsBounds.size.z);
         objectColour = CalculateColour();
         objectColVector = objectColour;
-        hiddenMaterial = GetHiddenMaterial();
         initialised = true;
         SetColour();
         GetLightsInRange();
@@ -73,26 +72,6 @@ public class LightableObject : MonoBehaviour {
             }
         }
         distCheckThisFrame = !distCheckThisFrame;
-    }
-
-    Material GetHiddenMaterial() {
-        GlobalValues gv = GlobalValues.Instance;
-        switch (colour) {
-            case LightableColour.Red:
-                return gv.hiddenRed;
-            case LightableColour.Green:
-                return gv.hiddenGreen;
-            case LightableColour.Blue:
-                return gv.hiddenBlue;
-            case LightableColour.Cyan:
-                return gv.hiddenCyan;
-            case LightableColour.Magenta:
-                return gv.hiddenMagenta;
-            case LightableColour.Yellow:
-                return gv.hiddenYellow;
-            default:
-                return gv.hiddenRed;
-        }
     }
 
     void GetLightsInRange() {
@@ -174,7 +153,6 @@ public class LightableObject : MonoBehaviour {
         objectColVector = objectColour;
         if (initialised && !overrideMeshRenderer) {
             meshRenderer.material = defaultMaterial;
-            GetHiddenMaterial();
         }
     }
 
@@ -229,7 +207,7 @@ public class LightableObject : MonoBehaviour {
 
     public virtual void Disappear() {
         if (!overrideMeshRenderer) {
-            meshRenderer.material = hiddenMaterial;
+            meshRenderer.material = hiddenMaterials.get(colour);
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         }
         transform.parent.gameObject.layer = hiddenLayer;

@@ -12,15 +12,15 @@ public class LightableLavaLamp : LightableObstacle
     public Animator anim;
     
     float animSpeed;
-    // Start is called before the first frame update
-    public override void Start()
-    {
+
+    public override void Start() {
         base.Start();
         animSpeed = Random.Range(0.95f, 1.05f);
         anim.speed = animSpeed;
         float startTime = Random.Range(0, 1f);
         anim.Play("lava_Time", 0, startTime);
     }
+
     public override void SetColour() {
         base.SetColour();
         switch (colour) {
@@ -50,7 +50,7 @@ public class LightableLavaLamp : LightableObstacle
     public override void Disappear() {
         base.Disappear();
         anim.speed = 0;
-        lavaMeshRenderer.material = hiddenMaterial;
+        lavaMeshRenderer.material = hiddenMaterials.get(colour);
     }
 
     public override void Appear() {
@@ -58,5 +58,4 @@ public class LightableLavaLamp : LightableObstacle
         anim.speed = animSpeed;
         lavaMeshRenderer.material = lavaColour;
     }
-
 }
