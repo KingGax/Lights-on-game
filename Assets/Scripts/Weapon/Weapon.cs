@@ -13,10 +13,16 @@ public abstract class Weapon : MonoBehaviour {
     public bool debug;
     protected GameObject target = null;
 
+    public LightableColour colour;
 
     protected virtual void Start() {
         cooldownLeft = 0;
     }
+
+    public void SetColour(LightableColour col) {
+        colour = col;
+    }
+
     public void SetTarget(int index){
         target = GlobalValues.Instance.players[index];
     }

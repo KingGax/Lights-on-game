@@ -14,12 +14,12 @@ public class LightableRangedEnemy : LightableEnemy
         anim = transform.parent.GetComponent<Animator>();
         base.Start();
     }
-    public override void SetColour()
-    {
+
+    public override void SetColour() {
         base.SetColour();
         gunScript.SetColour(colour);
         if (initialised) {
-            smr.material = defaultMaterial;
+            smr.material = materials.get(colour);
         }
     }
 
@@ -29,10 +29,11 @@ public class LightableRangedEnemy : LightableEnemy
         smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         base.Disappear();
     }
+
     public override void Appear() {
         anim.speed = 1;
         smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        smr.material = defaultMaterial;
+        smr.material = materials.get(colour);
         base.Appear();
     }
 }

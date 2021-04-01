@@ -8,7 +8,6 @@ public class LightableObject : MonoBehaviour {
 
     public ColouredMaterial materials;
     public ColouredMaterial hiddenMaterials;
-    protected Material defaultMaterial;
 
     protected bool initialised = false;
     protected bool disappearOnStart = false;
@@ -23,8 +22,6 @@ public class LightableObject : MonoBehaviour {
     float boundingSphereSize;
     protected int defaultLayer;
     int hiddenLayer;
-    Color objectColour;
-    Vector4 objectColVector;
 
     bool distCheckThisFrame = false;
     float lightAlwaysConsideredDist = 2f;
@@ -53,13 +50,12 @@ public class LightableObject : MonoBehaviour {
         defaultLayer = transform.parent.gameObject.layer;
         physicsBounds = physicsCollider.bounds;
         boundingSphereSize = Mathf.Max(physicsBounds.size.x, physicsBounds.size.y, physicsBounds.size.z);
-        objectColour = CalculateColour();
-        objectColVector = objectColour;
         initialised = true;
         SetColour();
         GetLightsInRange();
         ColourChanged();
     }
+
     private void FixedUpdate() {
         if (distCheckThisFrame) {
             if (currentLights.Count > 0) {
@@ -129,9 +125,8 @@ public class LightableObject : MonoBehaviour {
 
         lightColour = new Vector4(Mathf.Clamp(lightColour.x, 0.0f, 1.0f), Mathf.Clamp(lightColour.y, 0.0f, 1.0f), Mathf.Clamp(lightColour.z, 0.0f, 1.0f), 1.0f);
         Vector4 lightColVector = lightColour;
-        Vector4 colourDif = lightColVector - objectColVector;
+        Vector4 colourDif = lightColVector - (Vector4)colour.ToColor();
         return colourDif.magnitude <= colourRange;
-        
     }
 
     public void ColourChanged() {
@@ -142,17 +137,9 @@ public class LightableObject : MonoBehaviour {
         }
     }
 
-    public Material GetDefaultMaterial() {
-        return defaultMaterial;
-    }
-
     public virtual void SetColour() {
-        defaultMaterial = materials.get(colour);
-
-        objectColour = CalculateColour();
-        objectColVector = objectColour;
         if (initialised && !overrideMeshRenderer) {
-            meshRenderer.material = defaultMaterial;
+            meshRenderer.material = materials.get(colour);
         }
     }
 
@@ -181,12 +168,8 @@ public class LightableObject : MonoBehaviour {
         lightColour = new Vector4(Mathf.Clamp(lightColour.x, 0.0f, 1.0f), Mathf.Clamp(lightColour.y, 0.0f, 1.0f), Mathf.Clamp(lightColour.z, 0.0f, 1.0f), 1.0f);
 
         Vector4 lightColVector = lightColour;
-        Vector4 colourDif = lightColVector - objectColVector;
+        Vector4 colourDif = lightColVector - (Vector4)colour.ToColor();
         return colourDif.magnitude <= colourRange;
-    }
-
-    Color CalculateColour() {
-        return colour.ToColor();
     }
 
     void OnTriggerEnter(Collider other) {
@@ -214,7 +197,7 @@ public class LightableObject : MonoBehaviour {
         if (canSwarm){
             boidManagerInstance = Instantiate(boidManagerPrefab, transform.position, transform.rotation);
             BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
-            man.SetMat(CalculateColour());
+            man.SetMat(colour.ToColor());
             if (cloudPoints != null) {
                 man.SetSpawnPoints(cloudPoints.points);
             }
@@ -233,7 +216,7 @@ public class LightableObject : MonoBehaviour {
 
     public virtual void Appear() {
         if (!overrideMeshRenderer) {
-            meshRenderer.material = defaultMaterial;
+            meshRenderer.material = materials.get(colour);
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         }
         transform.parent.gameObject.layer = defaultLayer;

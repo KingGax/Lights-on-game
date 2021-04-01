@@ -10,7 +10,7 @@ public class LightableMultiObject : LightableObject {
         if (initialised) {
             if (childObjects != null) {
                 foreach (Renderer r in childObjects) {
-                    r.material = GetDefaultMaterial();
+                    r.material = materials.get(colour);
                 }
             }
         }
@@ -24,7 +24,6 @@ public class LightableMultiObject : LightableObject {
                 mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             }
         }
-        
     }
 
     public override void Appear() {
@@ -32,7 +31,7 @@ public class LightableMultiObject : LightableObject {
         if (childObjects != null) {
             foreach (Renderer mr in childObjects) {
                 mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-                mr.material = defaultMaterial;
+                mr.material = materials.get(colour);
             }
         }
     }

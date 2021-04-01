@@ -5414,6 +5414,7 @@ MonoBehaviour:
   damage: 12
   hitStunDuration: 0.15
   debug: 0
+  colour: 0
   alternateCooldownTime: 0
   chargeSpeedModifier: 1
   altDamage: 0
@@ -5647,6 +5648,7 @@ MonoBehaviour:
   damage: 10
   hitStunDuration: 0.05
   debug: 0
+  colour: 0
   alternateCooldownTime: 0.1
   chargeSpeedModifier: 0.6
   altDamage: 35
@@ -5928,6 +5930,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5d5261e0-c0e9-4414-8f02-2e0fda1d3a2e
     m_ActionName: Player/SpectatorToggle[/Keyboard/rightBracket]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c3b593d1-ae6e-495d-8a18-5add1634b221
+    m_ActionName: Player/ChangePersp[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
