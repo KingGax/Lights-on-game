@@ -30,6 +30,7 @@ public class PointCloud : MonoBehaviour {
         }
     }
 
+
     public void GeneratePoints() {
 
         Mesh colliderMesh = new Mesh();
