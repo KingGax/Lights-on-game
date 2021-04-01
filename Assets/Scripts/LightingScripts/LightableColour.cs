@@ -85,14 +85,17 @@ public static class LightableColourMethods {
     }
 
     public static LightableColour MergeWith(this LightableColour s1, LightableColour with) {
-        Vector4 lightColour = (Vector4)with.ToColor() + (Vector4)s1.ToColor();
+        Vector4 lightColour = with.ToColor() + s1.ToColor();
         lightColour = new Vector4(
-            Mathf.Round(Mathf.Clamp(lightColour.x, 0.0f, 1.0f)),
-            Mathf.Round(Mathf.Clamp(lightColour.y, 0.0f, 1.0f)),
-            Mathf.Round(Mathf.Clamp(lightColour.z, 0.0f, 1.0f)),
+            Mathf.Clamp01(lightColour.x),
+            Mathf.Clamp01(lightColour.y),
+            Mathf.Clamp01(lightColour.z),
             1.0f
         );
-        int c = (int)(lightColour.x * 65280 + lightColour.y * 4080 + lightColour.z * 255);
+        lightColour = Vector4.Scale(lightColour, new Vector4(255, 255, 255, 1));
+        int c = ((int)Mathf.Round(lightColour.x) << 16)
+            + ((int)Mathf.Round(lightColour.y) << 8)
+            + (int)Mathf.Round(lightColour.z);
         return (LightableColour)c;
     }
 }

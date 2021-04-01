@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class LightableExitDoor : LightableObject
-{
+public class LightableExitDoor : LightableObject {
     public Light light;
     public LightableColour unlockedColour;
     bool disappeared = false;
 
-    // Start is called before the first frame update
     public override void Start() {
         base.Start();
         canSwarm = false;
@@ -20,10 +18,12 @@ public class LightableExitDoor : LightableObject
         transform.parent.gameObject.layer = defaultLayer;
         SetColour();
     }
+
     public override void SetColour() {
         base.SetColour();
         light.color = colour.DoorLightColour();
     }
+
     public void UnlockDoor() {
         colour = unlockedColour;
         SetColour();

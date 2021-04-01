@@ -12,24 +12,25 @@ public class LightableChargerEnemy : LightableEnemy
         animator = transform.parent.GetComponent<Animator>();
         base.Start();
     }
-    public override void SetColour()
-    {
+
+    public override void SetColour() {
         base.SetColour();
         if (initialised) {
-            smr.material = defaultMaterial;
+            smr.material = materials.get(colour);
         }
     }
 
     public override void Disappear() {
         animator.speed = 0f;
-        smr.material = hiddenMaterial;
+        smr.material = hiddenMaterials.get(colour);
         smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         base.Disappear();
     }
+
     public override void Appear() {
         animator.speed = 1f;
         smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        smr.material = defaultMaterial;
+        smr.material = materials.get(colour);
         base.Appear();
     }
 }

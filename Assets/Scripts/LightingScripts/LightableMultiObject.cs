@@ -2,47 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightableMultiObject : LightableObject
-{
+public class LightableMultiObject : LightableObject {
     public List<Renderer> childObjects = null;
-    // Start is called before the first frame update
-    public override void SetColour()
-    {
+
+    public override void SetColour() {
         base.SetColour();
         if (initialised) {
             if (childObjects != null) {
-                // foreach (MeshRenderer mr in childObjects) {
-                //     mr.material = GetDefaultMaterial();
-                // }
                 foreach (Renderer r in childObjects) {
-                    r.material = GetDefaultMaterial();
+                    r.material = materials.get(colour);
                 }
             }
         }
     }
 
-    public override void Disappear()
-    {
+    public override void Disappear() {
         base.Disappear();
-        if (childObjects != null)
-        {
-            foreach (Renderer mr in childObjects)
-            {
-                mr.material = hiddenMaterial;
+        if (childObjects != null) {
+            foreach (Renderer mr in childObjects) {
+                mr.material = hiddenMaterials.get(colour);
                 mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             }
         }
-        
     }
-    public override void Appear()
-    {
+
+    public override void Appear() {
         base.Appear();
-        if (childObjects != null)
-        {
-            foreach (Renderer mr in childObjects)
-            {
+        if (childObjects != null) {
+            foreach (Renderer mr in childObjects) {
                 mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-                mr.material = defaultMaterial;
+                mr.material = materials.get(colour);
             }
         }
     }

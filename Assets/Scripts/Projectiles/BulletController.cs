@@ -94,4 +94,12 @@ public class BulletController : MonoBehaviour {
             gameObject.SetActive(false);
         }
     }
+
+    protected virtual void OnTriggerEnter(Collider other) {
+        if (pv == null || !pv.IsMine) return;
+        Health damageScript = other.gameObject.GetComponent<Health>();
+        if (damageScript != null)
+            damageScript.Damage(damage, hitStunDuration);
+        RequestDestroyBullet();
+    }
 }
