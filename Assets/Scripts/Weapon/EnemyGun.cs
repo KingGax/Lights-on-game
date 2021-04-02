@@ -13,8 +13,7 @@ public class EnemyGun : Gun {
         BulletController bc = newBullet.GetComponent<BulletController>();
         LightableObject lo = newBullet.GetComponentInChildren<LightableObject>();
         if (lo != null) {
-            lo.colour = colour;
-            lo.SetColour();
+            lo.SetColour(colour);
         }
         Debug.Log("Fire!", gameObject);
         bc.Fire(damage, hitStunDuration, bulletSpeed, direction);

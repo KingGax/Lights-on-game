@@ -13,20 +13,19 @@ public class LightableExitDoor : LightableObject {
         canSwarm = false;
     }
     public void LockDoor() {
-        colour = LightableColour.White;
         disappeared = false;
         transform.parent.gameObject.layer = defaultLayer;
-        SetColour();
+        SetColour(LightableColour.White);
     }
 
-    public override void SetColour() {
-        base.SetColour();
+    public override void SetColour(LightableColour col) {
+        base.SetColour(col);
         light.color = colour.DoorLightColour();
     }
 
     public void UnlockDoor() {
         colour = unlockedColour;
-        SetColour();
+        SetColour(unlockedColour);
         AudioManager.PlaySFX(SoundClips.Instance.SFXDoorOpen, transform.position);
     }
 

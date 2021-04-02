@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class LightableObject : MonoBehaviour {
 
-    public LightableColour colour;
+    [SerializeField]
+    protected LightableColour colour;
 
     public ColouredMaterial materials;
     public ColouredMaterial hiddenMaterials;
@@ -51,7 +52,7 @@ public class LightableObject : MonoBehaviour {
         physicsBounds = physicsCollider.bounds;
         boundingSphereSize = Mathf.Max(physicsBounds.size.x, physicsBounds.size.y, physicsBounds.size.z);
         initialised = true;
-        SetColour();
+        SetColour(colour);
         GetLightsInRange();
         ColourChanged();
     }
@@ -137,7 +138,8 @@ public class LightableObject : MonoBehaviour {
         }
     }
 
-    public virtual void SetColour() {
+    public virtual void SetColour(LightableColour col) {
+        colour = col;
         if (initialised && !overrideMeshRenderer) {
             meshRenderer.material = materials.get(colour);
         }

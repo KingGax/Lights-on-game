@@ -15,8 +15,8 @@ public class LightableRangedEnemy : LightableEnemy
         base.Start();
     }
 
-    public override void SetColour() {
-        base.SetColour();
+    public override void SetColour(LightableColour col) {
+        base.SetColour(col);
         gunScript.SetColour(colour);
         if (initialised) {
             smr.material = materials.get(colour);
