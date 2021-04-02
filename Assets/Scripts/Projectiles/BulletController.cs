@@ -83,8 +83,7 @@ public class BulletController : MonoBehaviour {
 
         if (pv.IsMine) {
             PhotonNetwork.Destroy(gameObject);
-        }
-        else {
+        } else {
             LocalDestroyBulllet();
         }
     }
