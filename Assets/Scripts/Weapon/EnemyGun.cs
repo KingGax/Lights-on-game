@@ -15,7 +15,6 @@ public class EnemyGun : Gun {
         if (lo != null) {
             lo.SetColour(colour);
         }
-        Debug.Log("Fire!", gameObject);
         bc.Fire(damage, hitStunDuration, bulletSpeed, direction);
     }
 }
