@@ -17,6 +17,7 @@ public class BoidManager : MonoBehaviour
     public float turnSpeed; //degrees/second
     public float detectionRadius;
     public float matchingRadius;
+    public float randomTurnAmount; //rad/s
     public Vector3 boidCentre;
     public GameObject agentPrefab;
     public Material agentMat;
@@ -97,7 +98,7 @@ public class BoidManager : MonoBehaviour
             g.GetComponent<MeshRenderer>().material = agentMat;
             g.transform.SetParent(transform);
             AgentController a = g.GetComponent<AgentController>();
-            a.SetVals(xMin, xMax, yMin, yMax, zMin, zMax, agentSpeed, turnSpeed, detectionRadius, matchingRadius, centreBias, matchingBias, avoidanceBias);
+            a.SetVals(xMin, xMax, yMin, yMax, zMin, zMax, agentSpeed, turnSpeed, detectionRadius, matchingRadius, centreBias, matchingBias, avoidanceBias, randomTurnAmount);
             agents.Add(a);
         }
         updateCentreTimer = 0f;

@@ -20,6 +20,7 @@ public class AgentController : MonoBehaviour
     float centreBias;
     float matchingRadius;
     float avoidanceBias;
+    float randomTurnAmount; //rad/s
     Color gizmoCol;
     // Start is called before the first frame update
     void Awake()
@@ -28,7 +29,7 @@ public class AgentController : MonoBehaviour
     }
 
     public void SetVals(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax, float _speed, float turnspeed, float detectionradius, float matchingradius,
-    float centrebias, float matchingbias, float avoidancebias){
+    float centrebias, float matchingbias, float avoidancebias, float randTurnAmount){
         xMin = xmin;
         xMax = xmax;
         yMin = ymin;
@@ -45,6 +46,7 @@ public class AgentController : MonoBehaviour
         matchingBias = matchingbias;
         centreBias = centrebias;
         avoidanceBias = avoidancebias;
+        randomTurnAmount = randTurnAmount;
         gizmoCol = Color.yellow;
     }
     // Update is called once per frame
@@ -71,6 +73,9 @@ public class AgentController : MonoBehaviour
             if(parent.showDirectionArrows){
                 Debug.DrawRay(transform.position, finalDir, Color.red);
             }
+            finalDir.x += Random.Range(-randomTurnAmount, randomTurnAmount);
+            finalDir.y += Random.Range(-randomTurnAmount, randomTurnAmount);
+            finalDir.z += Random.Range(-randomTurnAmount, randomTurnAmount);
             transform.rotation = Quaternion.LookRotation(finalDir);
             transform.position += transform.forward * speed * Time.deltaTime;
         }
