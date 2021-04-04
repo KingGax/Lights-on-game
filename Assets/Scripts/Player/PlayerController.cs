@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnockbackable, IOnPhotonViewOwnerChange {
+public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPhotonViewOwnerChange {
     
     public float turnSpeed;
     public float moveSpeed;
@@ -70,18 +70,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     bool movementEnabled = true;
     bool spectator = false;
     bool initialised = false;
-
-
-    #region IPunObservable implementation
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-        if (stream.IsWriting) {
-        // We own this player: send the others our data
-            
-        } else {
-           
-        }
-    }
-    #endregion
 
     void IOnPhotonViewOwnerChange.OnOwnerChange(Player newOwner, Player oldOwner) {
         if (PhotonNetwork.LocalPlayer == newOwner) {
