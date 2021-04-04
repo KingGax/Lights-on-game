@@ -34,6 +34,7 @@ public class LightableObject : MonoBehaviour {
     GameObject boidManagerPrefab;
     GameObject boidManagerInstance;
     protected bool canSwarm;
+    public float maxSwarmRadius = 1;
     public PointCloudSO cloudPoints;
 
     virtual protected void Awake() {
@@ -201,7 +202,7 @@ public class LightableObject : MonoBehaviour {
             BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
             man.SetMat(colour.ToColor());
             if (cloudPoints != null) {
-                man.SetSpawnPoints(cloudPoints.points);
+                man.SetSpawnPoints(cloudPoints.points, maxSwarmRadius);
             }
             man.Spawn();
         }
