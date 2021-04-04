@@ -102,10 +102,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
             
     }
 
-    /*public void UpdateLocalPlayerInstance() {
-        photonView.RPC("UpdateLocalPlayerInstanceRPC", RpcTarget.All);
-    }*/
-
     void UpdateLocalPlayerInstance() {
         if (initialised) {
             if (photonView.IsMine) {
@@ -123,24 +119,20 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                         PlayerHealth h = GetComponent<PlayerHealth>();
                         h.Start();
                         rb.isKinematic = false;
-                    }
-                    else {
+                    } else {
                         
                     }
                 }
                 //cam.GetComponent<CameraController>().bindToPlayer(this.gameObject.transform);
-            }
-            else {
+            } else {
                 rb.isKinematic = true;
                 Invoke("UpdateLocalPlayerInstance", 0.5f);
             }
-        }
-        else {
+        } else {
             Invoke("UpdateLocalPlayerInstance", 0.5f);
         }
         
     }
-
 
     [PunRPC] 
     public void SetWeaponRPC(int wepIndex) {
