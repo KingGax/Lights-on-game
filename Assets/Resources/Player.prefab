@@ -5544,8 +5544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d155421011ba4942bbc2be54bff24bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colour: {r: 0, g: 0, b: 0, a: 0}
-  lightableColour: 0
 --- !u!1 &4464539808011951479
 GameObject:
   m_ObjectHideFlags: 0
@@ -5835,12 +5833,11 @@ MonoBehaviour:
   turnSpeed: 60
   moveSpeed: 11
   micRenderer: {fileID: 2638047574653576275}
-  lantern: {fileID: 4464539807790254505}
   equiptedWeapon: {fileID: 1939310518407670539}
   weapons:
   - {fileID: 1939310518407670539}
   - {fileID: 266690505347603084}
-  lightSource: {fileID: 4464539807790254504}
+  lanturn: {fileID: 0}
   playerRenderer: {fileID: 4464539808157270195}
   UIElements: {fileID: 5241574735305807379, guid: eb2c429356db4bd448c01086ecd1f78b,
     type: 3}

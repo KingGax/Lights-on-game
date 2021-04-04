@@ -4,11 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 using Photon.Realtime;
-public enum LanternColour {
-    Red,
-    Green,
-    Blue,
-}
+
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnockbackable, IOnPhotonViewOwnerChange {
     
     Vector2 debugVel;
@@ -20,10 +16,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     Camera cam;
     public SpriteRenderer micRenderer;
-    public Light lantern;
     public PlayerWeapon equiptedWeapon;
     public List<PlayerWeapon> weapons;
-    public LightObject lightSource;
+
+    public LightObject lanturn;
 
     public MeshRenderer playerRenderer;
     int weaponIndex = 0;
@@ -34,10 +30,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     Vector3 XZPlaneNormal = new Vector3(0, 1, 0);
     public GameObject UIElements;
 
-    Color lightColour;
-    Color[] colours = { new Color(1, 0, 0), new Color(0, 1, 0), new Color(0, 0, 1) };
-    LightableColour[] lightableColours = {LightableColour.Red, LightableColour.Green, LightableColour.Blue };
-    int colourIndex = 0;
     Plane playerPlane;
 
     [Header("Shooting")]
@@ -100,7 +92,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
 
     void Awake() {
         photonView.AddCallbackTarget(this);
-        lightSource = GetComponentInChildren<LightObject>();
+        lanturn = GetComponentInChildren<LightObject>();
         rb = gameObject.GetComponent<Rigidbody>();
         cam = Camera.main;
         defaultLayer = gameObject.layer;
@@ -201,7 +193,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         }
         cameraForward = Vector3.Normalize(Vector3.ProjectOnPlane(cam.transform.forward, XZPlaneNormal));
         cameraRight = Vector3.Normalize(Vector3.ProjectOnPlane(cam.transform.right, XZPlaneNormal));
-        lantern.color = colours[colourIndex];
 
         foreach (Weapon wep in weapons) {
             wep.UnequipWeapon();
@@ -219,14 +210,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         }
     }
 
-    [PunRPC]
-    void UpdateLightColour(int newIndex) {
-        colourIndex = newIndex;
-        lantern.color = colours[colourIndex];
-        lightSource.colour = colours[colourIndex];
-        lightSource.ChangeColour(lightableColours[colourIndex]);
-    }
-
     bool CanShoot() {
         return !dashing && !reloading;
     }
@@ -235,7 +218,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         transform.forward = Vector3.RotateTowards(transform.forward, direction, Time.deltaTime * turnSpeed, 0.0f);
     }
 
-    // Update is called once per frame
     void Update() {
         if (photonView == null || !photonView.IsMine) return;
         
@@ -411,11 +393,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true) {
             return;
         }
-        colourIndex = (colourIndex + 1) % 3;
-        lantern.color = colours[colourIndex];
-        lightSource.colour = colours[colourIndex];
-        photonView.RPC("UpdateLightColour", RpcTarget.OthersBuffered, colourIndex);
-        lightSource.ChangeColour(lightableColours[colourIndex]);
+        LightableColour c = (LightableColour)((int)lanturn.GetColour() >> 8);
+        if (c == 0) c = LightableColour.Red;
+        lanturn.SetColour(c);
         AudioManager.PlaySFX(SoundClips.Instance.SFXLightChange, transform.position);
     }
 
@@ -434,32 +414,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
     public void ChangeLightToColourText(string colour) {
         micRenderer.enabled = false;
         if (colour == "GREEN")
-            ChangeLightToColour(LanternColour.Green);
+            lanturn.SetColour(LightableColour.Green);
         else if (colour == "RED")
-            ChangeLightToColour(LanternColour.Red);
+            lanturn.SetColour(LightableColour.Red);
         else if (colour == "BLUE")
-            ChangeLightToColour(LanternColour.Blue);
-    }
-
-    public void ChangeLightToColour(LanternColour col) {
-        switch (col) {
-            case LanternColour.Red:
-                colourIndex = 0;
-                break;
-            case LanternColour.Green:
-                colourIndex = 1;
-                break;
-            case LanternColour.Blue:
-                colourIndex = 2;
-                break;
-            default:
-                break;
-        }
-
-        lantern.color = colours[colourIndex];
-        lightSource.colour = colours[colourIndex];
-        lightSource.ChangeColour(lightableColours[colourIndex]);
-        photonView.RPC("UpdateLightColour", RpcTarget.OthersBuffered, colourIndex);
+            lanturn.SetColour(LightableColour.Blue);
     }
 
     public void OnMovement(Vector2 newMovementInput) {

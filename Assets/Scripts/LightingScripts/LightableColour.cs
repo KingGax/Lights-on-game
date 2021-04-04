@@ -1,6 +1,7 @@
 using UnityEngine;
 
 public enum LightableColour {
+    Black = 0x000000,
     Red = 0xff0000,
     Green = 0x00ff00,
     Blue = 0x0000ff,
@@ -26,6 +27,8 @@ public static class LightableColourMethods {
 
     public static Color ToColor(this LightableColour colour) {
         switch (colour) {
+            case LightableColour.Black:
+                return new Color(0,0,0);
             case LightableColour.Red:
                 return new Color(1, 0, 0);
             case LightableColour.Green:
@@ -46,6 +49,8 @@ public static class LightableColourMethods {
 
     public static Color DisplayColour(this LightableColour colour) {
         switch (colour) {
+            case LightableColour.Black:
+                return new Color(0,0,0);
             case LightableColour.Red:
                 return new Color(1, 0.1f, 0.1f);
             case LightableColour.Green:
@@ -66,6 +71,8 @@ public static class LightableColourMethods {
 
     public static Color DoorLightColour(this LightableColour colour) {
         switch (colour) {
+            case LightableColour.Black:
+                return new Color(0,0,0);
             case LightableColour.Red:
                 return new Color(1, 0.1f, 0.1f);
             case LightableColour.Green:

@@ -1,48 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
-using System;
 
 [RequireComponent(typeof(Light))]
 [RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(PhotonView))]
 public class LightObject : MonoBehaviour {
 
-    public Color colour;
-    public LightableColour lightableColour;
-    Light playerLantern;
-    float lightRange;
+    private LightableColour colour;
+    private PhotonView pv;
+    private Light light;
+    private float lightRange;
     private float range;
-    SphereCollider sphere;
-    int lightLayer;
+    private SphereCollider sphere;
+    private int lightLayer;
 
     public void Awake() {
-        lightableColour = LightableColour.Red;
         sphere = GetComponent<SphereCollider>();
+        pv = GetComponent<PhotonView>();
+        light = GetComponent<Light>();
+        colour = LightableColour.Red;
     }
 
     public void Start() {
-        playerLantern = GetComponent<Light>();
-        colour = playerLantern.color;
-        lightRange = playerLantern.range;
+        lightRange = light.range;
         range = lightRange / 1.8f;
         sphere.radius = range;
         lightLayer = 1 << LayerMask.NameToLayer("LightingHitboxes");
-    }
-
-    public void Update() {
-        /*playerLantern = GetComponent<Light>();
-        sphere = GetComponent<SphereCollider>();
-        lightRange = playerLantern.range;
-        sphere.radius = lightRange / 1.3f;*/
     }
 
     public float GetRange() {
         return range;
     }
 
+    public LightableColour GetColour() {
+        return colour;
+    }
 
-    public void ChangeColour(LightableColour newcolour) {
-        lightableColour = newcolour;
+    [PunRPC]
+    private void UpdateColour(LightableColour col) {
+        colour = col;
+        light.color = colour.DisplayColour();
+    }
+
+    public void SetColour(LightableColour newcolour) {
+        colour = newcolour;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position+sphere.center, sphere.radius,lightLayer);
         foreach (var hitCollider in hitColliders) {
             LightableObject ls = hitCollider.GetComponent<LightableObject>();
@@ -50,5 +51,8 @@ public class LightObject : MonoBehaviour {
                 ls.ColourChanged();
             }
         }
+
+        if (pv == null || !pv.IsMine) return;
+        pv.RPC("UpdateColour", RpcTarget.AllBuffered, colour);
     }
 }

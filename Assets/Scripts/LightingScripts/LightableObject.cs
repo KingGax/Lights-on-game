@@ -14,7 +14,6 @@ public class LightableObject : MonoBehaviour {
     protected bool disappearOnStart = false;
     protected bool overrideMeshRenderer = false;
 
-    public float colourRange;
     float invisibleOpacity = 0.1f;
     protected LayerMask potentialColliders;
     bool isHidden = false;
@@ -110,7 +109,6 @@ public class LightableObject : MonoBehaviour {
         }
 
         float closestLight = float.MaxValue;
-        Vector4 lightColour = new Vector4(0, 0, 0, 1f);
         foreach (LightObject lo in currentLights) {
             float dist = Vector3.Distance(transform.position, lo.gameObject.transform.position);
             if (closestLight > dist) {
@@ -118,17 +116,15 @@ public class LightableObject : MonoBehaviour {
             }
         }
 
+        LightableColour lightColour = LightableColour.Black;
         foreach (LightObject lo in currentLights) {
             float dist = Vector3.Distance(transform.position, lo.gameObject.transform.position);
             if (dist < lightAlwaysConsideredDist || dist < lightOverpowerRatio * closestLight) {
-                lightColour += (Vector4)lo.colour;
+                lightColour = lightColour.MergeWith(lo.GetColour());
             }
         }
 
-        lightColour = new Vector4(Mathf.Clamp(lightColour.x, 0.0f, 1.0f), Mathf.Clamp(lightColour.y, 0.0f, 1.0f), Mathf.Clamp(lightColour.z, 0.0f, 1.0f), 1.0f);
-        Vector4 lightColVector = lightColour;
-        Vector4 colourDif = lightColVector - (Vector4)colour.ToColor();
-        return colourDif.magnitude <= colourRange;
+        return lightColour == colour;
     }
 
     public void ColourChanged() {
@@ -163,16 +159,12 @@ public class LightableObject : MonoBehaviour {
             return false;
         }
 
-        Vector4 lightColour = Vector4.zero;
+        LightableColour lightColour = LightableColour.Black;
         for (int i = 1; i < lights.Count; i++) {
-            lightColour += (Vector4)lights[i].colour;
+            lightColour = lightColour.MergeWith(lights[i].GetColour());
         }
 
-        lightColour = new Vector4(Mathf.Clamp(lightColour.x, 0.0f, 1.0f), Mathf.Clamp(lightColour.y, 0.0f, 1.0f), Mathf.Clamp(lightColour.z, 0.0f, 1.0f), 1.0f);
-
-        Vector4 lightColVector = lightColour;
-        Vector4 colourDif = lightColVector - (Vector4)colour.ToColor();
-        return colourDif.magnitude <= colourRange;
+        return lightColour == colour;
     }
 
     void OnTriggerEnter(Collider other) {
