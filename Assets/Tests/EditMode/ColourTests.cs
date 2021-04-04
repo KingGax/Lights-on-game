@@ -278,5 +278,69 @@ namespace LightingTests {
                 LightableColour.White.MergeWith(LightableColour.White)
             );
         }
+
+        [Test]
+        public void BlackMergeBlack() {
+            Assert.AreEqual(
+                LightableColour.Black,
+                LightableColour.Black.MergeWith(LightableColour.Black)
+            );
+        }
+
+        [Test]
+        public void BlackMergeRed() {
+            Assert.AreEqual(
+                LightableColour.Red,
+                LightableColour.Black.MergeWith(LightableColour.Red)
+            );
+        }
+
+        [Test]
+        public void BlackMergeGreen() {
+            Assert.AreEqual(
+                LightableColour.Green,
+                LightableColour.Black.MergeWith(LightableColour.Green)
+            );
+        }
+
+        [Test]
+        public void BlackMergeBlue() {
+            Assert.AreEqual(
+                LightableColour.Blue,
+                LightableColour.Black.MergeWith(LightableColour.Blue)
+            );
+        }
+
+        [Test]
+        public void BlackMergeMagenta() {
+            Assert.AreEqual(
+                LightableColour.Magenta,
+                LightableColour.Black.MergeWith(LightableColour.Magenta)
+            );
+        }
+
+        [Test]
+        public void BlackMergeYellow() {
+            Assert.AreEqual(
+                LightableColour.Yellow,
+                LightableColour.Black.MergeWith(LightableColour.Yellow)
+            );
+        }
+
+        [Test]
+        public void BlackMergeCyan() {
+            Assert.AreEqual(
+                LightableColour.Cyan,
+                LightableColour.Black.MergeWith(LightableColour.Cyan)
+            );
+        }
+
+        [Test]
+        public void BlackMergeWhite() {
+            Assert.AreEqual(
+                LightableColour.White,
+                LightableColour.Black.MergeWith(LightableColour.White)
+            );
+        }
     }
 }

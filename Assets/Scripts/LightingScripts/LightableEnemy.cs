@@ -6,7 +6,6 @@ using Photon.Pun;
 
 public class LightableEnemy : LightableMultiObject {
 
-    //public NavMeshObstacle obstacle;
     Enemy enemy;
     int defaultEnemyLayer;
     int hiddenEnemyLayer;
@@ -17,14 +16,13 @@ public class LightableEnemy : LightableMultiObject {
     private bool initialiseOnStart = false;
 
     [PunRPC]
-    protected virtual void InitialiseEnemyRPC(LightableColour newCol, string parentName)
-    {
-        colour = newCol;        
+    protected virtual void InitialiseEnemyRPC(LightableColour newCol, string parentName) {
         if (initialised) {
-            SetColour();
+            SetColour(newCol);
             gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
         }
     }
+
     public override void Start() {
         base.Start();
         gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
@@ -32,6 +30,7 @@ public class LightableEnemy : LightableMultiObject {
             pv.RPC("InitialiseEnemyRPC", RpcTarget.AllBuffered, initCol, parentName);
         }
     }
+
     public virtual void InitialiseEnemy(LightableColour newCol, string _parentName)
     {
         if (initialised){
@@ -49,7 +48,6 @@ public class LightableEnemy : LightableMultiObject {
     private void OnEnable() {
         pv = gameObject.GetPhotonView();
     }
-
 
     override protected void Awake() {
         pv = gameObject.GetPhotonView();

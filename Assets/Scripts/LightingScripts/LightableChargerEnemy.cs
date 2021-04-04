@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightableChargerEnemy : LightableEnemy
-{
+public class LightableChargerEnemy : LightableEnemy {
+
     public SkinnedMeshRenderer smr;
     Animator animator;
 
@@ -13,8 +13,8 @@ public class LightableChargerEnemy : LightableEnemy
         base.Start();
     }
 
-    public override void SetColour() {
-        base.SetColour();
+    public override void SetColour(LightableColour col) {
+        base.SetColour(col);
         if (initialised) {
             smr.material = materials.get(colour);
         }

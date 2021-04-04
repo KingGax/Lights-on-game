@@ -5,8 +5,8 @@ using UnityEngine;
 public class LightableMultiObject : LightableObject {
     public List<Renderer> childObjects = null;
 
-    public override void SetColour() {
-        base.SetColour();
+    public override void SetColour(LightableColour col) {
+        base.SetColour(col);
         if (initialised) {
             if (childObjects != null) {
                 foreach (Renderer r in childObjects) {

@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightableLavaLamp : LightableObstacle
-{
+public class LightableLavaLamp : LightableObstacle {
+
     public MeshRenderer lavaMeshRenderer;
     public Material lavaGreen;
     public Material lavaBlue;
@@ -21,8 +21,8 @@ public class LightableLavaLamp : LightableObstacle
         anim.Play("lava_Time", 0, startTime);
     }
 
-    public override void SetColour() {
-        base.SetColour();
+    public override void SetColour(LightableColour col) {
+        base.SetColour(col);
         switch (colour) {
             case LightableColour.Red:
                 lavaColour = lavaRed;
