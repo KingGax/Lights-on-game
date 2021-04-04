@@ -21,6 +21,13 @@ public class AgentController : MonoBehaviour
     float matchingRadius;
     float avoidanceBias;
     float randomTurnAmount; //rad/s
+    float maxRadiusSquare;
+    float checkOOBTimerMax;
+    float checkOOBTimer;
+    float updateTimerMax = 0.03f;
+    float updateTimer;
+    public bool canCheckOOB = false;
+    bool canUpdate = false;
     Color gizmoCol;
     // Start is called before the first frame update
     void Awake()
@@ -29,7 +36,7 @@ public class AgentController : MonoBehaviour
     }
 
     public void SetVals(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax, float _speed, float turnspeed, float detectionradius, float matchingradius,
-    float centrebias, float matchingbias, float avoidancebias, float randTurnAmount){
+    float centrebias, float matchingbias, float avoidancebias, float randTurnAmount, float maxRadiusSq, float oobTimerMax){
         xMin = xmin;
         xMax = xmax;
         yMin = ymin;
@@ -47,37 +54,53 @@ public class AgentController : MonoBehaviour
         centreBias = centrebias;
         avoidanceBias = avoidancebias;
         randomTurnAmount = randTurnAmount;
+        maxRadiusSquare = maxRadiusSq;
+        checkOOBTimerMax = oobTimerMax;
+        canCheckOOB = false;
+        //StartCoroutine("Timers");
         gizmoCol = Color.yellow;
     }
     // Update is called once per frame
     void Update()
     {
         if (init){
-            //CheckOOB();
-            
-            
-            Vector3 avoidanceVec = transform.forward; 
-            bool avoiding = CheckCollisions(ref avoidanceVec);
-            float avBias;
-            Vector3 finalDir;
-            if (avoiding){
-                avBias = avoidanceBias;
-                //finalDir = avoidanceVec;
-            } else {
-                avBias = 0; 
-            }
-            Vector3 centreDir = Vector3.RotateTowards(transform.forward, parent.boidCentre - transform.position, turnSpeed * Time.deltaTime, 0.0f);
-            Vector3 matchingDir = MatchDirection(centreDir);
-            finalDir = (centreDir * centreBias + matchingDir * matchingBias + avoidanceVec * avBias) / (centreBias+matchingBias+avBias);
-            //finalDir = (centreDir * centreBias + avoidanceVec * avoidanceBias) / (centreBias+avoidanceBias);
-            if(parent.showDirectionArrows){
-                Debug.DrawRay(transform.position, finalDir, Color.red);
-            }
-            finalDir.x += Random.Range(-randomTurnAmount, randomTurnAmount);
-            finalDir.y += Random.Range(-randomTurnAmount, randomTurnAmount);
-            finalDir.z += Random.Range(-randomTurnAmount, randomTurnAmount);
-            transform.rotation = Quaternion.LookRotation(finalDir);
-            transform.position += transform.forward * speed * Time.deltaTime;
+            //updateTimer -= Time.deltaTime;
+            //if (canUpdate){
+                canUpdate = false;
+                Vector3 finalDir;
+                //checkOOBTimer -= Time.deltaTime;
+                //canCheckOOB = false;
+                if(canCheckOOB && CheckOOB()){
+                    Debug.Log("GOBACK!!!");
+                    finalDir = parent.transform.position - transform.position;
+                } else {
+                    Vector3 avoidanceVec = transform.forward; 
+                    bool avoiding = CheckCollisions(ref avoidanceVec);
+                    float avBias;
+                    
+                    if (avoiding){
+                        avBias = avoidanceBias;
+                        //finalDir = avoidanceVec;
+                    } else {
+                        avBias = 0; 
+                    }
+                    //Vector3 centreDir = Vector3.RotateTowards(transform.forward, parent.boidCentre - transform.position, turnSpeed * Time.deltaTime, 0.0f);
+                    Vector3 centreDir = parent.boidCentre - transform.position;
+                    Vector3 matchingDir = centreDir;//MatchDirection(centreDir);
+                    finalDir = (centreDir * centreBias + matchingDir * matchingBias + avoidanceVec * avBias) / (centreBias+matchingBias+avBias);
+                    //finalDir = (centreDir * centreBias + avoidanceVec * avoidanceBias) / (centreBias+avoidanceBias);
+                    if(parent.showDirectionArrows){
+                        Debug.DrawRay(transform.position, finalDir, Color.red);
+                    }
+                }
+                finalDir.x += Random.Range(-randomTurnAmount, randomTurnAmount);
+                finalDir.y += Random.Range(-randomTurnAmount, randomTurnAmount);
+                finalDir.z += Random.Range(-randomTurnAmount, randomTurnAmount);
+                finalDir = Vector3.RotateTowards(transform.forward, finalDir, turnSpeed * Time.deltaTime, 0.0f);
+                //finalDir = Vector3.Normalize(finalDir);
+                transform.rotation = Quaternion.LookRotation(finalDir);
+                transform.position += transform.forward * speed * Time.deltaTime;
+            //}
         }
     }
 
@@ -137,13 +160,37 @@ public class AgentController : MonoBehaviour
         return r < 0 ? r + m : r;
     }
 
-    void CheckOOB(){
+    bool CheckOOB(){
         //return;
-        float x = mod((transform.position.x - xMin), (xMax - xMin)) + xMin;
-        float y = mod((transform.position.y - yMin), (yMax - yMin)) + yMin;
-        float z = mod((transform.position.z - zMin), (zMax - zMin)) + zMin;
-        transform.position = new Vector3(x, y, z);
+        //Debug.Log("Comparison: "+ (transform.position-parent.transform.position).sqrMagnitude + " and "+ maxRadiusSquare);
+        Debug.Log("Ping!");
+        canCheckOOB = false;
+        return (transform.position-parent.transform.position).sqrMagnitude > maxRadiusSquare;
+        // float x = mod((transform.position.x - xMin), (xMax - xMin)) + xMin;
+        // float y = mod((transform.position.y - yMin), (yMax - yMin)) + yMin;
+        // float z = mod((transform.position.z - zMin), (zMax - zMin)) + zMin;
+        // transform.position = new Vector3(x, y, z);
     }
+
+    // IEnumerator Timers(){
+    //     while (true){
+    //         // if (checkOOBTimer <= 0){
+    //         //     canCheckOOB = true;
+    //         //     //boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax) + 1f, transform.position.z + Random.Range(zMin+0.01f, zMax));
+    //         //     //boidCentre = GetAveragePos();
+    //         //     checkOOBTimer = checkOOBTimerMax;
+    //         // }
+    //         if (updateTimer <= 0 && !canUpdate){
+    //             canUpdate = true;
+    //             //boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax) + 1f, transform.position.z + Random.Range(zMin+0.01f, zMax));
+    //             //boidCentre = GetAveragePos();
+    //             updateTimer = updateTimerMax;
+    //         }
+    //         yield return null;
+    //     }
+        
+    // }
+
     private void OnDrawGizmos() {
         if (init){
             Gizmos.color = gizmoCol;

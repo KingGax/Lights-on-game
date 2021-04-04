@@ -50,9 +50,9 @@ MonoBehaviour:
   zMin: -1
   zMax: 1
   agentCount: 50
-  agentSpeed: 6
-  turnSpeed: 7
-  detectionRadius: 0.5
+  agentSpeed: 4.2
+  turnSpeed: 5
+  detectionRadius: 0.2
   matchingRadius: 2
   randomTurnAmount: 0.2
   boidCentre: {x: 0, y: 0, z: 0}
@@ -70,3 +70,4 @@ MonoBehaviour:
   showDirectionMatchingHitboxes: 1
   showBoundingBox: 0
   updateCentreTimerMax: 0.5
+  checkOOBTimerMax: 1

@@ -36,6 +36,9 @@ public class BoidManager : MonoBehaviour
     public bool showBoundingBox;
     public float updateCentreTimerMax;
     float updateCentreTimer;
+    float maxRadiusSquare; //max agent radius
+    public float checkOOBTimerMax;
+    float checkOOBTimer;
     bool init = false;
     private Vector3[] spawnPoints;
     private bool spawnPointsSet = false;
@@ -78,10 +81,11 @@ public class BoidManager : MonoBehaviour
         } 
     }
 
-    public void SetSpawnPoints(Vector3[] points) {
+    public void SetSpawnPoints(Vector3[] points, float maxRadius) {
         spawnPoints = points;
         spawnPointsSet = true;
         agentCount = points.Length;
+        maxRadiusSquare = Mathf.Pow(maxRadius, 2);
     }
 
     public void Spawn(){
@@ -98,11 +102,11 @@ public class BoidManager : MonoBehaviour
             g.GetComponent<MeshRenderer>().material = agentMat;
             g.transform.SetParent(transform);
             AgentController a = g.GetComponent<AgentController>();
-            a.SetVals(xMin, xMax, yMin, yMax, zMin, zMax, agentSpeed, turnSpeed, detectionRadius, matchingRadius, centreBias, matchingBias, avoidanceBias, randomTurnAmount);
+            a.SetVals(xMin, xMax, yMin, yMax, zMin, zMax, agentSpeed, turnSpeed, detectionRadius, matchingRadius, centreBias, matchingBias, avoidanceBias, randomTurnAmount, maxRadiusSquare, 0.5f);
             agents.Add(a);
         }
         updateCentreTimer = 0f;
-        StartCoroutine("Timers");
+        //StartCoroutine("Timers");
     }
 
     Vector3 GetAveragePos(){
@@ -118,8 +122,8 @@ public class BoidManager : MonoBehaviour
     void Update()
     {
         //camera.transform.rotation = Quaternion.Lerp(camera.transform.rotation, Quaternion.LookRotation(boidCentre - camera.transform.position), Time.deltaTime);
-        
-        updateCentreTimer -= Time.deltaTime;
+        checkOOBTimer -= Time.deltaTime;
+        //updateCentreTimer -= Time.deltaTime;
         //Physics.l
         //camera.transform.LookAt(boidCentre);
         //SmoothLook(boidCentre);
@@ -128,10 +132,18 @@ public class BoidManager : MonoBehaviour
 
     IEnumerator Timers(){
         while (true){
-            if (updateCentreTimer <= 0){
-                boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax) + 1f, transform.position.z + Random.Range(zMin+0.01f, zMax));
+            // if (updateCentreTimer <= 0){
+            //     boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax) + 1f, transform.position.z + Random.Range(zMin+0.01f, zMax));
+            //     //boidCentre = GetAveragePos();
+            //     updateCentreTimer = updateCentreTimerMax;
+            // }
+            if (checkOOBTimer <= 0){
+                foreach(AgentController agent in agents){
+                    agent.canCheckOOB = true;
+                }
+                //boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax) + 1f, transform.position.z + Random.Range(zMin+0.01f, zMax));
                 //boidCentre = GetAveragePos();
-                updateCentreTimer = updateCentreTimerMax;
+                checkOOBTimer = checkOOBTimerMax;
             }
             yield return null;
         }
