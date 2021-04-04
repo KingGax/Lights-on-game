@@ -7,7 +7,6 @@ using Photon.Realtime;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnockbackable, IOnPhotonViewOwnerChange {
     
-    Vector2 debugVel;
     public float turnSpeed;
     public float moveSpeed;
 
@@ -294,7 +293,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IKnoc
                             moveVector *= currentChargeSpeedModifier;
                         }
                         moveVector.y = rb.velocity.y;
-                        debugVel = moveVector;
                         rb.velocity = moveVector;
                     }
                 }
