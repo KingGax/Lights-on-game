@@ -10,6 +10,7 @@ public class EnemyBullets : BulletController {
         base.Awake();
         walls = GlobalValues.Instance.environment;
     }
+
     protected override void OnTriggerEnter(Collider other) {
         if (((1 << other.gameObject.layer) & walls) != 0) {
             if (pv == null || !pv.IsMine) return;
