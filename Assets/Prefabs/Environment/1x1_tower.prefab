@@ -61,7 +61,6 @@ MonoBehaviour:
   colour: 16711680
   materials: {fileID: 4583931183395365586}
   hiddenMaterials: {fileID: 3868260230307689849}
-  colourRange: 0
   maxSwarmRadius: 2
   cloudPoints: {fileID: 11400000, guid: 8839d2e5e8f6e764cba3e46b863d79cb, type: 2}
   obstacle: {fileID: 6721472320104233768}
@@ -190,7 +189,7 @@ GameObject:
   - component: {fileID: 4623083056552483221}
   - component: {fileID: 6012556510888330505}
   - component: {fileID: 6721472320104233768}
-  - component: {fileID: 7798215865076505685}
+  - component: {fileID: -4531904980838356517}
   m_Layer: 13
   m_Name: 1x1_tower
   m_TagString: Untagged
@@ -293,7 +292,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.002, y: 0.002, z: 0.044000003}
   m_TimeToStationary: 0.5
---- !u!114 &7798215865076505685
+--- !u!114 &-4531904980838356517
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -302,11 +301,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6568642973945280576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 582b5fd2d52d5564d8c87f3d678c73bf, type: 3}
+  m_Script: {fileID: 11500000, guid: 65d0d8ea744dd464581c63eff9371792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   showPoints: 1
-  showRaycastCentre: 1
   mesh: {fileID: -8017566174234000633, guid: 4bc4a0907948dc24195d9abef43b8257, type: 3}
   points:
   - {x: 1.2816495, y: 0.4306668, z: 1.2816494}
@@ -440,12 +438,13 @@ MonoBehaviour:
   - {x: 0.88605744, y: 6.029333, z: -0.88605714}
   pointShift: {x: 0, y: 0, z: 0}
   cloudPrefab: {fileID: 11400000, guid: 8839d2e5e8f6e764cba3e46b863d79cb, type: 2}
-  scannerCircleRadius: 2.38
+  drawGizmos: 1
+  scannerCircleRadius: 3.08
   scannerBottom: {x: 0, y: 0, z: 0}
-  scannerTop: {x: 0, y: 6.46, z: 0}
+  scannerTop: {x: 0, y: 6.61, z: 0}
   yNumSteps: 15
-  circleSamples: 16
-  drawGizmos: 0
+  circleSamples: 15
+  showRaycastCentre: 1
 --- !u!1001 &5960077510912701785
 PrefabInstance:
   m_ObjectHideFlags: 0
