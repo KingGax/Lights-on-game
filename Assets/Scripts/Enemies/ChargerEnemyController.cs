@@ -22,6 +22,7 @@ public class ChargerEnemyController : Enemy
     float playerPositionPoll;
     public GameObject weaponParent;
     public ContactWeapon weaponScript;
+    Vector3 savedSpeed = new Vector3(0,0,0);
     public float backoffThreshold;
     float pathStoppingThreshold = 0.01f;
     enum EnemyState
@@ -55,6 +56,14 @@ public class ChargerEnemyController : Enemy
         }
     }
 
+    public void Disappear(){
+        savedSpeed = agent.velocity;
+    }
+
+    public void Appear(){
+        agent.velocity = savedSpeed;
+        savedSpeed = new Vector3(0,0,0);
+    }
     void Patrol()
     {
         float minDist  = Mathf.Infinity;

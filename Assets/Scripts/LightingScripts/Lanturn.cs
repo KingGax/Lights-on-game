@@ -4,9 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(Light))]
 [RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(PhotonView))]
-public class LightObject : MonoBehaviour {
+public class Lanturn : MonoBehaviour {
 
-    private LightableColour colour;
+    private LightColour colour;
     private PhotonView pv;
     private Light light;
     private float lightRange;
@@ -18,7 +18,7 @@ public class LightObject : MonoBehaviour {
         sphere = GetComponent<SphereCollider>();
         pv = GetComponent<PhotonView>();
         light = GetComponent<Light>();
-        colour = LightableColour.Red;
+        colour = LightColour.Red;
     }
 
     public void Start() {
@@ -32,18 +32,14 @@ public class LightObject : MonoBehaviour {
         return range;
     }
 
-    public LightableColour GetColour() {
+    public LightColour GetColour() {
         return colour;
     }
 
     [PunRPC]
-    private void UpdateColour(LightableColour col) {
+    private void UpdateColour(LightColour col) {
         colour = col;
         light.color = colour.DisplayColour();
-    }
-
-    public void SetColour(LightableColour newcolour) {
-        colour = newcolour;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position+sphere.center, sphere.radius,lightLayer);
         foreach (var hitCollider in hitColliders) {
             LightableObject ls = hitCollider.GetComponent<LightableObject>();
@@ -51,8 +47,13 @@ public class LightObject : MonoBehaviour {
                 ls.ColourChanged();
             }
         }
+    }
 
-        if (pv == null || !pv.IsMine) return;
-        pv.RPC("UpdateColour", RpcTarget.AllBuffered, colour);
+    public void SetColour(LightColour col) {
+        if (pv == null || !pv.IsMine) {
+            Debug.LogError("Tried to change colour of lanturn we do not own", gameObject);
+            return;
+        }
+        pv.RPC("UpdateColour", RpcTarget.AllBuffered, col);
     }
 }

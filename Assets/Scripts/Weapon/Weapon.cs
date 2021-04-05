@@ -13,13 +13,13 @@ public abstract class Weapon : MonoBehaviour {
     public bool debug;
     protected GameObject target = null;
 
-    public LightableColour colour;
+    public LightColour colour;
 
     protected virtual void Start() {
         cooldownLeft = 0;
     }
 
-    public void SetColour(LightableColour col) {
+    public void SetColour(LightColour col) {
         colour = col;
     }
 

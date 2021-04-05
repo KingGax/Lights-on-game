@@ -1,7 +1,10 @@
 using UnityEngine;
 
-public class ColouredMaterial : MonoBehaviour {
+[CreateAssetMenu(fileName="data", menuName="ScriptableObjects/ColouredMaterial", order=1)]
+public class ColouredMaterial : ScriptableObject {
 
+    [SerializeField]
+    protected Material black;
     [SerializeField]
     protected Material red;
     [SerializeField]
@@ -29,21 +32,23 @@ public class ColouredMaterial : MonoBehaviour {
             blue = gv.defaultBlue;
     }
 
-    public Material get(LightableColour col) {
+    public Material get(LightColour col) {
         switch (col) {
-            case LightableColour.Red:
+            case LightColour.Black:
+                return black;
+            case LightColour.Red:
                 return red;
-            case LightableColour.Green:
+            case LightColour.Green:
                 return green;
-            case LightableColour.Blue:
+            case LightColour.Blue:
                 return blue;
-            case LightableColour.Cyan:
+            case LightColour.Cyan:
                 return cyan;
-            case LightableColour.Magenta:
+            case LightColour.Magenta:
                 return magenta;
-            case LightableColour.Yellow:
+            case LightColour.Yellow:
                 return yellow;
-            case LightableColour.White:
+            case LightColour.White:
             default:
                 return white;
         }
