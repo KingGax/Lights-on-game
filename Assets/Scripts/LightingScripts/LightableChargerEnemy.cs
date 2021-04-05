@@ -6,10 +6,12 @@ public class LightableChargerEnemy : LightableEnemy {
 
     public SkinnedMeshRenderer smr;
     Animator animator;
+    ChargerEnemyController controller;
 
     public override void Start() {
         overrideMeshRenderer = true;
         animator = transform.parent.GetComponent<Animator>();
+        controller = transform.parent.GetComponent<ChargerEnemyController>();
         base.Start();
     }
 
@@ -21,6 +23,7 @@ public class LightableChargerEnemy : LightableEnemy {
     }
 
     public override void Disappear() {
+        controller.Disappear();
         animator.speed = 0f;
         smr.material = hiddenMaterials.get(colour);
         smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
@@ -32,5 +35,6 @@ public class LightableChargerEnemy : LightableEnemy {
         smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         smr.material = materials.get(colour);
         base.Appear();
+        controller.Appear();
     }
 }
