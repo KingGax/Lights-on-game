@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(PhotonView))]
 public class Lanturn : MonoBehaviour {
 
-    private LightableColour colour;
+    private LightColour colour;
     private PhotonView pv;
     private Light light;
     private float lightRange;
@@ -18,7 +18,7 @@ public class Lanturn : MonoBehaviour {
         sphere = GetComponent<SphereCollider>();
         pv = GetComponent<PhotonView>();
         light = GetComponent<Light>();
-        colour = LightableColour.Red;
+        colour = LightColour.Red;
     }
 
     public void Start() {
@@ -32,12 +32,12 @@ public class Lanturn : MonoBehaviour {
         return range;
     }
 
-    public LightableColour GetColour() {
+    public LightColour GetColour() {
         return colour;
     }
 
     [PunRPC]
-    private void UpdateColour(LightableColour col) {
+    private void UpdateColour(LightColour col) {
         colour = col;
         light.color = colour.DisplayColour();
         Collider[] hitColliders = Physics.OverlapSphere(transform.position+sphere.center, sphere.radius,lightLayer);
@@ -49,7 +49,7 @@ public class Lanturn : MonoBehaviour {
         }
     }
 
-    public void SetColour(LightableColour col) {
+    public void SetColour(LightColour col) {
         if (pv == null || !pv.IsMine) {
             Debug.LogError("Tried to change colour of lanturn we do not own", gameObject);
             return;

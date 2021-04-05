@@ -10,336 +10,336 @@ namespace LightingTests {
         [Test]
         public void RedMergeIdentity() {
             Assert.AreEqual(
-                LightableColour.Red,
-                LightableColour.Red.MergeWith(LightableColour.Red)
+                LightColour.Red,
+                LightColour.Red.MergeWith(LightColour.Red)
             );
         }
 
         [Test]
         public void GreenMergeIdentity() {
             Assert.AreEqual(
-                LightableColour.Green,
-                LightableColour.Green.MergeWith(LightableColour.Green)
+                LightColour.Green,
+                LightColour.Green.MergeWith(LightColour.Green)
             );
         }
 
         [Test]
         public void BlueMergeIdentity() {
             Assert.AreEqual(
-                LightableColour.Blue,
-                LightableColour.Blue.MergeWith(LightableColour.Blue)
+                LightColour.Blue,
+                LightColour.Blue.MergeWith(LightColour.Blue)
             );
         }
 
         [Test]
         public void MagentaMergeIdentity() {
             Assert.AreEqual(
-                LightableColour.Magenta,
-                LightableColour.Magenta.MergeWith(LightableColour.Magenta)
+                LightColour.Magenta,
+                LightColour.Magenta.MergeWith(LightColour.Magenta)
             );
         }
 
         [Test]
         public void CyanMergeIdentity() {
             Assert.AreEqual(
-                LightableColour.Cyan,
-                LightableColour.Cyan.MergeWith(LightableColour.Cyan)
+                LightColour.Cyan,
+                LightColour.Cyan.MergeWith(LightColour.Cyan)
             );
         }
 
         [Test]
         public void YellowMergeIdentity() {
             Assert.AreEqual(
-                LightableColour.Yellow,
-                LightableColour.Yellow.MergeWith(LightableColour.Yellow)
+                LightColour.Yellow,
+                LightColour.Yellow.MergeWith(LightColour.Yellow)
             );
         }
 
         [Test]
         public void RedMergeGreen() {
             Assert.AreEqual(
-                LightableColour.Yellow,
-                LightableColour.Red.MergeWith(LightableColour.Green)
+                LightColour.Yellow,
+                LightColour.Red.MergeWith(LightColour.Green)
             );
         }
 
         [Test]
         public void RedMergeBlue() {
             Assert.AreEqual(
-                LightableColour.Magenta,
-                LightableColour.Red.MergeWith(LightableColour.Blue)
+                LightColour.Magenta,
+                LightColour.Red.MergeWith(LightColour.Blue)
             );
         }
 
         [Test]
         public void GreenMergeRed() {
             Assert.AreEqual(
-                LightableColour.Yellow,
-                LightableColour.Green.MergeWith(LightableColour.Red)
+                LightColour.Yellow,
+                LightColour.Green.MergeWith(LightColour.Red)
             );
         }
 
         [Test]
         public void GreenMergeBlue() {
             Assert.AreEqual(
-                LightableColour.Cyan,
-                LightableColour.Green.MergeWith(LightableColour.Blue)
+                LightColour.Cyan,
+                LightColour.Green.MergeWith(LightColour.Blue)
             );
         }
 
         [Test]
         public void BlueMergeRed() {
             Assert.AreEqual(
-                LightableColour.Magenta,
-                LightableColour.Blue.MergeWith(LightableColour.Red)
+                LightColour.Magenta,
+                LightColour.Blue.MergeWith(LightColour.Red)
             );
         }
 
         [Test]
         public void BlueMergeGreen() {
             Assert.AreEqual(
-                LightableColour.Cyan,
-                LightableColour.Blue.MergeWith(LightableColour.Green)
+                LightColour.Cyan,
+                LightColour.Blue.MergeWith(LightColour.Green)
             );
         }
 
         [Test]
         public void MagentaMergeRed() {
             Assert.AreEqual(
-                LightableColour.Magenta,
-                LightableColour.Magenta.MergeWith(LightableColour.Red)
+                LightColour.Magenta,
+                LightColour.Magenta.MergeWith(LightColour.Red)
             );
         }
 
         [Test]
         public void MagentaMergeGreen() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.Magenta.MergeWith(LightableColour.Green)
+                LightColour.White,
+                LightColour.Magenta.MergeWith(LightColour.Green)
             );
         }
 
         [Test]
         public void MagentaMergeBlue() {
             Assert.AreEqual(
-                LightableColour.Magenta,
-                LightableColour.Magenta.MergeWith(LightableColour.Blue)
+                LightColour.Magenta,
+                LightColour.Magenta.MergeWith(LightColour.Blue)
             );
         }
 
         [Test]
         public void MagentaMergeCyan() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.Magenta.MergeWith(LightableColour.Cyan)
+                LightColour.White,
+                LightColour.Magenta.MergeWith(LightColour.Cyan)
             );
         }
 
         [Test]
         public void MagentaMergeYellow() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.Magenta.MergeWith(LightableColour.Yellow)
+                LightColour.White,
+                LightColour.Magenta.MergeWith(LightColour.Yellow)
             );
         }
 
         [Test]
         public void CyanMergeRed() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.Cyan.MergeWith(LightableColour.Red)
+                LightColour.White,
+                LightColour.Cyan.MergeWith(LightColour.Red)
             );
         }
  
         [Test]
         public void CyanMergeGreen() {
             Assert.AreEqual(
-                LightableColour.Cyan,
-                LightableColour.Cyan.MergeWith(LightableColour.Green)
+                LightColour.Cyan,
+                LightColour.Cyan.MergeWith(LightColour.Green)
             );
         }
  
         [Test]
         public void CyanMergeBlue() {
             Assert.AreEqual(
-                LightableColour.Cyan,
-                LightableColour.Cyan.MergeWith(LightableColour.Blue)
+                LightColour.Cyan,
+                LightColour.Cyan.MergeWith(LightColour.Blue)
             );
         }
 
         [Test]
         public void CyanMergeYellow() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.Cyan.MergeWith(LightableColour.Yellow)
+                LightColour.White,
+                LightColour.Cyan.MergeWith(LightColour.Yellow)
             );
         }
 
         [Test]
         public void CyanMergeMagenta() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.Cyan.MergeWith(LightableColour.Magenta)
+                LightColour.White,
+                LightColour.Cyan.MergeWith(LightColour.Magenta)
             );
         }
  
         [Test]
         public void YellowMergeRed() {
             Assert.AreEqual(
-                LightableColour.Yellow,
-                LightableColour.Yellow.MergeWith(LightableColour.Red)
+                LightColour.Yellow,
+                LightColour.Yellow.MergeWith(LightColour.Red)
             );
         }
  
         [Test]
         public void YellowMergeGreen() {
             Assert.AreEqual(
-                LightableColour.Yellow,
-                LightableColour.Yellow.MergeWith(LightableColour.Green)
+                LightColour.Yellow,
+                LightColour.Yellow.MergeWith(LightColour.Green)
             );
         }
  
         [Test]
         public void YellowMergeBlue() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.Yellow.MergeWith(LightableColour.Blue)
+                LightColour.White,
+                LightColour.Yellow.MergeWith(LightColour.Blue)
             );
         }
  
         [Test]
         public void YellowMergeCyan() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.Yellow.MergeWith(LightableColour.Cyan)
+                LightColour.White,
+                LightColour.Yellow.MergeWith(LightColour.Cyan)
             );
         }
  
         [Test]
         public void YellowMergeMagenta() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.Yellow.MergeWith(LightableColour.Magenta)
+                LightColour.White,
+                LightColour.Yellow.MergeWith(LightColour.Magenta)
             );
         }
 
         [Test]
         public void WhiteMergeRed() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.White.MergeWith(LightableColour.Red)
+                LightColour.White,
+                LightColour.White.MergeWith(LightColour.Red)
             );
         }
 
         [Test]
         public void WhiteMergeGreen() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.White.MergeWith(LightableColour.Green)
+                LightColour.White,
+                LightColour.White.MergeWith(LightColour.Green)
             );
         }
 
         [Test]
         public void WhiteMergeBlue() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.White.MergeWith(LightableColour.Blue)
+                LightColour.White,
+                LightColour.White.MergeWith(LightColour.Blue)
             );
         }
 
         [Test]
         public void WhiteMergeCyan() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.White.MergeWith(LightableColour.Cyan)
+                LightColour.White,
+                LightColour.White.MergeWith(LightColour.Cyan)
             );
         }
 
         [Test]
         public void WhiteMergeYellow() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.White.MergeWith(LightableColour.Yellow)
+                LightColour.White,
+                LightColour.White.MergeWith(LightColour.Yellow)
             );
         }
 
         [Test]
         public void WhiteMergeMagenta() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.White.MergeWith(LightableColour.Magenta)
+                LightColour.White,
+                LightColour.White.MergeWith(LightColour.Magenta)
             );
         }
 
         [Test]
         public void WhiteMergeWhite() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.White.MergeWith(LightableColour.White)
+                LightColour.White,
+                LightColour.White.MergeWith(LightColour.White)
             );
         }
 
         [Test]
         public void BlackMergeBlack() {
             Assert.AreEqual(
-                LightableColour.Black,
-                LightableColour.Black.MergeWith(LightableColour.Black)
+                LightColour.Black,
+                LightColour.Black.MergeWith(LightColour.Black)
             );
         }
 
         [Test]
         public void BlackMergeRed() {
             Assert.AreEqual(
-                LightableColour.Red,
-                LightableColour.Black.MergeWith(LightableColour.Red)
+                LightColour.Red,
+                LightColour.Black.MergeWith(LightColour.Red)
             );
         }
 
         [Test]
         public void BlackMergeGreen() {
             Assert.AreEqual(
-                LightableColour.Green,
-                LightableColour.Black.MergeWith(LightableColour.Green)
+                LightColour.Green,
+                LightColour.Black.MergeWith(LightColour.Green)
             );
         }
 
         [Test]
         public void BlackMergeBlue() {
             Assert.AreEqual(
-                LightableColour.Blue,
-                LightableColour.Black.MergeWith(LightableColour.Blue)
+                LightColour.Blue,
+                LightColour.Black.MergeWith(LightColour.Blue)
             );
         }
 
         [Test]
         public void BlackMergeMagenta() {
             Assert.AreEqual(
-                LightableColour.Magenta,
-                LightableColour.Black.MergeWith(LightableColour.Magenta)
+                LightColour.Magenta,
+                LightColour.Black.MergeWith(LightColour.Magenta)
             );
         }
 
         [Test]
         public void BlackMergeYellow() {
             Assert.AreEqual(
-                LightableColour.Yellow,
-                LightableColour.Black.MergeWith(LightableColour.Yellow)
+                LightColour.Yellow,
+                LightColour.Black.MergeWith(LightColour.Yellow)
             );
         }
 
         [Test]
         public void BlackMergeCyan() {
             Assert.AreEqual(
-                LightableColour.Cyan,
-                LightableColour.Black.MergeWith(LightableColour.Cyan)
+                LightColour.Cyan,
+                LightColour.Black.MergeWith(LightColour.Cyan)
             );
         }
 
         [Test]
         public void BlackMergeWhite() {
             Assert.AreEqual(
-                LightableColour.White,
-                LightableColour.Black.MergeWith(LightableColour.White)
+                LightColour.White,
+                LightColour.Black.MergeWith(LightColour.White)
             );
         }
     }

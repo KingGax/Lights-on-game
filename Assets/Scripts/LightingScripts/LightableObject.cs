@@ -5,7 +5,7 @@ using UnityEngine;
 public class LightableObject : MonoBehaviour {
 
     [SerializeField]
-    protected LightableColour colour;
+    protected LightColour colour;
 
     public ColouredMaterial materials;
     public ColouredMaterial hiddenMaterials;
@@ -116,7 +116,7 @@ public class LightableObject : MonoBehaviour {
             }
         }
 
-        LightableColour lightColour = LightableColour.Black;
+        LightColour lightColour = LightColour.Black;
         foreach (Lanturn lo in currentLights) {
             float dist = Vector3.Distance(transform.position, lo.gameObject.transform.position);
             if (dist < lightAlwaysConsideredDist || dist < lightOverpowerRatio * closestLight) {
@@ -135,7 +135,7 @@ public class LightableObject : MonoBehaviour {
         }
     }
 
-    public virtual void SetColour(LightableColour col) {
+    public virtual void SetColour(LightColour col) {
         colour = col;
         if (initialised && !overrideMeshRenderer) {
             meshRenderer.material = materials.get(colour);
@@ -159,7 +159,7 @@ public class LightableObject : MonoBehaviour {
             return false;
         }
 
-        LightableColour lightColour = LightableColour.Black;
+        LightColour lightColour = LightColour.Black;
         for (int i = 1; i < lights.Count; i++) {
             lightColour = lightColour.MergeWith(lights[i].GetColour());
         }

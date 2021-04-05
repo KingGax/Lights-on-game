@@ -29,21 +29,21 @@ public class ColouredMaterial : MonoBehaviour {
             blue = gv.defaultBlue;
     }
 
-    public Material get(LightableColour col) {
+    public Material get(LightColour col) {
         switch (col) {
-            case LightableColour.Red:
+            case LightColour.Red:
                 return red;
-            case LightableColour.Green:
+            case LightColour.Green:
                 return green;
-            case LightableColour.Blue:
+            case LightColour.Blue:
                 return blue;
-            case LightableColour.Cyan:
+            case LightColour.Cyan:
                 return cyan;
-            case LightableColour.Magenta:
+            case LightColour.Magenta:
                 return magenta;
-            case LightableColour.Yellow:
+            case LightColour.Yellow:
                 return yellow;
-            case LightableColour.White:
+            case LightColour.White:
             default:
                 return white;
         }

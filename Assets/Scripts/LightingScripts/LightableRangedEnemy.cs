@@ -15,7 +15,7 @@ public class LightableRangedEnemy : LightableEnemy
         base.Start();
     }
 
-    public override void SetColour(LightableColour col) {
+    public override void SetColour(LightColour col) {
         base.SetColour(col);
         gunScript.SetColour(colour);
         if (initialised) {

@@ -9,7 +9,7 @@ public class LightableTargetDummy : LightableEnemy {
     public bool useParentTransform;
 
     [PunRPC]
-    protected override void InitialiseEnemyRPC(LightableColour newCol, string parentName) {
+    protected override void InitialiseEnemyRPC(LightColour newCol, string parentName) {
         /*if (useParentTransform) {
             parentTransform.SetParent(GameObject.Find(parentName).transform);
         }

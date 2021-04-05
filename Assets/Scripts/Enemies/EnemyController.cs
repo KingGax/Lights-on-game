@@ -12,7 +12,7 @@ public class EnemyController : Enemy {
     public float shootingTimerMax;
     public float engageDistance;
     float shootingTimer;
-    LightableColour bulletColour;
+    LightColour bulletColour;
     float startAngle;
     float endAngle;
     float minX;
@@ -55,7 +55,7 @@ public class EnemyController : Enemy {
         }
     }
 
-    public void SetBulletColour(LightableColour col) {
+    public void SetBulletColour(LightColour col) {
         bulletColour = col;
     }
 

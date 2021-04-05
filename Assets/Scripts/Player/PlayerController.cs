@@ -362,8 +362,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true) {
             return;
         }
-        LightableColour c = (LightableColour)((int)lanturn.GetColour() >> 8);
-        if (c == 0) c = LightableColour.Red;
+        LightColour c = (LightColour)((int)lanturn.GetColour() >> 8);
+        if (c == 0) c = LightColour.Red;
         lanturn.SetColour(c);
         AudioManager.PlaySFX(SoundClips.Instance.SFXLightChange, transform.position);
     }
@@ -383,11 +383,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     public void ChangeLightToColourText(string colour) {
         micRenderer.enabled = false;
         if (colour == "GREEN") {
-            lanturn.SetColour(LightableColour.Green);
+            lanturn.SetColour(LightColour.Green);
         } else if (colour == "RED") {
-            lanturn.SetColour(LightableColour.Red);
+            lanturn.SetColour(LightColour.Red);
         } else if (colour == "BLUE") {
-            lanturn.SetColour(LightableColour.Blue);
+            lanturn.SetColour(LightColour.Blue);
         }
     }
 

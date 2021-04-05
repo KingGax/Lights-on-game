@@ -13,7 +13,7 @@ public class LightableChargerEnemy : LightableEnemy {
         base.Start();
     }
 
-    public override void SetColour(LightableColour col) {
+    public override void SetColour(LightColour col) {
         base.SetColour(col);
         if (initialised) {
             smr.material = materials.get(colour);
