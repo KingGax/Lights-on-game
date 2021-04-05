@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     public PlayerWeapon equiptedWeapon;
     public List<PlayerWeapon> weapons;
 
-    public LightObject lanturn;
+    public Lanturn lanturn;
 
     public MeshRenderer playerRenderer;
     int weaponIndex = 0;
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
 
     void Awake() {
         photonView.AddCallbackTarget(this);
-        lanturn = GetComponentInChildren<LightObject>();
+        lanturn = GetComponentInChildren<Lanturn>();
         rb = gameObject.GetComponent<Rigidbody>();
         cam = Camera.main;
         defaultLayer = gameObject.layer;
