@@ -12,15 +12,13 @@ public enum LightColour {
 }
 
 
-/*
- * 
- * Red = 0xff3d3d,
-    Green = 0x3dff3d,
-    Blue = 0x3d3dff,
-    Cyan = 0x3dffff,
-    Magenta = 0xff3dff,
-    Yellow = 0xffff3d,
-    White = 0xffffff,
+/* Red = 0xff3d3d,
+ * Green = 0x3dff3d,
+ * Blue = 0x3d3dff,
+ * Cyan = 0x3dffff,
+ * Magenta = 0xff3dff,
+ * Yellow = 0xffff3d,
+ * White = 0xffffff,
  */
 
 public static class LightColourMethods {

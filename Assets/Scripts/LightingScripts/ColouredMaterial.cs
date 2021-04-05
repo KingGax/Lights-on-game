@@ -1,7 +1,10 @@
 using UnityEngine;
 
-public class ColouredMaterial : MonoBehaviour {
+[CreateAssetMenu(fileName="data", menuName="ScriptableObjects/ColouredMaterial", order=1)]
+public class ColouredMaterial : ScriptableObject {
 
+    [SerializeField]
+    protected Material black;
     [SerializeField]
     protected Material red;
     [SerializeField]
@@ -31,6 +34,8 @@ public class ColouredMaterial : MonoBehaviour {
 
     public Material get(LightColour col) {
         switch (col) {
+            case LightColour.Black:
+                return black;
             case LightColour.Red:
                 return red;
             case LightColour.Green:
