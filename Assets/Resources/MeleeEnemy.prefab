@@ -147,6 +147,7 @@ MonoBehaviour:
   damage: 10
   hitStunDuration: 0
   debug: 0
+  colour: 0
   maxAngle: 90
 --- !u!114 &1241870377558318710
 MonoBehaviour:
@@ -232,10 +233,11 @@ MonoBehaviour:
   colour: 0
   materials: {fileID: 5266746711696622207}
   hiddenMaterials: {fileID: 4368757188984548248}
-  colourRange: 0
+  maxSwarmRadius: 1
   cloudPoints: {fileID: 0}
   childObjects:
   - {fileID: 9053110179349718093}
+  usesMeshRenderer: 1
 --- !u!114 &1012657709802343195
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ public class LightableEnemy : LightableMultiObject {
     private LightableColour initCol;
     private string parentName;
     private bool initialiseOnStart = false;
+    public bool usesMeshRenderer = false;
 
     [PunRPC]
     protected virtual void InitialiseEnemyRPC(LightableColour newCol, string parentName) {
@@ -24,6 +25,7 @@ public class LightableEnemy : LightableMultiObject {
     }
 
     public override void Start() {
+        overrideMeshRenderer = !usesMeshRenderer;
         base.Start();
         gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
         if (initialiseOnStart) {
@@ -60,7 +62,7 @@ public class LightableEnemy : LightableMultiObject {
     override public void Appear() {
         base.Appear();
         enemy.EnableAI();
-        enemy.weapon.UnFreeze();
+        if (enemy.weapon != null) enemy.weapon.UnFreeze();
         transform.parent.gameObject.layer = defaultEnemyLayer;
         enemy.GetComponent<EnemyHealth>().InitialiseMaterials();
 
@@ -69,7 +71,7 @@ public class LightableEnemy : LightableMultiObject {
     override public void Disappear() {
         base.Disappear();
         enemy.DisableAI();
-        enemy.weapon.Freeze();
+        if (enemy.weapon != null) enemy.weapon.Freeze();
         transform.parent.gameObject.layer = hiddenEnemyLayer;
     }
 
