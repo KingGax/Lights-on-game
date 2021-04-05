@@ -103,4 +103,19 @@ public static class LightColourMethods {
             + (int)Mathf.Round(lightColour.z);
         return (LightColour)c;
     }
+
+    public static LightColour Subtract(this LightColour s1, LightColour with) {
+        Vector4 lightColour = s1.ToColor() - with.ToColor();
+        lightColour = new Vector4(
+            Mathf.Clamp01(lightColour.x),
+            Mathf.Clamp01(lightColour.y),
+            Mathf.Clamp01(lightColour.z),
+            1.0f
+        );
+        lightColour = Vector4.Scale(lightColour, new Vector4(255, 255, 255, 1));
+        int c = ((int)Mathf.Round(lightColour.x) << 16)
+            + ((int)Mathf.Round(lightColour.y) << 8)
+            + (int)Mathf.Round(lightColour.z);
+        return (LightColour)c;
+    }
 }

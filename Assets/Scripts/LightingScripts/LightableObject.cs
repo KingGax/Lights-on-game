@@ -6,7 +6,6 @@ public class LightableObject : MonoBehaviour {
 
     [SerializeField]
     protected LightColour colour;
-
     public ColouredMaterial materials;
     public ColouredMaterial hiddenMaterials;
 
