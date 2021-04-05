@@ -163,8 +163,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                 gameObject.name = "LocalPlayer";
                 _cameraWork.OnStartFollowing();
                 GlobalValues.Instance.localPlayerInstance = this.gameObject;
-            }
-            else {
+            } else {
                 rb.isKinematic = true;
             }
         } else {
@@ -214,43 +213,38 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
             }
             playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
 
-            if (dashBuffer > 0) {
-                if (!dashing && canDash) {
-                    StartDash();
-                }
+            if (dashBuffer > 0 && !dashing && canDash) {
+                StartDash();
             }
+
             if (hidden && !dashing) {
                 ShowPlayer();
             }
+
             //handles looking and shooting
             if (equiptedWeapon.IsCharging()) {
                 if (altFireReleasedThisFrame) {
                     altFireReleasedThisFrame = false;
                     equiptedWeapon.ReleaseWeaponAlt();
-                }
-                else if (altFireHeld && CanShoot()) {
+                } else if (altFireHeld && CanShoot()) {
                     Vector3 fireDirection = GetFireDirection(false);
                     TurnTowards(fireDirection);
                     equiptedWeapon.UseAlt();
                 }
-            }
-            else if (shootBuffer > 0 && CanShoot()) {
+            } else if (shootBuffer > 0 && CanShoot()) {
                 Vector3 fireDirection = GetFireDirection(true);
                 TurnTowards(fireDirection);
                 if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
                     bool didShoop = equiptedWeapon.Use();
                 }
-            }
-            else if (altFireHeld && CanShoot()) {
+            } else if (altFireHeld && CanShoot()) {
                 Vector3 fireDirection = GetFireDirection(false);
                 TurnTowards(fireDirection);
                 equiptedWeapon.UseAlt();
-            }
-            else if (reloading && shootBuffer > 0 || altFireHeld) {
+            } else if (reloading && shootBuffer > 0 || altFireHeld) {
                 Vector3 fireDirection = GetFireDirection(altFireHeld);
                 TurnTowards(fireDirection);
-            }
-            else {
+            } else {
                 if (movement != Vector2.zero) {
                     if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
                         Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
@@ -262,11 +256,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
             if (!isTakingKnockback) {
                 if (dashing) {
                     HandleDash();
-                }
-                else {
+                } else {
                     if (reloadBuffer > 0 && CanShoot()) {
                         equiptedWeapon.Reload();
                     }
+
                     if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
                         Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
                         if (equiptedWeapon.IsCharging()) {
@@ -277,14 +271,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                     }
                 }
             }
-        }
-        else {
+        } else {
             if (!isTakingKnockback) {
                 rb.velocity = new Vector3(0,rb.velocity.y,0);
             }
         }
-
-
     }
 
     void StartDash() {
@@ -391,12 +382,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
 
     public void ChangeLightToColourText(string colour) {
         micRenderer.enabled = false;
-        if (colour == "GREEN")
+        if (colour == "GREEN") {
             lanturn.SetColour(LightableColour.Green);
-        else if (colour == "RED")
+        } else if (colour == "RED") {
             lanturn.SetColour(LightableColour.Red);
-        else if (colour == "BLUE")
+        } else if (colour == "BLUE") {
             lanturn.SetColour(LightableColour.Blue);
+        }
     }
 
     public void OnMovement(Vector2 newMovementInput) {
@@ -405,7 +397,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
 
     public void Reload() {
         reloadBuffer = reloadBufferMax;
-        
     }
 
     private void OnCollisionEnter(Collision other) {
