@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum LightableColour {
+public enum LightColour {
     Black = 0x000000,
     Red = 0xff0000,
     Green = 0x00ff00,
@@ -12,86 +12,84 @@ public enum LightableColour {
 }
 
 
-/*
- * 
- * Red = 0xff3d3d,
-    Green = 0x3dff3d,
-    Blue = 0x3d3dff,
-    Cyan = 0x3dffff,
-    Magenta = 0xff3dff,
-    Yellow = 0xffff3d,
-    White = 0xffffff,
+/* Red = 0xff3d3d,
+ * Green = 0x3dff3d,
+ * Blue = 0x3d3dff,
+ * Cyan = 0x3dffff,
+ * Magenta = 0xff3dff,
+ * Yellow = 0xffff3d,
+ * White = 0xffffff,
  */
 
-public static class LightableColourMethods {
+public static class LightColourMethods {
 
-    public static Color ToColor(this LightableColour colour) {
+    public static Color ToColor(this LightColour colour) {
         switch (colour) {
-            case LightableColour.Black:
+            case LightColour.Black:
                 return new Color(0,0,0);
-            case LightableColour.Red:
+            case LightColour.Red:
                 return new Color(1, 0, 0);
-            case LightableColour.Green:
+            case LightColour.Green:
                 return new Color(0, 1, 0);
-            case LightableColour.Blue:
+            case LightColour.Blue:
                 return new Color(0, 0, 1);
-            case LightableColour.Cyan:
+            case LightColour.Cyan:
                 return new Color(0, 1, 1);
-            case LightableColour.Magenta:
+            case LightColour.Magenta:
                 return new Color(1, 0, 1);
-            case LightableColour.Yellow:
+            case LightColour.Yellow:
                 return new Color(1, 1, 0);
-            case LightableColour.White:
+            case LightColour.White:
             default:
                 return new Color(1, 1, 1); ;
         }
     }
 
-    public static Color DisplayColour(this LightableColour colour) {
+    public static Color DisplayColour(this LightColour colour) {
         switch (colour) {
-            case LightableColour.Black:
+            case LightColour.Black:
                 return new Color(0,0,0);
-            case LightableColour.Red:
+            case LightColour.Red:
                 return new Color(1, 0.1f, 0.1f);
-            case LightableColour.Green:
+            case LightColour.Green:
                 return new Color(0.1f, 1, 0.1f);
-            case LightableColour.Blue:
+            case LightColour.Blue:
                 return new Color(0.1f, 0.1f, 1);
-            case LightableColour.Cyan:
+            case LightColour.Cyan:
                 return new Color(0.239f, 1, 1);
-            case LightableColour.Magenta:
+            case LightColour.Magenta:
                 return new Color(1, 0.239f, 1);
-            case LightableColour.Yellow:
+            case LightColour.Yellow:
                 return new Color(1, 1, 0.239f);
-            case LightableColour.White:
+            case LightColour.White:
             default:
                 return new Color(1, 1, 1); ;
         }
     }
 
-    public static Color DoorLightColour(this LightableColour colour) {
+    public static Color DoorLightColour(this LightColour colour) {
         switch (colour) {
-            case LightableColour.Black:
+            case LightColour.Black:
                 return new Color(0,0,0);
-            case LightableColour.Red:
+            case LightColour.Red:
                 return new Color(1, 0.1f, 0.1f);
-            case LightableColour.Green:
+            case LightColour.Green:
                 return new Color(0.1f, 1, 0.1f);
-            case LightableColour.Blue:
+            case LightColour.Blue:
                 return new Color(0.1f, 0.1f, 1);
-            case LightableColour.Cyan:
+            case LightColour.Cyan:
                 return new Color(0.239f, 1, 1);
-            case LightableColour.Magenta:
+            case LightColour.Magenta:
                 return new Color(1, 0.239f, 1);
-            case LightableColour.Yellow:
+            case LightColour.Yellow:
                 return new Color(1, 1, 0.239f);
-            case LightableColour.White:
+            case LightColour.White:
             default:
                 return new Color(1, 1, 1); ;
         }
     }
 
-    public static LightableColour MergeWith(this LightableColour s1, LightableColour with) {
+    public static LightColour MergeWith(this LightColour s1, LightColour with) {
         Vector4 lightColour = with.ToColor() + s1.ToColor();
         lightColour = new Vector4(
             Mathf.Clamp01(lightColour.x),
@@ -103,6 +101,21 @@ public static class LightableColourMethods {
         int c = ((int)Mathf.Round(lightColour.x) << 16)
             + ((int)Mathf.Round(lightColour.y) << 8)
             + (int)Mathf.Round(lightColour.z);
-        return (LightableColour)c;
+        return (LightColour)c;
+    }
+
+    public static LightColour Subtract(this LightColour s1, LightColour with) {
+        Vector4 lightColour = s1.ToColor() - with.ToColor();
+        lightColour = new Vector4(
+            Mathf.Clamp01(lightColour.x),
+            Mathf.Clamp01(lightColour.y),
+            Mathf.Clamp01(lightColour.z),
+            1.0f
+        );
+        lightColour = Vector4.Scale(lightColour, new Vector4(255, 255, 255, 1));
+        int c = ((int)Mathf.Round(lightColour.x) << 16)
+            + ((int)Mathf.Round(lightColour.y) << 8)
+            + (int)Mathf.Round(lightColour.z);
+        return (LightColour)c;
     }
 }

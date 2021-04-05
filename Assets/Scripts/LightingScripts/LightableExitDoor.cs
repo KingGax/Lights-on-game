@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class LightableExitDoor : LightableObject {
     public Light light;
-    public LightableColour unlockedColour;
+    public LightColour unlockedColour;
     bool disappeared = false;
 
     public override void Start() {
@@ -15,10 +15,10 @@ public class LightableExitDoor : LightableObject {
     public void LockDoor() {
         disappeared = false;
         transform.parent.gameObject.layer = defaultLayer;
-        SetColour(LightableColour.White);
+        SetColour(LightColour.White);
     }
 
-    public override void SetColour(LightableColour col) {
+    public override void SetColour(LightColour col) {
         base.SetColour(col);
         light.color = colour.DoorLightColour();
     }

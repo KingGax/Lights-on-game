@@ -5,8 +5,7 @@ using UnityEngine;
 public class LightableObject : MonoBehaviour {
 
     [SerializeField]
-    protected LightableColour colour;
-
+    protected LightColour colour;
     public ColouredMaterial materials;
     public ColouredMaterial hiddenMaterials;
 
@@ -27,7 +26,7 @@ public class LightableObject : MonoBehaviour {
     float lightAlwaysConsideredDist = 2f;
     float lightOverpowerRatio = 1.4f;
 
-    List<LightObject> currentLights = new List<LightObject>();
+    List<Lanturn> currentLights = new List<Lanturn>();
     MeshRenderer meshRenderer;
     Collider physicsCollider;
     GameObject boidManagerPrefab;
@@ -73,7 +72,7 @@ public class LightableObject : MonoBehaviour {
 
     void GetLightsInRange() {
         for (int i = 0; i < GlobalValues.Instance.players.Count; i++) {
-            LightObject currentLantern = GlobalValues.Instance.players[i].GetComponentInChildren<LightObject>();
+            Lanturn currentLantern = GlobalValues.Instance.players[i].GetComponentInChildren<Lanturn>();
             Collider lanternCol = currentLantern.gameObject.GetComponent<Collider>();
             if (lanternCol != null) {
                 if (physicsCollider.bounds.Intersects(lanternCol.bounds)) {
@@ -109,15 +108,15 @@ public class LightableObject : MonoBehaviour {
         }
 
         float closestLight = float.MaxValue;
-        foreach (LightObject lo in currentLights) {
+        foreach (Lanturn lo in currentLights) {
             float dist = Vector3.Distance(transform.position, lo.gameObject.transform.position);
             if (closestLight > dist) {
                 closestLight = dist;
             }
         }
 
-        LightableColour lightColour = LightableColour.Black;
-        foreach (LightObject lo in currentLights) {
+        LightColour lightColour = LightColour.Black;
+        foreach (Lanturn lo in currentLights) {
             float dist = Vector3.Distance(transform.position, lo.gameObject.transform.position);
             if (dist < lightAlwaysConsideredDist || dist < lightOverpowerRatio * closestLight) {
                 lightColour = lightColour.MergeWith(lo.GetColour());
@@ -135,7 +134,7 @@ public class LightableObject : MonoBehaviour {
         }
     }
 
-    public virtual void SetColour(LightableColour col) {
+    public virtual void SetColour(LightColour col) {
         colour = col;
         if (initialised && !overrideMeshRenderer) {
             meshRenderer.material = materials.get(colour);
@@ -154,12 +153,12 @@ public class LightableObject : MonoBehaviour {
     }
 
     //Returns true if colours match - only deals with one colour currently
-    bool CheckColours(List<LightObject> lights) {
+    bool CheckColours(List<Lanturn> lights) {
         if (lights.Count == 0) {
             return false;
         }
 
-        LightableColour lightColour = LightableColour.Black;
+        LightColour lightColour = LightColour.Black;
         for (int i = 1; i < lights.Count; i++) {
             lightColour = lightColour.MergeWith(lights[i].GetColour());
         }
@@ -168,7 +167,7 @@ public class LightableObject : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider other) {
-        LightObject newLight = other.GetComponent<LightObject>();
+        Lanturn newLight = other.GetComponent<Lanturn>();
         if (newLight != null) {
             if (!currentLights.Contains(newLight)) {
                 currentLights.Add(newLight);
@@ -249,7 +248,7 @@ public class LightableObject : MonoBehaviour {
     }
 
     void OnTriggerExit(Collider other) {
-        LightObject newLight = other.GetComponent<LightObject>();
+        Lanturn newLight = other.GetComponent<Lanturn>();
         if (newLight != null) {
             currentLights.Remove(newLight);
             if (CheckColours(currentLights)) {

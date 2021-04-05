@@ -11,13 +11,13 @@ public class LightableEnemy : LightableMultiObject {
     int hiddenEnemyLayer;
     LayerMask enemyReappearPreventionLayers;
     PhotonView pv;
-    private LightableColour initCol;
+    private LightColour initCol;
     private string parentName;
     private bool initialiseOnStart = false;
     public bool usesMeshRenderer = false;
 
     [PunRPC]
-    protected virtual void InitialiseEnemyRPC(LightableColour newCol, string parentName) {
+    protected virtual void InitialiseEnemyRPC(LightColour newCol, string parentName) {
         if (initialised) {
             SetColour(newCol);
             gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
@@ -33,7 +33,7 @@ public class LightableEnemy : LightableMultiObject {
         }
     }
 
-    public virtual void InitialiseEnemy(LightableColour newCol, string _parentName)
+    public virtual void InitialiseEnemy(LightColour newCol, string _parentName)
     {
         if (initialised){
             gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();

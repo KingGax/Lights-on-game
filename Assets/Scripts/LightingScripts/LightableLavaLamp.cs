@@ -21,25 +21,25 @@ public class LightableLavaLamp : LightableObstacle {
         anim.Play("lava_Time", 0, startTime);
     }
 
-    public override void SetColour(LightableColour col) {
+    public override void SetColour(LightColour col) {
         base.SetColour(col);
         switch (colour) {
-            case LightableColour.Red:
+            case LightColour.Red:
                 lavaColour = lavaRed;
                 break;
-            case LightableColour.Green:
+            case LightColour.Green:
                 lavaColour = lavaGreen;
                 break;
-            case LightableColour.Blue:
+            case LightColour.Blue:
                 lavaColour = lavaBlue;
                 break;
-            case LightableColour.Cyan:
+            case LightColour.Cyan:
                 break;
-            case LightableColour.Magenta:
+            case LightColour.Magenta:
                 break;
-            case LightableColour.Yellow:
+            case LightColour.Yellow:
                 break;
-            case LightableColour.White:
+            case LightColour.White:
                 break;
             default:
                 break;
