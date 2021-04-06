@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.LightingSystem;
 
 public class ShaderPlayerTracker : MonoBehaviour {
 

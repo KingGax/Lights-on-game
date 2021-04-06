@@ -1,5 +1,9 @@
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.LightingSystem;
+
+namespace LightsOn {
+namespace WeaponSystem {
 
 public class EnemyGun : Gun {
 
@@ -17,4 +21,4 @@ public class EnemyGun : Gun {
         }
         bc.Fire(damage, hitStunDuration, bulletSpeed, direction);
     }
-}
+}}}

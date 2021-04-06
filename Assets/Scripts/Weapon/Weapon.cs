@@ -1,6 +1,10 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using LightsOn.LightingSystem;
+
+namespace LightsOn {
+namespace WeaponSystem {
 
 public abstract class Weapon : MonoBehaviour {
 
@@ -66,4 +70,4 @@ public abstract class Weapon : MonoBehaviour {
             }
         }
     }
-}
+}}}

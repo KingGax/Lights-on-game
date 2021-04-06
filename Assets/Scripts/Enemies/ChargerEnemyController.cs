@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using LightsOn.WeaponSystem;
 
-public class ChargerEnemyController : Enemy
-{
+public class ChargerEnemyController : Enemy {
 
     public float damage;
     public float knockback;
@@ -26,8 +26,7 @@ public class ChargerEnemyController : Enemy
     public float backoffThreshold;
     float pathStoppingThreshold = 0.01f;
     public float closeToPlayerDistance;
-    enum EnemyState
-    {
+    enum EnemyState {
         Charging, //Charging towards the player
         Patrolling, //Moving/idle state - hasn't engaged the player yet
         ChargeStart, //Preparing to charge

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using LightsOn.WeaponSystem;
 
-public class AmmoUI : MonoBehaviour
-{
+public class AmmoUI : MonoBehaviour {
     int maxAmmo = 0;
     int ammo = 0;
     int displayedAmmo = 0;
@@ -58,8 +58,7 @@ public class AmmoUI : MonoBehaviour
     public void UpdateDisplay() {
         if (reloading) {
             text.SetText("Reloading!");
-        }
-        else if (ammo != displayedAmmo) {
+        } else if (ammo != displayedAmmo) {
             text.SetText("Ammo: " + ammo.ToString() + "/" + maxAmmo.ToString());
             displayedAmmo = ammo;
         }        

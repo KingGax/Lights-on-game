@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 using Photon.Realtime;
+using LightsOn.AudioSystem;
+using LightsOn.HealthSystem;
+using LightsOn.LightingSystem;
+using LightsOn.WeaponSystem;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPhotonViewOwnerChange {
     

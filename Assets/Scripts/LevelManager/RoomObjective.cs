@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.LightingSystem;
 
-public class RoomObjective : MonoBehaviour
-{
+public class RoomObjective : MonoBehaviour {
     protected PhotonView pv;
     public List<LightableExitDoor> exits;
     public List<LightableExitDoor> entrances;
     //public GameObject EndTooltip;
-    // Start is called before the first frame update
-    void Start()
-    {
+
+    void Start() {
         pv = gameObject.GetPhotonView();
     }
 
@@ -65,12 +64,5 @@ public class RoomObjective : MonoBehaviour
     }
     protected void LockEntrancesGlobal() {
         pv.RPC("LockEntrancesLocal", RpcTarget.AllBuffered);
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

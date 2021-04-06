@@ -1,12 +1,17 @@
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.AudioSystem;
+
+namespace LightsOn {
+namespace HealthSystem {
 
 [RequireComponent(typeof(PhotonView))]
 public class Health : MonoBehaviour {
 
-    protected PhotonView pv;
+    [MinAttribute(1)]
     public float maxHealth;
     protected float health;
+    protected PhotonView pv;
 
     public virtual void Awake() {
         pv = gameObject.GetComponent<PhotonView>();
@@ -43,4 +48,4 @@ public class Health : MonoBehaviour {
         AudioManager.PlaySFX(SoundClips.Instance.SFXKill, transform.position);
         pv.RPC("DieRPC", RpcTarget.AllBuffered);
     }
-}
+}}}

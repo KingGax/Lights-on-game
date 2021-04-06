@@ -1,6 +1,9 @@
 using UnityEngine;
 using Photon.Pun;
 
+namespace LightsOn {
+namespace WeaponSystem {
+
 public class Gun : Weapon {
 
     public Transform firePoint;
@@ -12,4 +15,4 @@ public class Gun : Weapon {
         BulletController bc = newBullet.GetComponent<BulletController>();
         bc.Fire(damage, hitStunDuration, bulletSpeed, transform.up);
     }
-}
+}}}
