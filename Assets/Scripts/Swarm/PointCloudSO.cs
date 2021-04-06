@@ -5,4 +5,5 @@ using UnityEngine;
 public class PointCloudSO : ScriptableObject
 {
     public Vector3[] points;
+    public Quaternion initialRotation;
 }

@@ -22,14 +22,16 @@ public class ColouredMaterial : ScriptableObject {
 
     public void Awake() {
         GlobalValues gv = GlobalValues.Instance;
-        if (green == null)
-            green = gv.defaultGreen;
+        if (gv != null) {
+            if (green == null)
+                green = gv.defaultGreen;
 
-        if (red == null)
-            red = gv.defaultRed;
+            if (red == null)
+                red = gv.defaultRed;
 
-        if (blue == null)
-            blue = gv.defaultBlue;
+            if (blue == null)
+                blue = gv.defaultBlue;
+        }
     }
 
     public Material get(LightColour col) {
