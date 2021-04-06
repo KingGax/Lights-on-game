@@ -25,6 +25,7 @@ public class ChargerEnemyController : Enemy
     Vector3 savedSpeed = new Vector3(0,0,0);
     public float backoffThreshold;
     float pathStoppingThreshold = 0.01f;
+    public float closeToPlayerDistance;
     enum EnemyState
     {
         Charging, //Charging towards the player
@@ -118,6 +119,7 @@ public class ChargerEnemyController : Enemy
         {
             NavMeshHit destPos;
             NavMesh.SamplePosition(playerObj.transform.position, out destPos, 2f, NavMesh.AllAreas);
+            agent.autoBraking = (Vector3.Distance(destPos.position, transform.position) > closeToPlayerDistance); //if closer than threshold, don't autobrake
             agent.destination = destPos.position;
             playerPositionPoll = playerPositionPollMax;
         }
