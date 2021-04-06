@@ -3,25 +3,21 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using LightsOn.HealthSystem;
 
-namespace Tests
-{
-    public class NewTestScript
-    {
-        // A Test behaves as an ordinary method
-        [Test]
-        public void NewTestScriptSimplePasses()
-        {
-            // Use the Assert class to test conditions
-        }
+namespace Tests {
+    public class NewTestScript {
 
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
         // `yield return null;` to skip a frame.
         [UnityTest]
         public IEnumerator NewTestScriptWithEnumeratorPasses() {
-            // Use the Assert class to test conditions.
-            // Use yield to skip a frame.
+            var gameObject = new GameObject();
+            Health h = gameObject.AddComponent<Health>();
+            h.maxHealth = 100;
+            h.Damage(100, 0);
             yield return null;
+            Assert.IsNull(gameObject);
         }
     }
 }
