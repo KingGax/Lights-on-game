@@ -4,6 +4,8 @@ using UnityEngine;
 using Photon.Pun;
 using LightsOn.HealthSystem;
 
+namespace LightsOn {
+namespace WeaponSystem {
 public class EnemyBullets : BulletController {
     LayerMask walls;
 
@@ -21,4 +23,4 @@ public class EnemyBullets : BulletController {
             RequestDestroyBullet();
         }
     }
-}
+}}}

@@ -4,6 +4,9 @@ using UnityEngine;
 using Photon.Pun;
 using LightsOn.HealthSystem;
 
+namespace LightsOn {
+namespace WeaponSystem {
+
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PhotonView))]
 public class BulletController : MonoBehaviour {
@@ -102,4 +105,4 @@ public class BulletController : MonoBehaviour {
             damageScript.Damage(damage, hitStunDuration);
         RequestDestroyBullet();
     }
-}
+}}}

@@ -1,5 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.WeaponSystem;
 
 namespace LightsOn {
 namespace HealthSystem {
