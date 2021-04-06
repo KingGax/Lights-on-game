@@ -157,7 +157,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         GlobalValues.Instance.AddPlayer(gameObject);
         int index = GlobalValues.Instance.players.IndexOf(gameObject);
         Room room = PhotonNetwork.CurrentRoom;
-        int playerCount = (int)room.CustomProperties["playerCount"]; 
+        int playerCount;
+        try {
+            playerCount = (int)room.CustomProperties["playerCount"];
+        } catch (System.Exception) {
+            playerCount = 1;
+            Debug.LogError("no player count room property found");
+        }
         if (index >= playerCount){
             spectator = true;
             _cameraWork.TargetPlayer(0);

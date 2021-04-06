@@ -19,6 +19,9 @@ public class BouncyBall : MonoBehaviour {
     private bool isActivated = false;
 
     private Rigidbody rigidBody;
+    private int staticLayer;
+    private int dynamicLayer;
+    private LineRenderer lr;
 
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
@@ -28,8 +31,11 @@ public class BouncyBall : MonoBehaviour {
         spawnPosition = transform.position;
         spawnRotation = transform.rotation;
         //rigidBody = this.gameObject.GetComponent<Rigidbody>();
-
+        staticLayer = LayerMask.NameToLayer("StaticEnvironment");
+        dynamicLayer = LayerMask.NameToLayer("DynamicEnvironment");
+        lr = GetComponent<LineRenderer>();
         Debug.Log("awake bouncy ball");
+        
     }
 
     public void Respawn() {
@@ -38,6 +44,7 @@ public class BouncyBall : MonoBehaviour {
         this.transform.rotation = spawnRotation;
         this.bouncesLeft = 4;
         this.isActivated = false;
+        lr.positionCount = 0;
         //rigidBody.velocity = Vector3.zero;
     }
 
@@ -58,7 +65,10 @@ public class BouncyBall : MonoBehaviour {
 
             Ray ray = new Ray(transform.position, transform.forward);
             RaycastHit hit;
-
+            for (int i = 0; i < lr.positionCount; i++) {
+                lr.SetPosition(i, transform.position);
+            }
+            DrawLine(transform.forward, transform.position, 0);
             if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .1f, dynamicEnvironmentMask)){
                 //Reflect direcion and adjust rotation
                 if(bouncesLeft == 0) {
@@ -77,6 +87,27 @@ public class BouncyBall : MonoBehaviour {
                 Respawn();
                 return;
             }
+            
+        }
+    }
+
+
+    private void DrawLine(Vector3 direction, Vector3 position, int depth) {
+        if (depth > bouncesLeft) {
+            return;
+        }
+        Ray ray = new Ray(position, direction);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100f, dynamicEnvironmentMask | staticEnvironmentMask)) {
+            lr.positionCount = depth+2;
+            lr.SetPosition(depth+1, hit.point);
+            if (hit.collider.gameObject.layer == dynamicLayer) {
+                Vector3 reflectDirection = Vector3.Reflect(ray.direction, hit.normal);
+                DrawLine(reflectDirection, hit.point,depth + 1);
+            } else {
+                return;
+            }
+            
         }
     }
 
