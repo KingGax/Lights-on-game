@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.LightingSystem;
 
-public class EnemySpawnInitialiser : MonoBehaviour
-{
+public class EnemySpawnInitialiser : MonoBehaviour {
     public PhotonView pv;
     private PhotonView[] childPVs;
     public GameObject enemy;
@@ -12,26 +12,19 @@ public class EnemySpawnInitialiser : MonoBehaviour
     private LightColour enemyCol;
     private string parentStr;
     bool spawned = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (!spawned && PhotonNetwork.Time > spawnTime) {
             spawned = true;
             SpawnEnemy();
-        }
-        else {
+        } else {
             if (enemy == null) {
                 foreach (PhotonView childPV in childPVs) {
                     if (childPV.IsMine) {
                         PhotonNetwork.CleanRpcBufferIfMine(childPV);
                     }
                 }
+
                 if (pv.IsMine) {
                     PhotonNetwork.CleanRpcBufferIfMine(pv);
                     PhotonNetwork.Destroy(transform.parent.gameObject);

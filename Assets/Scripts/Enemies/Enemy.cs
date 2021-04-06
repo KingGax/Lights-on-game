@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using LightsOn.WeaponSystem;
 
 [RequireComponent(typeof(PhotonView))]
 [RequireComponent(typeof(NavMeshAgent))]

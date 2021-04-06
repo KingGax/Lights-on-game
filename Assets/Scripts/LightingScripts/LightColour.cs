@@ -1,5 +1,8 @@
 using UnityEngine;
 
+namespace LightsOn {
+namespace LightingSystem {
+
 public enum LightColour {
     Black = 0x000000,
     Red = 0xff0000,
@@ -118,4 +121,4 @@ public static class LightColourMethods {
             + (int)Mathf.Round(lightColour.z);
         return (LightColour)c;
     }
-}
+}}}

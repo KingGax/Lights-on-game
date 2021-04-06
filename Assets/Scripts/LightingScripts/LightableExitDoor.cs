@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.AudioSystem;
+
+namespace LightsOn {
+namespace LightingSystem {
 
 public class LightableExitDoor : LightableObject {
     public Light light;
@@ -41,4 +45,4 @@ public class LightableExitDoor : LightableObject {
             disappeared = true;
         }
     }
-}
+}}}

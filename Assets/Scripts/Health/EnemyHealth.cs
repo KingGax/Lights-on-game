@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class EnemyHealth : Health
-{
-    // Start is called before the first frame update
+namespace LightsOn {
+namespace HealthSystem {
+
+public class EnemyHealth : Health {
     FloatingHealthBar healthBar;
     Enemy controller;
     Renderer renderer; 
@@ -28,12 +29,12 @@ public class EnemyHealth : Health
     }
 
     public override void Damage(float damage, float stunDuration) {
-        pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);//DamageRPC(damage);
+        pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);
         healthBar.UpdateHealth(health);
     }
 
-    public void InitialiseMaterials(){
-        if (gameObject.GetComponents<Renderer>().Length == 0){
+    public void InitialiseMaterials() {
+        if (gameObject.GetComponents<Renderer>().Length == 0) {
             renderer = gameObject.GetComponentInChildren<Renderer>();
         } else {
             renderer = gameObject.GetComponent<Renderer>();
@@ -49,16 +50,14 @@ public class EnemyHealth : Health
     protected override void DamageRPC(float damage, float stunDuration) {
         health -= damage;
         if (canFlicker) {
-                if (flashesRemaining == 0){
-                    flashesRemaining = flashNum;
-                }
+            if (flashesRemaining == 0){
+                flashesRemaining = flashNum;
             }
-        if (pv.IsMine) {
-            controller.RequestHitStun(stunDuration);
-            
+        }
 
+        if (pv.IsMine) {
+            controller.RequestHitStun(stunDuration); 
             if(health <= 0) {
-                
                 Die();
             }
         }
@@ -68,7 +67,6 @@ public class EnemyHealth : Health
 
     void Update() {
         if (flashesRemaining > 0 && flashTimer <= 0) {
-            
             if (flashesRemaining % 2 == 0) {
                 mat.SetColor("_BaseColor", Color.red);     
                 mat.SetColor("_EmissionColour", Color.white);          
@@ -86,7 +84,8 @@ public class EnemyHealth : Health
             if (flashTimer > 0) {
                 flashTimer -= Time.deltaTime;
             }
+
             yield return null;
         }
     }
-}
+}}}

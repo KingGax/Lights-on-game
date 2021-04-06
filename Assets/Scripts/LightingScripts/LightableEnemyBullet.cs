@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightableEnemyBullet : LightableObject
-{
+namespace LightsOn {
+namespace LightingSystem {
+
+public class LightableEnemyBullet : LightableObject {
+
     public TrailRenderer bulletTrail;
-    public override void Start()
-    {
+    public override void Start() {
         base.Start();
         canSwarm = false;
     }
+
     public override void Appear() {
         base.Appear();
         bulletTrail.emitting = true;
@@ -19,4 +22,4 @@ public class LightableEnemyBullet : LightableObject
         base.Disappear();
         bulletTrail.emitting = false;
     }
-}
+}}}

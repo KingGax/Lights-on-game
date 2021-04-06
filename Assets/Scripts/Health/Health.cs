@@ -1,5 +1,9 @@
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.AudioSystem;
+
+namespace LightsOn {
+namespace HealthSystem {
 
 [RequireComponent(typeof(PhotonView))]
 public class Health : MonoBehaviour {
@@ -44,4 +48,4 @@ public class Health : MonoBehaviour {
         AudioManager.PlaySFX(SoundClips.Instance.SFXKill, transform.position);
         pv.RPC("DieRPC", RpcTarget.AllBuffered);
     }
-}
+}}}

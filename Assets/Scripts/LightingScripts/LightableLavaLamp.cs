@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace LightsOn {
+namespace LightingSystem {
+
 public class LightableLavaLamp : LightableObstacle {
 
     public MeshRenderer lavaMeshRenderer;
@@ -58,4 +61,4 @@ public class LightableLavaLamp : LightableObstacle {
         anim.speed = animSpeed;
         lavaMeshRenderer.material = lavaColour;
     }
-}
+}}}

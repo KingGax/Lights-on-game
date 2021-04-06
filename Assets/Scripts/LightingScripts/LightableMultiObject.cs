@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace LightsOn {
+namespace LightingSystem {
+
 public class LightableMultiObject : LightableObject {
     public List<Renderer> childObjects = null;
 
@@ -35,4 +38,4 @@ public class LightableMultiObject : LightableObject {
             }
         }
     }
-}
+}}}

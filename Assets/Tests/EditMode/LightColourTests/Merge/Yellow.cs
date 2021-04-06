@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using LightsOn.LightingSystem;
 
 namespace LightColourTests {
 namespace MergeWith {
@@ -71,4 +72,4 @@ public class Yellow {
             LightColour.Yellow.MergeWith(LightColour.White)
         );
     }
-} } }
+}}}

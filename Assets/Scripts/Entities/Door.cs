@@ -1,4 +1,5 @@
 using UnityEngine;
+using LightsOn.LightingSystem;
 
 public class Door : MonoBehaviour {
 

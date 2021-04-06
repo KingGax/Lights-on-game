@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+namespace LightsOn {
+namespace LightingSystem {
+
 public class LightableObstacle : LightableObject {
 
     public NavMeshObstacle obstacle;
@@ -14,4 +17,4 @@ public class LightableObstacle : LightableObject {
         obstacle.enabled = false;
         base.Disappear();
     }
-}
+}}}

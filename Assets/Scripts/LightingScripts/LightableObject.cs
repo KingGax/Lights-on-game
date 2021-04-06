@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace LightsOn {
+namespace LightingSystem {
+
 public class LightableObject : MonoBehaviour {
 
     [SerializeField]
@@ -266,4 +269,4 @@ public class LightableObject : MonoBehaviour {
             Gizmos.DrawWireSphere(physicsCollider.bounds.center, boundingSphereSize);
         }
     }
-}
+}}}

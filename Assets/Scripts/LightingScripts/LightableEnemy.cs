@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using LightsOn.HealthSystem;
+
+namespace LightsOn {
+namespace LightingSystem {
 
 public class LightableEnemy : LightableMultiObject {
 
@@ -81,4 +85,4 @@ public class LightableEnemy : LightableMultiObject {
         potentialColliders = enemyReappearPreventionLayers;
         return base.CheckNoIntersections();
     }
-}
+}}}

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace LightsOn {
+namespace LightingSystem {
+
 public class LightableChargerEnemy : LightableEnemy {
 
     public SkinnedMeshRenderer smr;
@@ -37,4 +40,4 @@ public class LightableChargerEnemy : LightableEnemy {
         base.Appear();
         controller.Appear();
     }
-}
+}}}

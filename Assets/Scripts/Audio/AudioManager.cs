@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+namespace LightsOn {
+namespace AudioSystem {
+
 public class AudioManager : MonoBehaviour {
 
     public AudioMixer mixer;
@@ -93,4 +96,4 @@ public class AudioManager : MonoBehaviour {
     public static void PlaySFX(AudioClip clip, Vector3 pos) {
         AudioSource.PlayClipAtPoint(clip, pos);
     }
-}
+}}}

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+
+namespace LightsOn {
+namespace LightingSystem {
 public class LightableTargetDummy : LightableEnemy {
 
     public Transform parentTransform;
@@ -17,4 +20,4 @@ public class LightableTargetDummy : LightableEnemy {
     //         transform.parent.SetParent(GameObject.Find(parentName).transform);
     //     }*/
     // }
-}
+}}}

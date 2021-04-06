@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using LightsOn.LightingSystem;
 
 namespace LightColourTests {
 public class DoorLightColour {

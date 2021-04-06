@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Photon.Pun;
+using LightsOn.LightingSystem;
 
 public class Spawner : MonoBehaviour {
 

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+namespace LightsOn {
+namespace LightingSystem {
+
 [CreateAssetMenu(fileName="data", menuName="ScriptableObjects/ColouredMaterial", order=1)]
 public class ColouredMaterial : ScriptableObject {
 
@@ -53,4 +56,4 @@ public class ColouredMaterial : ScriptableObject {
                 return white;
         }
     }
-}
+}}}

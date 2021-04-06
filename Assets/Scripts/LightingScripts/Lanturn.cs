@@ -1,6 +1,9 @@
 using Photon.Pun;
 using UnityEngine;
 
+namespace LightsOn {
+namespace LightingSystem {
+
 [RequireComponent(typeof(Light))]
 [RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(PhotonView))]
@@ -56,4 +59,4 @@ public class Lanturn : MonoBehaviour {
         }
         pv.RPC("UpdateColour", RpcTarget.AllBuffered, col);
     }
-}
+}}}
