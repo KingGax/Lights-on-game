@@ -4,9 +4,10 @@ using Photon.Pun;
 [RequireComponent(typeof(PhotonView))]
 public class Health : MonoBehaviour {
 
-    protected PhotonView pv;
+    [MinAttribute(1)]
     public float maxHealth;
     protected float health;
+    protected PhotonView pv;
 
     public virtual void Awake() {
         pv = gameObject.GetComponent<PhotonView>();

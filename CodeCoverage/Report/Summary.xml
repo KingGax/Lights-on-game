@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageReport scope="Summary">
+  <Summary>
+    <Generatedon>06/04/2021 - 12:57:25</Generatedon>
+    <Parser>OpenCoverParser</Parser>
+    <Assemblies>3</Assemblies>
+    <Classes>112</Classes>
+    <Files>112</Files>
+    <Coveredlines>580</Coveredlines>
+    <Uncoveredlines>4484</Uncoveredlines>
+    <Coverablelines>5064</Coverablelines>
+    <Totallines>9139</Totallines>
+    <Linecoverage>11.4</Linecoverage>
+    <Coveredbranches>0</Coveredbranches>
+    <Totalbranches>0</Totalbranches>
+  </Summary>
+  <Coverage>
+    <Assembly name="EditMode" classes="19" coverage="100" coveredlines="456" coverablelines="456" totallines="1331" branchcoverage="" coveredbranches="0" totalbranches="0">
+      <Class name="LightColourTests.DisplayColour" coverage="100" coveredlines="24" coverablelines="24" totallines="49" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.DoorLightColour" coverage="100" coveredlines="24" coverablelines="24" totallines="49" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.MergeWith.Black" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.MergeWith.Blue" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.MergeWith.Cyan" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.MergeWith.Green" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.MergeWith.Magenta" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.MergeWith.Red" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.MergeWith.White" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.MergeWith.Yellow" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.Subtract.Black" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.Subtract.Blue" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.Subtract.Cyan" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.Subtract.Green" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.Subtract.Magenta" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.Subtract.Red" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.Subtract.White" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.Subtract.Yellow" coverage="100" coveredlines="24" coverablelines="24" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourTests.ToColor" coverage="100" coveredlines="24" coverablelines="24" totallines="49" branchcoverage="" coveredbranches="0" totalbranches="0" />
+    </Assembly>
+    <Assembly name="Main" classes="92" coverage="2.6" coveredlines="124" coverablelines="4603" totallines="7781" branchcoverage="" coveredbranches="0" totalbranches="0">
+      <Class name="AgentController" coverage="0" coveredlines="0" coverablelines="119" totallines="205" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="AmmoUI" coverage="0" coveredlines="0" coverablelines="35" totallines="67" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="AudioManager" coverage="9.8" coveredlines="7" coverablelines="71" totallines="96" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="BoidManager" coverage="0" coveredlines="0" coverablelines="84" totallines="164" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="BouncyBall" coverage="0" coveredlines="0" coverablelines="48" totallines="90" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="BulletController" coverage="0" coveredlines="0" coverablelines="63" totallines="104" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CameraWork" coverage="0" coveredlines="0" coverablelines="40" totallines="83" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="ChargerEnemyController" coverage="0" coveredlines="0" coverablelines="168" totallines="252" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="ColouredMaterial" coverage="0" coveredlines="0" coverablelines="20" totallines="56" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="Composition" coverage="0" coveredlines="0" coverablelines="8" totallines="22" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="ContactWeapon" coverage="0" coveredlines="0" coverablelines="49" totallines="71" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CreateRoom" coverage="0" coveredlines="0" coverablelines="50" totallines="85" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="DeathBox" coverage="0" coveredlines="0" coverablelines="9" totallines="16" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="Door" coverage="0" coveredlines="0" coverablelines="10" totallines="31" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="Enemy" coverage="0" coveredlines="0" coverablelines="57" totallines="104" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="EnemyBullets" coverage="0" coveredlines="0" coverablelines="13" totallines="23" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="EnemyContainer" coverage="0" coveredlines="0" coverablelines="16" totallines="38" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="EnemyController" coverage="0" coveredlines="0" coverablelines="180" totallines="282" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="EnemyGun" coverage="0" coveredlines="0" coverablelines="13" totallines="20" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="EnemyHealth" coverage="6.4" coveredlines="4" coverablelines="62" totallines="92" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="EnemySpawnInitialiser" coverage="0" coveredlines="0" coverablelines="40" totallines="63" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="FloatingHealthBar" coverage="0" coveredlines="0" coverablelines="26" totallines="45" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="FloorManager" coverage="5" coveredlines="5" coverablelines="99" totallines="148" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="GameManager" coverage="0" coveredlines="0" coverablelines="85" totallines="132" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="GlobalValues" coverage="5" coveredlines="2" coverablelines="40" totallines="88" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="Gun" coverage="0" coveredlines="0" coverablelines="5" totallines="15" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="Health" coverage="0" coveredlines="0" coverablelines="27" totallines="47" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="HealthBar" coverage="0" coveredlines="0" coverablelines="16" totallines="35" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="HelpTooltip" coverage="0" coveredlines="0" coverablelines="9" totallines="24" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="JoinRoom" coverage="0" coveredlines="0" coverablelines="26" totallines="48" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="Lanturn" coverage="0" coveredlines="0" coverablelines="35" totallines="59" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LeaveScript" coverage="0" coveredlines="0" coverablelines="3" totallines="11" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightableChargerEnemy" coverage="0" coveredlines="0" coverablelines="26" totallines="40" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightableEnemy" coverage="3.7" coveredlines="2" coverablelines="54" totallines="82" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightableEnemyBullet" coverage="0" coveredlines="0" coverablelines="12" totallines="22" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightableExitDoor" coverage="3.3" coveredlines="1" coverablelines="30" totallines="44" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightableLavaLamp" coverage="0" coveredlines="0" coverablelines="33" totallines="61" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightableMultiObject" coverage="3.4" coveredlines="1" coverablelines="29" totallines="38" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightableObject" coverage="6.6" coveredlines="14" coverablelines="212" totallines="269" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightableObstacle" coverage="0" coveredlines="0" coverablelines="8" totallines="17" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightablePuzzleBall" coverage="0" coveredlines="0" coverablelines="4" totallines="13" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightableRangedEnemy" coverage="0" coveredlines="0" coverablelines="23" totallines="39" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightableTargetDummy" coverage="0" coveredlines="0" coverablelines="2" totallines="20" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightColourMethods" coverage="100" coveredlines="47" coverablelines="47" totallines="121" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="LightsOn.Launcher" coverage="0" coveredlines="0" coverablelines="38" totallines="79" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="Lobby" coverage="0" coveredlines="0" coverablelines="40" totallines="68" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="MainMenu" coverage="0" coveredlines="0" coverablelines="21" totallines="42" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="MeleeEnemyController" coverage="0.9" coveredlines="1" coverablelines="102" totallines="151" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="MeleeWeapon" coverage="3" coveredlines="1" coverablelines="33" totallines="54" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="MenuToggle" coverage="0" coveredlines="0" coverablelines="11" totallines="25" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="MicSpriteController" coverage="0" coveredlines="0" coverablelines="6" totallines="19" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="MultiHitTargetManager" coverage="0" coveredlines="0" coverablelines="27" totallines="46" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="NavArrowController" coverage="0" coveredlines="0" coverablelines="34" totallines="57" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="NavigationManager" coverage="8.7" coveredlines="5" coverablelines="57" totallines="88" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="NavigationPoint" coverage="0" coveredlines="0" coverablelines="12" totallines="24" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="ObjectiveTextManager" coverage="0" coveredlines="0" coverablelines="22" totallines="46" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PlayerController" coverage="0" coveredlines="0" coverablelines="325" totallines="441" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PlayerGun" coverage="0" coveredlines="0" coverablelines="120" totallines="167" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PlayerHealth" coverage="0" coveredlines="0" coverablelines="56" totallines="95" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PlayerInputs" coverage="0" coveredlines="0" coverablelines="146" totallines="521" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PlayerInputScript" coverage="0" coveredlines="0" coverablelines="116" totallines="176" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PlayerListingInfo" coverage="0" coveredlines="0" coverablelines="8" totallines="34" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PlayerListingsMenu" coverage="0" coveredlines="0" coverablelines="266" totallines="353" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PlayerNameInput" coverage="0" coveredlines="0" coverablelines="14" totallines="29" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PlayerNameInputField" coverage="0" coveredlines="0" coverablelines="17" totallines="29" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PlayerSword" coverage="0" coveredlines="0" coverablelines="39" totallines="62" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PlayerWeapon" coverage="0" coveredlines="0" coverablelines="36" totallines="60" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PointCloud" coverage="6.3" coveredlines="4" coverablelines="63" totallines="96" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PointCloudData" coverage="0" coveredlines="0" coverablelines="15" totallines="38" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PuzzleDoorTrigger" coverage="9" coveredlines="1" coverablelines="11" totallines="29" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PuzzleRoom" coverage="0" coveredlines="0" coverablelines="18" totallines="36" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="PuzzleTutorialHelper" coverage="0" coveredlines="0" coverablelines="54" totallines="78" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="RoomCollider" coverage="0" coveredlines="0" coverablelines="7" totallines="22" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="RoomListingInfo" coverage="0" coveredlines="0" coverablelines="9" totallines="30" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="RoomListingsMenu" coverage="0" coveredlines="0" coverablelines="37" totallines="55" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="RoomObjective" coverage="0" coveredlines="0" coverablelines="42" totallines="76" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="SetSpawnManager" coverage="0" coveredlines="0" coverablelines="51" totallines="72" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="SetSpawnRoom" coverage="6.9" coveredlines="5" coverablelines="72" totallines="105" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="ShaderPlayerTracker" coverage="6.6" coveredlines="2" coverablelines="30" totallines="47" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="SniperEnemyController" coverage="0" coveredlines="0" coverablelines="208" totallines="304" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="SoundClips" coverage="0" coveredlines="0" coverablelines="9" totallines="22" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="Spawner" coverage="12.1" coveredlines="4" coverablelines="33" totallines="62" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="TargetDummyController" coverage="0" coveredlines="0" coverablelines="32" totallines="62" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="TargetDummyHealth" coverage="0" coveredlines="0" coverablelines="18" totallines="28" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="TestConnect" coverage="0" coveredlines="0" coverablelines="17" totallines="46" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="TimerCountdownText" coverage="0" coveredlines="0" coverablelines="8" totallines="28" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="Tooltip" coverage="0" coveredlines="0" coverablelines="51" totallines="96" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="TooltipTimer" coverage="0" coveredlines="0" coverablelines="14" totallines="23" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="TutorialHelper" coverage="8.1" coveredlines="10" coverablelines="122" totallines="172" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="TwoPlayerSetSpawnRoom" coverage="8.1" coveredlines="6" coverablelines="74" totallines="102" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="Weapon" coverage="2.6" coveredlines="1" coverablelines="38" totallines="69" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="WinScript" coverage="5.5" coveredlines="1" coverablelines="18" totallines="35" branchcoverage="" coveredbranches="0" totalbranches="0" />
+    </Assembly>
+    <Assembly name="PlayModeTests" classes="1" coverage="0" coveredlines="0" coverablelines="5" totallines="27" branchcoverage="" coveredbranches="0" totalbranches="0">
+      <Class name="Tests.NewTestScript" coverage="0" coveredlines="0" coverablelines="5" totallines="27" branchcoverage="" coveredbranches="0" totalbranches="0" />
+    </Assembly>
+  </Coverage>
+</CoverageReport>
