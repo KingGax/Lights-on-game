@@ -27,6 +27,8 @@ public class AgentController : MonoBehaviour
     public bool canUpdate = false;
     float accumulatedTime = 0f;
     Color gizmoCol;
+
+    Vector3 originPoint;
     // Start is called before the first frame update
     void Awake()
     {
@@ -55,6 +57,7 @@ public class AgentController : MonoBehaviour
         maxRadiusSquare = maxRadiusSq;
         canCheckOOB = false;
         gizmoCol = Color.yellow;
+        originPoint = transform.position;
     }
     // Update is called once per frame
     void Update()
