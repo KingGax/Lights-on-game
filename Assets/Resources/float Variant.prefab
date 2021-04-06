@@ -160,6 +160,7 @@ MonoBehaviour:
   weaponParent: {fileID: 457646602811709762}
   weaponScript: {fileID: 6992758575231790886}
   backoffThreshold: 2.52
+  closeToPlayerDistance: 10
 --- !u!114 &5660109075396830393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,96 +216,12 @@ NavMeshAgent:
   m_AngularSpeed: 240
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 1.61
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &4429971966216531562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4422094170064316323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 582b5fd2d52d5564d8c87f3d678c73bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showPoints: 1
-  showRaycastCentre: 0
-  mesh: {fileID: -7315730733944658369, guid: 64a36b542fe38014baf24c47b4008f9d, type: 3}
-  points:
-  - {x: 0.3732951, y: 0.1700001, z: 0.000000007897619}
-  - {x: 0.37329516, y: 0.1700001, z: 0.16620177}
-  - {x: 0.32412288, y: 0.17000005, z: 0.35997495}
-  - {x: 0.0640702, y: 0.17000005, z: 0.19718763}
-  - {x: -0.02072529, y: 0.17000005, z: 0.19718763}
-  - {x: -0.11384642, y: 0.17000017, z: 0.19718763}
-  - {x: -0.3732951, y: 0.17000005, z: 0.27121484}
-  - {x: -0.3732951, y: 0.1700001, z: 0.0793464}
-  - {x: -0.37329516, y: 0.1700001, z: -0.079346344}
-  - {x: -0.3732951, y: 0.17000005, z: -0.2712149}
-  - {x: -0.21552195, y: 0.17000005, z: -0.373295}
-  - {x: -0.039234824, y: 0.17000005, z: -0.373295}
-  - {x: 0.12129102, y: 0.17000005, z: -0.37329498}
-  - {x: 0.32412282, y: 0.16999981, z: -0.3599747}
-  - {x: 0.37329516, y: 0.1700001, z: -0.1662016}
-  - {x: 0.4093266, y: 0.4728572, z: -0.000000017153631}
-  - {x: 0.40932652, y: 0.47285712, z: 0.18224402}
-  - {x: 0.3582659, y: 0.47285718, z: 0.39789468}
-  - {x: 0.0014916935, y: 0.47285712, z: 0.004590791}
-  - {x: -0.0004824949, y: 0.4728572, z: 0.004590795}
-  - {x: -0.00265041, y: 0.4728571, z: 0.0045907884}
-  - {x: -0.4093266, y: 0.47285727, z: 0.29739317}
-  - {x: -0.40932652, y: 0.47285724, z: 0.08700501}
-  - {x: -0.4093266, y: 0.47285718, z: -0.0870051}
-  - {x: -0.4093266, y: 0.47285703, z: -0.29739326}
-  - {x: -0.23632477, y: 0.47285715, z: -0.40932646}
-  - {x: -0.04302194, y: 0.4728572, z: -0.40932646}
-  - {x: 0.13299833, y: 0.47285715, z: -0.40932643}
-  - {x: 0.358266, y: 0.4728571, z: -0.39789447}
-  - {x: 0.4093266, y: 0.47285718, z: -0.18224388}
-  - {x: 0.44535795, y: 0.7757143, z: -0.000000053846406}
-  - {x: 0.44535795, y: 0.7757143, z: 0.19828619}
-  - {x: 0.392409, y: 0.7757144, z: 0.43581438}
-  - {x: 0.1447056, y: 0.77571434, z: 0.44535792}
-  - {x: -0.046809018, y: 0.7757143, z: 0.44535792}
-  - {x: -0.25712755, y: 0.7757143, z: 0.44535792}
-  - {x: -0.44535795, y: 0.7757143, z: 0.32357144}
-  - {x: -0.445358, y: 0.7757143, z: 0.09466373}
-  - {x: -0.44535795, y: 0.7757143, z: -0.09466378}
-  - {x: -0.445358, y: 0.7757142, z: -0.32357168}
-  - {x: -0.25712755, y: 0.7757143, z: -0.44535792}
-  - {x: -0.04680898, y: 0.7757143, z: -0.44535792}
-  - {x: 0.14470564, y: 0.7757143, z: -0.44535795}
-  - {x: 0.39240912, y: 0.7757144, z: -0.43581438}
-  - {x: 0.44535795, y: 0.7757143, z: -0.1982861}
-  - {x: 0.48138943, y: 1.0785713, z: -0.0000000032276972}
-  - {x: 0.48138937, y: 1.0785714, z: 0.21432838}
-  - {x: 0.4265521, y: 1.0785716, z: 0.47373414}
-  - {x: 0.15641291, y: 1.0785713, z: 0.4813893}
-  - {x: -0.05059606, y: 1.0785713, z: 0.4813893}
-  - {x: -0.27793023, y: 1.0785713, z: 0.4813893}
-  - {x: -0.48138943, y: 1.0785714, z: 0.34974974}
-  - {x: -0.48138943, y: 1.0785713, z: 0.10232243}
-  - {x: -0.48138943, y: 1.0785714, z: -0.10232249}
-  - {x: -0.48138937, y: 1.0785712, z: -0.34975}
-  - {x: -0.27793032, y: 1.0785714, z: -0.48138943}
-  - {x: -0.050596077, y: 1.0785713, z: -0.48138943}
-  - {x: 0.156413, y: 1.0785713, z: -0.48138943}
-  - {x: 0.4265522, y: 1.0785713, z: -0.47373405}
-  - {x: 0.48138943, y: 1.0785713, z: -0.21432835}
-  pointShift: {x: 0, y: 0, z: 0}
-  cloudPrefab: {fileID: 11400000, guid: ca491db8fdcfbad458e691f22644e193, type: 2}
-  scannerCircleRadius: 0
-  scannerBottom: {x: 0, y: 0, z: 0}
-  scannerTop: {x: 0, y: 0, z: 0}
-  yNumSteps: 0
-  circleSamples: 0
-  drawGizmos: 0
 --- !u!1 &5942700268144151793
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +307,7 @@ MonoBehaviour:
   materials: {fileID: 11400000, guid: 64d9bd2656cf1ddec895b9b8189d156b, type: 2}
   hiddenMaterials: {fileID: 11400000, guid: 855a7e2072f9c79a798b3ab4cee6a304, type: 2}
   maxSwarmRadius: 1
-  cloudPoints: {fileID: 11400000, guid: ca491db8fdcfbad458e691f22644e193, type: 2}
+  cloudPoints: {fileID: 11400000, guid: eab42beedcb064e44a903ae6590e6e45, type: 2}
   childObjects: []
   usesMeshRenderer: 0
   smr: {fileID: 5313805127700934067}
@@ -586,6 +503,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: b054dcf8ea2f5594c8f086ade5469e83, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64a36b542fe38014baf24c47b4008f9d, type: 3}
+--- !u!1 &3335349122974984866 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 64a36b542fe38014baf24c47b4008f9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2488488980142135283}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2666793948515004440 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 64a36b542fe38014baf24c47b4008f9d,
@@ -595,18 +518,6 @@ Transform:
 --- !u!137 &5313805127700934067 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 7725518439608744512, guid: 64a36b542fe38014baf24c47b4008f9d,
-    type: 3}
-  m_PrefabInstance: {fileID: 2488488980142135283}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4422094170064316323 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2294175803884892240, guid: 64a36b542fe38014baf24c47b4008f9d,
-    type: 3}
-  m_PrefabInstance: {fileID: 2488488980142135283}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3335349122974984866 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 64a36b542fe38014baf24c47b4008f9d,
     type: 3}
   m_PrefabInstance: {fileID: 2488488980142135283}
   m_PrefabAsset: {fileID: 0}

@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor (typeof (PointCloud))]
+[CustomEditor (typeof (PointCloud),true)]
 public class MeshPointBaker : Editor
 {
     public void OnEnable() {
         PointCloud script = (PointCloud)target;
         script.LoadFile();
-        script.drawGizmos = true;
+        script.ShowGizmos();
     }
 
     public void OnDisable() {
         PointCloud script = (PointCloud)target;
-        script.drawGizmos = false;
+        script.HideGizmos();
     }
     public override void OnInspectorGUI() {
         PointCloud script = (PointCloud)target;

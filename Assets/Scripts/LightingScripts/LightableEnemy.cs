@@ -16,13 +16,7 @@ public class LightableEnemy : LightableMultiObject {
     private bool initialiseOnStart = false;
     public bool usesMeshRenderer = false;
 
-    [PunRPC]
-    protected virtual void InitialiseEnemyRPC(LightColour newCol, string parentName) {
-        if (initialised) {
-            SetColour(newCol);
-            gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
-        }
-    }
+    
 
     public override void Start() {
         overrideMeshRenderer = !usesMeshRenderer;
@@ -45,6 +39,14 @@ public class LightableEnemy : LightableMultiObject {
             initialiseOnStart = true;
         }
         
+    }
+
+    [PunRPC]
+    protected virtual void InitialiseEnemyRPC(LightColour newCol, string parentName) {
+        if (initialised) {
+            SetColour(newCol);
+            gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
+        }
     }
 
     private void OnEnable() {
