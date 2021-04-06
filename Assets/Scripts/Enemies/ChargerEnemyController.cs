@@ -182,22 +182,9 @@ public class ChargerEnemyController : Enemy
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (pv == null || !pv.IsMine) return;
-        if (!hasPlayerJoined){
-            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
-                hasPlayerJoined = true;
-                SelectTarget();
-            } else {
-                return;
-            }
-        } 
+    void ManageStates(){
         if (aiEnabled)
         {
-            //Debug.Log("Count: " + GlobalValues.Instance.players.Count);
-            //playerObj = GlobalValues.Instance.players[0];
             switch (enemyState)
             {
                 case EnemyState.Patrolling:
@@ -222,6 +209,21 @@ public class ChargerEnemyController : Enemy
                     break;
             }
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (pv == null || !pv.IsMine) return;
+        if (!hasPlayerJoined){
+            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+                hasPlayerJoined = true;
+                SelectTarget();
+            } else {
+                return;
+            }
+        } 
+        ManageStates();
     }
 
 

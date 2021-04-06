@@ -58,42 +58,7 @@ public class SniperEnemyController : Enemy
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (flashesRemaining > 0 && flashTimer <= 0){
-            
-            if (flashesRemaining % 2 == 0){
-                // mat.SetColor("_BaseColor", Color.red);     
-                // mat.SetColor("_EmissionColour", Color.white); 
-                laser.enabled = false;         
-            } else {
-                laser.enabled = true; 
-                // mat.SetColor("_BaseColor", baseCol);
-                // mat.SetColor("_EmissionColour", emisCol);
-            }
-            flashesRemaining--;
-            flashTimer = flashTimerMax;
-        }
-        if (pv == null) return;
-        if (!pv.IsMine){
-            if (RPCLaserEnabled){
-                TrackLaser(false);
-            } else {
-                return;
-            }
-        }
-        if (!hasPlayerJoined){
-            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
-                hasPlayerJoined = true;
-                int index = SelectTarget();
-                weapon.SetTarget(index);
-            } else {
-                return;
-            }
-        } 
-        
-        //playerObj = GlobalValues.Instance.players[0];
+    void ManageStates(){
         if (aiEnabled) {
             switch (enemyState) {
                 case EnemyState.Patrolling:
@@ -115,6 +80,41 @@ public class SniperEnemyController : Enemy
                     break;
             }
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (flashesRemaining > 0 && flashTimer <= 0){
+            
+            if (flashesRemaining % 2 == 0){ 
+                laser.enabled = false;         
+            } else {
+                laser.enabled = true; 
+            }
+            flashesRemaining--;
+            flashTimer = flashTimerMax;
+        }
+        if (pv == null) return;
+        if (!pv.IsMine){
+            if (RPCLaserEnabled){
+                TrackLaser(false);
+            } else {
+                return;
+            }
+        }
+        if (!hasPlayerJoined){
+            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+                hasPlayerJoined = true;
+                int index = SelectTarget();
+                weapon.SetTarget(index);
+            } else {
+                return;
+            }
+        } 
+        ManageStates();
+        //playerObj = GlobalValues.Instance.players[0];
+        
     }
 
     public override void RequestHitStun(float duration)
@@ -292,12 +292,6 @@ public class SniperEnemyController : Enemy
             if (flashTimer > 0) {
                 flashTimer -= Time.deltaTime;
             }
-            // if (hitStunTimer > 0) {
-            //     hitStunTimer -= Time.deltaTime;
-            //     if (hitStunTimer <= 0){
-            //         hitStunned = false;
-            //     }
-            // }
             yield return null;
         }
     }
