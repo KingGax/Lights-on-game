@@ -67,6 +67,7 @@ namespace LightsOn {
         public override void OnJoinRandomFailed(short returnCode, string message) {
             // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
             PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+            
         }
 
         public override void OnJoinedRoom() {
