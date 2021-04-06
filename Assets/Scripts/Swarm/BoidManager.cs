@@ -92,7 +92,7 @@ public class BoidManager : MonoBehaviour
         for (int i = 0; i < agentCount; i++){
             Vector3 pos;
             if (spawnPointsSet) {
-                pos = transform.position + spawnPoints[i];
+                pos = spawnPoints[i];
             }
             else {
                 pos = new Vector3(transform.position.x + Random.Range(xMin + 0.01f, xMax), transform.position.y + Random.Range(yMin + 0.01f, yMax), transform.position.z + Random.Range(zMin + 0.01f, zMax));

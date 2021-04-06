@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 public abstract class PointCloud : MonoBehaviour {
     public bool showPoints;
@@ -13,14 +8,15 @@ public abstract class PointCloud : MonoBehaviour {
     protected Vector3[] points;
     public Vector3 pointShift;
     public PointCloudSO cloudPrefab;
+    protected Quaternion defaultRotation;
 
     protected bool drawGizmos = false;
     // Start is called before the first frame update
     public void LoadFile() {
         if (cloudPrefab != null) {
             points = cloudPrefab.points;
-        }
-        else {
+            defaultRotation = cloudPrefab.initialRotation;
+        } else {
             Debug.LogError("Set the cloudPrefab to be a scriptable object");
         }
     }
@@ -38,9 +34,11 @@ public abstract class PointCloud : MonoBehaviour {
     protected void DrawPoints() {
         if (showPoints) {
             Gizmos.color = Color.white;
+            Quaternion defaultQuat = cloudPrefab.initialRotation;
+            Quaternion rotationQuat = transform.localRotation * Quaternion.Inverse(defaultQuat); 
             if (points != null) {
                 foreach (Vector3 point in points) {
-                    Gizmos.DrawSphere(point + transform.position, 0.1f);
+                    Gizmos.DrawSphere(transform.position + rotationQuat * (point), 0.1f);
                 }
             }
         }
@@ -56,14 +54,13 @@ public abstract class PointCloud : MonoBehaviour {
     private void SaveFile() {
         if (cloudPrefab != null) {
             cloudPrefab.points = points;
+            cloudPrefab.initialRotation = transform.localRotation;
             EditorUtility.SetDirty(cloudPrefab);
-        }
-        else {
+        } else {
             Debug.LogError("No cloud prefab set, changes will not be saved");
         }
-        
     }
 
-    
+
 
 }

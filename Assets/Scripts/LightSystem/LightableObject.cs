@@ -37,6 +37,8 @@ public class LightableObject : MonoBehaviour {
     protected bool canSwarm;
     public float maxSwarmRadius = 1;
     public PointCloudSO cloudPoints;
+    Vector3[] transformedPoints;
+    Quaternion lastRotation;
 
     virtual protected void Awake() {
         hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
@@ -184,6 +186,26 @@ public class LightableObject : MonoBehaviour {
             }
         }
     }
+    private Vector3[] GetTransformedPoints() {
+        bool regeneratePoints = false;
+        if (transformedPoints == null) {
+            regeneratePoints = true;
+        } else if (transform.localRotation != lastRotation) {
+            regeneratePoints = true;
+        }
+        if (regeneratePoints) {
+            Quaternion defaultQuat = cloudPoints.initialRotation;
+            Quaternion rotationQuat = transform.parent.rotation * Quaternion.Inverse(defaultQuat); //trivially
+            Vector3[] newPoints = new Vector3[cloudPoints.points.Length];
+            for (int i = 0; i < cloudPoints.points.Length; i++) {
+                newPoints[i] = transform.parent.position + rotationQuat * cloudPoints.points[i];
+            }
+            return newPoints;
+        } else {
+            return transformedPoints;
+        }
+    }
+
 
     public virtual void Disappear() {
         if (!overrideMeshRenderer) {
@@ -196,7 +218,7 @@ public class LightableObject : MonoBehaviour {
             BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
             man.SetMat(colour.ToColor());
             if (cloudPoints != null) {
-                man.SetSpawnPoints(cloudPoints.points, maxSwarmRadius);
+                man.SetSpawnPoints(GetTransformedPoints(), maxSwarmRadius);
             }
             man.Spawn();
         }

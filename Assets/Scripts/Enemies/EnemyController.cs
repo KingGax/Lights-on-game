@@ -92,19 +92,7 @@ public class EnemyController : Enemy {
         }
     }
 
-    // Update is called once per frame
-    void Update() {
-        if (pv == null || !pv.IsMine) return;
-        if (!hasPlayerJoined){
-            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
-                hasPlayerJoined = true;
-                int index = SelectTarget();
-                weapon.SetTarget(index);
-            } else {
-                return;
-            }
-        } 
-        //playerObj = GlobalValues.Instance.players[0];
+    void ManageStates(){
         if (aiEnabled) {
             switch (enemyState) {
                 case EnemyState.Patrolling:
@@ -123,6 +111,22 @@ public class EnemyController : Enemy {
                     break;
             }
         }
+    }
+
+    // Update is called once per frame
+    void Update() {
+        if (pv == null || !pv.IsMine) return;
+        if (!hasPlayerJoined){
+            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+                hasPlayerJoined = true;
+                int index = SelectTarget();
+                weapon.SetTarget(index);
+            } else {
+                return;
+            }
+        } 
+        //playerObj = GlobalValues.Instance.players[0];
+        ManageStates();
     }
 
     void Patrol() {

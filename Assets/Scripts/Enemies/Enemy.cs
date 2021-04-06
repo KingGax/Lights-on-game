@@ -95,6 +95,7 @@ public abstract class Enemy : MonoBehaviour {
         return !environmentCheck
             || hit.transform.gameObject.layer == LayerMask.NameToLayer("Player");
     }
+    
 
     protected void TurnTowards(Vector3 direction) {
         transform.forward = Vector3.RotateTowards(transform.forward, direction, Time.deltaTime * turnSpeed, 0.5f);

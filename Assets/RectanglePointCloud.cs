@@ -18,6 +18,9 @@ public class RectanglePointCloud : PointCloud
         Mesh colliderMesh = new Mesh();
         int pointsMissed = 0;
         MeshCollider tempCollider = gameObject.AddComponent<MeshCollider>();
+        if (mesh == null) {
+            Debug.LogError("No mesh assigned");
+        }
         tempCollider.sharedMesh = mesh;
         List<Vector3> pointsList = new List<Vector3>();
 
