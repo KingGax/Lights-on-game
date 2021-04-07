@@ -214,13 +214,20 @@ public class LightableObject : MonoBehaviour {
         }
         transform.parent.gameObject.layer = hiddenLayer;
         if (canSwarm){
-            boidManagerInstance = Instantiate(boidManagerPrefab, transform.position, transform.rotation);
-            BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
-            man.SetMat(colour.ToColor());
-            if (cloudPoints != null) {
-                man.SetSpawnPoints(GetTransformedPoints(), maxSwarmRadius);
+            if (boidManagerInstance == null){
+                boidManagerInstance = Instantiate(boidManagerPrefab, transform.position, transform.rotation);
+                boidManagerInstance.transform.parent = transform.parent;
+                BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
+                man.lightableObject = this;
+                man.SetMat(colour.ToColor());
+                if (cloudPoints != null) {
+                    man.SetSpawnPoints(GetTransformedPoints(), maxSwarmRadius);
+                }
+                man.Spawn();
+            } else {
+                BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
+                man.CancelReform();
             }
-            man.Spawn();
         }
         Tooltip[] tooltips = GetComponentsInChildren<Tooltip>();
         foreach (Tooltip t in tooltips) {
@@ -271,6 +278,10 @@ public class LightableObject : MonoBehaviour {
     void StartAppear() {
         isHidden = false;
         Appear();
+    }
+
+    public virtual void FinishAppearing(){
+
     }
 
     void OnTriggerExit(Collider other) {

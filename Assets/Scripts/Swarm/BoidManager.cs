@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+namespace LightsOn{
+namespace LightingSystem{
 
 public class BoidManager : MonoBehaviour
 {
@@ -41,16 +43,21 @@ public class BoidManager : MonoBehaviour
     float checkOOBTimer;
     public float updateTimerMax = 0.100f;
     float updateTimer;
+    public float reformTimerMax = 1.2f;
+    float reformTimer;
     bool init = false;
     private Vector3[] spawnPoints;
     private bool spawnPointsSet = false;
     bool isReforming = false;
+    private IEnumerator destroyRoutine;
     //Camera camera;
     List<AgentController> agents = new List<AgentController>();
+    public LightableObject lightableObject;
     // Start is called before the first frame update
      private void Awake() {
         //camera = GameObject.Find("Main Camera").GetComponent<Camera>();
         
+        destroyRoutine = DestroyAgents(1.5f);
         init = true;
         if (xMax < xMin){
             float tmp = xMax;
@@ -123,14 +130,24 @@ public class BoidManager : MonoBehaviour
     {
         checkOOBTimer -= Time.deltaTime;
         updateTimer -= Time.deltaTime;
+        if (isReforming) reformTimer -= Time.deltaTime;
     }
 
     public void SendReformSignal(){
+        reformTimer = reformTimerMax;
+        //StartCoroutine(destroyRoutine);
         isReforming = true;
         foreach(AgentController agent in agents){
             agent.StartReform();
+        } 
+    }
+
+    public void CancelReform(){
+        //StopCoroutine(destroyRoutine);
+        isReforming = false;
+        foreach(AgentController agent in agents){
+            agent.StopReform(agentSpeed, turnSpeed);
         }
-        StartCoroutine(DestroyAgents(1.5f));
     }
 
     IEnumerator DestroyAgents(float time){
@@ -154,6 +171,10 @@ public class BoidManager : MonoBehaviour
                 }
                 checkOOBTimer = checkOOBTimerMax;
             }
+            if (isReforming && reformTimer <= 0){
+                lightableObject.FinishAppearing();
+                Destroy(gameObject);
+            }
             yield return null;
         }
     }
@@ -166,4 +187,4 @@ public class BoidManager : MonoBehaviour
             }
         }
     }
-}
+}}}

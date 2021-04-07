@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+namespace LightsOn{
+namespace LightingSystem{
 public class AgentController : MonoBehaviour
 {
     float xMin;
@@ -70,7 +73,7 @@ public class AgentController : MonoBehaviour
         if (init){
             if (isReforming){
                 if (!inPosition){
-                    if (Vector3.Distance(transform.position, originPoint) <= 0.03){
+                    if (Vector3.Distance(transform.position, originPoint) <= 0.06){
                         inPosition = true;
                         transform.position = originPoint;
                     }
@@ -118,6 +121,13 @@ public class AgentController : MonoBehaviour
                 transform.position += transform.forward * speed * Time.deltaTime;      
             }
         }
+    }
+
+    public void StopReform(float _speed, float _turnspeed){
+        speed = _speed;
+        turnSpeed = _turnspeed;
+        isReforming = false;
+        inPosition = false;
     }
 
     public void StartReform(){
@@ -194,4 +204,4 @@ public class AgentController : MonoBehaviour
             }
         }
     }
-}
+}}}

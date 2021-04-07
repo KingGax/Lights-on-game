@@ -67,11 +67,16 @@ public class LightableEnemy : LightableMultiObject {
 
     override public void Appear() {
         base.Appear();
+        //enemy.EnableAI();
+        
+
+    }
+
+    override public void FinishAppearing(){
         enemy.EnableAI();
         if (enemy.weapon != null) enemy.weapon.UnFreeze();
         transform.parent.gameObject.layer = defaultEnemyLayer;
         enemy.GetComponent<EnemyHealth>().InitialiseMaterials();
-
     }
 
     override public void Disappear() {
