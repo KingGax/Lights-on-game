@@ -41,8 +41,19 @@ public class LightableChargerEnemy : LightableEnemy {
     public override void FinishAppearing()
     {
         animator.speed = 1f;
+        if (overrideMeshRenderer){
+            smr.material = materials.get(colour);
+        }
         base.FinishAppearing();
         controller.Appear();
+        
+    }
+    protected override void LerpMaterial(float lerp)
+    {
+        base.LerpMaterial(lerp);
+        if (overrideMeshRenderer){
+            smr.material.Lerp(hiddenMaterials.get(colour), materials.get(colour), lerp);
+        }
     }
     
 }}}

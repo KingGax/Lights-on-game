@@ -133,13 +133,14 @@ public class BoidManager : MonoBehaviour
         if (isReforming) reformTimer -= Time.deltaTime;
     }
 
-    public void SendReformSignal(){
+    public float SendReformSignal(){
         reformTimer = reformTimerMax;
         //StartCoroutine(destroyRoutine);
         isReforming = true;
         foreach(AgentController agent in agents){
             agent.StartReform();
         } 
+        return reformTimerMax;
     }
 
     public void CancelReform(){
@@ -172,7 +173,7 @@ public class BoidManager : MonoBehaviour
                 checkOOBTimer = checkOOBTimerMax;
             }
             if (isReforming && reformTimer <= 0){
-                lightableObject.FinishAppearing();
+                //lightableObject.FinishAppearing();
                 Destroy(gameObject);
             }
             yield return null;

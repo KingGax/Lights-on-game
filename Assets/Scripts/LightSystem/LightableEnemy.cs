@@ -73,6 +73,7 @@ public class LightableEnemy : LightableMultiObject {
     }
 
     override public void FinishAppearing(){
+        base.FinishAppearing();
         enemy.EnableAI();
         if (enemy.weapon != null) enemy.weapon.UnFreeze();
         transform.parent.gameObject.layer = defaultEnemyLayer;
