@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+namespace LightsOn{
+namespace LightingSystem{
 
 public class BoidManager : MonoBehaviour
 {
@@ -39,15 +41,23 @@ public class BoidManager : MonoBehaviour
     float maxRadiusSquare; //max agent radius
     public float checkOOBTimerMax;
     float checkOOBTimer;
+    public float updateTimerMax = 0.100f;
+    float updateTimer;
+    public float reformTimerMax = 1.2f;
+    float reformTimer;
     bool init = false;
     private Vector3[] spawnPoints;
     private bool spawnPointsSet = false;
+    bool isReforming = false;
+    private IEnumerator destroyRoutine;
     //Camera camera;
     List<AgentController> agents = new List<AgentController>();
+    public LightableObject lightableObject;
     // Start is called before the first frame update
      private void Awake() {
         //camera = GameObject.Find("Main Camera").GetComponent<Camera>();
         
+        destroyRoutine = DestroyAgents(1.5f);
         init = true;
         if (xMax < xMin){
             float tmp = xMax;
@@ -64,11 +74,8 @@ public class BoidManager : MonoBehaviour
             zMax = zMin;
             zMin = tmp;
         }
-        //camera.transform.position = new Vector3(xMax, yMax, zMax);
-        //camera.transform.LookAt(boidCentre);
         boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax), transform.position.z + Random.Range(zMin+0.01f, zMax));
         boidCentre.y += 1f;
-        
     }
     
     public void SetMat(Color col){
@@ -97,7 +104,6 @@ public class BoidManager : MonoBehaviour
             else {
                 pos = new Vector3(transform.position.x + Random.Range(xMin + 0.01f, xMax), transform.position.y + Random.Range(yMin + 0.01f, yMax), transform.position.z + Random.Range(zMin + 0.01f, zMax));
             }
-            
             GameObject g = Instantiate(agentPrefab, pos, new Quaternion(0,0,0,0));
             g.GetComponent<MeshRenderer>().material = agentMat;
             g.transform.SetParent(transform);
@@ -105,8 +111,9 @@ public class BoidManager : MonoBehaviour
             a.SetVals(xMin, xMax, yMin, yMax, zMin, zMax, agentSpeed, turnSpeed, detectionRadius, matchingRadius, centreBias, matchingBias, avoidanceBias, randomTurnAmount, maxRadiusSquare, 0.5f);
             agents.Add(a);
         }
-        updateCentreTimer = 0f;
-        //StartCoroutine("Timers");
+        checkOOBTimer = checkOOBTimerMax;
+        updateTimer = updateTimerMax;
+        StartCoroutine("Timers");
     }
 
     Vector3 GetAveragePos(){
@@ -121,38 +128,58 @@ public class BoidManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //camera.transform.rotation = Quaternion.Lerp(camera.transform.rotation, Quaternion.LookRotation(boidCentre - camera.transform.position), Time.deltaTime);
         checkOOBTimer -= Time.deltaTime;
-        //updateCentreTimer -= Time.deltaTime;
-        //Physics.l
-        //camera.transform.LookAt(boidCentre);
-        //SmoothLook(boidCentre);
+        updateTimer -= Time.deltaTime;
+        if (isReforming) reformTimer -= Time.deltaTime;
     }
 
+    public float SendReformSignal(){
+        reformTimer = reformTimerMax;
+        //StartCoroutine(destroyRoutine);
+        isReforming = true;
+        foreach(AgentController agent in agents){
+            agent.StartReform();
+        } 
+        return reformTimerMax;
+    }
+
+    public void CancelReform(){
+        //StopCoroutine(destroyRoutine);
+        isReforming = false;
+        foreach(AgentController agent in agents){
+            agent.StopReform(agentSpeed, turnSpeed);
+        }
+    }
+
+    IEnumerator DestroyAgents(float time){
+        yield return new WaitForSeconds(time);
+        if (isReforming){
+            Destroy(gameObject);
+        }
+    }
 
     IEnumerator Timers(){
         while (true){
-            // if (updateCentreTimer <= 0){
-            //     boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax) + 1f, transform.position.z + Random.Range(zMin+0.01f, zMax));
-            //     //boidCentre = GetAveragePos();
-            //     updateCentreTimer = updateCentreTimerMax;
-            // }
+           if (updateTimer <= 0){
+               foreach(AgentController agent in agents){
+                    if (!agent.canUpdate) agent.canUpdate = true;
+                }
+                updateTimer = updateTimerMax;
+            }
             if (checkOOBTimer <= 0){
                 foreach(AgentController agent in agents){
                     agent.canCheckOOB = true;
                 }
-                //boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax) + 1f, transform.position.z + Random.Range(zMin+0.01f, zMax));
-                //boidCentre = GetAveragePos();
                 checkOOBTimer = checkOOBTimerMax;
+            }
+            if (isReforming && reformTimer <= 0){
+                //lightableObject.FinishAppearing();
+                Destroy(gameObject);
             }
             yield return null;
         }
-        
     }
 
-    // void SmoothLook(Vector3 newDirection){
-        
-    // }
     private void OnDrawGizmos() {
         if (init){
             Gizmos.color = Color.green;
@@ -161,4 +188,4 @@ public class BoidManager : MonoBehaviour
             }
         }
     }
-}
+}}}

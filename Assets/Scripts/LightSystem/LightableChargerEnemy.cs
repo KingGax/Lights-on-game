@@ -33,11 +33,27 @@ public class LightableChargerEnemy : LightableEnemy {
         base.Disappear();
     }
 
-    public override void Appear() {
-        animator.speed = 1f;
+    public override void Appear() { 
         smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         smr.material = materials.get(colour);
         base.Appear();
-        controller.Appear();
     }
+    public override void FinishAppearing()
+    {
+        animator.speed = 1f;
+        if (overrideMeshRenderer){
+            smr.material = materials.get(colour);
+        }
+        base.FinishAppearing();
+        controller.Appear();
+        
+    }
+    protected override void LerpMaterial(float lerp)
+    {
+        base.LerpMaterial(lerp);
+        if (overrideMeshRenderer){
+            smr.material.Lerp(hiddenMaterials.get(colour), materials.get(colour), lerp);
+        }
+    }
+    
 }}}

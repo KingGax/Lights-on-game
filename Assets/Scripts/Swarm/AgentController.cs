@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+namespace LightsOn{
+namespace LightingSystem{
 public class AgentController : MonoBehaviour
 {
     float xMin;
@@ -22,13 +25,15 @@ public class AgentController : MonoBehaviour
     float avoidanceBias;
     float randomTurnAmount; //rad/s
     float maxRadiusSquare;
-    float checkOOBTimerMax;
-    float checkOOBTimer;
-    float updateTimerMax = 0.03f;
-    float updateTimer;
+
     public bool canCheckOOB = false;
-    bool canUpdate = false;
+    public bool canUpdate = false;
+    float accumulatedTime = 0f;
     Color gizmoCol;
+
+    Vector3 originPoint;
+    public bool isReforming = false;
+    bool inPosition = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -55,53 +60,80 @@ public class AgentController : MonoBehaviour
         avoidanceBias = avoidancebias;
         randomTurnAmount = randTurnAmount;
         maxRadiusSquare = maxRadiusSq;
-        checkOOBTimerMax = oobTimerMax;
         canCheckOOB = false;
-        //StartCoroutine("Timers");
         gizmoCol = Color.yellow;
+        originPoint = transform.position;
+        inPosition = false;
+        isReforming = false;
     }
+
     // Update is called once per frame
     void Update()
     {
         if (init){
-            //updateTimer -= Time.deltaTime;
-            //if (canUpdate){
-                canUpdate = false;
-                Vector3 finalDir;
-                //checkOOBTimer -= Time.deltaTime;
-                //canCheckOOB = false;
-                if(canCheckOOB && CheckOOB()){
-                    Debug.Log("GOBACK!!!");
-                    finalDir = parent.transform.position - transform.position;
-                } else {
-                    Vector3 avoidanceVec = transform.forward; 
-                    bool avoiding = CheckCollisions(ref avoidanceVec);
-                    float avBias;
+            if (isReforming){
+                if (!inPosition){
+                    if (Vector3.Distance(transform.position, originPoint) <= 0.06){
+                        inPosition = true;
+                        transform.position = originPoint;
+                    }
                     
-                    if (avoiding){
-                        avBias = avoidanceBias;
-                        //finalDir = avoidanceVec;
-                    } else {
-                        avBias = 0; 
-                    }
-                    //Vector3 centreDir = Vector3.RotateTowards(transform.forward, parent.boidCentre - transform.position, turnSpeed * Time.deltaTime, 0.0f);
-                    Vector3 centreDir = parent.boidCentre - transform.position;
-                    Vector3 matchingDir = centreDir;//MatchDirection(centreDir);
-                    finalDir = (centreDir * centreBias + matchingDir * matchingBias + avoidanceVec * avBias) / (centreBias+matchingBias+avBias);
-                    //finalDir = (centreDir * centreBias + avoidanceVec * avoidanceBias) / (centreBias+avoidanceBias);
-                    if(parent.showDirectionArrows){
-                        Debug.DrawRay(transform.position, finalDir, Color.red);
-                    }
+                    //Vector3 homeDir = originPoint;
+                    Vector3 dir = Vector3.RotateTowards(transform.forward, originPoint - transform.position, turnSpeed * Time.deltaTime, 0.0f);
+                    transform.rotation = Quaternion.LookRotation(dir);
                 }
-                finalDir.x += Random.Range(-randomTurnAmount, randomTurnAmount);
-                finalDir.y += Random.Range(-randomTurnAmount, randomTurnAmount);
-                finalDir.z += Random.Range(-randomTurnAmount, randomTurnAmount);
-                finalDir = Vector3.RotateTowards(transform.forward, finalDir, turnSpeed * Time.deltaTime, 0.0f);
-                //finalDir = Vector3.Normalize(finalDir);
-                transform.rotation = Quaternion.LookRotation(finalDir);
-                transform.position += transform.forward * speed * Time.deltaTime;
-            //}
+            }
+            else{
+                accumulatedTime += Time.deltaTime;
+                if (canUpdate){
+                    canUpdate = false;
+                    Vector3 finalDir;
+                    if(canCheckOOB && CheckOOB()){
+                        finalDir = parent.transform.position - transform.position;
+                    } else {
+                        Vector3 avoidanceVec = transform.forward; 
+                        bool avoiding = CheckCollisions(ref avoidanceVec);
+                        float avBias;
+                        
+                        if (avoiding){
+                            avBias = avoidanceBias;
+                        } else {
+                            avBias = 0; 
+                        }
+                        //Vector3 centreDir = Vector3.RotateTowards(transform.forward, parent.boidCentre - transform.position, turnSpeed * Time.deltaTime, 0.0f);
+                        Vector3 centreDir = parent.boidCentre - transform.position;
+                        Vector3 matchingDir = centreDir;//MatchDirection(centreDir);
+                        finalDir = (centreDir * centreBias + matchingDir * matchingBias + avoidanceVec * avBias) / (centreBias+matchingBias+avBias);
+                        //finalDir = (centreDir * centreBias + avoidanceVec * avoidanceBias) / (centreBias+avoidanceBias);
+                        if(parent.showDirectionArrows){
+                            Debug.DrawRay(transform.position, finalDir, Color.red);
+                        }
+                    }
+                    finalDir.x += Random.Range(-randomTurnAmount, randomTurnAmount);
+                    finalDir.y += Random.Range(-randomTurnAmount, randomTurnAmount);
+                    finalDir.z += Random.Range(-randomTurnAmount, randomTurnAmount);
+                    finalDir = Vector3.RotateTowards(transform.forward, finalDir, turnSpeed * accumulatedTime, 0.0f);
+                    transform.rotation = Quaternion.LookRotation(finalDir);
+                    accumulatedTime = 0f;
+                }
+            }
+            if (!inPosition){
+                transform.position += transform.forward * speed * Time.deltaTime;      
+            }
         }
+    }
+
+    public void StopReform(float _speed, float _turnspeed){
+        speed = _speed;
+        turnSpeed = _turnspeed;
+        isReforming = false;
+        inPosition = false;
+    }
+
+    public void StartReform(){
+        speed *= 1.5f;
+        turnSpeed *= 6;
+        isReforming = true;
     }
 
     Vector3 CombinedOverlap(Vector3 startDir){
@@ -114,7 +146,6 @@ public class AgentController : MonoBehaviour
         if (hits.Length > 0 && !(hits.Length == 1 && hits[0].transform == transform)){
             Vector3 acc = new Vector3(0,0,0);
             for (int i = 1; i < hits.Length; i++){
-            //foreach(Collider hit in hits){
                 Vector3 target = transform.position + hits[i].transform.forward;
                 Vector3 newDirection = Vector3.RotateTowards(transform.forward, target, turnSpeed * Time.deltaTime, 0.0f);
                 acc += newDirection;
@@ -132,18 +163,13 @@ public class AgentController : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, ((1 << LayerMask.NameToLayer("SwarmLayer"))));      
         if (hits.Length > 0 && !(hits.Length == 1 && hits[0].transform == transform)){
             ret = true;
-            // Vector3 target = transform.position - hits[1].transform.position;
-            // Vector3 newDirection = Vector3.RotateTowards(transform.forward, target, turnSpeed * Time.deltaTime, 0.0f);
-            // acc = newDirection;
             for (int i = 1; i < hits.Length; i++){
-            //foreach(Collider hit in hits){
                 Vector3 target = transform.position - hits[i].transform.position;
                 Vector3 newDirection = Vector3.RotateTowards(transform.forward, target, turnSpeed * Time.deltaTime, 0.0f);
                 acc += newDirection-transform.forward;
             }
             acc /= hits.Length;
             dir = acc;
-            //transform.rotation = Quaternion.LookRotation(acc);
         }
         if (parent.showAvoidanceHitboxes){
             if (ret){
@@ -161,35 +187,11 @@ public class AgentController : MonoBehaviour
     }
 
     bool CheckOOB(){
-        //return;
-        //Debug.Log("Comparison: "+ (transform.position-parent.transform.position).sqrMagnitude + " and "+ maxRadiusSquare);
-        Debug.Log("Ping!");
+
         canCheckOOB = false;
         return (transform.position-parent.transform.position).sqrMagnitude > maxRadiusSquare;
-        // float x = mod((transform.position.x - xMin), (xMax - xMin)) + xMin;
-        // float y = mod((transform.position.y - yMin), (yMax - yMin)) + yMin;
-        // float z = mod((transform.position.z - zMin), (zMax - zMin)) + zMin;
-        // transform.position = new Vector3(x, y, z);
-    }
 
-    // IEnumerator Timers(){
-    //     while (true){
-    //         // if (checkOOBTimer <= 0){
-    //         //     canCheckOOB = true;
-    //         //     //boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax) + 1f, transform.position.z + Random.Range(zMin+0.01f, zMax));
-    //         //     //boidCentre = GetAveragePos();
-    //         //     checkOOBTimer = checkOOBTimerMax;
-    //         // }
-    //         if (updateTimer <= 0 && !canUpdate){
-    //             canUpdate = true;
-    //             //boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax) + 1f, transform.position.z + Random.Range(zMin+0.01f, zMax));
-    //             //boidCentre = GetAveragePos();
-    //             updateTimer = updateTimerMax;
-    //         }
-    //         yield return null;
-    //     }
-        
-    // }
+    }
 
     private void OnDrawGizmos() {
         if (init){
@@ -202,4 +204,4 @@ public class AgentController : MonoBehaviour
             }
         }
     }
-}
+}}}

@@ -39,6 +39,9 @@ public class LightableObject : MonoBehaviour {
     public PointCloudSO cloudPoints;
     Vector3[] transformedPoints;
     Quaternion lastRotation;
+    bool fading = false;
+    float fadeTimer = 0f;
+    float fadeTimerMax = 0f;
 
     virtual protected void Awake() {
         hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
@@ -72,7 +75,22 @@ public class LightableObject : MonoBehaviour {
                 }
             }
         }
+        if (fading){
+            fadeTimer -= Time.deltaTime;
+            float lerp = 1-(Mathf.Max(0, fadeTimer)/fadeTimerMax);
+            LerpMaterial(lerp);
+            if (fadeTimer <= 0){
+                fading = false;
+                FinishAppearing();
+            }
+        }
         distCheckThisFrame = !distCheckThisFrame;
+    }
+
+    protected virtual void LerpMaterial(float lerp){
+        if (!overrideMeshRenderer){
+            meshRenderer.material.Lerp(hiddenMaterials.get(colour), materials.get(colour), lerp);
+        }
     }
 
     void GetLightsInRange() {
@@ -214,13 +232,21 @@ public class LightableObject : MonoBehaviour {
         }
         transform.parent.gameObject.layer = hiddenLayer;
         if (canSwarm){
-            boidManagerInstance = Instantiate(boidManagerPrefab, transform.position, transform.rotation);
-            BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
-            man.SetMat(colour.ToColor());
-            if (cloudPoints != null) {
-                man.SetSpawnPoints(GetTransformedPoints(), maxSwarmRadius);
+            fading = false;
+            if (boidManagerInstance == null){
+                boidManagerInstance = Instantiate(boidManagerPrefab, transform.position, transform.rotation);
+                boidManagerInstance.transform.parent = transform.parent;
+                BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
+                man.lightableObject = this;
+                man.SetMat(colour.ToColor());
+                if (cloudPoints != null) {
+                    man.SetSpawnPoints(GetTransformedPoints(), maxSwarmRadius);
+                }
+                man.Spawn();
+            } else {
+                BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
+                man.CancelReform();
             }
-            man.Spawn();
         }
         Tooltip[] tooltips = GetComponentsInChildren<Tooltip>();
         foreach (Tooltip t in tooltips) {
@@ -240,7 +266,10 @@ public class LightableObject : MonoBehaviour {
         }
         transform.parent.gameObject.layer = defaultLayer;
         if (canSwarm){
-            Destroy(boidManagerInstance);
+            fadeTimerMax = boidManagerInstance.GetComponent<BoidManager>().SendReformSignal();
+            fadeTimer = fadeTimerMax;
+            fading = true;
+            //Destroy(boidManagerInstance);
         }
         //move for optimisation at some point
         Light[] lights = GetComponentsInChildren<Light>();
@@ -270,6 +299,12 @@ public class LightableObject : MonoBehaviour {
     void StartAppear() {
         isHidden = false;
         Appear();
+    }
+
+    public virtual void FinishAppearing(){
+        if (!overrideMeshRenderer){
+            meshRenderer.material = materials.get(colour);
+        }
     }
 
     void OnTriggerExit(Collider other) {

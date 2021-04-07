@@ -34,9 +34,29 @@ public class LightableRangedEnemy : LightableEnemy {
     }
 
     public override void Appear() {
-        anim.speed = 1;
         smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         smr.material = materials.get(colour);
         base.Appear();
     }
+
+    protected override void LerpMaterial(float lerp)
+    {
+        base.LerpMaterial(lerp);
+        if (overrideMeshRenderer){
+            smr.material.Lerp(hiddenMaterials.get(colour), materials.get(colour), lerp);
+        }
+    }
+
+        
+
+    public override void FinishAppearing()
+    {
+        anim.speed = 1;
+        if (overrideMeshRenderer){
+            smr.material = materials.get(colour);
+        }
+        base.FinishAppearing();
+        
+    }
+    
 }}}
