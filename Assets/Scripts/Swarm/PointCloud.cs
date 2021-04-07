@@ -9,6 +9,7 @@ public abstract class PointCloud : MonoBehaviour {
     public Vector3 pointShift;
     public PointCloudSO cloudPrefab;
     protected Quaternion defaultRotation;
+    public Transform rotationParent;
 
     protected bool drawGizmos = false;
     // Start is called before the first frame update
@@ -35,7 +36,13 @@ public abstract class PointCloud : MonoBehaviour {
         if (showPoints) {
             Gizmos.color = Color.white;
             Quaternion defaultQuat = cloudPrefab.initialRotation;
-            Quaternion rotationQuat = transform.localRotation * Quaternion.Inverse(defaultQuat); 
+            Transform rotTransform;
+            if (rotationParent != null) {
+                rotTransform = rotationParent;
+            } else {
+                rotTransform = transform;
+            }
+            Quaternion rotationQuat = rotTransform.localRotation * Quaternion.Inverse(defaultQuat); 
             if (points != null) {
                 foreach (Vector3 point in points) {
                     Gizmos.DrawSphere(transform.position + rotationQuat * (point), 0.1f);
@@ -54,7 +61,13 @@ public abstract class PointCloud : MonoBehaviour {
     private void SaveFile() {
         if (cloudPrefab != null) {
             cloudPrefab.points = points;
-            cloudPrefab.initialRotation = transform.localRotation;
+            if (rotationParent != null) {
+                cloudPrefab.initialRotation = rotationParent.localRotation;
+            } else {
+                rotationParent = transform;
+                cloudPrefab.initialRotation = transform.localRotation;
+            }
+            
             EditorUtility.SetDirty(cloudPrefab);
         } else {
             Debug.LogError("No cloud prefab set, changes will not be saved");
