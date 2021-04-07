@@ -20,18 +20,18 @@
 <tr><th>Covered lines:</th><td>0</td></tr>
 <tr><th>Uncovered lines:</th><td>38</td></tr>
 <tr><th>Coverable lines:</th><td>38</td></tr>
-<tr><th>Total lines:</th><td>79</td></tr>
+<tr><th>Total lines:</th><td>80</td></tr>
 <tr><th>Line coverage:</th><td>0% (0 of 38)</td></tr>
 <tr><th>Covered branches:</th><td>0</td></tr>
 <tr><th>Total branches:</th><td>0</td></tr>
 </tbody>
 </table>
 <h1>Coverage History</h1>
-<div class="historychart ct-chart" data-data="historyChartData9de78a16ef1345f4a9167d465e458078"></div>
+<div class="historychart ct-chart" data-data="historyChartData4a3cb112542040aa811d7d72c94a9f83"></div>
 <script type="text/javascript">/* <![CDATA[ */ 
-var historyChartData9de78a16ef1345f4a9167d465e458078 = {
+var historyChartData4a3cb112542040aa811d7d72c94a9f83 = {
     "series" : [[0]],
-    "tooltips" : ['<h3>06/04/2021 - 15:28:23</h3><br /><span class="linecoverage"></span> Line coverage: 0% (0/38)<br />Total lines: 79']
+    "tooltips" : ['<h3>06/04/2021 - 23:10:48</h3><br /><span class="linecoverage"></span> Line coverage: 0% (0/38)<br />Total lines: 80']
 };
  /* ]]> */ </script>
 <h1>Metrics</h1>
@@ -45,7 +45,7 @@ var historyChartData9de78a16ef1345f4a9167d465e458078 = {
 <tr><td title="System.Void LightsOn.Launcher::Start()"><a href="#file0_line45" class="navigatetohash">Start()</a></td><td>0%</td><td>2</td><td>1</td><td>0</td><td>0%</td></tr>
 <tr><td title="System.Void LightsOn.Launcher::Connect()"><a href="#file0_line53" class="navigatetohash">Connect()</a></td><td>0%</td><td>6</td><td>2</td><td>0</td><td>0%</td></tr>
 <tr><td title="System.Void LightsOn.Launcher::OnJoinRandomFailed(System.Int16, System.String)"><a href="#file0_line67" class="navigatetohash">OnJoinRandomFailed(...)</a></td><td>0%</td><td>2</td><td>1</td><td>0</td><td>0%</td></tr>
-<tr><td title="System.Void LightsOn.Launcher::OnJoinedRoom()"><a href="#file0_line72" class="navigatetohash">OnJoinedRoom()</a></td><td>0%</td><td>6</td><td>2</td><td>0</td><td>0%</td></tr>
+<tr><td title="System.Void LightsOn.Launcher::OnJoinedRoom()"><a href="#file0_line73" class="navigatetohash">OnJoinedRoom()</a></td><td>0%</td><td>6</td><td>2</td><td>0</td><td>0%</td></tr>
 </tbody>
 </table>
 <h1>File(s)</h1>
@@ -122,19 +122,20 @@ var historyChartData9de78a16ef1345f4a9167d465e458078 = {
 <tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line67"></a><code>67</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;override&nbsp;void&nbsp;OnJoinRandomFailed(short&nbsp;returnCode,&nbsp;string&nbsp;message)&nbsp;{</code></td></tr>
 <tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line68"></a><code>68</code></td><td></td><td class="lightgray"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;#Critical:&nbsp;we&nbsp;failed&nbsp;to&nbsp;join&nbsp;a&nbsp;random&nbsp;room,&nbsp;maybe&nbsp;none&nbsp;exists&nbsp;or&nbsp;they&nbsp;are&nbsp;all&nbsp;full.&nbsp;No&nbsp;worries,&nbsp;we&nbsp;create</code></td></tr>
 <tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line69"></a><code>69</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PhotonNetwork.CreateRoom(null,&nbsp;new&nbsp;RoomOptions&nbsp;{&nbsp;MaxPlayers&nbsp;=&nbsp;maxPlayersPerRoom&nbsp;});</code></td></tr>
-<tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line70"></a><code>70</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></td></tr>
-<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line71"></a><code>71</code></td><td></td><td class="lightgray"><code></code></td></tr>
-<tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line72"></a><code>72</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;override&nbsp;void&nbsp;OnJoinedRoom()&nbsp;{</code></td></tr>
-<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line73"></a><code>73</code></td><td></td><td class="lightgray"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;#Critical:&nbsp;We&nbsp;only&nbsp;load&nbsp;if&nbsp;we&nbsp;are&nbsp;the&nbsp;first&nbsp;player,&nbsp;else&nbsp;we&nbsp;rely&nbsp;on&nbsp;`PhotonNetwork.AutomaticallySyncScene</code></td></tr>
-<tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line74"></a><code>74</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(PhotonNetwork.CurrentRoom.PlayerCount&nbsp;==&nbsp;1)&nbsp;{</code></td></tr>
-<tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line75"></a><code>75</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PhotonNetwork.LoadLevel(levelToLoad);</code></td></tr>
-<tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line76"></a><code>76</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></td></tr>
-<tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line77"></a><code>77</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></td></tr>
-<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line78"></a><code>78</code></td><td></td><td class="lightgray"><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code></td></tr>
-<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line79"></a><code>79</code></td><td></td><td class="lightgray"><code>}</code></td></tr>
+<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line70"></a><code>70</code></td><td></td><td class="lightgray"><code></code></td></tr>
+<tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line71"></a><code>71</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></td></tr>
+<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line72"></a><code>72</code></td><td></td><td class="lightgray"><code></code></td></tr>
+<tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line73"></a><code>73</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;override&nbsp;void&nbsp;OnJoinedRoom()&nbsp;{</code></td></tr>
+<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line74"></a><code>74</code></td><td></td><td class="lightgray"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;#Critical:&nbsp;We&nbsp;only&nbsp;load&nbsp;if&nbsp;we&nbsp;are&nbsp;the&nbsp;first&nbsp;player,&nbsp;else&nbsp;we&nbsp;rely&nbsp;on&nbsp;`PhotonNetwork.AutomaticallySyncScene</code></td></tr>
+<tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line75"></a><code>75</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(PhotonNetwork.CurrentRoom.PlayerCount&nbsp;==&nbsp;1)&nbsp;{</code></td></tr>
+<tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line76"></a><code>76</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PhotonNetwork.LoadLevel(levelToLoad);</code></td></tr>
+<tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line77"></a><code>77</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></td></tr>
+<tr class="coverableline" title="Not covered (0 visits)" data-coverage="{'AllTestMethods': {'VC': '0', 'LVS': 'red'}}"><td class="red">&nbsp;</td><td class="leftmargin rightmargin right">0</td><td class="rightmargin right"><a id="file0_line78"></a><code>78</code></td><td></td><td class="lightred"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></td></tr>
+<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line79"></a><code>79</code></td><td></td><td class="lightgray"><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code></td></tr>
+<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line80"></a><code>80</code></td><td></td><td class="lightgray"><code>}</code></td></tr>
 </tbody>
 </table>
-<div class="footer">Generated by: ReportGenerator 4.8.5.0<br />06/04/2021 - 15:28:23<br /><a href="https://github.com/danielpalme/ReportGenerator">GitHub</a> | <a href="http://www.palmmedia.de">www.palmmedia.de</a></div></div>
+<div class="footer">Generated by: ReportGenerator 4.8.5.0<br />07/04/2021 - 11:27:09<br /><a href="https://github.com/danielpalme/ReportGenerator">GitHub</a> | <a href="http://www.palmmedia.de">www.palmmedia.de</a></div></div>
 <div class="containerright">
 <div class="containerrightfixed">
 <h1>Methods/Properties</h1>
@@ -145,7 +146,7 @@ var historyChartData9de78a16ef1345f4a9167d465e458078 = {
 <a href="#file0_line45" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - Start()"><i class="icon-cube"></i>Start()</a><br />
 <a href="#file0_line53" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - Connect()"><i class="icon-cube"></i>Connect()</a><br />
 <a href="#file0_line67" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - OnJoinRandomFailed(System.Int16, System.String)"><i class="icon-cube"></i>OnJoinRandomFailed(System.Int16, System.String)</a><br />
-<a href="#file0_line72" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - OnJoinedRoom()"><i class="icon-cube"></i>OnJoinedRoom()</a><br />
+<a href="#file0_line73" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - OnJoinedRoom()"><i class="icon-cube"></i>OnJoinedRoom()</a><br />
 <br/></div>
 </div></div>
 <script type="text/javascript">
