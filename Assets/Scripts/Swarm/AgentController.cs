@@ -29,6 +29,8 @@ public class AgentController : MonoBehaviour
     Color gizmoCol;
 
     Vector3 originPoint;
+    public bool isReforming = false;
+    bool inPosition = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -58,45 +60,70 @@ public class AgentController : MonoBehaviour
         canCheckOOB = false;
         gizmoCol = Color.yellow;
         originPoint = transform.position;
+        inPosition = false;
+        isReforming = false;
     }
+
     // Update is called once per frame
     void Update()
     {
         if (init){
-            accumulatedTime += Time.deltaTime;
-            if (canUpdate){
-                canUpdate = false;
-                Vector3 finalDir;
-                if(canCheckOOB && CheckOOB()){
-                    finalDir = parent.transform.position - transform.position;
-                } else {
-                    Vector3 avoidanceVec = transform.forward; 
-                    bool avoiding = CheckCollisions(ref avoidanceVec);
-                    float avBias;
+            if (isReforming){
+                if (!inPosition){
+                    if (Vector3.Distance(transform.position, originPoint) <= 0.03){
+                        inPosition = true;
+                        transform.position = originPoint;
+                    }
                     
-                    if (avoiding){
-                        avBias = avoidanceBias;
-                    } else {
-                        avBias = 0; 
-                    }
-                    //Vector3 centreDir = Vector3.RotateTowards(transform.forward, parent.boidCentre - transform.position, turnSpeed * Time.deltaTime, 0.0f);
-                    Vector3 centreDir = parent.boidCentre - transform.position;
-                    Vector3 matchingDir = centreDir;//MatchDirection(centreDir);
-                    finalDir = (centreDir * centreBias + matchingDir * matchingBias + avoidanceVec * avBias) / (centreBias+matchingBias+avBias);
-                    //finalDir = (centreDir * centreBias + avoidanceVec * avoidanceBias) / (centreBias+avoidanceBias);
-                    if(parent.showDirectionArrows){
-                        Debug.DrawRay(transform.position, finalDir, Color.red);
-                    }
+                    //Vector3 homeDir = originPoint;
+                    Vector3 dir = Vector3.RotateTowards(transform.forward, originPoint - transform.position, turnSpeed * Time.deltaTime, 0.0f);
+                    transform.rotation = Quaternion.LookRotation(dir);
                 }
-                finalDir.x += Random.Range(-randomTurnAmount, randomTurnAmount);
-                finalDir.y += Random.Range(-randomTurnAmount, randomTurnAmount);
-                finalDir.z += Random.Range(-randomTurnAmount, randomTurnAmount);
-                finalDir = Vector3.RotateTowards(transform.forward, finalDir, turnSpeed * accumulatedTime, 0.0f);
-                transform.rotation = Quaternion.LookRotation(finalDir);
-                accumulatedTime = 0f;
             }
-            transform.position += transform.forward * speed * Time.deltaTime;      
+            else{
+                accumulatedTime += Time.deltaTime;
+                if (canUpdate){
+                    canUpdate = false;
+                    Vector3 finalDir;
+                    if(canCheckOOB && CheckOOB()){
+                        finalDir = parent.transform.position - transform.position;
+                    } else {
+                        Vector3 avoidanceVec = transform.forward; 
+                        bool avoiding = CheckCollisions(ref avoidanceVec);
+                        float avBias;
+                        
+                        if (avoiding){
+                            avBias = avoidanceBias;
+                        } else {
+                            avBias = 0; 
+                        }
+                        //Vector3 centreDir = Vector3.RotateTowards(transform.forward, parent.boidCentre - transform.position, turnSpeed * Time.deltaTime, 0.0f);
+                        Vector3 centreDir = parent.boidCentre - transform.position;
+                        Vector3 matchingDir = centreDir;//MatchDirection(centreDir);
+                        finalDir = (centreDir * centreBias + matchingDir * matchingBias + avoidanceVec * avBias) / (centreBias+matchingBias+avBias);
+                        //finalDir = (centreDir * centreBias + avoidanceVec * avoidanceBias) / (centreBias+avoidanceBias);
+                        if(parent.showDirectionArrows){
+                            Debug.DrawRay(transform.position, finalDir, Color.red);
+                        }
+                    }
+                    finalDir.x += Random.Range(-randomTurnAmount, randomTurnAmount);
+                    finalDir.y += Random.Range(-randomTurnAmount, randomTurnAmount);
+                    finalDir.z += Random.Range(-randomTurnAmount, randomTurnAmount);
+                    finalDir = Vector3.RotateTowards(transform.forward, finalDir, turnSpeed * accumulatedTime, 0.0f);
+                    transform.rotation = Quaternion.LookRotation(finalDir);
+                    accumulatedTime = 0f;
+                }
+            }
+            if (!inPosition){
+                transform.position += transform.forward * speed * Time.deltaTime;      
+            }
         }
+    }
+
+    public void StartReform(){
+        speed *= 1.5f;
+        turnSpeed *= 6;
+        isReforming = true;
     }
 
     Vector3 CombinedOverlap(Vector3 startDir){

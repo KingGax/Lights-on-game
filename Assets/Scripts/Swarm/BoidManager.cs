@@ -44,6 +44,7 @@ public class BoidManager : MonoBehaviour
     bool init = false;
     private Vector3[] spawnPoints;
     private bool spawnPointsSet = false;
+    bool isReforming = false;
     //Camera camera;
     List<AgentController> agents = new List<AgentController>();
     // Start is called before the first frame update
@@ -124,6 +125,20 @@ public class BoidManager : MonoBehaviour
         updateTimer -= Time.deltaTime;
     }
 
+    public void SendReformSignal(){
+        isReforming = true;
+        foreach(AgentController agent in agents){
+            agent.StartReform();
+        }
+        StartCoroutine(DestroyAgents(1.5f));
+    }
+
+    IEnumerator DestroyAgents(float time){
+        yield return new WaitForSeconds(time);
+        if (isReforming){
+            Destroy(gameObject);
+        }
+    }
 
     IEnumerator Timers(){
         while (true){

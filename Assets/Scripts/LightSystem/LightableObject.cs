@@ -240,7 +240,8 @@ public class LightableObject : MonoBehaviour {
         }
         transform.parent.gameObject.layer = defaultLayer;
         if (canSwarm){
-            Destroy(boidManagerInstance);
+            boidManagerInstance.GetComponent<BoidManager>().SendReformSignal();
+            //Destroy(boidManagerInstance);
         }
         //move for optimisation at some point
         Light[] lights = GetComponentsInChildren<Light>();
