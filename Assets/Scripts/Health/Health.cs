@@ -32,7 +32,7 @@ public class Health : MonoBehaviour {
     }
 
     public virtual void Damage(float damage, float stunDuration) {
-        pv.RPC("DamageRPC", RpcTarget.All, damage);
+        pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);
     }
 
     [PunRPC]
@@ -41,11 +41,14 @@ public class Health : MonoBehaviour {
             PhotonNetwork.CleanRpcBufferIfMine(pv);
         }
         Destroy(gameObject);
-
     }
 
     public virtual void Die() {
-        AudioManager.PlaySFX(SoundClips.Instance.SFXKill, transform.position);
+        //AudioManager.PlaySFX(SoundClips.Instance.SFXKill, transform.position);
         pv.RPC("DieRPC", RpcTarget.AllBuffered);
+    }
+
+    public float getHealth() {
+        return health;
     }
 }}}
