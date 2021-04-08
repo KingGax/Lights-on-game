@@ -22,11 +22,15 @@ public class BoidManager : MonoBehaviour
     public float randomTurnAmount; //rad/s
     public Vector3 boidCentre;
     public GameObject agentPrefab;
-    public Material agentMat;
+    Material agentMat;
     [Header("Materials")]
+    public ColouredMaterial materials;
     public Material redMat;
     public Material greenMat;
     public Material blueMat;
+    // public Material hiddenRed;
+    // public Material hiddenGreen;
+    // public Material hiddenBlue;
     [Header("Biases")]
     public float centreBias;
     public float matchingBias;
@@ -50,6 +54,7 @@ public class BoidManager : MonoBehaviour
     private bool spawnPointsSet = false;
     bool isReforming = false;
     private IEnumerator destroyRoutine;
+    public LightColour col;
     //Camera camera;
     List<AgentController> agents = new List<AgentController>();
     public LightableObject lightableObject;
@@ -79,15 +84,15 @@ public class BoidManager : MonoBehaviour
         //boidCentre.y += 1f;
     }
     
-    public void SetMat(Color col){
-        if (col == Color.red){
-            agentMat = redMat;
-        } else if (col == Color.green){
-            agentMat = greenMat;
-        } else{
-            agentMat = blueMat;
-        } 
-    }
+    // public void SetCol(LightColour col){
+    //     if (col == Color.red){
+    //         agentMat = redMat;
+    //     } else if (col == Color.green){
+    //         agentMat = greenMat;
+    //     } else{
+    //         agentMat = blueMat;
+    //     } 
+    // }
 
     public void SetSpawnPoints(Vector3[] points, float maxRadius) {
         spawnPoints = points;
@@ -97,6 +102,11 @@ public class BoidManager : MonoBehaviour
     }
 
     public void Spawn(){
+        //Related to issue: https://issuetracker.unity3d.com/issues/dot-material-changes-made-to-a-gameobject-also-apply-to-the-instantiated-gameobjects-material
+        MeshRenderer copyofmaterial = GetComponent<MeshRenderer>(); //why do i have to do this :(
+        copyofmaterial.material = new Material(materials.get(col));
+        agentMat = copyofmaterial.material;
+        //agentMat.color = new Color(agentMat.color.r, agentMat.color.g, agentMat.color.b, 1f);
         for (int i = 0; i < agentCount; i++){
             Vector3 pos;
             if (spawnPointsSet) {
@@ -131,7 +141,14 @@ public class BoidManager : MonoBehaviour
     {
         checkOOBTimer -= Time.deltaTime;
         updateTimer -= Time.deltaTime;
-        if (isReforming) reformTimer -= Time.deltaTime;
+        if (isReforming) {
+            reformTimer -= Time.deltaTime;
+            float lerp = (Mathf.Max(0, reformTimer) / reformTimerMax);
+            foreach(AgentController agent in agents){
+                agent.LerpOpacity(lerp);
+            }
+            
+        }
     }
 
     public float SendReformSignal(){
@@ -147,9 +164,12 @@ public class BoidManager : MonoBehaviour
     public void CancelReform(){
         //StopCoroutine(destroyRoutine);
         isReforming = false;
+        agentMat.color = new Color(agentMat.color.r, agentMat.color.g, agentMat.color.b, 1f);
         foreach(AgentController agent in agents){
             agent.StopReform(agentSpeed, turnSpeed);
+            agent.GetComponent<MeshRenderer>().material = agentMat;
         }
+        
     }
 
     IEnumerator DestroyAgents(float time){

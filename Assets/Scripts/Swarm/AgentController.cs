@@ -34,6 +34,7 @@ public class AgentController : MonoBehaviour
     Vector3 originPoint;
     public bool isReforming = false;
     bool inPosition = false;
+    MeshRenderer renderer;
     // Start is called before the first frame update
     void Awake()
     {
@@ -65,6 +66,7 @@ public class AgentController : MonoBehaviour
         originPoint = transform.position;
         inPosition = false;
         isReforming = false;
+        renderer = GetComponent<MeshRenderer>();
     }
 
     // Update is called once per frame
@@ -123,6 +125,17 @@ public class AgentController : MonoBehaviour
         }
     }
 
+    // public void LerpMat(Material origMat, Material targetMat, float amount){
+    //     renderer.material.Lerp(origMat, targetMat, amount);
+    // }
+
+    public void LerpOpacity(float a){
+        //Color col = new Color(renderer.material.color.r, renderer.material.color.g, renderer.material.color.b, a);
+        Color col = renderer.material.color;
+        col.a = a;
+        renderer.material.color = col;
+        //.color = new Color(renderer.material.color.r, renderer.material.color.g, renderer.material.color.b, a);
+    }
     public void StopReform(float _speed, float _turnspeed){
         speed = _speed;
         turnSpeed = _turnspeed;

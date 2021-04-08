@@ -280,7 +280,8 @@ namespace LightsOn {
                         boidManagerInstance.transform.parent = transform.parent;
                         BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
                         man.lightableObject = this;
-                        man.SetMat(colour.ToColor());
+                        man.col = colour;
+                        //man.SetCol(colour);
                         if (cloudPoints != null) {
                             man.SetSpawnPoints(GetTransformedPoints(), maxSwarmRadius);
                         }
