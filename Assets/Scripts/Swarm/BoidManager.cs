@@ -74,8 +74,9 @@ public class BoidManager : MonoBehaviour
             zMax = zMin;
             zMin = tmp;
         }
-        boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax), transform.position.z + Random.Range(zMin+0.01f, zMax));
-        boidCentre.y += 1f;
+        boidCentre = transform.position;
+        //boidCentre = new Vector3(transform.position.x + Random.Range(xMin+0.01f, xMax), transform.position.y + Random.Range(yMin+0.01f, yMax), transform.position.z + Random.Range(zMin+0.01f, zMax));
+        //boidCentre.y += 1f;
     }
     
     public void SetMat(Color col){

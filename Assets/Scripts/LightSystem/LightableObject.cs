@@ -34,7 +34,7 @@ namespace LightsOn {
             Collider physicsCollider;
             GameObject boidManagerPrefab;
             GameObject boidManagerInstance;
-            protected bool canSwarm;
+            protected bool canSwarm = false;
             public float maxSwarmRadius = 1;
             public PointCloudSO cloudPoints;
             Vector3[] transformedPoints;
@@ -44,7 +44,7 @@ namespace LightsOn {
             float fadeTimerMax = 0f;
             BoxCollider physicsBox;
             bool usesBoxCollider= false;
-
+            //public Transform swarmPoint;
             virtual protected void Awake() {
                 hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
             }
@@ -276,7 +276,7 @@ namespace LightsOn {
                 if (canSwarm) {
                     fading = false;
                     if (boidManagerInstance == null) {
-                        boidManagerInstance = Instantiate(boidManagerPrefab, transform.position, transform.rotation);
+                        boidManagerInstance = Instantiate(boidManagerPrefab, transform.TransformPoint(GetComponent<BoxCollider>().center), transform.rotation);
                         boidManagerInstance.transform.parent = transform.parent;
                         BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
                         man.lightableObject = this;
