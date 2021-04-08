@@ -139,6 +139,7 @@ public class AgentController : MonoBehaviour
     public void StopReform(float _speed, float _turnspeed){
         speed = _speed;
         turnSpeed = _turnspeed;
+        transform.rotation = new Quaternion(Random.Range(0f, 1f),Random.Range(0f, 1f),Random.Range(0f, 1f),Random.Range(0f, 1f));
         isReforming = false;
         inPosition = false;
     }
