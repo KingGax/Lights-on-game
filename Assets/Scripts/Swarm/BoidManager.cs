@@ -55,13 +55,15 @@ public class BoidManager : MonoBehaviour
     bool isReforming = false;
     private IEnumerator destroyRoutine;
     public LightColour col;
+    bool visible = false;
+    MeshRenderer renderer;
+    public GameObject visionObject;
     //Camera camera;
     List<AgentController> agents = new List<AgentController>();
-    public LightableObject lightableObject;
     // Start is called before the first frame update
      private void Awake() {
         //camera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        
+        renderer = visionObject.GetComponent<MeshRenderer>();
         destroyRoutine = DestroyAgents(1.5f);
         init = true;
         if (xMax < xMin){
@@ -94,16 +96,19 @@ public class BoidManager : MonoBehaviour
     //     } 
     // }
 
-    public void SetSpawnPoints(Vector3[] points, float maxRadius) {
+    public void SetSpawnPoints(Vector3[] points, float maxRadius, Vector3 size, Vector3 pos) {
         spawnPoints = points;
         spawnPointsSet = true;
         agentCount = points.Length;
         maxRadiusSquare = Mathf.Pow(maxRadius, 2);
+        //Vector3 newSize = new Vector3(size.x*transform.parent.localScale.x, size.y/transform.parent.localScale.y, size.z/transform.parent.localScale.z);
+        visionObject.transform.position = boidCentre;
+        visionObject.transform.localScale = size;
     }
 
     public void Spawn(){
         //Related to issue: https://issuetracker.unity3d.com/issues/dot-material-changes-made-to-a-gameobject-also-apply-to-the-instantiated-gameobjects-material
-        MeshRenderer copyofmaterial = GetComponent<MeshRenderer>(); //why do i have to do this :(
+        LineRenderer copyofmaterial = GetComponent<LineRenderer>(); //why do i have to do this :(
         copyofmaterial.material = new Material(materials.get(col));
         agentMat = copyofmaterial.material;
         //agentMat.color = new Color(agentMat.color.r, agentMat.color.g, agentMat.color.b, 1f);
@@ -139,6 +144,17 @@ public class BoidManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!visible && renderer.isVisible){
+            visible = true;
+            foreach(AgentController agent in agents){
+                agent.visible = true;
+            }
+        } else if (visible && !renderer.isVisible){
+            visible = false;
+            foreach(AgentController agent in agents){
+                agent.visible = false;
+            }
+        }
         checkOOBTimer -= Time.deltaTime;
         updateTimer -= Time.deltaTime;
         if (isReforming) {
@@ -175,7 +191,7 @@ public class BoidManager : MonoBehaviour
     IEnumerator DestroyAgents(float time){
         yield return new WaitForSeconds(time);
         if (isReforming){
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject);
         }
     }
 
@@ -195,7 +211,7 @@ public class BoidManager : MonoBehaviour
             }
             if (isReforming && reformTimer <= 0){
                 //lightableObject.FinishAppearing();
-                Destroy(gameObject);
+                Destroy(transform.parent.gameObject);
             }
             yield return null;
         }

@@ -44,6 +44,7 @@ namespace LightsOn {
             float fadeTimerMax = 0f;
             BoxCollider physicsBox;
             bool usesBoxCollider= false;
+            
             //public Transform swarmPoint;
             virtual protected void Awake() {
                 hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
@@ -276,18 +277,19 @@ namespace LightsOn {
                 if (canSwarm) {
                     fading = false;
                     if (boidManagerInstance == null) {
-                        boidManagerInstance = Instantiate(boidManagerPrefab, transform.TransformPoint(GetComponent<BoxCollider>().center), transform.rotation);
+                        boidManagerInstance = Instantiate(boidManagerPrefab, transform.position, transform.rotation);
                         boidManagerInstance.transform.parent = transform.parent;
-                        BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
-                        man.lightableObject = this;
+                        BoidManager man = boidManagerInstance.GetComponentInChildren<BoidManager>();
+                        man.boidCentre = transform.TransformPoint(GetComponent<BoxCollider>().center);
+                        //man.lightableObject = this;
                         man.col = colour;
                         //man.SetCol(colour);
                         if (cloudPoints != null) {
-                            man.SetSpawnPoints(GetTransformedPoints(), maxSwarmRadius);
+                            man.SetSpawnPoints(GetTransformedPoints(), maxSwarmRadius, GetComponent<BoxCollider>().bounds.size, GetComponent<BoxCollider>().transform.position);
                         }
                         man.Spawn();
                     } else {
-                        BoidManager man = boidManagerInstance.GetComponent<BoidManager>();
+                        BoidManager man = boidManagerInstance.GetComponentInChildren<BoidManager>();
                         man.CancelReform();
                     }
                 }
@@ -309,7 +311,7 @@ namespace LightsOn {
                 }
                 transform.parent.gameObject.layer = defaultLayer;
                 if (canSwarm) {
-                    fadeTimerMax = boidManagerInstance.GetComponent<BoidManager>().SendReformSignal();
+                    fadeTimerMax = boidManagerInstance.GetComponentInChildren<BoidManager>().SendReformSignal();
                     fadeTimer = fadeTimerMax;
                     fading = true;
                     //Destroy(boidManagerInstance);

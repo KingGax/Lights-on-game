@@ -35,6 +35,7 @@ public class AgentController : MonoBehaviour
     public bool isReforming = false;
     bool inPosition = false;
     MeshRenderer renderer;
+    public bool visible = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -72,7 +73,7 @@ public class AgentController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (init){
+        if (init && visible){
             if (isReforming){
                 if (!inPosition){
                     if (Vector3.Distance(transform.position, originPoint) <= 0.06){
