@@ -1,9 +1,9 @@
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RectanglePointCloud : PointCloud
-{
+public class RectanglePointCloud : PointCloud {
     public float rectWidth;
     public float rectDepth;
     public float yNumSteps;
@@ -21,6 +21,7 @@ public class RectanglePointCloud : PointCloud
         if (mesh == null) {
             Debug.LogError("No mesh assigned");
         }
+
         tempCollider.sharedMesh = mesh;
         List<Vector3> pointsList = new List<Vector3>();
 
@@ -34,18 +35,17 @@ public class RectanglePointCloud : PointCloud
                 Ray frontRay = new Ray(frontRayStart, rayMiddle - frontRayStart);
                 if (tempCollider.Raycast(frontRay, out hit, (rayMiddle - frontRayStart).magnitude)) {
                     pointsList.Add(hit.point + pointShift);
-                }
-                else {
+                } else {
                     pointsMissed++;
                 }
                 Ray backRay = new Ray(backRayStart, rayMiddle - backRayStart);
                 if (tempCollider.Raycast(backRay, out hit, (rayMiddle - backRayStart).magnitude)) {
                     pointsList.Add(hit.point + pointShift);
-                }
-                else {
+                } else {
                     pointsMissed++;
                 }
             }
+
             for (int k = 0; k < depthSamples; k++) {
                 RaycastHit hit;
                 Vector3 centrePoint = Vector3.Lerp(bottomCentre, topCentre, i / yNumSteps);
@@ -73,6 +73,7 @@ public class RectanglePointCloud : PointCloud
 
         return pointsList.ToArray();
     }
+
     protected override void OnDrawGizmos() {
         if (drawGizmos) {
             base.OnDrawGizmos();
@@ -98,6 +99,7 @@ public class RectanglePointCloud : PointCloud
                         Ray backRay = new Ray(backRayStart, rayMiddle - backRayStart);
                         Gizmos.DrawRay(backRay);
                     }
+
                     for (int k = 0; k < depthSamples; k++) {
                         RaycastHit hit;
                         Vector3 centrePoint = Vector3.Lerp(bottomCentre, topCentre, i / yNumSteps);
@@ -111,7 +113,10 @@ public class RectanglePointCloud : PointCloud
                     }
                 }
             }
-            
         }
     }
 }
+
+#else
+public class RectanglePointCloud : PointCloud {}
+#endif
