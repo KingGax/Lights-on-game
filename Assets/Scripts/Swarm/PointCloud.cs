@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public abstract class PointCloud : MonoBehaviour {
     public Transform rotationParent;
 
     protected bool drawGizmos = false;
-    // Start is called before the first frame update
+
     public void LoadFile() {
         if (cloudPrefab != null) {
             points = cloudPrefab.points;
@@ -21,10 +22,12 @@ public abstract class PointCloud : MonoBehaviour {
             Debug.LogError("Set the cloudPrefab to be a scriptable object");
         }
     }
+
     public void GeneratePoints() {
         points = CreatePointList();
         SaveFile();
     }
+
     public void HideGizmos() {
         drawGizmos = false;
     }
@@ -32,6 +35,7 @@ public abstract class PointCloud : MonoBehaviour {
     public void ShowGizmos() {
         drawGizmos = true;
     }
+
     protected void DrawPoints() {
         if (showPoints) {
             Gizmos.color = Color.white;
@@ -50,6 +54,7 @@ public abstract class PointCloud : MonoBehaviour {
             }
         }
     }
+
     protected virtual void OnDrawGizmos() {
         if (drawGizmos) {
             DrawPoints();
@@ -73,7 +78,5 @@ public abstract class PointCloud : MonoBehaviour {
             Debug.LogError("No cloud prefab set, changes will not be saved");
         }
     }
-
-
-
 }
+#endif
