@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+namespace LightsOn {
+namespace AudioSystem {
+
 public class Composition : MonoBehaviour {
 
     public AudioClip musicClip;
@@ -19,4 +22,4 @@ public class Composition : MonoBehaviour {
     public double getSectionStartTime() {
         return beatstamps[section] * 60.0f / bpm;
     }
-}
+}}}

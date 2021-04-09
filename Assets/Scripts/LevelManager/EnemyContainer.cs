@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.LightingSystem;
 
 public class EnemyContainer : MonoBehaviour {
     public int waveNumber;
     public float waveOffset;
-    public LightableColour enemyColour;
+    public LightColour enemyColour;
     public GameObject enemyPrefab;
     private Transform enemyParent;
     // Start is called before the first frame update

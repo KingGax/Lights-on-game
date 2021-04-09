@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Photon.Pun;
+using LightsOn.AudioSystem;
+using LightsOn.HealthSystem;
+
+namespace LightsOn {
+namespace WeaponSystem {
 
 public class PlayerGun : PlayerWeapon {
     public Gun primaryFire;
@@ -153,7 +158,6 @@ public class PlayerGun : PlayerWeapon {
         }
     }
 
-
     protected override void UseWeapon() {
         ammo -= 1;
         GameObject newBullet = PhotonNetwork.Instantiate(bullet.name, firePoint.position, transform.rotation);
@@ -164,4 +168,4 @@ public class PlayerGun : PlayerWeapon {
             Reload();
         }        
     }
-}
+}}}

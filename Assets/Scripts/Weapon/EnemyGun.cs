@@ -1,28 +1,11 @@
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.LightingSystem;
+
+namespace LightsOn {
+namespace WeaponSystem {
 
 public class EnemyGun : Gun {
-
-    private string bulletStr;
-    
-
-    public void SetColour(LightableColour col) {
-        switch (col) {
-            case LightableColour.Red:
-                bulletStr = "RedEnemyBullet";
-                break;
-            case LightableColour.Green:
-                bulletStr = "GreenEnemyBullet";
-                break;
-            case LightableColour.Blue:
-                bulletStr = "BlueEnemyBullet";
-                break;
-            default:
-                break;
-        }
-    }
-
-    
 
     protected override void UseWeapon() {
         if (target == null){
@@ -30,8 +13,12 @@ public class EnemyGun : Gun {
         }
         Vector3 direction = target.transform.position - firePoint.position;
        
-        GameObject newBullet = PhotonNetwork.Instantiate(bulletStr, firePoint.position, transform.rotation);
+        GameObject newBullet = PhotonNetwork.Instantiate(bullet.name, firePoint.position, transform.rotation);
         BulletController bc = newBullet.GetComponent<BulletController>();
+        LightableObject lo = newBullet.GetComponentInChildren<LightableObject>();
+        if (lo != null) {
+            lo.SetColour(colour);
+        }
         bc.Fire(damage, hitStunDuration, bulletSpeed, direction);
     }
-}
+}}}

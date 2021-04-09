@@ -64,6 +64,7 @@ MonoBehaviour:
   damage: 0
   hitStunDuration: 0
   debug: 0
+  colour: 0
   knockback: 0
   knockbackDuration: 0
 --- !u!114 &7480655745163018030
@@ -159,6 +160,7 @@ MonoBehaviour:
   weaponParent: {fileID: 457646602811709762}
   weaponScript: {fileID: 6992758575231790886}
   backoffThreshold: 2.52
+  closeToPlayerDistance: 10
 --- !u!114 &5660109075396830393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +216,7 @@ NavMeshAgent:
   m_AngularSpeed: 240
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 1.61
   m_BaseOffset: 0
@@ -302,15 +304,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 16711680
-  greenMat: {fileID: 2100000, guid: 348b1730e45edba49aa34bd0b96b05af, type: 2}
-  blueMat: {fileID: 2100000, guid: 6ed6308305f8b2f4385f29e23eb41306, type: 2}
-  redMat: {fileID: 2100000, guid: b054dcf8ea2f5594c8f086ade5469e83, type: 2}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
-  colourRange: 0
+  materials: {fileID: 11400000, guid: 64d9bd2656cf1ddec895b9b8189d156b, type: 2}
+  hiddenMaterials: {fileID: 11400000, guid: 855a7e2072f9c79a798b3ab4cee6a304, type: 2}
+  maxSwarmRadius: 1
+  cloudPoints: {fileID: 11400000, guid: eab42beedcb064e44a903ae6590e6e45, type: 2}
   childObjects: []
+  usesMeshRenderer: 0
   smr: {fileID: 5313805127700934067}
 --- !u!1 &7672520738233504966
 GameObject:
@@ -491,6 +490,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7725518439608744512, guid: 64a36b542fe38014baf24c47b4008f9d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7725518439608744512, guid: 64a36b542fe38014baf24c47b4008f9d,
         type: 3}

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+namespace LightsOn {
+namespace AudioSystem {
+
 public class AudioManager : MonoBehaviour {
 
     public AudioMixer mixer;
@@ -51,7 +54,6 @@ public class AudioManager : MonoBehaviour {
         } else if (time + transitionLength > nextTransitionEnd) {
             float delta = Mathf.Sin(Mathf.PI/2 * (float)(nextTransitionEnd - time) / transitionLength);
             float pctTransition = 1.0f - Mathf.Min(1.0f, Mathf.Max(delta, 0.0f));
-            Debug.Log(pctTransition);
             float frq = 10.0f + 2990.0f * pctTransition;
             mixer.SetFloat("Track1HighPass", frq);
             mixer.SetFloat("Track2HighPass", frq);
@@ -94,4 +96,4 @@ public class AudioManager : MonoBehaviour {
     public static void PlaySFX(AudioClip clip, Vector3 pos) {
         AudioSource.PlayClipAtPoint(clip, pos);
     }
-}
+}}}

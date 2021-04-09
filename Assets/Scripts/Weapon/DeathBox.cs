@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.HealthSystem;
+
+namespace LightsOn {
+namespace WeaponSystem {
 
 public class DeathBox : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
@@ -13,4 +17,4 @@ public class DeathBox : MonoBehaviour {
             }
         }
     }
-}
+}}}

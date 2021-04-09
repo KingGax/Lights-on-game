@@ -1,12 +1,17 @@
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.AudioSystem;
+
+namespace LightsOn {
+namespace HealthSystem {
 
 [RequireComponent(typeof(PhotonView))]
 public class Health : MonoBehaviour {
 
-    protected PhotonView pv;
+    [MinAttribute(1)]
     public float maxHealth;
     protected float health;
+    protected PhotonView pv;
 
     public virtual void Awake() {
         pv = gameObject.GetComponent<PhotonView>();
@@ -27,7 +32,7 @@ public class Health : MonoBehaviour {
     }
 
     public virtual void Damage(float damage, float stunDuration) {
-        pv.RPC("DamageRPC", RpcTarget.All, damage);
+        pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);
     }
 
     [PunRPC]
@@ -36,11 +41,14 @@ public class Health : MonoBehaviour {
             PhotonNetwork.CleanRpcBufferIfMine(pv);
         }
         Destroy(gameObject);
-
     }
 
     public virtual void Die() {
-        AudioManager.PlaySFX(SoundClips.Instance.SFXKill, transform.position);
+        //AudioManager.PlaySFX(SoundClips.Instance.SFXKill, transform.position);
         pv.RPC("DieRPC", RpcTarget.AllBuffered);
     }
-}
+
+    public float getHealth() {
+        return health;
+    }
+}}}

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using LightsOn.LightingSystem;
 
 public class EnemyController : Enemy {
 
@@ -12,7 +13,7 @@ public class EnemyController : Enemy {
     public float shootingTimerMax;
     public float engageDistance;
     float shootingTimer;
-    LightableColour bulletColour;
+    LightColour bulletColour;
     float startAngle;
     float endAngle;
     float minX;
@@ -55,7 +56,7 @@ public class EnemyController : Enemy {
         }
     }
 
-    public void SetBulletColour(LightableColour col) {
+    public void SetBulletColour(LightColour col) {
         bulletColour = col;
     }
 
@@ -91,19 +92,7 @@ public class EnemyController : Enemy {
         }
     }
 
-    // Update is called once per frame
-    void Update() {
-        if (pv == null || !pv.IsMine) return;
-        if (!hasPlayerJoined){
-            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
-                hasPlayerJoined = true;
-                int index = SelectTarget();
-                weapon.SetTarget(index);
-            } else {
-                return;
-            }
-        } 
-        //playerObj = GlobalValues.Instance.players[0];
+    void ManageStates(){
         if (aiEnabled) {
             switch (enemyState) {
                 case EnemyState.Patrolling:
@@ -122,6 +111,22 @@ public class EnemyController : Enemy {
                     break;
             }
         }
+    }
+
+    // Update is called once per frame
+    void Update() {
+        if (pv == null || !pv.IsMine) return;
+        if (!hasPlayerJoined){
+            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+                hasPlayerJoined = true;
+                int index = SelectTarget();
+                weapon.SetTarget(index);
+            } else {
+                return;
+            }
+        } 
+        //playerObj = GlobalValues.Instance.players[0];
+        ManageStates();
     }
 
     void Patrol() {

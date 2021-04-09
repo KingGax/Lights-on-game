@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using LightsOn.WeaponSystem;
 
-public class ChargerEnemyController : Enemy
-{
+public class ChargerEnemyController : Enemy {
 
     public float damage;
     public float knockback;
@@ -22,10 +22,11 @@ public class ChargerEnemyController : Enemy
     float playerPositionPoll;
     public GameObject weaponParent;
     public ContactWeapon weaponScript;
+    Vector3 savedSpeed = new Vector3(0,0,0);
     public float backoffThreshold;
     float pathStoppingThreshold = 0.01f;
-    enum EnemyState
-    {
+    public float closeToPlayerDistance;
+    enum EnemyState {
         Charging, //Charging towards the player
         Patrolling, //Moving/idle state - hasn't engaged the player yet
         ChargeStart, //Preparing to charge
@@ -55,6 +56,14 @@ public class ChargerEnemyController : Enemy
         }
     }
 
+    public void Disappear(){
+        savedSpeed = agent.velocity;
+    }
+
+    public void Appear(){
+        agent.velocity = savedSpeed;
+        savedSpeed = new Vector3(0,0,0);
+    }
     void Patrol()
     {
         float minDist  = Mathf.Infinity;
@@ -109,6 +118,7 @@ public class ChargerEnemyController : Enemy
         {
             NavMeshHit destPos;
             NavMesh.SamplePosition(playerObj.transform.position, out destPos, 2f, NavMesh.AllAreas);
+            agent.autoBraking = (Vector3.Distance(destPos.position, transform.position) > closeToPlayerDistance); //if closer than threshold, don't autobrake
             agent.destination = destPos.position;
             playerPositionPoll = playerPositionPollMax;
         }
@@ -171,22 +181,9 @@ public class ChargerEnemyController : Enemy
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (pv == null || !pv.IsMine) return;
-        if (!hasPlayerJoined){
-            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
-                hasPlayerJoined = true;
-                SelectTarget();
-            } else {
-                return;
-            }
-        } 
+    void ManageStates(){
         if (aiEnabled)
         {
-            //Debug.Log("Count: " + GlobalValues.Instance.players.Count);
-            //playerObj = GlobalValues.Instance.players[0];
             switch (enemyState)
             {
                 case EnemyState.Patrolling:
@@ -211,6 +208,21 @@ public class ChargerEnemyController : Enemy
                     break;
             }
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (pv == null || !pv.IsMine) return;
+        if (!hasPlayerJoined){
+            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+                hasPlayerJoined = true;
+                SelectTarget();
+            } else {
+                return;
+            }
+        } 
+        ManageStates();
     }
 
 

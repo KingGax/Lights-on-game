@@ -20,12 +20,6 @@ public class GlobalValues : MonoBehaviour {
     public Material defaultGreen;
     public Material defaultBlue;
     public Material defaultRed;
-    public Material hiddenGreen;
-    public Material hiddenBlue;
-    public Material hiddenRed;
-    public Material hiddenCyan;
-    public Material hiddenYellow;
-    public Material hiddenMagenta;
     public Transform respawnPoint;
     public Transform p1spawn;
     public Transform p2Spawn;
@@ -70,6 +64,7 @@ public class GlobalValues : MonoBehaviour {
             }
         }*/
     }
+
     private void UpdateGlobalValues() {
         _instance.respawnPoint = respawnPoint;
         _instance.p1spawn = p1spawn;

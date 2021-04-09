@@ -1,5 +1,8 @@
 using UnityEngine;
 
+namespace LightsOn {
+namespace AudioSystem {
+
 public class SoundClips : MonoBehaviour {
     
     private static SoundClips _instance;
@@ -19,4 +22,4 @@ public class SoundClips : MonoBehaviour {
             _instance = this;
         }
     }
-}
+}}}
