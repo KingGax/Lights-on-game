@@ -79,4 +79,7 @@ public abstract class PointCloud : MonoBehaviour {
         }
     }
 }
+#else
+using UnityEngine;
+public abstract class PointCloud : MonoBehaviour {}
 #endif

@@ -1,10 +1,10 @@
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class CircularPointCloud : PointCloud
-{
+public class CircularPointCloud : PointCloud {
     public float scannerCircleRadius;
     public Vector3 scannerBottom;
     public Vector3 scannerTop;
@@ -69,3 +69,6 @@ public class CircularPointCloud : PointCloud
     }
 
 }
+#else
+public class CircularPointCloud : PointCloud {}
+#endif
