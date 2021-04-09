@@ -278,7 +278,7 @@ namespace LightsOn {
                     fading = false;
                     if (boidManagerInstance == null) {
                         boidManagerInstance = Instantiate(boidManagerPrefab, transform.position, transform.rotation);
-                        boidManagerInstance.transform.parent = transform.parent;
+                        //boidManagerInstance.transform.parent = transform.parent;
                         BoidManager man = boidManagerInstance.GetComponentInChildren<BoidManager>();
                         man.boidCentre = transform.TransformPoint(GetComponent<BoxCollider>().center);
                         //man.lightableObject = this;
