@@ -248,13 +248,7 @@ namespace LightsOn {
                 }
             }
             private Vector3[] GetTransformedPoints() {
-                bool regeneratePoints = false;
-                if (transformedPoints == null) {
-                    regeneratePoints = true;
-                } else if (transform.localRotation != lastRotation) {
-                    regeneratePoints = true;
-                }
-                if (regeneratePoints) {
+                if (cloudPoints != null) {
                     Quaternion defaultQuat = cloudPoints.initialRotation;
                     Quaternion rotationQuat = transform.parent.rotation * Quaternion.Inverse(defaultQuat); //trivially
                     Vector3[] newPoints = new Vector3[cloudPoints.points.Length];
@@ -263,7 +257,7 @@ namespace LightsOn {
                     }
                     return newPoints;
                 } else {
-                    return transformedPoints;
+                    return null;
                 }
             }
 
@@ -293,10 +287,6 @@ namespace LightsOn {
                         man.CancelReform();
                     }
                 }
-                Tooltip[] tooltips = GetComponentsInChildren<Tooltip>();
-                foreach (Tooltip t in tooltips) {
-                    t.Dismiss();
-                }
 
                 Light[] lights = GetComponentsInChildren<Light>();
                 foreach (Light l in lights) {
@@ -311,7 +301,7 @@ namespace LightsOn {
                 }
                 transform.parent.gameObject.layer = defaultLayer;
                 if (canSwarm) {
-                    fadeTimerMax = boidManagerInstance.GetComponentInChildren<BoidManager>().SendReformSignal();
+                    fadeTimerMax = boidManagerInstance.GetComponentInChildren<BoidManager>().SendReformSignal(GetTransformedPoints());
                     fadeTimer = fadeTimerMax;
                     fading = true;
                     //Destroy(boidManagerInstance);

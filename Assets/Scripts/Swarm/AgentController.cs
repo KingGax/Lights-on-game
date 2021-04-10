@@ -145,7 +145,8 @@ public class AgentController : MonoBehaviour
         inPosition = false;
     }
 
-    public void StartReform(){
+    public void StartReform(Vector3 newOrigin){
+        originPoint = newOrigin;
         speed *= 1.5f;
         turnSpeed *= 6;
         isReforming = true;

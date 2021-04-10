@@ -37,7 +37,12 @@ public class ObjectiveTextManager : MonoBehaviour {
                 text.SetText("Objective: Follow navigation arrow");
                 break;
             case ObjectiveType.KillEnemies:
-                text.SetText("Objective: Kill " + enemiesLeft + " enemies");
+                if (enemiesLeft == 0) {
+                    text.SetText("Objective: Follow the arrow to the next room");
+                } else {
+                    text.SetText("Objective: Kill " + enemiesLeft + " enemies");
+                }
+                
                 break;
             default:
                 break;
