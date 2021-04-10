@@ -176,12 +176,19 @@ namespace LightsOn {
                 }
             }
 
-            public float SendReformSignal() {
+            public float SendReformSignal(Vector3[] newPoints) {
+                spawnPoints = newPoints;
                 reformTimer = reformTimerMax;
                 //StartCoroutine(destroyRoutine);
                 isReforming = true;
-                foreach (AgentController agent in agents) {
-                    agent.StartReform();
+                if (newPoints != null) {
+                    for (int i = 0; i < agents.Count; i++) {
+                        agents[i].StartReform(spawnPoints[i]);
+                    }
+                } else {
+                    for (int i = 0; i < agents.Count; i++) {
+                        agents[i].StartReform(transform.position);
+                    }
                 }
                 return reformTimerMax;
             }

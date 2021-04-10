@@ -108,6 +108,10 @@ public class GameManager : MonoBehaviourPunCallbacks {
     void RequestOwnership() {
         PhotonView otherPlayerView = otherPlayerGO.GetPhotonView();
         otherPlayerView.TransferOwnership(otherPlayer);
+        PhotonView[] childPhotons = otherPlayerGO.GetComponentsInChildren<PhotonView>();
+        foreach (PhotonView view in childPhotons) {
+            view.TransferOwnership(otherPlayer);
+        }
     }
 
     void DelayOwnership() {
