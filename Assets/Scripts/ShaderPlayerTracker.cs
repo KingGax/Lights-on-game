@@ -39,6 +39,7 @@ public class ShaderPlayerTracker : MonoBehaviour {
         } else {
             if (twoPlayers) {
                 shaderMaterial.SetColor("Color_1", p2Lantern.GetColour().DisplayColour());
+                shaderMaterial.SetColor("MergeColour", p2Lantern.GetColour().MergeWith(p1Lantern.GetColour()).DisplayColour());
                 shaderMaterial.SetVector("Vector3_1", p2.transform.position);
             }
             shaderMaterial.SetVector("Vector3_8cf38a4ca0cb4f6589592a89d233cd7f", p1.transform.position);
