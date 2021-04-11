@@ -44,7 +44,7 @@ public class Health : MonoBehaviour {
     }
 
     public virtual void Die() {
-        //AudioManager.PlaySFX(SoundClips.Instance.SFXKill, transform.position);
+        AudioManager.PlaySFX(SoundClips.Instance.SFXKill, transform.position);
         pv.RPC("DieRPC", RpcTarget.AllBuffered);
     }
 
