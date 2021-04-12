@@ -19,6 +19,7 @@ public class LightableEnemy : LightableMultiObject {
     private string parentName;
     private bool initialiseOnStart = false;
     public bool usesMeshRenderer = false;
+    public bool disappearOnInitialise = true;
 
     
 
@@ -50,7 +51,11 @@ public class LightableEnemy : LightableMultiObject {
         if (initialised) {
             SetColour(newCol);
             gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
-            ForceDisappear();
+            if (disappearOnInitialise) {
+                ForceDisappear();
+            } else {
+                transform.parent.gameObject.layer = defaultEnemyLayer;
+            }
         }
     }
 

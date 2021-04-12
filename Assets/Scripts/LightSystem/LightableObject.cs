@@ -34,7 +34,7 @@ namespace LightsOn {
             Collider physicsCollider;
             GameObject boidManagerPrefab;
             GameObject boidManagerInstance;
-            protected bool canSwarm = false;
+            public bool canSwarm = true;
             public float maxSwarmRadius = 1;
             public PointCloudSO cloudPoints;
             Vector3[] transformedPoints;
@@ -51,14 +51,13 @@ namespace LightsOn {
             }
 
             public virtual void Start() {
-                canSwarm = true;
                 boidManagerPrefab = GlobalValues.Instance.boidManagerPrefab;
                 if (!overrideMeshRenderer) {
                     meshRenderer = transform.parent.GetComponent<MeshRenderer>();
                 }
                 
                 physicsCollider = transform.parent.GetComponent<Collider>();
-                physicsBox = GetComponentInParent<BoxCollider>();
+                physicsBox = transform.parent.GetComponent<BoxCollider>();
                 if (physicsBox != null) {
                     usesBoxCollider = true;
                 }
@@ -88,6 +87,7 @@ namespace LightsOn {
                     if (fadeTimer <= 0) {
                         fading = false;
                         FinishAppearing();
+                        CancelInvoke("TryReform");
                     }
                 }
                 distCheckThisFrame = !distCheckThisFrame;
@@ -127,6 +127,16 @@ namespace LightsOn {
                     StartAppear();
                     CancelInvoke("TryAppear");
                     appearing = false;
+                }
+            }
+
+            void TryReform() {
+                if (!CheckNoIntersections()) {
+                    fading = false;
+                    StartDisappear();
+                    //BoidManager man = boidManagerInstance.GetComponentInChildren<BoidManager>();
+                    //man.CancelReform();
+                    CancelInvoke("TryReform");
                 }
             }
 
@@ -301,12 +311,14 @@ namespace LightsOn {
                     meshRenderer.material = materials.get(colour);
                     meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
                 }
-                transform.parent.gameObject.layer = defaultLayer;
                 if (canSwarm) {
                     fadeTimerMax = boidManagerInstance.GetComponentInChildren<BoidManager>().SendReformSignal(GetTransformedPoints());
                     fadeTimer = fadeTimerMax;
                     fading = true;
+                    InvokeRepeating("TryReform", 0, 0.1f);
                     //Destroy(boidManagerInstance);
+                } else {
+                    FinishAppearing();
                 }
                 //move for optimisation at some point
                 Light[] lights = GetComponentsInChildren<Light>();
@@ -355,6 +367,7 @@ namespace LightsOn {
                 if (!overrideMeshRenderer) {
                     meshRenderer.material = materials.get(colour);
                 }
+                transform.parent.gameObject.layer = defaultLayer;
             }
 
             void OnTriggerExit(Collider other) {
