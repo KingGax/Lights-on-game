@@ -69,7 +69,6 @@ namespace LightsOn {
                 initialised = true;
                 SetColour(colour);
                 GetLightsInRange();
-                ColourChanged();
             }
 
             private void FixedUpdate() {
@@ -187,6 +186,7 @@ namespace LightsOn {
                 return closeColliders.Length == 0;
             }
 
+
             Vector3[] CubePoints(Vector3 center, Vector3 extents, Quaternion rotation) {
                 Vector3[] points = new Vector3[8];
                 points[0] = rotation * Vector3.Scale(extents, new Vector3(1, 1, 1)) + center;
@@ -221,6 +221,7 @@ namespace LightsOn {
 
             //Returns true if colours match - only deals with one colour currently
             bool CheckColours(List<Lanturn> lights) {
+                Debug.Log(lights.Count);
                 if (lights.Count == 0) {
                     return false;
                 }
@@ -239,11 +240,12 @@ namespace LightsOn {
                     if (!currentLights.Contains(newLight)) {
                         currentLights.Add(newLight);
                     }
-
-                    if (CheckColours(currentLights)) {
-                        StartDisappear();
-                    } else {
-                        StartAppearing();
+                    if (initialised) {
+                        if (CheckColours(currentLights)) {
+                            StartDisappear();
+                        } else {
+                            StartAppearing();
+                        }
                     }
                 }
             }
@@ -313,6 +315,19 @@ namespace LightsOn {
                 }
             }
 
+            protected void ForceDisappear() {
+                StartDisappear();
+                Invoke("DelayedColourCheck", 0.1f);
+            }
+
+            private void DelayedColourCheck() {
+                Debug.Log("did check");
+                if (!CheckColours(currentLights)) {
+                    StartAppearing();
+                    Debug.Log("reappaer");
+                }
+            }
+
             void StartDisappear() {
                 if (initialised) {
                     if (!isHidden) {
@@ -346,10 +361,12 @@ namespace LightsOn {
                 Lanturn newLight = other.GetComponent<Lanturn>();
                 if (newLight != null) {
                     currentLights.Remove(newLight);
-                    if (CheckColours(currentLights)) {
-                        StartDisappear();
-                    } else {
-                        StartAppearing();
+                    if (initialised) {
+                        if (CheckColours(currentLights)) {
+                            StartDisappear();
+                        } else {
+                            StartAppearing();
+                        }
                     }
                 }
             }

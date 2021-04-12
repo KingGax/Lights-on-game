@@ -50,6 +50,7 @@ public class LightableEnemy : LightableMultiObject {
         if (initialised) {
             SetColour(newCol);
             gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
+            ForceDisappear();
         }
     }
 
@@ -60,7 +61,7 @@ public class LightableEnemy : LightableMultiObject {
     override protected void Awake() {
         pv = gameObject.GetPhotonView();
         enemy = gameObject.GetComponentInParent<Enemy>();
-        defaultEnemyLayer = transform.parent.gameObject.layer;
+        defaultEnemyLayer = LayerMask.NameToLayer("Enemies");
         hiddenEnemyLayer = LayerMask.NameToLayer("HiddenEnemies");
         enemyReappearPreventionLayers = 1 << LayerMask.NameToLayer("Player");
     }
