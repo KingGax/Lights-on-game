@@ -203,7 +203,7 @@ namespace LightsOn {
                 }
 
             }
-            private void DestroyMyAgents() {
+            public void DestroyMyAgents() {
                 for (int i = 0; i < transform.childCount; i++) {
                     transform.GetChild(i).gameObject.SetActive(false);
                 }
@@ -215,7 +215,7 @@ namespace LightsOn {
                 yield return new WaitForSeconds(time);
                 if (isReforming) {
                     //Destroy(transform.parent.gameObject);
-                    DestroyMyAgents();
+                    //DestroyMyAgents();
                 }
             }
 
@@ -236,7 +236,7 @@ namespace LightsOn {
                     if (isReforming && reformTimer <= 0) {
                         //lightableObject.FinishAppearing();
                         //Destroy(transform.parent.gameObject);
-                        DestroyMyAgents();
+                        //DestroyMyAgents();
                     }
                     yield return null;
                 }

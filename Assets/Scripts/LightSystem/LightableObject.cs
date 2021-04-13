@@ -365,6 +365,9 @@ namespace LightsOn {
                     meshRenderer.material = materials.get(colour);
                 }
                 transform.parent.gameObject.layer = defaultLayer;
+                if (canSwarm) {
+                    boidManagerInstance.GetComponentInChildren<BoidManager>().DestroyMyAgents();
+                }
             }
 
             void OnTriggerExit(Collider other) {
