@@ -231,7 +231,6 @@ namespace LightsOn {
 
             //Returns true if colours match - only deals with one colour currently
             bool CheckColours(List<Lanturn> lights) {
-                Debug.Log(lights.Count);
                 if (lights.Count == 0) {
                     return false;
                 }
@@ -333,10 +332,8 @@ namespace LightsOn {
             }
 
             private void DelayedColourCheck() {
-                Debug.Log("did check");
                 if (!CheckColours(currentLights)) {
                     StartAppearing();
-                    Debug.Log("reappaer");
                 }
             }
 
