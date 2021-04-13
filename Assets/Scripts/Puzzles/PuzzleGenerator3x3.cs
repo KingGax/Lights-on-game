@@ -49,6 +49,9 @@ public class PuzzleGenerator3x3 : MonoBehaviour
                 if(!taken.Contains(3 * coord.Item1 + i)) validOptions.Add(3 * coord.Item1 + i);
                 if(!taken.Contains(coord.Item2 + 3 * i)) validOptions.Add(coord.Item2 + 3 * i);
             }
+            if(depth == 1 && location == 4){
+                if(validOptions.Contains(3)) validOptions.Remove(3); 
+            }
             if(coord.Item1 == 1 && depth != 1) validOptions.Add(-1);
         }
 
@@ -96,7 +99,7 @@ public class PuzzleGenerator3x3 : MonoBehaviour
 
         //Don't @ me
         if(locationCoordinates.Item1 == nextCoordinates.Item1){
-            return (locationCoordinates.Item2 > nextCoordinates.Item2 ? 2 : 0);
+            return (locationCoordinates.Item2 > nextCoordinates.Item2 ? 0 : 2);
         } else {
             return (1 + (locationCoordinates.Item1 > nextCoordinates.Item1 ? 2 : 0)); 
         }
@@ -116,7 +119,7 @@ public class PuzzleGenerator3x3 : MonoBehaviour
             nextLocation = path[i-1];
 
             bounceDirection = findBounceDirection(path[i],path[i-1]);
-            rotation = (bounceDirection - incomingDirection + 4) % 4;
+            rotation = (bounceDirection + incomingDirection) % 4;
             Debug.Log("Rotation " + rotation + ", Incoming " + incomingDirection + ", Bounce " + bounceDirection);
 
             RotatePuzzleWall(location, rotation);
@@ -126,7 +129,7 @@ public class PuzzleGenerator3x3 : MonoBehaviour
 
         location = path[0];
         bounceDirection = 0;
-        rotation = (bounceDirection - incomingDirection + 4) % 4;
+        rotation = (bounceDirection + incomingDirection) % 4;
 
         Debug.Log("Rotation " + rotation + ", Incoming " + incomingDirection + ", Bounce " + bounceDirection);
 
