@@ -12,6 +12,11 @@ public class EnemySpawnInitialiser : MonoBehaviour {
     private LightColour enemyCol;
     private string parentStr;
     bool spawned = false;
+    int hiddenEnemyLayer;
+
+    private void Awake() {
+        hiddenEnemyLayer = LayerMask.NameToLayer("HiddenEnemies");
+    }
 
     void Update() {
         if (!spawned && PhotonNetwork.Time > spawnTime) {
@@ -48,6 +53,7 @@ public class EnemySpawnInitialiser : MonoBehaviour {
     void SpawnEnemy() {
         LightableEnemy enemyScript = enemy.GetComponentInChildren<LightableEnemy>();
         childPVs = enemy.GetComponentsInChildren<PhotonView>();
+        enemy.layer = hiddenEnemyLayer;
         enemy.SetActive(true);
         if (enemy != null) {
             enemyScript.InitialiseEnemy(enemyCol, parentStr);

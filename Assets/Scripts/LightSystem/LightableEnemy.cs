@@ -19,6 +19,7 @@ public class LightableEnemy : LightableMultiObject {
     private string parentName;
     private bool initialiseOnStart = false;
     public bool usesMeshRenderer = false;
+    public bool disappearOnInitialise = true;
 
     
 
@@ -50,6 +51,11 @@ public class LightableEnemy : LightableMultiObject {
         if (initialised) {
             SetColour(newCol);
             gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
+            if (disappearOnInitialise) {
+                ForceDisappear();
+            } else {
+                transform.parent.gameObject.layer = defaultEnemyLayer;
+            }
         }
     }
 
@@ -60,7 +66,7 @@ public class LightableEnemy : LightableMultiObject {
     override protected void Awake() {
         pv = gameObject.GetPhotonView();
         enemy = gameObject.GetComponentInParent<Enemy>();
-        defaultEnemyLayer = transform.parent.gameObject.layer;
+        defaultEnemyLayer = LayerMask.NameToLayer("Enemies");
         hiddenEnemyLayer = LayerMask.NameToLayer("HiddenEnemies");
         enemyReappearPreventionLayers = 1 << LayerMask.NameToLayer("Player");
     }

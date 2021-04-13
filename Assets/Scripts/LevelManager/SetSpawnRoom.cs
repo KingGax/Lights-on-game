@@ -52,6 +52,7 @@ public class SetSpawnRoom : RoomObjective {
                         UnlockEntrancesGlobal();
                         UnlockExitGlobal();
                         doorUnlocked = true;
+                        pv.RPC("UpdateObjectiveText", RpcTarget.AllBufferedViaServer, 0);
                     }
                 }
             }
@@ -63,10 +64,15 @@ public class SetSpawnRoom : RoomObjective {
             if (currentWaveCounter < numEnemiesInFutureWaves.Length) {
                 if (prevNumEnemies != GetEnemiesLeft()) {
                     prevNumEnemies = GetEnemiesLeft();
-                    objectiveText.RefreshEnemyObjective(prevNumEnemies);
+                    pv.RPC("UpdateObjectiveText", RpcTarget.AllBufferedViaServer, prevNumEnemies);
                 }
             }
         }
+    }
+
+    [PunRPC]
+    void UpdateObjectiveText(int prevEnemies) {
+        objectiveText.RefreshEnemyObjective(prevEnemies);
     }
 
     [PunRPC]

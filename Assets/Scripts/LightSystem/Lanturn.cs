@@ -38,6 +38,10 @@ public class Lanturn : MonoBehaviour {
     public LightColour GetColour() {
         return colour;
     }
+    public void BufferLightColour() {
+        pv.RPC("UpdateColour", RpcTarget.AllBufferedViaServer, colour);
+    }
+            
 
     [PunRPC]
     private void UpdateColour(LightColour col) {

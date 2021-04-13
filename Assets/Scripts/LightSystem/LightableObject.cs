@@ -34,7 +34,7 @@ namespace LightsOn {
             Collider physicsCollider;
             GameObject boidManagerPrefab;
             GameObject boidManagerInstance;
-            protected bool canSwarm = false;
+            public bool canSwarm = true;
             public float maxSwarmRadius = 1;
             public PointCloudSO cloudPoints;
             Vector3[] transformedPoints;
@@ -51,14 +51,13 @@ namespace LightsOn {
             }
 
             public virtual void Start() {
-                canSwarm = true;
                 boidManagerPrefab = GlobalValues.Instance.boidManagerPrefab;
                 if (!overrideMeshRenderer) {
                     meshRenderer = transform.parent.GetComponent<MeshRenderer>();
                 }
                 
                 physicsCollider = transform.parent.GetComponent<Collider>();
-                physicsBox = GetComponentInParent<BoxCollider>();
+                physicsBox = transform.parent.GetComponent<BoxCollider>();
                 if (physicsBox != null) {
                     usesBoxCollider = true;
                 }
@@ -69,7 +68,6 @@ namespace LightsOn {
                 initialised = true;
                 SetColour(colour);
                 GetLightsInRange();
-                ColourChanged();
             }
 
             private void FixedUpdate() {
@@ -89,6 +87,7 @@ namespace LightsOn {
                     if (fadeTimer <= 0) {
                         fading = false;
                         FinishAppearing();
+                        CancelInvoke("TryReform");
                     }
                 }
                 distCheckThisFrame = !distCheckThisFrame;
@@ -128,6 +127,16 @@ namespace LightsOn {
                     StartAppear();
                     CancelInvoke("TryAppear");
                     appearing = false;
+                }
+            }
+
+            void TryReform() {
+                if (!CheckNoIntersections()) {
+                    fading = false;
+                    StartDisappear();
+                    //BoidManager man = boidManagerInstance.GetComponentInChildren<BoidManager>();
+                    //man.CancelReform();
+                    CancelInvoke("TryReform");
                 }
             }
 
@@ -187,6 +196,7 @@ namespace LightsOn {
                 return closeColliders.Length == 0;
             }
 
+
             Vector3[] CubePoints(Vector3 center, Vector3 extents, Quaternion rotation) {
                 Vector3[] points = new Vector3[8];
                 points[0] = rotation * Vector3.Scale(extents, new Vector3(1, 1, 1)) + center;
@@ -239,22 +249,17 @@ namespace LightsOn {
                     if (!currentLights.Contains(newLight)) {
                         currentLights.Add(newLight);
                     }
-
-                    if (CheckColours(currentLights)) {
-                        StartDisappear();
-                    } else {
-                        StartAppearing();
+                    if (initialised) {
+                        if (CheckColours(currentLights)) {
+                            StartDisappear();
+                        } else {
+                            StartAppearing();
+                        }
                     }
                 }
             }
             private Vector3[] GetTransformedPoints() {
-                bool regeneratePoints = false;
-                if (transformedPoints == null) {
-                    regeneratePoints = true;
-                } else if (transform.localRotation != lastRotation) {
-                    regeneratePoints = true;
-                }
-                if (regeneratePoints) {
+                if (cloudPoints != null) {
                     Quaternion defaultQuat = cloudPoints.initialRotation;
                     Quaternion rotationQuat = transform.parent.rotation * Quaternion.Inverse(defaultQuat); //trivially
                     Vector3[] newPoints = new Vector3[cloudPoints.points.Length];
@@ -263,7 +268,7 @@ namespace LightsOn {
                     }
                     return newPoints;
                 } else {
-                    return transformedPoints;
+                    return null;
                 }
             }
 
@@ -293,10 +298,6 @@ namespace LightsOn {
                         man.CancelReform();
                     }
                 }
-                Tooltip[] tooltips = GetComponentsInChildren<Tooltip>();
-                foreach (Tooltip t in tooltips) {
-                    t.Dismiss();
-                }
 
                 Light[] lights = GetComponentsInChildren<Light>();
                 foreach (Light l in lights) {
@@ -309,17 +310,30 @@ namespace LightsOn {
                     meshRenderer.material = materials.get(colour);
                     meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
                 }
-                transform.parent.gameObject.layer = defaultLayer;
                 if (canSwarm) {
-                    fadeTimerMax = boidManagerInstance.GetComponentInChildren<BoidManager>().SendReformSignal();
+                    fadeTimerMax = boidManagerInstance.GetComponentInChildren<BoidManager>().SendReformSignal(GetTransformedPoints());
                     fadeTimer = fadeTimerMax;
                     fading = true;
+                    InvokeRepeating("TryReform", 0, 0.1f);
                     //Destroy(boidManagerInstance);
+                } else {
+                    FinishAppearing();
                 }
                 //move for optimisation at some point
                 Light[] lights = GetComponentsInChildren<Light>();
                 foreach (Light l in lights) {
                     l.enabled = true;
+                }
+            }
+
+            protected void ForceDisappear() {
+                StartDisappear();
+                Invoke("DelayedColourCheck", 0.1f);
+            }
+
+            private void DelayedColourCheck() {
+                if (!CheckColours(currentLights)) {
+                    StartAppearing();
                 }
             }
 
@@ -350,16 +364,19 @@ namespace LightsOn {
                 if (!overrideMeshRenderer) {
                     meshRenderer.material = materials.get(colour);
                 }
+                transform.parent.gameObject.layer = defaultLayer;
             }
 
             void OnTriggerExit(Collider other) {
                 Lanturn newLight = other.GetComponent<Lanturn>();
                 if (newLight != null) {
                     currentLights.Remove(newLight);
-                    if (CheckColours(currentLights)) {
-                        StartDisappear();
-                    } else {
-                        StartAppearing();
+                    if (initialised) {
+                        if (CheckColours(currentLights)) {
+                            StartDisappear();
+                        } else {
+                            StartAppearing();
+                        }
                     }
                 }
             }

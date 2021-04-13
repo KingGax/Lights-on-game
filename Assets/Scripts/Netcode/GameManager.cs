@@ -60,11 +60,14 @@ public class GameManager : MonoBehaviourPunCallbacks {
                 }
             } else {
                 if (PhotonNetwork.IsMasterClient) {
-                    GlobalValues.Instance.players[0].transform.position = GlobalValues.Instance.p1spawn.position;
+                    GlobalValues.Instance.localPlayerInstance.transform.position = GlobalValues.Instance.p1spawn.position;
+                    if (GlobalValues.Instance.players.Count > 1) {
+                        
+                    }
                     GlobalValues.Instance.navManager.SetPlayer(false);
                 }
                 else {
-                    GlobalValues.Instance.players[0].transform.position = GlobalValues.Instance.p2Spawn.position;
+                    GlobalValues.Instance.localPlayerInstance.transform.position = GlobalValues.Instance.p2Spawn.position;
                     GlobalValues.Instance.navManager.SetPlayer(true);
                 }
                 //Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
@@ -108,15 +111,11 @@ public class GameManager : MonoBehaviourPunCallbacks {
     void RequestOwnership() {
         PhotonView otherPlayerView = otherPlayerGO.GetPhotonView();
         otherPlayerView.TransferOwnership(otherPlayer);
+        PhotonView[] childPhotons = otherPlayerGO.GetComponentsInChildren<PhotonView>();
+        foreach (PhotonView view in childPhotons) {
+            view.TransferOwnership(otherPlayer);
+        }
     }
-
-    void DelayOwnership() {
-        
-    }
-
-    /*private void DelayedTransfer() {
-        otherPC.UpdateLocalPlayerInstance();
-    }*/
 
 
 

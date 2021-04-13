@@ -18,6 +18,7 @@ public class FloorManager : MonoBehaviour
     public List<Transform> p2SpawnPoints;
     public List<NavigationPoint> p1NavPoints;
     public List<NavigationPoint> p2NavPoints;
+
     //NavigationManager navManager;
     PhotonView pv;
     // Start is called before the first frame update
@@ -125,10 +126,12 @@ public class FloorManager : MonoBehaviour
         if (PhotonNetwork.IsMasterClient) {
             if (twoPlayers) {
                 if (player == GlobalValues.Instance.players[1]) {
+                    //Debug.Log("p1 room local " + p1RoomNum);
                     pv.RPC("UpdateLocationRPC", RpcTarget.AllBufferedViaServer, false, roomNum);
                     //p2RoomNum = roomNum;
                 }
                 else if (player == GlobalValues.Instance.players[0]) {
+                    //Debug.Log("p2 room local " + p2RoomNum);
                     pv.RPC("UpdateLocationRPC", RpcTarget.AllBufferedViaServer, true, roomNum);
                     //p1RoomNum = roomNum;
                 }

@@ -71,6 +71,7 @@ public class GlobalValues : MonoBehaviour {
         _instance.p2Spawn = p2Spawn;
         _instance.fm = fm;
         _instance.navManager = navManager;
+        gameObject.GetComponent<LocalObjectPool>().RespawnBoids();
     }
 
     private void Awake() {

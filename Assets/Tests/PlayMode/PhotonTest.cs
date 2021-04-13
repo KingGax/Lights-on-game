@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEditor;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -13,6 +14,11 @@ public class PhotonTest {
         GameObject obj = new GameObject();
         var l = obj.AddComponent<PhotonTestLobby>();
         l.Connect();
+        Object.Instantiate(
+            AssetDatabase.LoadAssetAtPath<GameObject>(
+                "Assets/Prefabs/LevelComponents/AudioManager.prefab"
+            )
+        );
     }
 
     public GameObject CreatePhotonGameObject() {

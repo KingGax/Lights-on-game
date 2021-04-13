@@ -9,11 +9,15 @@ public class LocalObjectPool : MonoBehaviour {
     public int amountToPool;
     void Awake() { SharedInstance = this; }
     void Start() {
+        RespawnBoids();
+    }
+
+    public void RespawnBoids() {
         pooledBoids = new List<GameObject>();
         GameObject tmp;
         for (int i = 0; i < amountToPool; i++) {
             tmp = Instantiate(boidToPool);
-            tmp.SetActive(false); 
+            tmp.SetActive(false);
             pooledBoids.Add(tmp);
         }
     }
