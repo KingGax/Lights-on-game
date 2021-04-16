@@ -24,11 +24,6 @@ public class PuzzleGenerator3x3 : MonoBehaviour
 
         GeneratePuzzle();
     }
-    void Start()
-    {
-        //GeneratePuzzle();
-        
-    }
 
     private (int,int) findCoordinates(int location){
         return (location/3, location%3);
@@ -75,7 +70,7 @@ public class PuzzleGenerator3x3 : MonoBehaviour
     }
 
     void RotatePuzzleWall(int location, int rotation){
-        walls[location].GetComponentInChildren<LightableObstacle>().colour = LightableColour.Red;
+        //walls[location].GetComponentInChildren<LightableObstacle>().colour = LightableColour.Red;
         switch(rotation){
             case 0:
                 walls[location].transform.rotation = Quaternion.Euler(0,0,0);
@@ -105,7 +100,7 @@ public class PuzzleGenerator3x3 : MonoBehaviour
         }
     }
 
-    void AdjustPuzzleWalls(List<int> path){
+    void AdjustPuzzlePathWalls(List<int> path){
         int incomingDirection = 3;
         int bounceDirection;
         int rotation;
@@ -136,6 +131,18 @@ public class PuzzleGenerator3x3 : MonoBehaviour
         RotatePuzzleWall(location, rotation);
     }
 
+    void AdjustPuzzleNonPathWalls(HashSet<int> taken){
+        for(int i = 0; i < 9; i++){
+            if(!taken.Contains(i)){
+                int rotation;
+                if(i == 4) rotation = rand.Next(3);
+                else rotation = rand.Next(4);
+
+                RotatePuzzleWall(i,rotation);
+            }
+        }
+    }
+
     void GeneratePuzzle(){
 
         List<int> validOptions = new List<int>() {1,4,7};
@@ -149,12 +156,7 @@ public class PuzzleGenerator3x3 : MonoBehaviour
             Debug.Log(path[i]);
         }
 
-        AdjustPuzzleWalls(path);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        AdjustPuzzlePathWalls(path);
+        AdjustPuzzleNonPathWalls(taken);
     }
 }
