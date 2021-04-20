@@ -15,7 +15,7 @@ namespace LightsOn.LightingSystem {
 
         public override void Start() {
             base.Start();
-            canSwarm = false;
+
         }
         public void LockDoor() {
             disappeared = false;
