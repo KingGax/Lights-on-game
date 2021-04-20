@@ -6,6 +6,8 @@ using Photon.Pun;
 public class BouncyBall : MonoBehaviour {
 
     public Transform ball;
+    
+
 
     //private int layerMask = 0x00000200; 
     private int staticEnvironmentMask = 1 << 9;

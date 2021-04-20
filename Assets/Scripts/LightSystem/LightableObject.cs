@@ -51,6 +51,10 @@ namespace LightsOn {
                 hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
             }
 
+            public LightColour GetColour() {
+                return colour;
+            }
+
             public virtual void Start() {
                 boidManagerPrefab = GlobalValues.Instance.boidManagerPrefab;
                 deathBoidManagerPrefab = GlobalValues.Instance.boidDeathPrefab;
@@ -260,7 +264,7 @@ namespace LightsOn {
                     }
                 }
             }
-            private Vector3[] GetTransformedPoints() {
+            protected Vector3[] GetTransformedPoints() {
                 if (cloudPoints != null) {
                     Quaternion defaultQuat = cloudPoints.initialRotation;
                     Quaternion rotationQuat = transform.parent.rotation * Quaternion.Inverse(defaultQuat); //trivially
@@ -274,19 +278,27 @@ namespace LightsOn {
                 }
             }
 
+            protected BoidManager GetCurrentBoidManagerInstance() {
+                return boidManagerInstance.GetComponentInChildren<BoidManager>();
+            }
+
+            protected void SpawnDeathCloud(Vector3[] points, LightColour col) {
+                boidManagerInstance = Instantiate(deathBoidManagerPrefab, transform.position, transform.rotation);
+                //boidManagerInstance.transform.parent = transform.parent;
+                BoidManager man = boidManagerInstance.GetComponentInChildren<BoidManager>();
+                man.boidCentre = transform.TransformPoint(GetComponent<BoxCollider>().center);
+                //man.lightableObject = this;
+                man.col = col;
+                //man.SetCol(colour);
+                if (cloudPoints != null) {
+                    man.SetSpawnPoints(points, maxSwarmRadius, GetComponent<BoxCollider>().bounds.size, GetComponent<BoxCollider>().transform.position);
+                }
+                man.Spawn();
+            }
+
             public void SpawnDeathCloud() {
                 if (canSwarm) {
-                    boidManagerInstance = Instantiate(deathBoidManagerPrefab, transform.position, transform.rotation);
-                    //boidManagerInstance.transform.parent = transform.parent;
-                    BoidManager man = boidManagerInstance.GetComponentInChildren<BoidManager>();
-                    man.boidCentre = transform.TransformPoint(GetComponent<BoxCollider>().center);
-                    //man.lightableObject = this;
-                    man.col = colour;
-                    //man.SetCol(colour);
-                    if (cloudPoints != null) {
-                        man.SetSpawnPoints(GetTransformedPoints(), maxSwarmRadius, GetComponent<BoxCollider>().bounds.size, GetComponent<BoxCollider>().transform.position);
-                    }
-                    man.Spawn();
+                    SpawnDeathCloud(GetTransformedPoints(),colour);
                 }
             }
 
