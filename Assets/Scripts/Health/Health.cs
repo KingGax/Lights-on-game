@@ -35,6 +35,10 @@ public class Health : MonoBehaviour {
         pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);
     }
 
+    public virtual void DeathEffects() {
+
+    }
+
     [PunRPC]
     public void DieRPC() {
         if (pv.IsMine) {

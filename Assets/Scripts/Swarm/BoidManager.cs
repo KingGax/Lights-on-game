@@ -94,6 +94,9 @@ namespace LightsOn {
             //         agentMat = blueMat;
             //     } 
             // }
+            public void MoveBoidCentre(Vector3 newCentre) {
+                boidCentre = newCentre;
+            }
 
             public void SetSpawnPoints(Vector3[] points, float maxRadius, Vector3 size, Vector3 pos) {
                 spawnPoints = points;
@@ -191,6 +194,12 @@ namespace LightsOn {
                     }
                 }
                 return reformTimerMax;
+            }
+
+            public void SetSpeeds(float speed, float turnSpeed) {
+                foreach (AgentController a in agents) {
+                    a.SetSpeed(speed, turnSpeed);
+                }
             }
 
             public void CancelReform() {

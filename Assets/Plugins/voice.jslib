@@ -10,9 +10,5 @@ mergeInto(LibraryManager.library, {
         startRecording();
         //Starting record
         //Separate frontend function will handle return
-    },
-    setUpVoiceDetection__deps: ['setUpVoiceDetection'],
-    setUpVoiceDetection: setUpVoiceDetection,
-    isVoiceLoadedUnityCallback__deps: ['isVoiceLoadedUnityCallback'],
-    isVoiceLoadedUnityCallback: isVoiceLoadedUnityCallback,
+    }
 });

@@ -33,6 +33,7 @@ namespace LightsOn {
             MeshRenderer meshRenderer;
             Collider physicsCollider;
             GameObject boidManagerPrefab;
+            GameObject deathBoidManagerPrefab;
             GameObject boidManagerInstance;
             public bool canSwarm = true;
             public float maxSwarmRadius = 1;
@@ -52,6 +53,7 @@ namespace LightsOn {
 
             public virtual void Start() {
                 boidManagerPrefab = GlobalValues.Instance.boidManagerPrefab;
+                deathBoidManagerPrefab = GlobalValues.Instance.boidDeathPrefab;
                 if (!overrideMeshRenderer) {
                     meshRenderer = transform.parent.GetComponent<MeshRenderer>();
                 }
@@ -269,6 +271,22 @@ namespace LightsOn {
                     return newPoints;
                 } else {
                     return null;
+                }
+            }
+
+            public void SpawnDeathCloud() {
+                if (canSwarm) {
+                    boidManagerInstance = Instantiate(deathBoidManagerPrefab, transform.position, transform.rotation);
+                    //boidManagerInstance.transform.parent = transform.parent;
+                    BoidManager man = boidManagerInstance.GetComponentInChildren<BoidManager>();
+                    man.boidCentre = transform.TransformPoint(GetComponent<BoxCollider>().center);
+                    //man.lightableObject = this;
+                    man.col = colour;
+                    //man.SetCol(colour);
+                    if (cloudPoints != null) {
+                        man.SetSpawnPoints(GetTransformedPoints(), maxSwarmRadius, GetComponent<BoxCollider>().bounds.size, GetComponent<BoxCollider>().transform.position);
+                    }
+                    man.Spawn();
                 }
             }
 
