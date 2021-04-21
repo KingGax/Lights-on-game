@@ -43,7 +43,7 @@ namespace LightsOn.LightingSystem {
         public void UnlockDoor() {
             colour = unlockedColour;
             SetColour(unlockedColour);
-            AudioManager.PlaySFX(SoundClips.Instance.SFXDoorOpen, transform.position);
+            AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXDoorOpen, transform.position, gameObject);
         }
 
         public override void Appear() {
