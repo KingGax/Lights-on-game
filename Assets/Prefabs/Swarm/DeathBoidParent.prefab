@@ -84,11 +84,11 @@ MonoBehaviour:
   zMin: -1
   zMax: 1
   agentCount: 50
-  agentSpeed: 4.2
-  turnSpeed: 5
-  detectionRadius: 0.2
-  matchingRadius: 2
-  randomTurnAmount: 0.2
+  agentSpeed: 6
+  turnSpeed: 4
+  detectionRadius: 0.3
+  matchingRadius: 3
+  randomTurnAmount: 0.4
   boidCentre: {x: 0, y: 0, z: 0}
   agentPrefab: {fileID: 5710705778580077820, guid: 2410898c2f42e154e99977a6efb1abdd,
     type: 3}
@@ -96,9 +96,9 @@ MonoBehaviour:
   redMat: {fileID: 2100000, guid: 2b015d14e3840664d827749ba6f0265a, type: 2}
   greenMat: {fileID: 2100000, guid: 64da707fbfcd4314ab905a68dc897800, type: 2}
   blueMat: {fileID: 2100000, guid: 9946f4367c844404f8160254d2d415da, type: 2}
-  centreBias: 1
-  matchingBias: 0.2
-  avoidanceBias: 2
+  centreBias: 0.4
+  matchingBias: 1.74
+  avoidanceBias: 2.2
   showDirectionArrows: 1
   showAvoidanceHitboxes: 0
   showDirectionMatchingHitboxes: 1
@@ -219,10 +219,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd6ab59b1194a344972de360954732c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  riseSpeed: 4
-  boidSpeed: 5
-  turnSpeed: 5
-  effectTime: 3
+  riseSpeed: 2
+  disperseSpeed: 3
+  effectTime: 7
 --- !u!1 &7487692845378958574
 GameObject:
   m_ObjectHideFlags: 0
