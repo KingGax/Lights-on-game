@@ -160,7 +160,7 @@ namespace LightsOn.WeaponSystem {
             ammo -= 1;
             GameObject newBullet = PhotonNetwork.Instantiate(bullet.name, firePoint.position, transform.rotation);
             BulletController bc = newBullet.GetComponent<BulletController>();
-            bc.Fire(damage, hitStunDuration, bulletSpeed, transform.up);
+            bc.Fire(damage, hitStunDuration, bulletSpeed, transform.up, 2f);
             AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXShoot, firePoint.position, gameObject);
             if (ammo <= 0) {
                 Reload();
