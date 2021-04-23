@@ -7,15 +7,23 @@ using LightsOn.LightingSystem;
 namespace LightsOn.WeaponSystem{
 public class BossController : Enemy
 {
+    [Header("Bullet/weapon setup")]
     public GameObject bullet;
     public float bulletSpeed;
     public int bulletDamage;
-    LightColour bulletColour;
+    public LightColour bulletColour;
+    public List<GameObject> targetGOs;
+    public GameObject gunParent;
+    public float gunCircleRadius;
+    public float bulletTTL;
+    public Transform fireOrigin;
+    [Header("Attack probabilities")]
     public float rotatingShotProbability; //Probability of starting rotating fire
     public float repositioningProbability; //Probability of repositioning
     public float aoeProbability; //Probability of choosing AoE attack
     public float missileProbability; //Probability of choosing missile attack
     public float summonProbability; //Probability of summoning minions
+    [Header("State timers")]
     public float aoeStartTimerMax; 
     float aoeStartTimer;
     public float aoeEndTimerMax;
@@ -25,29 +33,32 @@ public class BossController : Enemy
     float rotatingShotTimer;
     public float gunCooldownTimerMax;
     float gunCooldownTimer;
+    public float changeBulletColTimerMax;
+    float changeBulletColTimer;
     public float reappearingTimerMax;
     float reappearingTimer;
     public float summonTimerMax;
     float summonTimer;
-    public float missileShotsMax;
-    float missileShotsFired;
     EnemyState enemyState;
+    EnemyState prevState;
     float pathStoppingThreshold = 0.5f;
     float staggerCount;
     public float staggerCountMax;
     public float rotationSpeed;
     public float currentGunAngle;
+    [Header("AOE attack setup")]
+    public float aoeRadius;
+    public float aoeDamage;
+    [Header("Missile attack setup")]
+    public float missileShotsMax;
+    float missileShotsFired;
     int currentPhase;
     float cmRepProb;
     float cmAOEProb;
     float cmMissileProb;
     float totalProb;
     List<EnemyGun> rotatingGuns;
-    public List<GameObject> targetGOs;
-    public GameObject gunParent;
-    public float gunCircleRadius;
-    public float bulletTTL;
-    public Transform fireOrigin;
+    
 
     enum EnemyState {
         DecisionState, //Base state - deciding what to do
@@ -74,8 +85,6 @@ public class BossController : Enemy
         cmAOEProb = cmRepProb + aoeProbability;
         cmMissileProb = cmAOEProb + missileProbability;
         totalProb = cmMissileProb + summonProbability;
-        Debug.Log("Yo");
-        Debug.Log(gunParent.GetComponentsInChildren<EnemyGun>().Length);
         rotatingGuns = new List<EnemyGun>(gunParent.GetComponentsInChildren<EnemyGun>());
         foreach (EnemyGun g in rotatingGuns){
             g.bulletSpeed = bulletSpeed;
@@ -106,7 +115,9 @@ public class BossController : Enemy
         if (aiEnabled) {
             switch (enemyState) {
                 case EnemyState.DecisionState:
-                    MakeDecision();
+                    float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
+                    float p = Random.Range(0, pTotal);
+                    MakeDecision(p);
                     break;
                 case EnemyState.RotateShooting:
                     RotateShoot();
@@ -141,25 +152,70 @@ public class BossController : Enemy
         }
     }
 
-    void MakeDecision(){
-        float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
-        float p = Random.Range(0, pTotal);
+    void MakeDecision(float p){
+        
         if (p < rotatingShotProbability){
-            ChangeToRotateShoot();
-        } else if (p < cmRepProb){
-            ChangeToSwarmReposition();
+            if (prevState == EnemyState.RotateShooting){
+                float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
+                float q = Random.Range(rotatingShotProbability, pTotal+0);
+                MakeDecision(q%totalProb);
+            } else {
+                ChangeToRotateShoot();
+            }
+        }
+        else if (p < cmRepProb)
+            {
+            if (prevState == EnemyState.SwarmRepositioning)
+            {
+                float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
+                float q = Random.Range(cmRepProb, pTotal + rotatingShotProbability);
+                MakeDecision(q % totalProb);
+            }
+            else
+            {
+                ChangeToSwarmReposition();
+            }
         } else if (p < cmAOEProb){
-            ChangeToAOEMeleeStartup();
+            if (prevState == EnemyState.AOEMeleeStartup)
+            {
+                float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
+                float q = Random.Range(cmAOEProb, pTotal + cmRepProb);
+                MakeDecision(q % totalProb);
+            }
+            else
+            {
+                ChangeToAOEMeleeStartup();
+            }
         } else if (p < cmMissileProb){
-            ChangeToMissileAttack();
+            if (prevState == EnemyState.MissileAttack)
+            {
+                float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
+                float q = Random.Range(cmMissileProb, pTotal + cmAOEProb);
+                MakeDecision(q % totalProb);
+            }
+            else
+            {
+                ChangeToMissileAttack();
+            }
         } else {
-            ChangeToSummonAdds();
+            if (prevState == EnemyState.SummonAdds)
+            {
+                float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
+                float q = Random.Range(0, cmAOEProb);
+                MakeDecision(q % totalProb);
+            }
+            else
+            {
+                ChangeToSummonAdds();
+            }
         }
     }
 
     void ChangeToRotateShoot(){
         enemyState = EnemyState.RotateShooting;
+        prevState = enemyState;
         rotatingShotTimer = Random.Range(rotatingShotTimerMin, rotatingShotTimerMax);
+        changeBulletColTimer = changeBulletColTimerMax;
     }
 
     Vector3 GetTargetPosition(Vector3 pos){
@@ -168,7 +224,6 @@ public class BossController : Enemy
         if (Physics.Raycast(fireOrigin.position, playerDirection, out hit, 999f, GlobalValues.Instance.environment | GlobalValues.Instance.playerLayer)){
             return hit.point;
         } else{
-            Debug.Log("ERROR!");
             return fireOrigin.position;
         }
     }
@@ -177,12 +232,32 @@ public class BossController : Enemy
         currentGunAngle += (rotationSpeed * Time.deltaTime)%(Mathf.PI*2);
         float phase = 0f;
         bool canShoot = false;
+        bool changeCol = false;
         if (gunCooldownTimer <= 0){
             gunCooldownTimer = gunCooldownTimerMax;
             canShoot = true;
         }
+        if (changeBulletColTimer <= 0){
+            changeBulletColTimer = changeBulletColTimerMax;
+            changeCol = true;
+            switch (bulletColour){
+                case (LightColour.Red):
+                    bulletColour = LightColour.Green;
+                    break;
+                case (LightColour.Green):
+                    bulletColour = LightColour.Blue;
+                    break;
+                case (LightColour.Blue):
+                    bulletColour = LightColour.Red;
+                    break;
+            }
+        }
         for (int i = 0; i < rotatingGuns.Count; i++){
+           
             EnemyGun g = rotatingGuns[i];
+            if (changeCol){
+                g.SetColour(bulletColour);
+            }
             float x = transform.position.x + gunCircleRadius * Mathf.Cos(currentGunAngle + phase);
             float z = transform.position.z + gunCircleRadius * Mathf.Sin(currentGunAngle + phase);
             g.transform.position = new Vector3(x, g.transform.position.y, z);
@@ -200,6 +275,7 @@ public class BossController : Enemy
 
     void ChangeToMissileAttack(){
         enemyState = EnemyState.MissileAttack;
+        prevState = enemyState;
         missileShotsFired = 0;
     }
 
@@ -213,6 +289,7 @@ public class BossController : Enemy
 
     void ChangeToAOEMeleeStartup(){
         enemyState = EnemyState.AOEMeleeStartup;
+        prevState = enemyState;
         aoeStartTimer = aoeStartTimerMax;
     }
 
@@ -228,6 +305,13 @@ public class BossController : Enemy
     }
 
     void AOEMelee(){
+        Collider[] cols = Physics.OverlapSphere(transform.position, aoeRadius, GlobalValues.Instance.playerLayer);
+        if (cols.Length > 0){
+            foreach (Collider col in cols){
+                HealthSystem.Health h = col.gameObject.GetComponentInChildren<HealthSystem.Health>();
+                h.Damage(aoeDamage, 0f);
+            }
+        }
         //do attack
         ChangeToAOEMeleeRecovery();
     }
@@ -244,6 +328,7 @@ public class BossController : Enemy
 
     void ChangeToSummonAdds(){
         enemyState = EnemyState.SummonAdds;
+        prevState = enemyState;
         summonTimer = summonTimerMax;
     }
 
@@ -256,6 +341,7 @@ public class BossController : Enemy
 
     void ChangeToSwarmReposition(){
         enemyState = EnemyState.SwarmRepositioning;
+        prevState = enemyState;
         NavMeshHit destPos;
         NavMesh.SamplePosition(playerObj.transform.position, out destPos, 2f, NavMesh.AllAreas);
         agent.destination = destPos.position;
@@ -269,6 +355,7 @@ public class BossController : Enemy
 
     void ChangeToReappearState(){
         enemyState=EnemyState.Reappearing;
+        
     }
 
     void ReappearState(){
@@ -299,6 +386,9 @@ public class BossController : Enemy
             }
             if (gunCooldownTimer > 0){
                 gunCooldownTimer -= Time.deltaTime;
+            }
+            if (changeBulletColTimer > 0){
+                changeBulletColTimer -= Time.deltaTime;
             }
             yield return null;
         }
