@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
     private Player otherPlayer;
     private PlayerController otherPC;
     private PhotonView pv;
+    private RejoinTextUI rejoinText;
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
 
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
     }
 
     void Start() {
+        rejoinText = GlobalValues.Instance.UIElements.gameObject.GetComponentInChildren<RejoinTextUI>();
         if (playerPrefab == null) {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",this);
         } else {
@@ -88,6 +90,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
     }
 
     public override void OnPlayerEnteredRoom(Player other) {
+        
         otherPlayer = other;
         Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
         Debug.Log("Entered room.");
@@ -102,10 +105,21 @@ public class GameManager : MonoBehaviourPunCallbacks {
         }
         if (PhotonNetwork.IsMasterClient) {
             Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-            //LoadArena();
         }
-        //Invoke("DelayOwnership", 2.0f);
+        UnPauseGame();
     }
+
+    void PauseGame() {
+        Time.timeScale = 0;
+        rejoinText.DisplayRejoinText(true);
+    }
+
+    void UnPauseGame() {
+        Time.timeScale = 1;
+        rejoinText.DisplayRejoinText(false);
+    }
+
+
 
     [PunRPC]
     void RequestOwnership() {
@@ -126,6 +140,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
         if (PhotonNetwork.IsMasterClient) {
             Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
             //LoadArena();
+            PauseGame();
         }
     }
 }
