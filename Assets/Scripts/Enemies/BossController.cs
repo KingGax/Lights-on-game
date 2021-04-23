@@ -39,9 +39,15 @@ public class BossController : Enemy
     float reappearingTimer;
     public float summonTimerMax;
     float summonTimer;
+    public float movementCooldownTimerMax;
+    float movementCooldownTimer;
     EnemyState enemyState;
     EnemyState prevState;
-    float pathStoppingThreshold = 0.5f;
+    [Header("Navigation/movement")]
+    public float pathStoppingThreshold = 0.5f;
+    public float walkRadius;
+
+
     float staggerCount;
     public float staggerCountMax;
     public float rotationSpeed;
@@ -49,6 +55,7 @@ public class BossController : Enemy
     [Header("AOE attack setup")]
     public float aoeRadius;
     public float aoeDamage;
+    LineRenderer circleLR;
     [Header("Missile attack setup")]
     public float missileShotsMax;
     float missileShotsFired;
@@ -57,6 +64,7 @@ public class BossController : Enemy
     float cmAOEProb;
     float cmMissileProb;
     float totalProb;
+    bool moving = false;
     List<EnemyGun> rotatingGuns;
     
 
@@ -93,11 +101,27 @@ public class BossController : Enemy
             g.bulletTTL = bulletTTL;
             
         }
+        circleLR = GetComponent<LineRenderer>();
+        agent.enabled = true;
+        moving = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (moving && agent.remainingDistance < pathStoppingThreshold){
+            moving = false;
+            movementCooldownTimer = movementCooldownTimerMax;    
+        }
+        if (!moving && movementCooldownTimer <= 0){
+            Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
+            randomDirection += transform.position;
+            NavMeshHit hit;
+            NavMesh.SamplePosition(randomDirection, out hit, walkRadius, 1);
+            Vector3 finalPosition = hit.position;
+            agent.destination = finalPosition;
+            moving = true;
+        }
         if (pv == null || !pv.IsMine) return;
         // if (!hasPlayerJoined){
         //     if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
@@ -263,7 +287,9 @@ public class BossController : Enemy
             g.transform.position = new Vector3(x, g.transform.position.y, z);
             phase += (Mathf.PI*2)/rotatingGuns.Count;
             if (canShoot){
-                targetGOs[i].transform.position = GetTargetPosition(g.transform.position);
+                targetGOs[i].transform.position = new Vector3(transform.position.x + gunCircleRadius * 3 * Mathf.Cos(currentGunAngle + phase), 
+                g.firePoint.position.y, 
+                transform.position.z + gunCircleRadius * 3 * Mathf.Sin(currentGunAngle + phase));
                 g.SetTarget(targetGOs[i]);
                 g.Use();
             }
@@ -291,6 +317,9 @@ public class BossController : Enemy
         enemyState = EnemyState.AOEMeleeStartup;
         prevState = enemyState;
         aoeStartTimer = aoeStartTimerMax;
+        circleLR.enabled = true;
+        agent.enabled = false;
+        DrawPolygon(100, aoeRadius, new Vector3(fireOrigin.position.x, 0.25f, fireOrigin.position.z), 0.1f, 0.1f);
     }
 
     void AOEMeleeStartup(){
@@ -316,12 +345,14 @@ public class BossController : Enemy
         ChangeToAOEMeleeRecovery();
     }
     void ChangeToAOEMeleeRecovery(){
+        circleLR.enabled = false;
         enemyState = EnemyState.AOEMeleeRecovery;
         aoeEndTimer = aoeEndTimerMax;
     }
 
     void AOEMeleeRecovery(){
         if (aoeEndTimer <= 0){
+            agent.enabled = true;
             enemyState = EnemyState.DecisionState;
         }
     }
@@ -390,7 +421,31 @@ public class BossController : Enemy
             if (changeBulletColTimer > 0){
                 changeBulletColTimer -= Time.deltaTime;
             }
+            if (movementCooldownTimer > 0){
+                movementCooldownTimer -= Time.deltaTime;
+            }
             yield return null;
+        }
+    }
+
+    void DrawPolygon(int vertexNumber, float radius, Vector3 centerPos, float startWidth, float endWidth)
+    {
+        //https://www.codinblack.com/how-to-draw-lines-circles-or-anything-else-using-linerenderer/
+        circleLR.startWidth = startWidth;
+        circleLR.endWidth = endWidth;
+        circleLR.loop = true;
+        float angle = 2 * Mathf.PI / vertexNumber;
+        circleLR.positionCount = vertexNumber;
+
+        for (int i = 0; i < vertexNumber; i++)
+        {
+            Matrix4x4 rotationMatrix = new Matrix4x4(new Vector4(Mathf.Cos(angle * i), 0, 0, -1* Mathf.Sin(angle * i)),
+                                                    new Vector4(0, 1, 0, 0),
+                                    new Vector4(Mathf.Sin(angle * i), 0, Mathf.Cos(angle * i), 0),
+                                    new Vector4(0, 0, 0, 1));
+            Vector3 initialRelativePosition = new Vector3(0, 0, radius);
+            circleLR.SetPosition(i, centerPos + rotationMatrix.MultiplyPoint(initialRelativePosition));
+
         }
     }
 }
