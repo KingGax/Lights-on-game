@@ -19,6 +19,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate = 0.1f;
         if(PhotonNetwork.IsMasterClient)
         {
             startButton.SetActive(true);
