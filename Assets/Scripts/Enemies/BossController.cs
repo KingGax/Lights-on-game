@@ -67,7 +67,7 @@ public class BossController : Enemy
     float cmAOEProb;
     float cmMissileProb;
     float totalProb;
-    int flashNum = 12;
+    int flashNum = 10;
     int flashesRemaining = 0;
     float flashTimerMax;
     float flashTimer;
@@ -91,6 +91,7 @@ public class BossController : Enemy
 
     void Start() //0.7s, 0.59rad/s
     {
+        bulletColour = LightColour.Red;
         currentPhase = 0; 
         enemyState = EnemyState.DecisionState;
         StartCoroutine("EnemyTimers");
@@ -348,7 +349,7 @@ public class BossController : Enemy
         prevState = enemyState;
         aoeStartTimer = aoeStartTimerMax;
         agent.enabled = false;
-        ShowCircle((aoeStartTimerMax-0.1f)/(flashNum+1));
+        ShowCircle((aoeStartTimerMax)/(flashNum+1));
     }
 
     void AOEMeleeStartup(){
@@ -425,7 +426,7 @@ public class BossController : Enemy
         reappearingTimer = reappearingTimerMax;
         agent.speed = normalSpeed;
         agent.enabled = false;
-        ShowCircle((reappearingTimerMax-0.1f)/(flashNum+1));
+        ShowCircle((reappearingTimerMax)/(flashNum+1));
     }
 
     void ReappearState(){
