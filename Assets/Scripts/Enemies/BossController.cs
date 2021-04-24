@@ -46,6 +46,8 @@ public class BossController : Enemy
     [Header("Navigation/movement")]
     public float pathStoppingThreshold = 0.5f;
     public float walkRadius;
+    public float normalSpeed;
+    public float repositionSpeed;
 
 
     float staggerCount;
@@ -55,6 +57,7 @@ public class BossController : Enemy
     [Header("AOE attack setup")]
     public float aoeRadius;
     public float aoeDamage;
+    public float reappearDamage;
     LineRenderer circleLR;
     [Header("Missile attack setup")]
     public float missileShotsMax;
@@ -64,6 +67,10 @@ public class BossController : Enemy
     float cmAOEProb;
     float cmMissileProb;
     float totalProb;
+    int flashNum = 12;
+    int flashesRemaining = 0;
+    float flashTimerMax;
+    float flashTimer;
     bool moving = false;
     List<EnemyGun> rotatingGuns;
     
@@ -88,12 +95,13 @@ public class BossController : Enemy
         enemyState = EnemyState.DecisionState;
         StartCoroutine("EnemyTimers");
         agent = GetComponent<NavMeshAgent>();
-        playerObj = GlobalValues.Instance.localPlayerInstance;
+        //playerObj = GlobalValues.Instance.localPlayerInstance;
         cmRepProb = rotatingShotProbability + repositioningProbability;
         cmAOEProb = cmRepProb + aoeProbability;
         cmMissileProb = cmAOEProb + missileProbability;
         totalProb = cmMissileProb + summonProbability;
         rotatingGuns = new List<EnemyGun>(gunParent.GetComponentsInChildren<EnemyGun>());
+        agent.speed = normalSpeed;
         foreach (EnemyGun g in rotatingGuns){
             g.bulletSpeed = bulletSpeed;
             g.bullet = bullet;
@@ -101,6 +109,7 @@ public class BossController : Enemy
             g.bulletTTL = bulletTTL;
             
         }
+        
         circleLR = GetComponent<LineRenderer>();
         agent.enabled = true;
         moving = false;
@@ -109,20 +118,33 @@ public class BossController : Enemy
     // Update is called once per frame
     void Update()
     {
-        if (moving && agent.remainingDistance < pathStoppingThreshold){
-            moving = false;
-            movementCooldownTimer = movementCooldownTimerMax;    
-        }
-        if (!moving && movementCooldownTimer <= 0){
-            Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
-            randomDirection += transform.position;
-            NavMeshHit hit;
-            NavMesh.SamplePosition(randomDirection, out hit, walkRadius, 1);
-            Vector3 finalPosition = hit.position;
-            agent.destination = finalPosition;
-            moving = true;
-        }
+        
         if (pv == null || !pv.IsMine) return;
+        if (enemyState != EnemyState.SwarmRepositioning && enemyState != EnemyState.Reappearing){
+            if (moving && agent.remainingDistance < pathStoppingThreshold){
+                moving = false;
+                movementCooldownTimer = movementCooldownTimerMax;    
+            }
+            if (!moving && movementCooldownTimer <= 0){
+                Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
+                randomDirection += transform.position;
+                NavMeshHit hit;
+                NavMesh.SamplePosition(randomDirection, out hit, walkRadius, 1);
+                Vector3 finalPosition = hit.position;
+                agent.destination = finalPosition;
+                moving = true;
+            }
+        }
+        if (flashesRemaining > 0 && flashTimer <= 0){
+            
+            if (flashesRemaining % 2 == 0){ 
+                circleLR.enabled = false;         
+            } else {
+                circleLR.enabled = true; 
+            }
+            flashesRemaining--;
+            flashTimer = flashTimerMax;
+        }
         // if (!hasPlayerJoined){
         //     if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
         //         hasPlayerJoined = true;
@@ -176,7 +198,7 @@ public class BossController : Enemy
         }
     }
 
-    void MakeDecision(float p){
+    void MakeDecision(float p){ //decides which attack/ability to use next, will not use same ability twice in a row
         
         if (p < rotatingShotProbability){
             if (prevState == EnemyState.RotateShooting){
@@ -313,13 +335,20 @@ public class BossController : Enemy
 
     }
 
+    void ShowCircle(float time){
+        circleLR.enabled = true;
+        DrawPolygon(100, aoeRadius, new Vector3(fireOrigin.position.x, 0.25f, fireOrigin.position.z), 0.1f, 0.1f);
+        flashesRemaining = flashNum;
+        flashTimerMax = time;
+        flashTimer = flashTimerMax;
+    }
+
     void ChangeToAOEMeleeStartup(){
         enemyState = EnemyState.AOEMeleeStartup;
         prevState = enemyState;
         aoeStartTimer = aoeStartTimerMax;
-        circleLR.enabled = true;
         agent.enabled = false;
-        DrawPolygon(100, aoeRadius, new Vector3(fireOrigin.position.x, 0.25f, fireOrigin.position.z), 0.1f, 0.1f);
+        ShowCircle((aoeStartTimerMax-0.1f)/(flashNum+1));
     }
 
     void AOEMeleeStartup(){
@@ -333,14 +362,18 @@ public class BossController : Enemy
         enemyState = EnemyState.AOEMelee;
     }
 
-    void AOEMelee(){
+    void DoAOEAttack(float dmg){
         Collider[] cols = Physics.OverlapSphere(transform.position, aoeRadius, GlobalValues.Instance.playerLayer);
         if (cols.Length > 0){
             foreach (Collider col in cols){
                 HealthSystem.Health h = col.gameObject.GetComponentInChildren<HealthSystem.Health>();
-                h.Damage(aoeDamage, 0f);
+                h.Damage(dmg, 0f);
             }
         }
+    }
+
+    void AOEMelee(){
+        DoAOEAttack(aoeDamage);
         //do attack
         ChangeToAOEMeleeRecovery();
     }
@@ -374,7 +407,10 @@ public class BossController : Enemy
         enemyState = EnemyState.SwarmRepositioning;
         prevState = enemyState;
         NavMeshHit destPos;
+        int index = Random.Range(0, GlobalValues.Instance.players.Count);
+        playerObj = GlobalValues.Instance.players[index];
         NavMesh.SamplePosition(playerObj.transform.position, out destPos, 2f, NavMesh.AllAreas);
+        agent.speed = repositionSpeed;
         agent.destination = destPos.position;
     }
     
@@ -386,12 +422,18 @@ public class BossController : Enemy
 
     void ChangeToReappearState(){
         enemyState=EnemyState.Reappearing;
-        
+        reappearingTimer = reappearingTimerMax;
+        agent.speed = normalSpeed;
+        agent.enabled = false;
+        ShowCircle((reappearingTimerMax-0.1f)/(flashNum+1));
     }
 
     void ReappearState(){
         if (reappearingTimer <= 0){
+            DoAOEAttack(reappearDamage);
+            circleLR.enabled = false;
             enemyState = EnemyState.DecisionState;
+            agent.enabled = true;
         }
     }
 
@@ -423,6 +465,9 @@ public class BossController : Enemy
             }
             if (movementCooldownTimer > 0){
                 movementCooldownTimer -= Time.deltaTime;
+            }
+            if (flashTimer > 0) {
+                flashTimer -= Time.deltaTime;
             }
             yield return null;
         }

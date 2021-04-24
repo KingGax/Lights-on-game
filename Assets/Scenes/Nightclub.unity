@@ -999,7 +999,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 8704
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
@@ -1018,7 +1018,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 90880126}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30.14433, y: -11.04, z: -77.232574}
+  m_LocalPosition: {x: -30.14433, y: -10.92, z: -77.232574}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3027,6 +3027,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 401871097}
     m_Modifications:
+    - target: {fileID: 5067481228452425189, guid: 871a1d53fcc5236478e579de0d3914b0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6122399961014504856, guid: 871a1d53fcc5236478e579de0d3914b0,
         type: 3}
       propertyPath: m_Name
@@ -5026,10 +5031,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 401871097}
     m_Modifications:
+    - target: {fileID: 5067481228452425189, guid: 871a1d53fcc5236478e579de0d3914b0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6122399961014504856, guid: 871a1d53fcc5236478e579de0d3914b0,
         type: 3}
       propertyPath: m_Name
       value: Floor (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693310885624939417, guid: 871a1d53fcc5236478e579de0d3914b0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6898655907254818594, guid: 871a1d53fcc5236478e579de0d3914b0,
         type: 3}
@@ -6199,6 +6214,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 401871097}
     m_Modifications:
+    - target: {fileID: 5067481228452425189, guid: 871a1d53fcc5236478e579de0d3914b0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6122399961014504856, guid: 871a1d53fcc5236478e579de0d3914b0,
         type: 3}
       propertyPath: m_Name
@@ -7297,6 +7317,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 401871097}
     m_Modifications:
+    - target: {fileID: 5067481228452425189, guid: 871a1d53fcc5236478e579de0d3914b0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6122399961014504856, guid: 871a1d53fcc5236478e579de0d3914b0,
         type: 3}
       propertyPath: m_Name
@@ -7654,6 +7679,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 401871097}
     m_Modifications:
+    - target: {fileID: 5067481228452425189, guid: 871a1d53fcc5236478e579de0d3914b0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6122399961014504856, guid: 871a1d53fcc5236478e579de0d3914b0,
         type: 3}
       propertyPath: m_Name
@@ -7950,7 +7980,7 @@ PrefabInstance:
     - target: {fileID: 7146346670031165677, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7523048508340863575, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
@@ -8112,7 +8142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2010562938
 Transform:
   m_ObjectHideFlags: 0
@@ -9020,7 +9050,7 @@ PrefabInstance:
     - target: {fileID: 9056519510359436349, guid: d581fc39dd95c9e4fa5b3ee299b64df1,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d581fc39dd95c9e4fa5b3ee299b64df1, type: 3}

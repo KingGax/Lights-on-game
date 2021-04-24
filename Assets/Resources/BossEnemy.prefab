@@ -827,7 +827,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4976461971395573607}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1.5
   m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
@@ -954,12 +954,15 @@ MonoBehaviour:
   summonTimerMax: 3
   movementCooldownTimerMax: 3
   pathStoppingThreshold: 0.5
-  walkRadius: 8
+  walkRadius: 15
+  normalSpeed: 2
+  repositionSpeed: 6
   staggerCountMax: 10
   rotationSpeed: 2.46
   currentGunAngle: 0
   aoeRadius: 8
   aoeDamage: 40
+  reappearDamage: 25
   missileShotsMax: 5
 --- !u!120 &4259912167623479042
 LineRenderer:
