@@ -56,7 +56,7 @@ public class BulletController : MonoBehaviour {
         direction = _direction;
         speed = _speed;
         rb.velocity = direction.normalized * speed;
-        Invoke("RequestDestroyBullet", ttl); //magic number :(((((
+        Invoke("RequestDestroyBullet", ttl); 
     }
 
     public void RequestDestroyBullet() {

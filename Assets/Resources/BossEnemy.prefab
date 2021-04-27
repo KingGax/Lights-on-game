@@ -707,7 +707,7 @@ MonoBehaviour:
   - {fileID: 3628735654686913071}
   - {fileID: 3897845344035583216}
   usesMeshRenderer: 1
-  disappearOnInitialise: 0
+  disappearOnInitialise: 1
   smr: {fileID: 6855209017902105465}
   gunScript: {fileID: 7197724986401567}
 --- !u!1 &4976461971395573607
@@ -729,7 +729,7 @@ GameObject:
   - component: {fileID: 5939997989927119737}
   - component: {fileID: 6919722429953386653}
   - component: {fileID: 4259912167623479042}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: BossEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -957,6 +957,8 @@ MonoBehaviour:
   walkRadius: 15
   normalSpeed: 2
   repositionSpeed: 6
+  missile: {fileID: 0}
+  numMissiles: 0
   staggerCountMax: 10
   rotationSpeed: 2.46
   currentGunAngle: 0
@@ -964,6 +966,9 @@ MonoBehaviour:
   aoeDamage: 40
   reappearDamage: 25
   missileShotsMax: 5
+  missileTimeBetweenShots: 0.5
+  missileSpeed: 10
+  missileTurnSpeed: 2.5
 --- !u!120 &4259912167623479042
 LineRenderer:
   m_ObjectHideFlags: 0
