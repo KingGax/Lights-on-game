@@ -202,10 +202,6 @@ namespace LightsOn.WeaponSystem {
         }
 
         void MakeDecision(float p) { //decides which attack/ability to use next, will not use same ability twice in a row
-            ChangeToMissileAttack();
-            return;
-
-
             if (p < rotatingShotProbability) {
                 if (prevState == EnemyState.RotateShooting) {
                     float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
