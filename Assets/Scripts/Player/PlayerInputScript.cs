@@ -165,10 +165,15 @@ public class PlayerInputScript : MonoBehaviour {
         }
     }
     public void ToggleMenu(InputAction.CallbackContext ctx) {
-        if (pv.IsMine) {
+        if (gameObject == PlayerController.LocalPlayerInstance) {
             if (menuView == null)
                 menuView = GlobalValues.Instance.MenuItem.GetComponent<MenuToggle>();
-            menuView.ToggleVisibility();
+            inputEnabled = !menuView.ToggleVisibility();
+            if (!inputEnabled) {
+                pc.AttackOne(false);
+                pc.AttackAlt(false);
+                pc.OnMovement(Vector2.zero);
+            }
         }
         
     }

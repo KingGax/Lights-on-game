@@ -55,6 +55,8 @@ namespace LightsOn {
             private IEnumerator destroyRoutine;
             public LightColour col;
             bool visible = false;
+            private float riseSpeed;
+            private float risingYFloor;
             MeshRenderer renderer;
             public GameObject visionObject;
             //Camera camera;
@@ -94,6 +96,14 @@ namespace LightsOn {
             //         agentMat = blueMat;
             //     } 
             // }
+            public void DirectAwayFromCentre(float disperseSpeed) {
+                foreach (AgentController a in agents) {
+                    a.DirectAwayFromCentre(disperseSpeed);
+                }
+            }
+            public void MoveBoidCentre(Vector3 newCentre) {
+                boidCentre = newCentre;
+            }
 
             public void SetSpawnPoints(Vector3[] points, float maxRadius, Vector3 size, Vector3 pos) {
                 spawnPoints = points;
@@ -112,6 +122,19 @@ namespace LightsOn {
                     newBoid.SetActive(true);
                 }
                 return newBoid;
+            }
+
+            public void StartRising(float _riseSpeed) {
+                riseSpeed = _riseSpeed;
+                boidCentre = GetAveragePos();
+                risingYFloor = boidCentre.y;
+                InvokeRepeating("UpdateRisingCentre",0.1f,0.1f);
+            }
+
+            private void UpdateRisingCentre() {
+                boidCentre = GetAveragePos();
+                risingYFloor += 0.1f * riseSpeed;
+                boidCentre = new Vector3(boidCentre.x, Mathf.Max(risingYFloor, boidCentre.y), boidCentre.z);
             }
 
             public void Spawn() {
@@ -193,6 +216,12 @@ namespace LightsOn {
                 return reformTimerMax;
             }
 
+            public void SetSpeeds(float speed, float turnSpeed) {
+                foreach (AgentController a in agents) {
+                    a.SetSpeed(speed, turnSpeed);
+                }
+            }
+
             public void CancelReform() {
                 //StopCoroutine(destroyRoutine);
                 isReforming = false;
@@ -203,7 +232,7 @@ namespace LightsOn {
                 }
 
             }
-            private void DestroyMyAgents() {
+            public void DestroyMyAgents() {
                 for (int i = 0; i < transform.childCount; i++) {
                     transform.GetChild(i).gameObject.SetActive(false);
                 }
@@ -215,7 +244,7 @@ namespace LightsOn {
                 yield return new WaitForSeconds(time);
                 if (isReforming) {
                     //Destroy(transform.parent.gameObject);
-                    DestroyMyAgents();
+                    //DestroyMyAgents();
                 }
             }
 
@@ -236,7 +265,7 @@ namespace LightsOn {
                     if (isReforming && reformTimer <= 0) {
                         //lightableObject.FinishAppearing();
                         //Destroy(transform.parent.gameObject);
-                        DestroyMyAgents();
+                        //DestroyMyAgents();
                     }
                     yield return null;
                 }

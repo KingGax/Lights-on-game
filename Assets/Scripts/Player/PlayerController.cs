@@ -375,7 +375,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         LightColour c = (LightColour)((int)lanturn.GetColour() >> 8);
         if (c == 0) c = LightColour.Red;
         lanturn.SetColour(c);
-        AudioManager.PlaySFX(SoundClips.Instance.SFXLightChange, transform.position);
+        AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXLightChange, transform.position, gameObject);
     }
 
     public void TakeKnockback(Vector3 dir, float magnitude, float duration) {

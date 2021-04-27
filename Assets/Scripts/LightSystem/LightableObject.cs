@@ -33,6 +33,7 @@ namespace LightsOn {
             MeshRenderer meshRenderer;
             Collider physicsCollider;
             GameObject boidManagerPrefab;
+            GameObject deathBoidManagerPrefab;
             GameObject boidManagerInstance;
             public bool canSwarm = true;
             public float maxSwarmRadius = 1;
@@ -50,8 +51,13 @@ namespace LightsOn {
                 hiddenLayer = LayerMask.NameToLayer("HiddenObjects");
             }
 
+            public LightColour GetColour() {
+                return colour;
+            }
+
             public virtual void Start() {
                 boidManagerPrefab = GlobalValues.Instance.boidManagerPrefab;
+                deathBoidManagerPrefab = GlobalValues.Instance.boidDeathPrefab;
                 if (!overrideMeshRenderer) {
                     meshRenderer = transform.parent.GetComponent<MeshRenderer>();
                 }
@@ -258,7 +264,7 @@ namespace LightsOn {
                     }
                 }
             }
-            private Vector3[] GetTransformedPoints() {
+            protected Vector3[] GetTransformedPoints() {
                 if (cloudPoints != null) {
                     Quaternion defaultQuat = cloudPoints.initialRotation;
                     Quaternion rotationQuat = transform.parent.rotation * Quaternion.Inverse(defaultQuat); //trivially
@@ -269,6 +275,30 @@ namespace LightsOn {
                     return newPoints;
                 } else {
                     return null;
+                }
+            }
+
+            protected BoidManager GetCurrentBoidManagerInstance() {
+                return boidManagerInstance.GetComponentInChildren<BoidManager>();
+            }
+
+            protected void SpawnDeathCloud(Vector3[] points, LightColour col) {
+                boidManagerInstance = Instantiate(deathBoidManagerPrefab, transform.position, transform.rotation);
+                //boidManagerInstance.transform.parent = transform.parent;
+                BoidManager man = boidManagerInstance.GetComponentInChildren<BoidManager>();
+                man.boidCentre = transform.TransformPoint(GetComponent<BoxCollider>().center);
+                //man.lightableObject = this;
+                man.col = col;
+                //man.SetCol(colour);
+                if (cloudPoints != null) {
+                    man.SetSpawnPoints(points, maxSwarmRadius, GetComponent<BoxCollider>().bounds.size, GetComponent<BoxCollider>().transform.position);
+                }
+                man.Spawn();
+            }
+
+            public void SpawnDeathCloud() {
+                if (canSwarm) {
+                    SpawnDeathCloud(GetTransformedPoints(),colour);
                 }
             }
 
@@ -309,6 +339,7 @@ namespace LightsOn {
                 if (!overrideMeshRenderer) {
                     meshRenderer.material = materials.get(colour);
                     meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                    LerpMaterial(0);
                 }
                 if (canSwarm) {
                     fadeTimerMax = boidManagerInstance.GetComponentInChildren<BoidManager>().SendReformSignal(GetTransformedPoints());
@@ -365,6 +396,9 @@ namespace LightsOn {
                     meshRenderer.material = materials.get(colour);
                 }
                 transform.parent.gameObject.layer = defaultLayer;
+                if (canSwarm) {
+                    boidManagerInstance.GetComponentInChildren<BoidManager>().DestroyMyAgents();
+                }
             }
 
             void OnTriggerExit(Collider other) {

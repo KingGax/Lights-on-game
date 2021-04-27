@@ -306,10 +306,12 @@ MonoBehaviour:
   colour: 16711680
   materials: {fileID: 11400000, guid: 64d9bd2656cf1ddec895b9b8189d156b, type: 2}
   hiddenMaterials: {fileID: 11400000, guid: 855a7e2072f9c79a798b3ab4cee6a304, type: 2}
+  canSwarm: 1
   maxSwarmRadius: 1
   cloudPoints: {fileID: 11400000, guid: eab42beedcb064e44a903ae6590e6e45, type: 2}
   childObjects: []
   usesMeshRenderer: 0
+  disappearOnInitialise: 1
   smr: {fileID: 5313805127700934067}
 --- !u!1 &7672520738233504966
 GameObject:

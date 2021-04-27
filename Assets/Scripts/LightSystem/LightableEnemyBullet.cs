@@ -15,11 +15,12 @@ public class LightableEnemyBullet : LightableObject {
 
     public override void Appear() {
         base.Appear();
-        bulletTrail.emitting = true;
+        if (bulletTrail != null) bulletTrail.emitting = true;
+        
     }
 
     public override void Disappear() {
         base.Disappear();
-        bulletTrail.emitting = false;
+         if (bulletTrail != null) bulletTrail.emitting = false;
     }
 }}}

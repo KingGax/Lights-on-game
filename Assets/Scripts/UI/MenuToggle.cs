@@ -5,7 +5,7 @@ using UnityEngine;
 public class MenuToggle : MonoBehaviour
 {
     public GameObject MenuItem;
-    bool visible = true;
+    bool visible = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +18,9 @@ public class MenuToggle : MonoBehaviour
     {
         
     }
-    public void ToggleVisibility() {
+    public bool ToggleVisibility() {
         MenuItem.SetActive(!visible);
         visible = !visible;
+        return visible;
     }
 }
