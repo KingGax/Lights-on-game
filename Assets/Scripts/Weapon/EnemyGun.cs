@@ -6,7 +6,7 @@ namespace LightsOn {
 namespace WeaponSystem {
 
 public class EnemyGun : Gun {
-
+    
     protected override void UseWeapon() {
         if (target == null){
             SetTarget(0);
@@ -19,6 +19,6 @@ public class EnemyGun : Gun {
         if (lo != null) {
             lo.SetColour(colour);
         }
-        bc.Fire(damage, hitStunDuration, bulletSpeed, direction);
+        bc.Fire(damage, hitStunDuration, bulletSpeed, direction, bulletTTL);
     }
 }}}

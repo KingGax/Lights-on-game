@@ -23,6 +23,7 @@ namespace LightsOn.LightingSystem {
         float avoidanceBias;
         float randomTurnAmount; //rad/s
         float maxRadiusSquare;
+        float setupSpeed;
 
         public bool canCheckOOB = false;
         public bool canUpdate = false;
@@ -37,6 +38,17 @@ namespace LightsOn.LightingSystem {
         // Start is called before the first frame update
         void Awake() {
 
+        }
+
+        public void DirectAwayFromCentre(float disperseSpeed) {
+            transform.forward = transform.position - parent.transform.position;
+            setupSpeed = speed;
+            speed = disperseSpeed;
+            Invoke("Accelerate", 0.1f);
+        }
+
+        private void Accelerate() {
+            speed = setupSpeed;
         }
 
         public void SetVals(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax, float _speed, float turnspeed, float detectionradius, float matchingradius,

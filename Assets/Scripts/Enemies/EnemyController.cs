@@ -197,7 +197,7 @@ public class EnemyController : Enemy {
                     playerDirection.y = 0f;
                     TurnTowards(playerDirection);
                     if (weapon.Use()) {
-                        shootingTimer -= missedShotReduction;
+                        //shootingTimer -= missedShotReduction;
                     }
                 }
             }

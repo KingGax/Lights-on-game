@@ -55,6 +55,8 @@ namespace LightsOn {
             private IEnumerator destroyRoutine;
             public LightColour col;
             bool visible = false;
+            private float riseSpeed;
+            private float risingYFloor;
             MeshRenderer renderer;
             public GameObject visionObject;
             //Camera camera;
@@ -94,6 +96,11 @@ namespace LightsOn {
             //         agentMat = blueMat;
             //     } 
             // }
+            public void DirectAwayFromCentre(float disperseSpeed) {
+                foreach (AgentController a in agents) {
+                    a.DirectAwayFromCentre(disperseSpeed);
+                }
+            }
             public void MoveBoidCentre(Vector3 newCentre) {
                 boidCentre = newCentre;
             }
@@ -115,6 +122,19 @@ namespace LightsOn {
                     newBoid.SetActive(true);
                 }
                 return newBoid;
+            }
+
+            public void StartRising(float _riseSpeed) {
+                riseSpeed = _riseSpeed;
+                boidCentre = GetAveragePos();
+                risingYFloor = boidCentre.y;
+                InvokeRepeating("UpdateRisingCentre",0.1f,0.1f);
+            }
+
+            private void UpdateRisingCentre() {
+                boidCentre = GetAveragePos();
+                risingYFloor += 0.1f * riseSpeed;
+                boidCentre = new Vector3(boidCentre.x, Mathf.Max(risingYFloor, boidCentre.y), boidCentre.z);
             }
 
             public void Spawn() {

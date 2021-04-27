@@ -41,7 +41,7 @@ public class BulletController : MonoBehaviour {
         rb.velocity = direction.normalized * speed;
     }
 
-    public void Fire(float _damage, float _hitStunDuration, float _speed, Vector3 _direction) {
+    public void Fire(float _damage, float _hitStunDuration, float _speed, Vector3 _direction, float ttl) {
         pv.RPC(
             "ChildFire",
             RpcTarget.Others,
@@ -56,7 +56,7 @@ public class BulletController : MonoBehaviour {
         direction = _direction;
         speed = _speed;
         rb.velocity = direction.normalized * speed;
-        Invoke("RequestDestroyBullet", 2.0f);
+        Invoke("RequestDestroyBullet", ttl); //magic number :(((((
     }
 
     public void RequestDestroyBullet() {
