@@ -6,17 +6,17 @@ using LightsOn.LightingSystem;
 
 namespace LightsOn.HealthSystem {
     public class EnemyHealth : Health {
-        FloatingHealthBar healthBar;
+        protected FloatingHealthBar healthBar;
         Enemy controller;
         Renderer renderer;
         Material mat;
         Color baseCol;
         Color emisCol;
-        int flashNum = 2;
-        int flashesRemaining = 0;
-        float flashTimerMax = 0.1f;
-        float flashTimer;
-        bool canFlicker = false;
+        protected int flashNum = 2;
+        protected int flashesRemaining = 0;
+        protected float flashTimerMax = 0.1f;
+        protected float flashTimer;
+        protected bool canFlicker = false;
 
         public override void Start() {
             base.Start();

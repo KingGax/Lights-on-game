@@ -7,35 +7,57 @@ public class MissileController : MonoBehaviour
     // Start is called before the first frame update
     private float moveSpeed = 0;
     public int framesPerRetarget;
+    public int damage;
     private float turnSpeed;
     private int retargetCounter;
     GameObject targetPlayer;
     PhotonView pv;
     bool started = false;
     bool fireOnStart = false;
-    public void Fire(float speed,float _turnSpeed) {
+    public void Fire(float speed,float _turnSpeed, int _damage) {
         moveSpeed = speed;
         turnSpeed = _turnSpeed;
+        damage = _damage;
         if (started) {
-            pv.RPC("FireRPC", RpcTarget.All, speed, _turnSpeed);
+            pv.RPC("FireRPC", RpcTarget.All, speed, _turnSpeed,_damage);
         } else {
             fireOnStart = true;
         }
         
     }
     [PunRPC]
-    private void FireRPC(float speed, float _turnSpeed) {
+    private void FireRPC(float speed, float _turnSpeed, int _damage) {
         moveSpeed = speed;
         turnSpeed = _turnSpeed;
+        damage = _damage;
     }
+    public void RequestDestroy() {
+        pv.RPC("RequestDestroyRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void RequestDestroyRPC() {
+        if (pv.IsMine) {
+            Detonate();
+        }
+    }
+
+
     void Start()
     {
         retargetCounter = framesPerRetarget;
         pv = GetComponent<PhotonView>();
         SelectTarget();
         if (fireOnStart) {
-            pv.RPC("FireRPC", RpcTarget.All, moveSpeed, turnSpeed);
+            pv.RPC("FireRPC", RpcTarget.All, moveSpeed, turnSpeed, damage);
         }
+    }
+
+
+    public void Detonate() {
+        
+        if (pv == null || !pv.IsMine) return;
+        PhotonNetwork.Destroy(gameObject);
     }
 
     protected int SelectTarget() { //default implementation sets target as closest player
@@ -63,8 +85,8 @@ public class MissileController : MonoBehaviour
             retargetCounter = framesPerRetarget;
             SelectTarget();
         }
-        transform.forward = Vector3.RotateTowards(transform.forward, targetPlayer.transform.position - transform.position,Time.deltaTime*turnSpeed,0);
-        transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        transform.up = Vector3.RotateTowards(transform.up, targetPlayer.transform.position - transform.position,Time.deltaTime*turnSpeed,0);
+        transform.position += transform.up * moveSpeed * Time.deltaTime;
         retargetCounter--;   
     }
 }

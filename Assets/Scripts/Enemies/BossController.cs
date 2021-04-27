@@ -48,8 +48,6 @@ namespace LightsOn.WeaponSystem {
         public float normalSpeed;
         public float repositionSpeed;
 
-        public GameObject missile;
-        public int numMissiles;
         float staggerCount;
         public float staggerCountMax;
         public float rotationSpeed;
@@ -60,6 +58,7 @@ namespace LightsOn.WeaponSystem {
         public float reappearDamage;
         LineRenderer circleLR;
         [Header("Missile attack setup")]
+        public int missileDamage;
         public float missileShotsMax;
         float missileShotsFired;
         public float missileTimeBetweenShots;
@@ -326,7 +325,7 @@ namespace LightsOn.WeaponSystem {
                 Debug.Log("misiles");
                 GameObject mis = PhotonNetwork.Instantiate("HomingMissile",transform.position,Quaternion.identity);
                 MissileController mc = mis.GetComponent<MissileController>();
-                mc.Fire(missileSpeed, turnSpeed);
+                mc.Fire(missileSpeed, missileTurnSpeed, missileDamage);
                 missileShotsFired++;
                 missileTimer = missileTimeBetweenShots; 
             }
