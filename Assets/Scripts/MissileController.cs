@@ -8,6 +8,7 @@ public class MissileController : MonoBehaviour
     private float moveSpeed = 0;
     public int framesPerRetarget;
     public int damage;
+    public float hitstun;
     private float turnSpeed;
     private int retargetCounter;
     GameObject targetPlayer;
@@ -51,6 +52,7 @@ public class MissileController : MonoBehaviour
         if (fireOnStart) {
             pv.RPC("FireRPC", RpcTarget.All, moveSpeed, turnSpeed, damage);
         }
+        transform.up = targetPlayer.transform.position - transform.position;
     }
 
 
@@ -85,8 +87,11 @@ public class MissileController : MonoBehaviour
             retargetCounter = framesPerRetarget;
             SelectTarget();
         }
-        transform.up = Vector3.RotateTowards(transform.up, targetPlayer.transform.position - transform.position,Time.deltaTime*turnSpeed,0);
-        transform.position += transform.up * moveSpeed * Time.deltaTime;
+        Vector3 targetPostition = new Vector3(targetPlayer.transform.position.x,
+                                        transform.position.y,
+                                        targetPlayer.transform.position.z);
+        transform.up = Vector3.RotateTowards(transform.up, targetPostition - transform.position,Time.deltaTime*turnSpeed,0);
+        transform.position += transform.up * moveSpeed * Time.deltaTime + new Vector3(0,(targetPlayer.transform.position.y - transform.position.y)*Time.deltaTime,0);
         retargetCounter--;   
     }
 }

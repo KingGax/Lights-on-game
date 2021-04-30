@@ -69,18 +69,12 @@ namespace LightsOn.HealthSystem {
 
         private void OnTriggerEnter(Collider other) {
             if (other.gameObject.layer == bulletLayer && pv.IsMine) {
-                BulletController bc = other.gameObject.GetComponent<BulletController>();
-                if (bc != null) {
-                    Damage(bc.damage, bc.hitStunDuration);
-                    bc.RequestDestroyBullet();
+                IDamagingProjectile proj = other.gameObject.GetComponent<IDamagingProjectile>();
+                if (proj != null) {
+                    Damage(proj.GetDamage(), proj.GetHitstun());
+                    proj.HitPlayer();
                 } else {
-                    MissileController mc = other.transform.parent.GetComponent<MissileController>();
-                    if (mc != null) {
-                        Damage(mc.damage, 0);
-                        bc.RequestDestroyBullet();
-                    } else {
-                        Debug.LogError("Something on bullet layer does not have bullet or missile controller");
-                    }
+                    Debug.LogError("Something on bullet layer does not have IDamagingProjectile");
                 } 
             }
         }

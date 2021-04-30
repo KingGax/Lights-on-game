@@ -313,12 +313,10 @@ namespace LightsOn.WeaponSystem {
             enemyState = EnemyState.MissileAttack;
             prevState = enemyState;
             missileShotsFired = 0;
-            Debug.Log("start misiles");
         }
 
         void MissileAttack() {
             if (missileTimer <= 0) {
-                Debug.Log("misiles");
                 GameObject mis = PhotonNetwork.Instantiate("HomingMissile",transform.position,Quaternion.identity);
                 MissileController mc = mis.GetComponent<MissileController>();
                 mc.Fire(missileSpeed, missileTurnSpeed, missileDamage);
@@ -326,7 +324,6 @@ namespace LightsOn.WeaponSystem {
                 missileTimer = missileTimeBetweenShots; 
             }
             if (missileShotsFired >= missileShotsMax) {
-                Debug.Log("no more misiles");
                 enemyState = EnemyState.DecisionState;
             }
             

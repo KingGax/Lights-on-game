@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LightsOn.HealthSystem;
 using Photon.Pun;
-public class MissileCollisionDetection : MonoBehaviour
+public class MissileCollisionDetection : MonoBehaviour, IDamagingProjectile
 {
     MissileController missile;
     PhotonView pv;
@@ -16,16 +16,21 @@ public class MissileCollisionDetection : MonoBehaviour
         walls = GlobalValues.Instance.environment;
     }
 
+    public float GetDamage() {
+        return missile.damage;
+    }
+
+    public float GetHitstun() {
+        return missile.hitstun;
+    }
+
+    public void HitPlayer() {
+        missile.Detonate();
+    }
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log(other.gameObject.layer);
-        Debug.Log(((1 << other.gameObject.layer) & walls));
         if (((1 << other.gameObject.layer) & walls) != 0) {
-            Debug.Log("go");
-
-            Debug.Log(!pv.IsMine);
             if (pv == null || !pv.IsMine) return;
-            Debug.Log("boooom");
             missile.Detonate();
         }
     }
