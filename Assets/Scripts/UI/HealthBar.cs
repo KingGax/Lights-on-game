@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HealthBar : MonoBehaviour
 {
-    private Transform bar;
+    protected Transform bar;
     //GameObject playerObj;
     protected float maxHealth;
 

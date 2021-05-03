@@ -117,6 +117,7 @@ namespace LightsOn.WeaponSystem {
             circleLR = GetComponent<LineRenderer>();
             agent.enabled = true;
             moving = false;
+            //GetComponentInChildren<BossHealthBar>().Activate();
         }
 
         // Update is called once per frame

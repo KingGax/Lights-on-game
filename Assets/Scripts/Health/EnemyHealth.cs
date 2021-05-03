@@ -6,7 +6,7 @@ using LightsOn.LightingSystem;
 
 namespace LightsOn.HealthSystem {
     public class EnemyHealth : Health {
-        protected FloatingHealthBar healthBar;
+        protected HealthBar healthBar;
         Enemy controller;
         Renderer renderer;
         Material mat;
@@ -20,9 +20,9 @@ namespace LightsOn.HealthSystem {
 
         public override void Start() {
             base.Start();
-            controller = gameObject.GetComponent<Enemy>();
-            healthBar = gameObject.GetComponentInChildren<FloatingHealthBar>();
-            healthBar.UpdateMaxHealth(maxHealth);
+            controller = gameObject.GetComponent<Enemy>(); 
+            healthBar = gameObject.GetComponentInChildren<HealthBar>();
+            healthBar.UpdateMaxHealth(maxHealth); //calls this after setting boss HB parent [FIX THIS]
             healthBar.UpdateHealth(health);
             StartCoroutine("Timers");
         }
