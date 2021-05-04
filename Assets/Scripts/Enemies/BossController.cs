@@ -10,7 +10,7 @@ namespace LightsOn.WeaponSystem {
         public GameObject bullet;
         public float bulletSpeed;
         public int bulletDamage;
-        public LightColour bulletColour;
+        public LightColour bulletColour = LightColour.Red;
         public List<GameObject> targetGOs;
         public GameObject gunParent;
         public float gunCircleRadius;
@@ -111,7 +111,7 @@ namespace LightsOn.WeaponSystem {
                 g.bullet = bullet;
                 g.damage = bulletDamage;
                 g.bulletTTL = bulletTTL;
-
+                g.SetColour(bulletColour);
             }
 
             circleLR = GetComponent<LineRenderer>();
@@ -286,6 +286,10 @@ namespace LightsOn.WeaponSystem {
                     case (LightColour.Blue):
                         bulletColour = LightColour.Red;
                         break;
+                    default:
+                        bulletColour = LightColour.Red;
+                        break;
+
                 }
             }
             for (int i = 0; i < rotatingGuns.Count; i++) {
