@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    protected Transform bar;
+    protected Image bar;
     //GameObject playerObj;
     protected float maxHealth;
 
     private void Awake() {
-        bar = transform.Find("Bar");
-        bar.localScale = new Vector3(1f, 1f);
+        bar = transform.Find("Bar").Find("BarSprite").GetComponent<Image>();
+        bar.fillAmount = 1;
         maxHealth = -100;
         // if (GlobalValues.Instance != null)
         // {
@@ -30,6 +31,6 @@ public class HealthBar : MonoBehaviour
         if (hp < 0) {
             hp = 0;
         }
-        bar.localScale = new Vector3(hp/maxHealth, 1f);
+        bar.fillAmount = hp/maxHealth;
     }
 }

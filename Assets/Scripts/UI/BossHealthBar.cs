@@ -43,20 +43,22 @@ public class BossHealthBar : HealthBar
     //Positions healthbar and reparents it to UIElements
     public void Activate(){
         Debug.Log("Activated");
-        hbCanvas = GetComponent<Canvas>();
+        //hbCanvas = GetComponent<Canvas>();
         GameObject uielem = GlobalValues.Instance.UIElements;
         Canvas UICanvas = uielem.GetComponent<Canvas>();
-        RectTransform barSprite = GetComponentsInChildren<Image>()[0].GetComponent<RectTransform>();
-        RectTransform borderSprite = GetComponentsInChildren<Image>()[1].GetComponent<RectTransform>();
+        RectTransform borderSprite = GetComponentsInChildren<Image>()[0].GetComponent<RectTransform>();
+        RectTransform bgSprite = GetComponentsInChildren<Image>()[1].GetComponent<RectTransform>();
+        RectTransform barSprite = GetComponentsInChildren<Image>()[2].GetComponent<RectTransform>();
         transform.SetParent(uielem.transform);
-        hbCanvas.enabled = true;
+        //hbCanvas.enabled = true;
         //RectTransform hbCanvasTransform = hbCanvas.GetComponent<RectTransform>();
         Vector3 pos = UICanvas.transform.position;
-        pos.y = (4f*UICanvas.pixelRect.yMax + UICanvas.pixelRect.center.y)/5f;
-        hbCanvas.transform.position = pos;
-        barSprite.sizeDelta = new Vector2(160, 40);
-        borderSprite.sizeDelta = new Vector2(155.5f, 40); //this width looks better than 160
-        barRect = bar.GetComponent<RectTransform>();
+        pos.y = (2f*UICanvas.pixelRect.yMax + UICanvas.pixelRect.center.y)/3f;
+        transform.position = pos;
+        barSprite.sizeDelta = new Vector2(6, 2f);
+        borderSprite.sizeDelta = new Vector2(5.88f, 2f); //this width looks better than 160
+        bgSprite.sizeDelta = new Vector2(6, 2f);
+        //barRect = bar.GetComponent<RectTransform>();
         //originalWidth = barRect.rect.width;
         // // // Vector3 vector = barRect.transform.position;
         // // // vector.x += barRect.rect.xMin;
