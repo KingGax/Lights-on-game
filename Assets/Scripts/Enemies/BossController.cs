@@ -125,11 +125,12 @@ namespace LightsOn.WeaponSystem {
 
             if (pv == null || !pv.IsMine) return;
             if (enemyState != EnemyState.SwarmRepositioning && enemyState != EnemyState.Reappearing) {
-                if (moving && agent.remainingDistance < pathStoppingThreshold) {
+                if (moving && agent.enabled && agent.remainingDistance < pathStoppingThreshold) {
                     moving = false;
                     movementCooldownTimer = movementCooldownTimerMax;
                 }
                 if (!moving && movementCooldownTimer <= 0) {
+                    agent.enabled = true;
                     Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
                     randomDirection += transform.position;
                     NavMeshHit hit;
@@ -473,6 +474,15 @@ namespace LightsOn.WeaponSystem {
                 }
                 yield return null;
             }
+        }
+        public override void EnableAI()
+        {
+            base.EnableAI();
+        }
+
+        public override void DisableAI()
+        {
+            //base.DisableAI();
         }
 
         void DrawPolygon(int vertexNumber, float radius, Vector3 centerPos, float startWidth, float endWidth) {

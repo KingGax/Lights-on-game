@@ -34,7 +34,7 @@ public abstract class Enemy : MonoBehaviour {
 
     
 
-    public void EnableAI() {
+    public virtual void EnableAI() {
         if (pv.IsMine) {
             agent.enabled = true;
             agent.isStopped = false;
@@ -42,7 +42,7 @@ public abstract class Enemy : MonoBehaviour {
         }
     }
 
-    public void DisableAI() {
+    public virtual void DisableAI() {
         if (pv.IsMine) {
             aiEnabled = false;
             agent.enabled = false;
