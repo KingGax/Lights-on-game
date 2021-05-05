@@ -128,7 +128,7 @@ namespace LightsOn {
                 }
             }
 
-            void TryAppear() {
+            protected virtual void TryAppear() {
                 if (CheckNoIntersections()) {
                     StartAppear();
                     CancelInvoke("TryAppear");
@@ -357,7 +357,7 @@ namespace LightsOn {
                 }
             }
 
-            protected void ForceDisappear() {
+            protected virtual void ForceDisappear() {
                 StartDisappear();
                 Invoke("DelayedColourCheck", 0.1f);
             }

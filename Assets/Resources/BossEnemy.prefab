@@ -783,7 +783,7 @@ GameObject:
   - component: {fileID: 4976461971156023231}
   - component: {fileID: 4976461971156023225}
   - component: {fileID: 9031478370866399478}
-  - component: {fileID: 4125017879546057687}
+  - component: {fileID: 4224394282227075620}
   m_Layer: 6
   m_Name: LightHitboxes
   m_TagString: Untagged
@@ -840,7 +840,7 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &4125017879546057687
+--- !u!114 &4224394282227075620
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -849,7 +849,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4976461971156023228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d94adf913a8b960479999997a75557a6, type: 3}
+  m_Script: {fileID: 11500000, guid: 68d801889ec5c4c42998b529b194e3d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   colour: 16777215
@@ -857,16 +857,17 @@ MonoBehaviour:
   hiddenMaterials: {fileID: 11400000, guid: 855a7e2072f9c79a798b3ab4cee6a304, type: 2}
   canSwarm: 1
   maxSwarmRadius: 1
-  cloudPoints: {fileID: 0}
+  cloudPoints: {fileID: 11400000, guid: b4585dcd874c7424d98cd28179952611, type: 2}
   childObjects:
-  - {fileID: 2088068302760591362}
   - {fileID: 2662338837344892714}
+  - {fileID: 2088068302760591362}
   - {fileID: 3628735654686913071}
   - {fileID: 3897845344035583216}
   usesMeshRenderer: 1
   disappearOnInitialise: 1
   smr: {fileID: 6855209017902105465}
   gunScript: {fileID: 0}
+  boidSpeed: 10
 --- !u!1 &4976461971395573607
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,6 +887,7 @@ GameObject:
   - component: {fileID: 5939997989927119737}
   - component: {fileID: 6919722429953386653}
   - component: {fileID: 4259912167623479042}
+  - component: {fileID: 3229698401480545031}
   m_Layer: 15
   m_Name: BossEnemy
   m_TagString: Untagged
@@ -1223,6 +1225,91 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &3229698401480545031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4976461971395573607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65d0d8ea744dd464581c63eff9371792, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showPoints: 1
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  points:
+  - {x: 1.25, y: 1.0314286, z: 0}
+  - {x: 1.25, y: 1.0314286, z: 0.9081782}
+  - {x: 0.40614957, y: 1.0314286, z: 1.25}
+  - {x: -0.4061498, y: 1.0314287, z: 1.2499999}
+  - {x: -1.25, y: 1.0314285, z: 0.908178}
+  - {x: -1.25, y: 1.0314286, z: 0}
+  - {x: -1.25, y: 1.0314285, z: -0.90817857}
+  - {x: -0.40614977, y: 1.0314286, z: -1.25}
+  - {x: 0.40614977, y: 1.0314286, z: -1.25}
+  - {x: 1.25, y: 1.0314286, z: -0.9081775}
+  - {x: 1.25, y: 0.58285713, z: 0}
+  - {x: 1.25, y: 0.58285725, z: 0.9081784}
+  - {x: 0.4061495, y: 0.5828572, z: 1.25}
+  - {x: -0.40614977, y: 0.58285713, z: 1.25}
+  - {x: -1.25, y: 0.58285725, z: 0.908178}
+  - {x: -1.25, y: 0.58285713, z: 0}
+  - {x: -1.25, y: 0.582857, z: -0.9081782}
+  - {x: -0.40614977, y: 0.58285713, z: -1.25}
+  - {x: 0.40614977, y: 0.58285713, z: -1.25}
+  - {x: 1.25, y: 0.58285713, z: -0.9081775}
+  - {x: 1.25, y: 0.13428569, z: 0}
+  - {x: 1.25, y: 0.13428569, z: 0.9081782}
+  - {x: 0.4061495, y: 0.13428572, z: 1.25}
+  - {x: -0.40614977, y: 0.13428569, z: 1.25}
+  - {x: -1.2499999, y: 0.13428576, z: 0.908178}
+  - {x: -1.25, y: 0.13428569, z: 0}
+  - {x: -1.25, y: 0.13428554, z: -0.9081784}
+  - {x: -0.4061497, y: 0.1342857, z: -1.2499999}
+  - {x: 0.4061497, y: 0.13428569, z: -1.25}
+  - {x: 1.25, y: 0.13428569, z: -0.90817755}
+  - {x: 1.25, y: -0.31428576, z: 0}
+  - {x: 1.25, y: -0.31428576, z: 0.9081781}
+  - {x: 0.4061496, y: -0.31428573, z: 1.25}
+  - {x: -0.4061499, y: -0.31428576, z: 1.25}
+  - {x: -1.25, y: -0.31428576, z: 0.908178}
+  - {x: -1.25, y: -0.31428576, z: 0}
+  - {x: -1.25, y: -0.31428578, z: -0.9081784}
+  - {x: -0.40614963, y: -0.31428576, z: -1.25}
+  - {x: 0.4061497, y: -0.31428578, z: -1.25}
+  - {x: 1.25, y: -0.31428578, z: -0.9081775}
+  - {x: 1.25, y: -0.76285714, z: 0}
+  - {x: 1.25, y: -0.7628572, z: 0.9081784}
+  - {x: 0.4061495, y: -0.7628571, z: 1.25}
+  - {x: -0.40614974, y: -0.7628572, z: 1.25}
+  - {x: -1.25, y: -0.7628571, z: 0.908178}
+  - {x: -1.25, y: -0.7628572, z: 0}
+  - {x: -1.25, y: -0.7628572, z: -0.9081786}
+  - {x: -0.40614986, y: -0.76285726, z: -1.2499999}
+  - {x: 0.4061497, y: -0.7628572, z: -1.25}
+  - {x: 1.25, y: -0.7628571, z: -0.9081775}
+  - {x: 1.25, y: -1.2114285, z: 0}
+  - {x: 1.25, y: -1.2114285, z: 0.90817857}
+  - {x: 0.4061495, y: -1.2114285, z: 1.25}
+  - {x: -0.40614992, y: -1.2114285, z: 1.25}
+  - {x: -1.25, y: -1.2114285, z: 0.908178}
+  - {x: -1.25, y: -1.2114286, z: 0}
+  - {x: -1.25, y: -1.2114286, z: -0.9081784}
+  - {x: -0.4061498, y: -1.2114288, z: -1.2499999}
+  - {x: 0.4061497, y: -1.2114286, z: -1.25}
+  - {x: 1.25, y: -1.2114286, z: -0.90817755}
+  pointShift: {x: 0, y: 0, z: 0}
+  cloudPrefab: {fileID: 11400000, guid: b4585dcd874c7424d98cd28179952611, type: 2}
+  rotationParent: {fileID: 4976461971395573628}
+  scannerCircleRadius: 2.42
+  scannerBottom: {x: 0, y: 1.48, z: 0}
+  scannerTop: {x: 0, y: -1.66, z: 0}
+  yNumSteps: 8
+  circleSamples: 10
+  showRaycastCentre: 1
+  showRaycasts: 1
 --- !u!1 &5195543026747242833
 GameObject:
   m_ObjectHideFlags: 0

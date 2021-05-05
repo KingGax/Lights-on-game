@@ -76,6 +76,7 @@ namespace LightsOn.WeaponSystem {
         float flashTimer;
         bool moving = false;
         List<EnemyGun> rotatingGuns;
+        LightableBossEnemy lightableBoss;
 
 
         enum EnemyState {
@@ -89,14 +90,15 @@ namespace LightsOn.WeaponSystem {
             SummonAdds, //Currently summoning minions
             SwarmRepositioning, //Moving during combat
             Reappearing, //Reapearring and performing AoE attack
-            Staggered //Staggered/stunned (after taking a certain amount of damage) [not sure if I want to use this]
+            Staggered, //Staggered/stunned (after taking a certain amount of damage) [not sure if I want to use this]
+            Spawning //For when the enemy initially appears
         }
 
         void Start() //0.7s, 0.59rad/s
         {
             bulletColour = LightColour.Red;
             currentPhase = 0;
-            enemyState = EnemyState.DecisionState;
+            enemyState = EnemyState.Spawning;
             StartCoroutine("EnemyTimers");
             agent = GetComponent<NavMeshAgent>();
             //playerObj = GlobalValues.Instance.localPlayerInstance;
@@ -117,6 +119,7 @@ namespace LightsOn.WeaponSystem {
             circleLR = GetComponent<LineRenderer>();
             agent.enabled = true;
             moving = false;
+            lightableBoss = GetComponentInChildren<LightableBossEnemy>();
             //GetComponentInChildren<BossHealthBar>().Activate();
         }
 
@@ -124,7 +127,7 @@ namespace LightsOn.WeaponSystem {
         void Update() {
 
             if (pv == null || !pv.IsMine) return;
-            if (enemyState != EnemyState.SwarmRepositioning && enemyState != EnemyState.Reappearing) {
+            if (enemyState != EnemyState.SwarmRepositioning && enemyState != EnemyState.Reappearing && enemyState != EnemyState.Spawning) {
                 if (moving && agent.enabled && agent.remainingDistance < pathStoppingThreshold) {
                     moving = false;
                     movementCooldownTimer = movementCooldownTimerMax;
@@ -139,6 +142,8 @@ namespace LightsOn.WeaponSystem {
                     agent.destination = finalPosition;
                     moving = true;
                 }
+            } else if (enemyState == EnemyState.Spawning){
+                ChangeToSwarmReposition();
             }
             if (flashesRemaining > 0 && flashTimer <= 0) {
 
@@ -200,7 +205,7 @@ namespace LightsOn.WeaponSystem {
                     default:
                         break;
                 }
-            }
+            } 
         }
 
         void MakeDecision(float p) { //decides which attack/ability to use next, will not use same ability twice in a row
@@ -416,6 +421,8 @@ namespace LightsOn.WeaponSystem {
             NavMesh.SamplePosition(playerObj.transform.position, out destPos, 2f, NavMesh.AllAreas);
             agent.speed = repositionSpeed;
             agent.destination = destPos.position;
+            lightableBoss.BossSwarm();
+            
         }
 
         void SwarmReposition() {
@@ -430,6 +437,7 @@ namespace LightsOn.WeaponSystem {
             agent.speed = normalSpeed;
             agent.enabled = false;
             ShowCircle((reappearingTimerMax) / (flashNum + 1));
+            lightableBoss.BossReappear();
         }
 
         void ReappearState() {
