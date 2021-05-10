@@ -1149,11 +1149,11 @@ MonoBehaviour:
   gunCircleRadius: 3
   bulletTTL: 20
   fireOrigin: {fileID: 4976461970225937621}
-  rotatingShotProbability: 0.35
+  rotatingShotProbability: 0.4
   repositioningProbability: 0.2
   aoeProbability: 0.15
-  missileProbability: 0.2
-  summonProbability: 0.1
+  missileProbability: 0.25
+  summonProbability: 0
   aoeStartTimerMax: 2.5
   aoeEndTimerMax: 3
   rotatingShotTimerMin: 5
@@ -1174,7 +1174,7 @@ MonoBehaviour:
   aoeDamage: 30
   reappearDamage: 15
   reappearKnockbackMagnitude: 25
-  reappearKnockbackDuration: 0.3
+  reappearKnockbackDuration: 0.5
   missileDamage: 10
   missileShotsMax: 5
   missileTimeBetweenShots: 0.7

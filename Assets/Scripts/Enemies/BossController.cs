@@ -79,6 +79,7 @@ namespace LightsOn.WeaponSystem {
         bool moving = false;
         List<EnemyGun> rotatingGuns;
         LightableBossEnemy lightableBoss;
+        Vector3 floorPlane = new Vector3(0,1,0);
 
 
         enum EnemyState {
@@ -170,7 +171,7 @@ namespace LightsOn.WeaponSystem {
         }
 
         void ManageStates() {
-            if (aiEnabled) {
+            //if (aiEnabled) {
                 switch (enemyState) {
                     case EnemyState.DecisionState:
                         float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
@@ -207,7 +208,7 @@ namespace LightsOn.WeaponSystem {
                     default:
                         break;
                 }
-            } 
+            //} 
         }
 
         void MakeDecision(float p) { //decides which attack/ability to use next, will not use same ability twice in a row
@@ -386,17 +387,21 @@ namespace LightsOn.WeaponSystem {
                     h.Damage(dmg, 0f);
                     //PlayerController p = col.gameObject.GetComponentInChildren<PlayerController>();
                     IKnockbackable ks = col.gameObject.GetComponentInChildren<IKnockbackable>();
-                        if (ks != null)
-                        {
-                            Vector3 dir = Vector3.Normalize(col.transform.position - transform.position); // this might need to be changed
-                            ks.TakeKnockback(dir, knockbackMag, knockbackDuration);
+                    if (ks != null)
+                    {
+                        Vector3 dir = Vector3.Normalize(col.transform.position - transform.position); // this might need to be changed
+                        if (dir == Vector3.zero){
+                            dir = new Vector3(1, 0, 0);
                         }
+                        Vector3 flatDir = Vector3.ProjectOnPlane(dir, floorPlane);
+                        ks.TakeKnockback(flatDir, knockbackMag, knockbackDuration);
+                    }
                 }
             }
         }
 
         void AOEMelee() {
-            DoAOEAttack(aoeDamage, 0f, 0f);
+            DoAOEAttack(aoeDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
             //do attack
             ChangeToAOEMeleeRecovery();
         }
@@ -465,14 +470,17 @@ namespace LightsOn.WeaponSystem {
 
         void ReappearState() {
             if (reappearingTimer <= 0) {
-                pv.RPC("ReappearRPC", RpcTarget.All);
                 DoAOEAttack(reappearDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
                 if (aiEnabled){
+                    Debug.Log("Reappearing");
+                    pv.RPC("ReappearRPC", RpcTarget.All);
                     circleLR.enabled = false;
                     enemyState = EnemyState.DecisionState;
                     agent.enabled = true;
                 } else {
-                    reappearingTimer = reappearingTimerMax/2;
+                    float newReappearTimer = 1.5f;
+                    reappearingTimer = newReappearTimer; //get from globalvalues
+                    ShowCircle(newReappearTimer / (flashNum + 1));
                 }
                 
             }
@@ -523,7 +531,10 @@ namespace LightsOn.WeaponSystem {
 
         public override void DisableAI()
         {
-            //base.DisableAI();
+             if (pv.IsMine) {
+                aiEnabled = false;
+                //agent.enabled = false;
+            }
         }
 
         void DrawPolygon(int vertexNumber, float radius, Vector3 centerPos, float startWidth, float endWidth) {
