@@ -366,6 +366,7 @@ namespace LightsOn.WeaponSystem {
             aoeStartTimer = aoeStartTimerMax;
             agent.enabled = false;
             ShowCircle((aoeStartTimerMax) / (flashNum + 1));
+            pv.RPC("StartAOE", RpcTarget.Others, PhotonNetwork.Time, aoeStartTimerMax);
         }
 
         void AOEMeleeStartup() {
@@ -379,22 +380,37 @@ namespace LightsOn.WeaponSystem {
             enemyState = EnemyState.AOEMelee;
         }
 
+        [PunRPC]
+        protected void StartAOE(double time, float startup) {
+            float dt = (float)(PhotonNetwork.Time - time);
+            if (dt > startup) {
+                dt = startup;
+            }
+            Invoke("InvokeAOE", startup - dt);
+        }
+        void InvokeAOE() {
+            DoAOEAttack(aoeDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
+        }
+
         void DoAOEAttack(float dmg, float knockbackMag, float knockbackDuration) {
             Collider[] cols = Physics.OverlapSphere(transform.position, aoeRadius, GlobalValues.Instance.playerLayer);
             if (cols.Length > 0) {
                 foreach (Collider col in cols) {
                     HealthSystem.Health h = col.gameObject.GetComponentInChildren<HealthSystem.Health>();
-                    h.Damage(dmg, 0f);
-                    //PlayerController p = col.gameObject.GetComponentInChildren<PlayerController>();
-                    IKnockbackable ks = col.gameObject.GetComponentInChildren<IKnockbackable>();
-                    if (ks != null)
-                    {
-                        Vector3 dir = Vector3.Normalize(col.transform.position - transform.position); // this might need to be changed
-                        if (dir == Vector3.zero){
-                            dir = new Vector3(1, 0, 0);
+                    PhotonView playerPV = h.gameObject.GetPhotonView();
+                    if (playerPV != null && playerPV.IsMine) {
+                        h.Damage(dmg, 0f);
+
+                        //PlayerController p = col.gameObject.GetComponentInChildren<PlayerController>();
+                        IKnockbackable ks = col.gameObject.GetComponentInChildren<IKnockbackable>();
+                        if (ks != null) {
+                            Vector3 dir = Vector3.Normalize(col.transform.position - transform.position); // this might need to be changed
+                            if (dir == Vector3.zero) {
+                                dir = new Vector3(1, 0, 0);
+                            }
+                            Vector3 flatDir = Vector3.ProjectOnPlane(dir, floorPlane);
+                            ks.TakeKnockback(flatDir, knockbackMag, knockbackDuration);
                         }
-                        Vector3 flatDir = Vector3.ProjectOnPlane(dir, floorPlane);
-                        ks.TakeKnockback(flatDir, knockbackMag, knockbackDuration);
                     }
                 }
             }
@@ -466,7 +482,7 @@ namespace LightsOn.WeaponSystem {
             agent.speed = normalSpeed;
             agent.enabled = false;
             ShowCircle((reappearingTimerMax) / (flashNum + 1));
-            lightableBoss.BossReappear();
+            pv.RPC("StartAOE", RpcTarget.Others,PhotonNetwork.Time,reappearingTimerMax);
         }
         [PunRPC]
         void ReappearRPC(){
