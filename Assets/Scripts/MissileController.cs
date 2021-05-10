@@ -11,10 +11,16 @@ public class MissileController : MonoBehaviour
     public float hitstun;
     private float turnSpeed;
     private int retargetCounter;
+    private float missileDeathDelay = 5f;
+    private float explosionRadius = 1.3f;
+    public GameObject deathEffect;
     GameObject targetPlayer;
     PhotonView pv;
     bool started = false;
     bool fireOnStart = false;
+    Collider missileCollider;
+    Collider childCollider;
+    SkinnedMeshRenderer renderer;
     public void Fire(float speed,float _turnSpeed, int _damage) {
         moveSpeed = speed;
         turnSpeed = _turnSpeed;
@@ -53,13 +59,40 @@ public class MissileController : MonoBehaviour
             pv.RPC("FireRPC", RpcTarget.All, moveSpeed, turnSpeed, damage);
         }
         transform.up = targetPlayer.transform.position - transform.position;
+        missileCollider = GetComponent<Collider>();
+        childCollider = GetComponentInChildren<Collider>();
+        renderer = GetComponentInChildren<SkinnedMeshRenderer>();
+    }
+
+    private void SpawnDeathEffect(Vector3 explosionPoint) {
+        Instantiate(deathEffect, explosionPoint, Quaternion.identity);
+    }
+
+    [PunRPC]
+    private void DetonateRPC(Vector3 deathPos) {
+        DisableMissile();
+        if (pv == null || !pv.IsMine) {
+            SpawnDeathEffect(deathPos);
+        } else if (pv.IsMine) {
+            SpawnDeathEffect(deathPos);
+            Invoke("DespawnMissile", 2f);
+        }
+        
+    }
+
+    private void DisableMissile() {
+        childCollider.enabled = false;
+        missileCollider.enabled = false;
+        renderer.enabled = false;
+    }
+
+    private void DespawnMissile() {
+        PhotonNetwork.Destroy(gameObject);
     }
 
 
     public void Detonate() {
-        
-        if (pv == null || !pv.IsMine) return;
-        PhotonNetwork.Destroy(gameObject);
+        pv.RPC("DetonateRPC", RpcTarget.All, transform.position);
     }
 
     protected int SelectTarget() { //default implementation sets target as closest player
@@ -73,7 +106,6 @@ public class MissileController : MonoBehaviour
                 targetIndex = i;
             }
         }
-        //Debug.Log("Player index: "+targetIndex);
         targetPlayer = GlobalValues.Instance.players[targetIndex];
         return targetIndex;
     }

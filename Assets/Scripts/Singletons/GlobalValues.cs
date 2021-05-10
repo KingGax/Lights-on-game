@@ -73,6 +73,7 @@ public class GlobalValues : MonoBehaviour {
         _instance.p2Spawn = p2Spawn;
         _instance.fm = fm;
         _instance.navManager = navManager;
+        _instance.boidManagerPrefab = boidManagerPrefab;
         gameObject.GetComponent<LocalObjectPool>().RespawnBoids();
     }
 
