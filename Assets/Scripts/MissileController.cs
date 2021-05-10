@@ -21,6 +21,7 @@ public class MissileController : MonoBehaviour
     Collider missileCollider;
     Collider childCollider;
     SkinnedMeshRenderer renderer;
+    HealthBar hb;
     public void Fire(float speed,float _turnSpeed, int _damage) {
         moveSpeed = speed;
         turnSpeed = _turnSpeed;
@@ -62,6 +63,7 @@ public class MissileController : MonoBehaviour
         missileCollider = GetComponent<Collider>();
         childCollider = GetComponentInChildren<Collider>();
         renderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        hb = GetComponentInChildren<HealthBar>();
     }
 
     private void SpawnDeathEffect(Vector3 explosionPoint) {
@@ -84,6 +86,9 @@ public class MissileController : MonoBehaviour
         childCollider.enabled = false;
         missileCollider.enabled = false;
         renderer.enabled = false;
+        moveSpeed = 0;
+        hb.gameObject.SetActive(false);
+        
     }
 
     private void DespawnMissile() {
