@@ -11,9 +11,11 @@ mergeInto(LibraryManager.library, {
         //Starting record
         //Separate frontend function will handle return
     },
+    setupVoiceChatUnity__deps: ['setupVoiceChat'],
     setupVoiceChatUnity: function(username, role) {
         setupVoiceChat(username, role);
     },
+    initiateVoiceChatUnity__deps: ['initiateVoiceChat'],
     initiateVoiceChatUnity: function(username, role) {
         initiateVoiceChat(username, role);
     }

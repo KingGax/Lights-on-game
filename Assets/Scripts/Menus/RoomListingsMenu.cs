@@ -9,6 +9,9 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
     [SerializeField]
     private Transform _content;
 
+    [DllImport("__Internal")]
+    private static extern void setupVoiceChatUnity();
+
     [SerializeField]
     public GameObject _roomListing;
 
@@ -47,6 +50,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
             roomInfo.SetRoomInfo(info);
             cachedRoomList[info.Name] = listing;
         }
+        setupVoiceChat("b", "client");
     }
 
     public override void OnDisconnected(DisconnectCause cause) {
