@@ -56,6 +56,8 @@ namespace LightsOn.WeaponSystem {
         public float aoeRadius;
         public float aoeDamage;
         public float reappearDamage;
+        public float reappearKnockbackMagnitude;
+        public float reappearKnockbackDuration;
         LineRenderer circleLR;
         [Header("Missile attack setup")]
         public int missileDamage;
@@ -127,7 +129,7 @@ namespace LightsOn.WeaponSystem {
         void Update() {
 
             if (pv == null || !pv.IsMine) return;
-            if (enemyState != EnemyState.SwarmRepositioning && enemyState != EnemyState.Reappearing && enemyState != EnemyState.Spawning) {
+            if (enemyState != EnemyState.SwarmRepositioning && enemyState != EnemyState.Reappearing && enemyState != EnemyState.AOEMeleeStartup && enemyState != EnemyState.Spawning) {
                 if (moving && agent.enabled && agent.remainingDistance < pathStoppingThreshold) {
                     moving = false;
                     movementCooldownTimer = movementCooldownTimerMax;
@@ -371,18 +373,25 @@ namespace LightsOn.WeaponSystem {
             enemyState = EnemyState.AOEMelee;
         }
 
-        void DoAOEAttack(float dmg) {
+        void DoAOEAttack(float dmg, float knockbackMag, float knockbackDuration) {
             Collider[] cols = Physics.OverlapSphere(transform.position, aoeRadius, GlobalValues.Instance.playerLayer);
             if (cols.Length > 0) {
                 foreach (Collider col in cols) {
                     HealthSystem.Health h = col.gameObject.GetComponentInChildren<HealthSystem.Health>();
                     h.Damage(dmg, 0f);
+                    //PlayerController p = col.gameObject.GetComponentInChildren<PlayerController>();
+                    IKnockbackable ks = col.gameObject.GetComponentInChildren<IKnockbackable>();
+                        if (ks != null)
+                        {
+                            Vector3 dir = Vector3.Normalize(col.transform.position - transform.position); // this might need to be changed
+                            ks.TakeKnockback(dir, knockbackMag, knockbackDuration);
+                        }
                 }
             }
         }
 
         void AOEMelee() {
-            DoAOEAttack(aoeDamage);
+            DoAOEAttack(aoeDamage, 0f, 0f);
             //do attack
             ChangeToAOEMeleeRecovery();
         }
@@ -442,10 +451,15 @@ namespace LightsOn.WeaponSystem {
 
         void ReappearState() {
             if (reappearingTimer <= 0) {
-                DoAOEAttack(reappearDamage);
-                circleLR.enabled = false;
-                enemyState = EnemyState.DecisionState;
-                agent.enabled = true;
+                DoAOEAttack(reappearDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
+                if (aiEnabled){
+                    circleLR.enabled = false;
+                    enemyState = EnemyState.DecisionState;
+                    agent.enabled = true;
+                } else {
+                    reappearingTimer = reappearingTimerMax/2;
+                }
+                
             }
         }
 

@@ -1050,7 +1050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ea7ded0536df1499510eb9b9d02f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1500
+  maxHealth: 1000
 --- !u!95 &5939997989927119737
 Animator:
   serializedVersion: 3
@@ -1087,7 +1087,7 @@ MonoBehaviour:
   ignoresStun: 1
   bullet: {fileID: 3625585865830301468, guid: fa07c6df8cfe4c84b9570b8bdf577406, type: 3}
   bulletSpeed: 6
-  bulletDamage: 15
+  bulletDamage: 10
   bulletColour: 16711680
   targetGOs:
   - {fileID: 5365734396453259212}
@@ -1120,11 +1120,13 @@ MonoBehaviour:
   rotationSpeed: 2.46
   currentGunAngle: 0
   aoeRadius: 8
-  aoeDamage: 40
-  reappearDamage: 25
+  aoeDamage: 30
+  reappearDamage: 15
+  reappearKnockbackMagnitude: 25
+  reappearKnockbackDuration: 0.3
   missileDamage: 10
   missileShotsMax: 5
-  missileTimeBetweenShots: 0.5
+  missileTimeBetweenShots: 0.7
   missileSpeed: 7.5
   missileTurnSpeed: 2
 --- !u!120 &4259912167623479042
