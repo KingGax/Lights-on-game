@@ -52,7 +52,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             if (listingsMenu.isReady()){
                 loadingScene = true;
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
-                initiateVoiceChat();
+                initiateVoiceChatUnity();
             } else {
                 Debug.Log("Please ensure everyone is 'Ready' before starting the game.");
             }
