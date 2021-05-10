@@ -502,6 +502,7 @@ namespace LightsOn.WeaponSystem {
                 } else {
                     float newReappearTimer = 1.5f;
                     reappearingTimer = newReappearTimer; //get from globalvalues
+                    pv.RPC("StartAOE", RpcTarget.Others, PhotonNetwork.Time, reappearingTimer);
                     ShowCircle(newReappearTimer / (flashNum + 1));
                 }
                 
