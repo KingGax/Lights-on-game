@@ -60,6 +60,7 @@ namespace LightsOn {
             MeshRenderer renderer;
             public GameObject visionObject;
             private Transform followTransform;
+            public bool followParent;
             bool doFollow = false;
             //Camera camera;
             List<AgentController> agents = new List<AgentController>();
@@ -178,11 +179,10 @@ namespace LightsOn {
 
             public void SetFollowTransform(Transform _followTransform) {
                 followTransform = _followTransform;
-                doFollow = true;
             }
             // Update is called once per frame
             void Update() {
-                if (followTransform) {
+                if (followParent) {
                     boidCentre = followTransform.position;
                     visionObject.transform.position = followTransform.position;
                 }

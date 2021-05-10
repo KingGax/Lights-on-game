@@ -316,6 +316,7 @@ namespace LightsOn {
                         //boidManagerInstance.transform.parent = transform.parent;
                         BoidManager man = boidManagerInstance.GetComponentInChildren<BoidManager>();
                         man.boidCentre = transform.TransformPoint(GetComponent<BoxCollider>().center);
+                        man.SetFollowTransform(transform);
                         //man.lightableObject = this;
                         man.col = colour;
                         //man.SetCol(colour);

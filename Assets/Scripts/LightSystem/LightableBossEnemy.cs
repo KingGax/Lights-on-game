@@ -17,7 +17,6 @@ namespace LightsOn.LightingSystem {
             ForceDisappear();
             boidInstance = GetCurrentBoidManagerInstance();
             boidInstance.SetFollowTransform(transform.parent);
-            boidInstance.agentSpeed = boidSpeed;
         }
 
         public void BossReappear() {
