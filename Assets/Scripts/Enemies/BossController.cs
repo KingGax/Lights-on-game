@@ -432,7 +432,7 @@ namespace LightsOn.WeaponSystem {
         }
         [PunRPC]
         void DisappearRPC(){
-            GetComponentInChildren<LightableBossEnemy>().Disappear();
+            GetComponentInChildren<LightableBossEnemy>().ForceDisappear();
         }
 
         void ChangeToSwarmReposition() {
@@ -471,9 +471,9 @@ namespace LightsOn.WeaponSystem {
         void ReappearState() {
             if (reappearingTimer <= 0) {
                 DoAOEAttack(reappearDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
+                pv.RPC("ReappearRPC", RpcTarget.All);
                 if (aiEnabled){
                     Debug.Log("Reappearing");
-                    pv.RPC("ReappearRPC", RpcTarget.All);
                     circleLR.enabled = false;
                     enemyState = EnemyState.DecisionState;
                     agent.enabled = true;

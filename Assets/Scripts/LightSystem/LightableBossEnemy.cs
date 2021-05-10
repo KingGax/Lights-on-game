@@ -24,7 +24,7 @@ namespace LightsOn.LightingSystem {
             stayHidden = false;
         }
 
-        protected override void ForceDisappear() {
+        public override void ForceDisappear() {
             stayHidden = true;
             base.ForceDisappear();
         }
