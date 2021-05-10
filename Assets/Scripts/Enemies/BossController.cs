@@ -348,16 +348,17 @@ namespace LightsOn.WeaponSystem {
         }
 
         [PunRPC]
-        void DrawPolygonRPC(){
+        void ShowCircleRPC(float time){
+            circleLR.enabled = true;
+            flashesRemaining = flashNum;
+            flashTimerMax = time;
+            flashTimer = flashTimerMax;
             DrawPolygon(100, aoeRadius, new Vector3(fireOrigin.position.x, 0.25f, fireOrigin.position.z), 0.1f, 0.1f);
         }
 
         void ShowCircle(float time) {
-            circleLR.enabled = true;
-            pv.RPC("DrawPolygonRPC", RpcTarget.All);
-            flashesRemaining = flashNum;
-            flashTimerMax = time;
-            flashTimer = flashTimerMax;
+            pv.RPC("ShowCircleRPC", RpcTarget.All, time);
+            
         }
 
         void ChangeToAOEMeleeStartup() {
