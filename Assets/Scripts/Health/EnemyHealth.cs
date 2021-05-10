@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using LightsOn.LightingSystem;
+using LightsOn.AudioSystem;
+
 
 namespace LightsOn.HealthSystem {
     public class EnemyHealth : Health {
@@ -75,8 +77,18 @@ namespace LightsOn.HealthSystem {
 
         public override void Die()
         {
+            
+            AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXKill, transform.position, gameObject);
+            pv.RPC("EnemyDieRPC", RpcTarget.AllBuffered);
+        }
+        
+        [PunRPC]
+        public void EnemyDieRPC() {
+            if (pv.IsMine) {
+                PhotonNetwork.CleanRpcBufferIfMine(pv);
+            }
+            Destroy(gameObject);
             Destroy(healthBar.gameObject);
-            base.Die();
         }
 
         void Update() {
