@@ -128,7 +128,15 @@ namespace LightsOn.WeaponSystem {
 
         // Update is called once per frame
         void Update() {
-
+            if (flashesRemaining > 0 && flashTimer <= 0) {
+                if (flashesRemaining % 2 == 0) {
+                    circleLR.enabled = false;
+                } else {
+                    circleLR.enabled = true;
+                }
+                flashesRemaining--;
+                flashTimer = flashTimerMax;
+            }
             if (pv == null || !pv.IsMine) return;
             if (enemyState != EnemyState.SwarmRepositioning && enemyState != EnemyState.Reappearing && enemyState != EnemyState.AOEMeleeStartup && enemyState != EnemyState.Spawning) {
                 if (moving && agent.enabled && agent.remainingDistance < pathStoppingThreshold) {
@@ -148,16 +156,7 @@ namespace LightsOn.WeaponSystem {
             } else if (enemyState == EnemyState.Spawning){
                 ChangeToSwarmReposition();
             }
-            if (flashesRemaining > 0 && flashTimer <= 0) {
-
-                if (flashesRemaining % 2 == 0) {
-                    circleLR.enabled = false;
-                } else {
-                    circleLR.enabled = true;
-                }
-                flashesRemaining--;
-                flashTimer = flashTimerMax;
-            }
+            
             // if (!hasPlayerJoined){
             //     if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
             //         hasPlayerJoined = true;
@@ -406,8 +405,13 @@ namespace LightsOn.WeaponSystem {
             //do attack
             ChangeToAOEMeleeRecovery();
         }
-        void ChangeToAOEMeleeRecovery() {
+        [PunRPC]
+        void DisableCircleRPC(){
             circleLR.enabled = false;
+        }
+        void ChangeToAOEMeleeRecovery() {
+
+            pv.RPC("DisableCircleRPC", RpcTarget.All);
             enemyState = EnemyState.AOEMeleeRecovery;
             aoeEndTimer = aoeEndTimerMax;
         }
@@ -466,7 +470,7 @@ namespace LightsOn.WeaponSystem {
         }
         [PunRPC]
         void ReappearRPC(){
-            GetComponentInChildren<LightableBossEnemy>().BossReappear();
+            lightableBoss.BossReappear();
         }
 
         void ReappearState() {
@@ -475,7 +479,8 @@ namespace LightsOn.WeaponSystem {
                 pv.RPC("ReappearRPC", RpcTarget.All);
                 if (aiEnabled){
                     Debug.Log("Reappearing");
-                    circleLR.enabled = false;
+                    //circleLR.enabled = false;
+                    pv.RPC("DisableCircleRPC", RpcTarget.All);
                     enemyState = EnemyState.DecisionState;
                     agent.enabled = true;
                 } else {

@@ -21,6 +21,7 @@ namespace LightsOn.LightingSystem {
 
         public void BossReappear() {
             stayHidden = false;
+            //TryAppear();
         }
 
         public override void ForceDisappear() {
