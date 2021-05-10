@@ -10,5 +10,11 @@ mergeInto(LibraryManager.library, {
         startRecording();
         //Starting record
         //Separate frontend function will handle return
+    },
+    setupVoiceChatUnity: function(username, role) {
+        setupVoiceChat(username, role);
+    },
+    initiateVoiceChatUnity: function(username, role) {
+        initiateVoiceChat(username, role);
     }
 });
