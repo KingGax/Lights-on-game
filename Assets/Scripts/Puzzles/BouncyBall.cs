@@ -43,6 +43,7 @@ public class BouncyBall : MonoBehaviour {
 
     public void Respawn() {
         if (!PhotonNetwork.IsMasterClient) return;
+        pv.RPC("Deactivate", RpcTarget.Others);
         this.transform.position = spawnPosition;
         this.transform.rotation = spawnRotation;
         this.bouncesLeft = 4;
@@ -55,13 +56,19 @@ public class BouncyBall : MonoBehaviour {
         if (!PhotonNetwork.IsMasterClient || isActivated) return;
         Debug.Log("activated");
         this.isActivated = true;
+        pv.RPC("Activate", RpcTarget.Others);
         Debug.Log(transform.forward.normalized * speed);
         //rigidBody.velocity = transform.forward.normalized * speed;
     }
 
     [PunRPC]
     private void Activate() {
+        isActivated = true;
+    }
 
+    [PunRPC]
+    private void Deactivate() {
+        isActivated = false;
     }
     // Update is called once per frame
     void FixedUpdate() {
