@@ -33,6 +33,7 @@ public class BouncyBall : MonoBehaviour {
     void Awake() {
         spawnPosition = transform.position;
         spawnRotation = transform.rotation;
+        pv = GetComponent<PhotonView>();
         //rigidBody = this.gameObject.GetComponent<Rigidbody>();
         staticLayer = LayerMask.NameToLayer("StaticEnvironment");
         dynamicLayer = LayerMask.NameToLayer("DynamicEnvironment");
