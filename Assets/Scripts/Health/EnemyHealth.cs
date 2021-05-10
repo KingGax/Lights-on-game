@@ -73,6 +73,12 @@ namespace LightsOn.HealthSystem {
             }
         }
 
+        public override void Die()
+        {
+            Destroy(healthBar.gameObject);
+            base.Die();
+        }
+
         void Update() {
             if (flashesRemaining > 0 && flashTimer <= 0) {
                 if (flashesRemaining % 2 == 0) {
