@@ -346,9 +346,14 @@ namespace LightsOn.WeaponSystem {
 
         }
 
+        [PunRPC]
+        void DrawPolygonRPC(){
+            DrawPolygon(100, aoeRadius, new Vector3(fireOrigin.position.x, 0.25f, fireOrigin.position.z), 0.1f, 0.1f);
+        }
+
         void ShowCircle(float time) {
             circleLR.enabled = true;
-            DrawPolygon(100, aoeRadius, new Vector3(fireOrigin.position.x, 0.25f, fireOrigin.position.z), 0.1f, 0.1f);
+            pv.RPC("DrawPolygonRPC", RpcTarget.All);
             flashesRemaining = flashNum;
             flashTimerMax = time;
             flashTimer = flashTimerMax;
@@ -420,6 +425,10 @@ namespace LightsOn.WeaponSystem {
             }
             //do nothing
         }
+        [PunRPC]
+        void DisappearRPC(){
+            GetComponentInChildren<LightableBossEnemy>().Disappear();
+        }
 
         void ChangeToSwarmReposition() {
             enemyState = EnemyState.SwarmRepositioning;
@@ -430,6 +439,7 @@ namespace LightsOn.WeaponSystem {
             NavMesh.SamplePosition(playerObj.transform.position, out destPos, 2f, NavMesh.AllAreas);
             agent.speed = repositionSpeed;
             agent.destination = destPos.position;
+            pv.RPC("DisappearRPC", RpcTarget.All);
             lightableBoss.BossSwarm();
             
         }
@@ -448,9 +458,14 @@ namespace LightsOn.WeaponSystem {
             ShowCircle((reappearingTimerMax) / (flashNum + 1));
             lightableBoss.BossReappear();
         }
+        [PunRPC]
+        void ReappearRPC(){
+            GetComponentInChildren<LightableBossEnemy>().BossReappear();
+        }
 
         void ReappearState() {
             if (reappearingTimer <= 0) {
+                pv.RPC("ReappearRPC", RpcTarget.All);
                 DoAOEAttack(reappearDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
                 if (aiEnabled){
                     circleLR.enabled = false;
