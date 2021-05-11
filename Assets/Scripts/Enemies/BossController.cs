@@ -478,17 +478,26 @@ namespace LightsOn.WeaponSystem {
             agent.speed = normalSpeed;
             agent.enabled = false;
             ShowCircle((reappearingTimerMax) / (flashNum + 1));
+            pv.RPC("QueueReappearRPC", RpcTarget.Others, PhotonNetwork.Time, reappearingTimerMax);
             pv.RPC("StartAOE", RpcTarget.Others,PhotonNetwork.Time,reappearingTimerMax);
         }
         [PunRPC]
-        void ReappearRPC(){
+        void QueueReappearRPC(double time, float startup){
+            float dt = (float)(PhotonNetwork.Time - time);
+            if (dt > startup) {
+                dt = startup;
+            }
+            Invoke("InvokeReappear", startup - dt);
+        }
+
+        void InvokeReappear() {
             lightableBoss.BossReappear();
         }
 
         void ReappearState() {
             if (reappearingTimer <= 0) {
                 DoAOEAttack(reappearDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
-                pv.RPC("ReappearRPC", RpcTarget.All);
+                lightableBoss.BossReappear();
                 if (aiEnabled){
                     //Debug.Log("Reappearing");
                     //circleLR.enabled = false;
