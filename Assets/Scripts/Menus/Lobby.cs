@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Runtime.InteropServices;
 using TMPro;
 
 
@@ -11,6 +12,10 @@ public class Lobby : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private GameObject startButton;
+
+    [DllImport("__Internal")]
+    private static extern void initiateVoiceChatUnity();
+
     [SerializeField]
     private GameObject roomCode;
     public GameObject listingsPrefab;
@@ -47,6 +52,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             if (listingsMenu.isReady()){
                 loadingScene = true;
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+                initiateVoiceChatUnity();
             } else {
                 Debug.Log("Please ensure everyone is 'Ready' before starting the game.");
             }
