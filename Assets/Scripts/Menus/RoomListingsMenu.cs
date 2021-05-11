@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Runtime.InteropServices;
 
 public class RoomListingsMenu : MonoBehaviourPunCallbacks {
 
     [SerializeField]
     private Transform _content;
+
+    [DllImport("__Internal")]
+    private static extern void setupVoiceChatUnity(string username, string role);
 
     [SerializeField]
     public GameObject _roomListing;
@@ -47,6 +51,11 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
             roomInfo.SetRoomInfo(info);
             cachedRoomList[info.Name] = listing;
         }
+        #if !UNITY_EDITOR
+            #if UNITY_WEBGL
+            setupVoiceChatUnity("b", "client");
+            #endif
+        #endif
     }
 
     public override void OnDisconnected(DisconnectCause cause) {

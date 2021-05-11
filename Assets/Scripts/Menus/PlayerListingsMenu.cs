@@ -193,6 +193,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             PlayerListingInfo roomInfo = listing.GetComponent<PlayerListingInfo>();
             roomInfo.SetPlayerInfo(newPlayer, false);
             cachedPlayerList[newPlayer.UserId] = listing;
+            UpdateReadyListings(newPlayer.UserId, false);
         } else {
             GameObject listing =  Instantiate(_playerListing,_specContent);
             listing.name = newPlayer.UserId;

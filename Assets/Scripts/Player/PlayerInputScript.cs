@@ -56,6 +56,7 @@ public class PlayerInputScript : MonoBehaviour {
         pv = GetComponent<PhotonView>();
         cameraWork = GetComponent<CameraWork>();
         cameraAnimator = Camera.main.gameObject.GetComponent<Animator>();
+
     }
     
     void Reload() {
@@ -115,6 +116,9 @@ public class PlayerInputScript : MonoBehaviour {
 
     void ChangePerspective() {
         if (inputEnabled) {
+            if (cameraAnimator == null) {
+                cameraAnimator = Camera.main.gameObject.GetComponent<Animator>();
+            }
             cameraAnimator.SetTrigger("changePersp");
         }
     }

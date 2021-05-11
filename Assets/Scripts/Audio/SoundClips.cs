@@ -11,6 +11,14 @@ namespace LightsOn.AudioSystem {
         public SFX SFXDoorOpen;
         public SFX SFXLightChange;
         public SFX SFXKill;
+        public SFX SFXDash;
+        public SFX SFXMenuClicks;
+        public SFX SFXDisappear;
+        public SFX SFXBallBounce;
+        public SFX SFXBallShatter;
+        public SFX SFXEnemyExplosion;
+        public SFX SFXEnemyGunfire;
+        public SFX SFXPlayerHit;
 
         public void Awake() {
             if (_instance != null && _instance != this) {

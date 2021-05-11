@@ -59,6 +59,9 @@ namespace LightsOn {
             private float risingYFloor;
             MeshRenderer renderer;
             public GameObject visionObject;
+            private Transform followTransform;
+            public bool followParent;
+            bool doFollow = false;
             //Camera camera;
             List<AgentController> agents = new List<AgentController>();
             // Start is called before the first frame update
@@ -174,8 +177,15 @@ namespace LightsOn {
                 return acc;
             }
 
+            public void SetFollowTransform(Transform _followTransform) {
+                followTransform = _followTransform;
+            }
             // Update is called once per frame
             void Update() {
+                if (followParent) {
+                    boidCentre = followTransform.position;
+                    visionObject.transform.position = followTransform.position;
+                }
                 if (!visible && renderer.isVisible) {
                     visible = true;
                     foreach (AgentController agent in agents) {

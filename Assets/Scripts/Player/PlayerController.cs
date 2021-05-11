@@ -292,6 +292,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         dashing = true;
         canDash = false;
         HidePlayer();
+        AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXDash, transform.position, gameObject);
         dashDurationTimer = dashDurationTimerMax;
         if (movement == Vector2.zero) {
             dashDirection = transform.forward;
