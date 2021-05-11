@@ -70,7 +70,6 @@ public class GlobalValues : MonoBehaviour {
     }
 
     private void UpdateGlobalValues() {
-        _instance.localPlayerInstance = localPlayerInstance;
         _instance.UIPrefab = UIPrefab;
         _instance.boidManagerPrefab = boidManagerPrefab;
         _instance.boidDeathPrefab = boidDeathPrefab;
