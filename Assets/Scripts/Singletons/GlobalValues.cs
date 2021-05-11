@@ -94,7 +94,7 @@ public class GlobalValues : MonoBehaviour {
     }
 
     private void UpdateUI() {
-        if (UIPrefab != null) {
+        if (UIPrefab != null && _instance.UIElements == null) {
             GameObject UI = Instantiate(UIPrefab);
             DontDestroyOnLoad(UI);
             _instance.UIElements = UI;
