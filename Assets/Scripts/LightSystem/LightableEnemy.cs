@@ -20,8 +20,6 @@ namespace LightsOn.LightingSystem {
         public bool usesMeshRenderer = false;
         public bool disappearOnInitialise = true;
 
-
-
         public override void Start() {
             overrideMeshRenderer = !usesMeshRenderer;
             base.Start();

@@ -67,6 +67,14 @@ public class GlobalValues : MonoBehaviour {
     }
 
     private void UpdateGlobalValues() {
+        _instance.localPlayerInstance = localPlayerInstance;
+        _instance.UIPrefab = UIPrefab;
+        _instance.boidManagerPrefab = boidManagerPrefab;
+        _instance.boidDeathPrefab = boidDeathPrefab;
+        _instance.MenuItem = MenuItem;
+        _instance.defaultRed = defaultRed;
+        _instance.defaultGreen = defaultGreen;
+        _instance.defaultBlue = defaultBlue;
         _instance.respawnPoint = respawnPoint;
         _instance.p1spawn = p1spawn;
         _instance.p2Spawn = p2Spawn;
@@ -75,16 +83,23 @@ public class GlobalValues : MonoBehaviour {
         gameObject.GetComponent<LocalObjectPool>().RespawnBoids();
     }
 
+    private void UpdateUI() {
+        if (UIPrefab != null && UIElements != null) {
+            GameObject UI = Instantiate(UIPrefab);
+            DontDestroyOnLoad(UI);
+            UIElements = UI;
+        }
+    }
+
     private void Awake() {
         if (_instance != null && _instance != this) {
             UpdateGlobalValues();
+            UpdateUI();
             Destroy(this.gameObject);
         } else {
             DontDestroyOnLoad(gameObject);
             _instance = this;
-            GameObject UI = Instantiate(UIPrefab);
-            DontDestroyOnLoad(UI);
-            _instance.UIElements = UI;
+            UpdateUI();
         }
     }
 }
