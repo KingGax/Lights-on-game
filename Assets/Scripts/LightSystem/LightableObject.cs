@@ -355,7 +355,7 @@ namespace LightsOn.LightingSystem {
             }
         }
 
-        protected void ForceDisappear() {
+        public virtual void ForceDisappear() {
             StartDisappear();
             Invoke("DelayedColourCheck", 0.1f);
         }
