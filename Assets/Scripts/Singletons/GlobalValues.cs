@@ -10,7 +10,8 @@ public class GlobalValues : MonoBehaviour {
     public LayerMask environment;
     public LayerMask playerLayer;
     public LayerMask enemyLayer;
-    public LayerMask playerOrHiddenPlayerMask; 
+    public LayerMask playerOrHiddenPlayerMask;
+    public LayerMask shootTargetsLayer;
     public List<GameObject> players;
     public GameObject localPlayerInstance;
     public GameObject UIElements;
@@ -72,6 +73,7 @@ public class GlobalValues : MonoBehaviour {
         _instance.p2Spawn = p2Spawn;
         _instance.fm = fm;
         _instance.navManager = navManager;
+        _instance.boidManagerPrefab = boidManagerPrefab;
         gameObject.GetComponent<LocalObjectPool>().RespawnBoids();
     }
 

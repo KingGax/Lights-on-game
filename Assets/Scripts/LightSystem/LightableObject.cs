@@ -128,7 +128,7 @@ namespace LightsOn {
                 }
             }
 
-            void TryAppear() {
+            protected virtual void TryAppear() {
                 if (CheckNoIntersections()) {
                     StartAppear();
                     CancelInvoke("TryAppear");
@@ -316,6 +316,7 @@ namespace LightsOn {
                         //boidManagerInstance.transform.parent = transform.parent;
                         BoidManager man = boidManagerInstance.GetComponentInChildren<BoidManager>();
                         man.boidCentre = transform.TransformPoint(GetComponent<BoxCollider>().center);
+                        man.SetFollowTransform(transform);
                         //man.lightableObject = this;
                         man.col = colour;
                         //man.SetCol(colour);
@@ -357,7 +358,7 @@ namespace LightsOn {
                 }
             }
 
-            protected void ForceDisappear() {
+            public virtual void ForceDisappear() {
                 StartDisappear();
                 Invoke("DelayedColourCheck", 0.1f);
             }
