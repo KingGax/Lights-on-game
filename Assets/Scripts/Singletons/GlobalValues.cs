@@ -29,6 +29,8 @@ public class GlobalValues : MonoBehaviour {
     public NavigationManager navManager;
     public bool micEnabled = true;
     public bool micEditable = true;
+    public bool enableShader = true;
+    public bool enableBoids = true;
     
     public static GlobalValues Instance { get { return _instance; } }
 
@@ -82,14 +84,20 @@ public class GlobalValues : MonoBehaviour {
         _instance.fm = fm;
         _instance.navManager = navManager;
         _instance.boidManagerPrefab = boidManagerPrefab;
+        _instance.enableBoids = enableBoids;
+        _instance.enableShader = enableShader;
+
         gameObject.GetComponent<LocalObjectPool>().RespawnBoids();
+
+        _instance.GetComponent<ShaderPlayerTracker>().enabled = enableShader;
+        _instance.GetComponent<LocalObjectPool>().enabled = enableBoids;
     }
 
     private void UpdateUI() {
-        if (UIPrefab != null && UIElements != null) {
+        if (UIPrefab != null) {
             GameObject UI = Instantiate(UIPrefab);
             DontDestroyOnLoad(UI);
-            UIElements = UI;
+            _instance.UIElements = UI;
         }
     }
 
@@ -101,6 +109,8 @@ public class GlobalValues : MonoBehaviour {
         } else {
             DontDestroyOnLoad(gameObject);
             _instance = this;
+            _instance.GetComponent<ShaderPlayerTracker>().enabled = enableShader;
+            _instance.GetComponent<LocalObjectPool>().enabled = enableBoids;
             UpdateUI();
         }
     }
