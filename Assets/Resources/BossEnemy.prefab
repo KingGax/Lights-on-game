@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7427818498898411459}
   - component: {fileID: 223638049522769312}
   - component: {fileID: 2088068302760591362}
-  - component: {fileID: 7196652966279493327}
   - component: {fileID: 2839686355621982525}
+  - component: {fileID: 5762737656123722143}
   m_Layer: 0
   m_Name: Gun (1)
   m_TagString: Untagged
@@ -84,29 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7196652966279493327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 597627578791964675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51d42d749fdb33645b8d1ee614242060, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cooldownLeft: 0
-  primaryCooldownTime: 0
-  frozen: 0
-  damage: 40
-  hitStunDuration: 0
-  debug: 0
-  colour: 65280
-  firePoint: {fileID: 4594237645392157506}
-  bullet: {fileID: 3625585865830301468, guid: fa07c6df8cfe4c84b9570b8bdf577406, type: 3}
-  bulletSpeed: 30
-  bulletTTL: 10
 --- !u!114 &2839686355621982525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +100,29 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &5762737656123722143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597627578791964675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a79c4f9ea1c62d4986ded58d1c31d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownLeft: 0
+  primaryCooldownTime: 0
+  frozen: 0
+  damage: 40
+  hitStunDuration: 0
+  debug: 0
+  colour: 0
+  firePoint: {fileID: 4594237645392157506}
+  bullet: {fileID: 0}
+  bulletSpeed: 30
+  bulletTTL: 10
 --- !u!1 &686671151243183556
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,8 +239,8 @@ GameObject:
   - component: {fileID: 1747128574317902507}
   - component: {fileID: 6109465683795860237}
   - component: {fileID: 3628735654686913071}
-  - component: {fileID: 7222383027462979798}
   - component: {fileID: 4828466681958566161}
+  - component: {fileID: 364699640952887251}
   m_Layer: 0
   m_Name: Gun (2)
   m_TagString: Untagged
@@ -312,29 +312,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7222383027462979798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1253001552499593802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51d42d749fdb33645b8d1ee614242060, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cooldownLeft: 0
-  primaryCooldownTime: 0
-  frozen: 0
-  damage: 40
-  hitStunDuration: 0
-  debug: 0
-  colour: 65280
-  firePoint: {fileID: 7406460175505879105}
-  bullet: {fileID: 3625585865830301468, guid: fa07c6df8cfe4c84b9570b8bdf577406, type: 3}
-  bulletSpeed: 30
-  bulletTTL: 10
 --- !u!114 &4828466681958566161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,6 +328,29 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &364699640952887251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253001552499593802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a79c4f9ea1c62d4986ded58d1c31d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownLeft: 0
+  primaryCooldownTime: 0
+  frozen: 0
+  damage: 0
+  hitStunDuration: 0
+  debug: 0
+  colour: 0
+  firePoint: {fileID: 7406460175505879105}
+  bullet: {fileID: 0}
+  bulletSpeed: 30
+  bulletTTL: 10
 --- !u!1 &1337600195034940587
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,8 +392,8 @@ GameObject:
   - component: {fileID: 2662338837344892709}
   - component: {fileID: 2662338837344892713}
   - component: {fileID: 2662338837344892714}
-  - component: {fileID: 7197724986401567}
   - component: {fileID: 188567815840355446}
+  - component: {fileID: 7278317755856910693}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -465,29 +465,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7197724986401567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2662338837344892710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51d42d749fdb33645b8d1ee614242060, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cooldownLeft: 0
-  primaryCooldownTime: 0
-  frozen: 0
-  damage: 40
-  hitStunDuration: 0
-  debug: 0
-  colour: 65280
-  firePoint: {fileID: 2662338837726170280}
-  bullet: {fileID: 3625585865830301468, guid: fa07c6df8cfe4c84b9570b8bdf577406, type: 3}
-  bulletSpeed: 30
-  bulletTTL: 10
 --- !u!114 &188567815840355446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,6 +481,29 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &7278317755856910693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2662338837344892710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a79c4f9ea1c62d4986ded58d1c31d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownLeft: 0
+  primaryCooldownTime: 0
+  frozen: 0
+  damage: 40
+  hitStunDuration: 0
+  debug: 0
+  colour: 0
+  firePoint: {fileID: 2662338837726170280}
+  bullet: {fileID: 0}
+  bulletSpeed: 30
+  bulletTTL: 10
 --- !u!1 &2662338837726170281
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,6 +1070,10 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 2662338837880454758}
+  - {fileID: 188567815840355446}
+  - {fileID: 2839686355621982525}
+  - {fileID: 4828466681958566161}
+  - {fileID: 5005260737738076472}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1133,7 +1137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b78bce79e61d274cb27ade3c29e110f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 7197724986401567}
+  weapon: {fileID: 0}
   turnSpeed: 0
   ignoresStun: 1
   bullet: {fileID: 3625585865830301468, guid: fa07c6df8cfe4c84b9570b8bdf577406, type: 3}
@@ -1293,74 +1297,149 @@ MonoBehaviour:
   showPoints: 1
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   points:
-  - {x: 1.25, y: 1.0314286, z: 0}
-  - {x: 1.25, y: 1.0314286, z: 0.9081782}
-  - {x: 0.40614957, y: 1.0314286, z: 1.25}
-  - {x: -0.4061498, y: 1.0314287, z: 1.2499999}
-  - {x: -1.25, y: 1.0314285, z: 0.908178}
-  - {x: -1.25, y: 1.0314286, z: 0}
-  - {x: -1.25, y: 1.0314285, z: -0.90817857}
-  - {x: -0.40614977, y: 1.0314286, z: -1.25}
-  - {x: 0.40614977, y: 1.0314286, z: -1.25}
-  - {x: 1.25, y: 1.0314286, z: -0.9081775}
-  - {x: 1.25, y: 0.58285713, z: 0}
-  - {x: 1.25, y: 0.58285725, z: 0.9081784}
-  - {x: 0.4061495, y: 0.5828572, z: 1.25}
-  - {x: -0.40614977, y: 0.58285713, z: 1.25}
-  - {x: -1.25, y: 0.58285725, z: 0.908178}
-  - {x: -1.25, y: 0.58285713, z: 0}
-  - {x: -1.25, y: 0.582857, z: -0.9081782}
-  - {x: -0.40614977, y: 0.58285713, z: -1.25}
-  - {x: 0.40614977, y: 0.58285713, z: -1.25}
-  - {x: 1.25, y: 0.58285713, z: -0.9081775}
-  - {x: 1.25, y: 0.13428569, z: 0}
-  - {x: 1.25, y: 0.13428569, z: 0.9081782}
-  - {x: 0.4061495, y: 0.13428572, z: 1.25}
-  - {x: -0.40614977, y: 0.13428569, z: 1.25}
-  - {x: -1.2499999, y: 0.13428576, z: 0.908178}
-  - {x: -1.25, y: 0.13428569, z: 0}
-  - {x: -1.25, y: 0.13428554, z: -0.9081784}
-  - {x: -0.4061497, y: 0.1342857, z: -1.2499999}
-  - {x: 0.4061497, y: 0.13428569, z: -1.25}
-  - {x: 1.25, y: 0.13428569, z: -0.90817755}
-  - {x: 1.25, y: -0.31428576, z: 0}
-  - {x: 1.25, y: -0.31428576, z: 0.9081781}
-  - {x: 0.4061496, y: -0.31428573, z: 1.25}
-  - {x: -0.4061499, y: -0.31428576, z: 1.25}
-  - {x: -1.25, y: -0.31428576, z: 0.908178}
-  - {x: -1.25, y: -0.31428576, z: 0}
-  - {x: -1.25, y: -0.31428578, z: -0.9081784}
-  - {x: -0.40614963, y: -0.31428576, z: -1.25}
-  - {x: 0.4061497, y: -0.31428578, z: -1.25}
-  - {x: 1.25, y: -0.31428578, z: -0.9081775}
-  - {x: 1.25, y: -0.76285714, z: 0}
-  - {x: 1.25, y: -0.7628572, z: 0.9081784}
-  - {x: 0.4061495, y: -0.7628571, z: 1.25}
-  - {x: -0.40614974, y: -0.7628572, z: 1.25}
-  - {x: -1.25, y: -0.7628571, z: 0.908178}
-  - {x: -1.25, y: -0.7628572, z: 0}
-  - {x: -1.25, y: -0.7628572, z: -0.9081786}
-  - {x: -0.40614986, y: -0.76285726, z: -1.2499999}
-  - {x: 0.4061497, y: -0.7628572, z: -1.25}
-  - {x: 1.25, y: -0.7628571, z: -0.9081775}
-  - {x: 1.25, y: -1.2114285, z: 0}
-  - {x: 1.25, y: -1.2114285, z: 0.90817857}
-  - {x: 0.4061495, y: -1.2114285, z: 1.25}
-  - {x: -0.40614992, y: -1.2114285, z: 1.25}
-  - {x: -1.25, y: -1.2114285, z: 0.908178}
-  - {x: -1.25, y: -1.2114286, z: 0}
-  - {x: -1.25, y: -1.2114286, z: -0.9081784}
-  - {x: -0.4061498, y: -1.2114288, z: -1.2499999}
-  - {x: 0.4061497, y: -1.2114286, z: -1.25}
-  - {x: 1.25, y: -1.2114286, z: -0.90817755}
+  - {x: 1.25, y: 1.1945456, z: 0}
+  - {x: 1.25, y: 1.1945455, z: 0.55653584}
+  - {x: 1.1255049, y: 1.1945457, z: 1.25}
+  - {x: 0.40614957, y: 1.194546, z: 1.25}
+  - {x: -0.13138038, y: 1.1945459, z: 1.25}
+  - {x: -0.7216878, y: 1.1945455, z: 1.25}
+  - {x: -1.25, y: 1.1945456, z: 0.908178}
+  - {x: -1.25, y: 1.1945455, z: 0.2656956}
+  - {x: -1.25, y: 1.1945453, z: -0.26569572}
+  - {x: -1.25, y: 1.1945456, z: -0.90817857}
+  - {x: -0.7216879, y: 1.1945455, z: -1.25}
+  - {x: -0.13138026, y: 1.1945455, z: -1.25}
+  - {x: 0.4061497, y: 1.1945455, z: -1.2499999}
+  - {x: 1.1255054, y: 1.1945455, z: -1.2499999}
+  - {x: 1.25, y: 1.1945456, z: -0.5565355}
+  - {x: 1.25, y: 0.90909094, z: 0}
+  - {x: 1.25, y: 0.9090909, z: 0.5565358}
+  - {x: 1.1255049, y: 0.9090911, z: 1.25}
+  - {x: 0.40614957, y: 0.90909094, z: 1.25}
+  - {x: -0.13138041, y: 0.9090911, z: 1.25}
+  - {x: -0.7216878, y: 0.90909076, z: 1.25}
+  - {x: -1.25, y: 0.90909094, z: 0.908178}
+  - {x: -1.25, y: 0.9090909, z: 0.26569563}
+  - {x: -1.25, y: 0.90909094, z: -0.26569575}
+  - {x: -1.25, y: 0.90909076, z: -0.90817857}
+  - {x: -0.7216878, y: 0.90909094, z: -1.25}
+  - {x: -0.13138023, y: 0.90909094, z: -1.25}
+  - {x: 0.40614977, y: 0.90909094, z: -1.25}
+  - {x: 1.1255056, y: 0.90909094, z: -1.25}
+  - {x: 1.25, y: 0.90909123, z: -0.5565355}
+  - {x: 1.25, y: 0.62363636, z: 0}
+  - {x: 1.25, y: 0.62363636, z: 0.55653584}
+  - {x: 1.1255049, y: 0.62363654, z: 1.25}
+  - {x: 0.4061496, y: 0.62363636, z: 1.25}
+  - {x: -0.13138041, y: 0.62363654, z: 1.25}
+  - {x: -0.7216878, y: 0.62363625, z: 1.25}
+  - {x: -1.25, y: 0.62363636, z: 0.908178}
+  - {x: -1.25, y: 0.62363636, z: 0.2656956}
+  - {x: -1.25, y: 0.62363625, z: -0.26569572}
+  - {x: -1.25, y: 0.6236364, z: -0.9081784}
+  - {x: -0.7216878, y: 0.62363636, z: -1.25}
+  - {x: -0.13138011, y: 0.62363636, z: -1.25}
+  - {x: 0.40614977, y: 0.62363636, z: -1.25}
+  - {x: 1.1255056, y: 0.62363636, z: -1.25}
+  - {x: 1.25, y: 0.6236365, z: -0.5565355}
+  - {x: 1.25, y: 0.33818185, z: 0}
+  - {x: 1.25, y: 0.3381817, z: 0.5565357}
+  - {x: 1.1255049, y: 0.33818185, z: 1.25}
+  - {x: 0.40614957, y: 0.33818188, z: 1.25}
+  - {x: -0.13138044, y: 0.338182, z: 1.25}
+  - {x: -0.7216877, y: 0.3381817, z: 1.25}
+  - {x: -1.25, y: 0.33818185, z: 0.908178}
+  - {x: -1.25, y: 0.3381817, z: 0.26569563}
+  - {x: -1.25, y: 0.33818185, z: -0.26569575}
+  - {x: -1.25, y: 0.33818185, z: -0.9081784}
+  - {x: -0.7216877, y: 0.33818185, z: -1.25}
+  - {x: -0.13138011, y: 0.3381818, z: -1.25}
+  - {x: 0.40614974, y: 0.33818182, z: -1.25}
+  - {x: 1.1255056, y: 0.33818185, z: -1.25}
+  - {x: 1.25, y: 0.33818188, z: -0.5565355}
+  - {x: 1.25, y: 0.05272731, z: 0}
+  - {x: 1.25, y: 0.05272731, z: 0.55653584}
+  - {x: 1.1255049, y: 0.05272731, z: 1.25}
+  - {x: 0.40614957, y: 0.052727424, z: 1.25}
+  - {x: -0.13138029, y: 0.05272731, z: 1.25}
+  - {x: -0.721688, y: 0.05272731, z: 1.25}
+  - {x: -1.2499999, y: 0.052727535, z: 0.908178}
+  - {x: -1.25, y: 0.05272731, z: 0.2656956}
+  - {x: -1.25, y: 0.05272731, z: -0.26569575}
+  - {x: -1.25, y: 0.052727163, z: -0.9081782}
+  - {x: -0.7216877, y: 0.052727163, z: -1.25}
+  - {x: -0.13138014, y: 0.052727163, z: -1.25}
+  - {x: 0.4061497, y: 0.052727163, z: -1.25}
+  - {x: 1.1255056, y: 0.052727163, z: -1.25}
+  - {x: 1.25, y: 0.052727424, z: -0.55653554}
+  - {x: 1.25, y: -0.23272726, z: 0.000000037252903}
+  - {x: 1.25, y: -0.23272738, z: 0.5565358}
+  - {x: 1.1255049, y: -0.23272735, z: 1.25}
+  - {x: 0.40614957, y: -0.23272723, z: 1.25}
+  - {x: -0.13138033, y: -0.23272726, z: 1.2499999}
+  - {x: -0.7216878, y: -0.23272726, z: 1.25}
+  - {x: -1.25, y: -0.23272723, z: 0.908178}
+  - {x: -1.25, y: -0.23272723, z: 0.2656956}
+  - {x: -1.25, y: -0.23272738, z: -0.26569572}
+  - {x: -1.25, y: -0.23272738, z: -0.9081784}
+  - {x: -0.721688, y: -0.23272738, z: -1.25}
+  - {x: -0.13138019, y: -0.2327273, z: -1.2499999}
+  - {x: 0.40614966, y: -0.23272741, z: -1.25}
+  - {x: 1.1255056, y: -0.23272738, z: -1.25}
+  - {x: 1.25, y: -0.23272723, z: -0.5565355}
+  - {x: 1.25, y: -0.5181818, z: 0}
+  - {x: 1.25, y: -0.5181818, z: 0.55653596}
+  - {x: 1.1255049, y: -0.5181818, z: 1.25}
+  - {x: 0.40614963, y: -0.5181818, z: 1.25}
+  - {x: -0.13138044, y: -0.5181817, z: 1.25}
+  - {x: -0.721688, y: -0.51818186, z: 1.25}
+  - {x: -1.25, y: -0.5181818, z: 0.90817803}
+  - {x: -1.25, y: -0.5181818, z: 0.2656956}
+  - {x: -1.25, y: -0.51818186, z: -0.2656957}
+  - {x: -1.25, y: -0.5181818, z: -0.90817857}
+  - {x: -0.7216878, y: -0.51818174, z: -1.25}
+  - {x: -0.13138011, y: -0.5181819, z: -1.25}
+  - {x: 0.40614974, y: -0.51818186, z: -1.25}
+  - {x: 1.1255056, y: -0.51818204, z: -1.25}
+  - {x: 1.25, y: -0.5181817, z: -0.5565355}
+  - {x: 1.25, y: -0.80363643, z: 0}
+  - {x: 1.25, y: -0.80363643, z: 0.55653584}
+  - {x: 1.1255049, y: -0.80363643, z: 1.25}
+  - {x: 0.40614963, y: -0.80363643, z: 1.25}
+  - {x: -0.13138038, y: -0.80363643, z: 1.25}
+  - {x: -0.721688, y: -0.80363643, z: 1.25}
+  - {x: -1.25, y: -0.80363643, z: 0.908178}
+  - {x: -1.25, y: -0.80363643, z: 0.26569557}
+  - {x: -1.25, y: -0.80363643, z: -0.26569575}
+  - {x: -1.25, y: -0.80363643, z: -0.9081784}
+  - {x: -0.7216878, y: -0.80363643, z: -1.25}
+  - {x: -0.13138008, y: -0.80363655, z: -1.25}
+  - {x: 0.40614974, y: -0.8036366, z: -1.25}
+  - {x: 1.1255056, y: -0.8036368, z: -1.25}
+  - {x: 1.25, y: -0.80363643, z: -0.5565356}
+  - {x: 1.25, y: -1.0890908, z: 0}
+  - {x: 1.25, y: -1.0890908, z: 0.55653584}
+  - {x: 1.1255049, y: -1.0890908, z: 1.25}
+  - {x: 0.4061496, y: -1.0890908, z: 1.25}
+  - {x: -0.13138029, y: -1.0890908, z: 1.25}
+  - {x: -0.721688, y: -1.0890908, z: 1.25}
+  - {x: -1.25, y: -1.0890908, z: 0.908178}
+  - {x: -1.25, y: -1.0890908, z: 0.26569548}
+  - {x: -1.25, y: -1.0890908, z: -0.26569575}
+  - {x: -1.25, y: -1.0890908, z: -0.90817857}
+  - {x: -0.7216879, y: -1.0890908, z: -1.2499999}
+  - {x: -0.13138011, y: -1.0890908, z: -1.25}
+  - {x: 0.4061497, y: -1.0890911, z: -1.25}
+  - {x: 1.1255056, y: -1.0890911, z: -1.25}
+  - {x: 1.25, y: -1.0890908, z: -0.5565356}
   pointShift: {x: 0, y: 0, z: 0}
   cloudPrefab: {fileID: 11400000, guid: b4585dcd874c7424d98cd28179952611, type: 2}
   rotationParent: {fileID: 4976461971395573628}
   scannerCircleRadius: 2.42
   scannerBottom: {x: 0, y: 1.48, z: 0}
   scannerTop: {x: 0, y: -1.66, z: 0}
-  yNumSteps: 8
-  circleSamples: 10
+  yNumSteps: 14
+  circleSamples: 15
   showRaycastCentre: 1
   showRaycasts: 1
 --- !u!1 &5195543026747242833
@@ -1374,8 +1453,8 @@ GameObject:
   - component: {fileID: 5129356934149432720}
   - component: {fileID: 4642635448884395533}
   - component: {fileID: 3897845344035583216}
-  - component: {fileID: 2825039240710168626}
   - component: {fileID: 5005260737738076472}
+  - component: {fileID: 512640209687337256}
   m_Layer: 0
   m_Name: Gun (3)
   m_TagString: Untagged
@@ -1447,29 +1526,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2825039240710168626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5195543026747242833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51d42d749fdb33645b8d1ee614242060, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cooldownLeft: 0
-  primaryCooldownTime: 0
-  frozen: 0
-  damage: 40
-  hitStunDuration: 0
-  debug: 0
-  colour: 65280
-  firePoint: {fileID: 556677838239873033}
-  bullet: {fileID: 3625585865830301468, guid: fa07c6df8cfe4c84b9570b8bdf577406, type: 3}
-  bulletSpeed: 30
-  bulletTTL: 10
 --- !u!114 &5005260737738076472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1486,6 +1542,29 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &512640209687337256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5195543026747242833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a79c4f9ea1c62d4986ded58d1c31d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownLeft: 0
+  primaryCooldownTime: 0
+  frozen: 0
+  damage: 0
+  hitStunDuration: 0
+  debug: 0
+  colour: 0
+  firePoint: {fileID: 556677838239873033}
+  bullet: {fileID: 0}
+  bulletSpeed: 30
+  bulletTTL: 20
 --- !u!1 &5365734396453259212
 GameObject:
   m_ObjectHideFlags: 0

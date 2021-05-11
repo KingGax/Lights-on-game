@@ -1,10 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 using LightsOn.LightingSystem;
+using Photon.Pun;
 
 namespace LightsOn.WeaponSystem {
-
-    public class EnemyGun : Gun {
+    public class BossGun : EnemyGun {
+        // Start is called before the first frame update
         protected override void UseWeapon() {
             if (target == null) {
                 SetTarget(0);
@@ -16,13 +18,13 @@ namespace LightsOn.WeaponSystem {
                 case LightColour.Black:
                     break;
                 case LightColour.Red:
-                    newBullet = PhotonNetwork.Instantiate("Bullets/RedEnemyBullet", firePoint.position, transform.rotation);
+                    newBullet = PhotonNetwork.Instantiate("Bullets/RedBossBullet", firePoint.position, transform.rotation);
                     break;
                 case LightColour.Green:
-                    newBullet = PhotonNetwork.Instantiate("Bullets/GreenEnemyBullet", firePoint.position, transform.rotation);
+                    newBullet = PhotonNetwork.Instantiate("Bullets/GreenBossBullet", firePoint.position, transform.rotation);
                     break;
                 case LightColour.Blue:
-                    newBullet = PhotonNetwork.Instantiate("Bullets/BlueEnemyBullet", firePoint.position, transform.rotation);
+                    newBullet = PhotonNetwork.Instantiate("Bullets/BlueBossBullet", firePoint.position, transform.rotation);
                     break;
                 case LightColour.Cyan:
                     break;
@@ -35,7 +37,6 @@ namespace LightsOn.WeaponSystem {
                 default:
                     break;
             }
-
             if (newBullet != null) {
                 BulletController bc = newBullet.GetComponent<BulletController>();
                 LightableObject lo = newBullet.GetComponentInChildren<LightableObject>();
@@ -45,5 +46,8 @@ namespace LightsOn.WeaponSystem {
             }
 
         }
-    }
+        
+
 }
+}
+
