@@ -126,7 +126,7 @@ namespace LightsOn.LightingSystem {
             }
         }
 
-        void TryAppear() {
+        protected virtual void TryAppear() {
             if (CheckNoIntersections()) {
                 StartAppear();
                 CancelInvoke("TryAppear");

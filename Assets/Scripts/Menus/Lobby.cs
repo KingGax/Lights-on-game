@@ -52,8 +52,10 @@ public class Lobby : MonoBehaviourPunCallbacks
             if (listingsMenu.isReady()){
                 loadingScene = true;
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
-                #if UNITY_WEBGL
-                initiateVoiceChatUnity();
+                #if !UNITY_EDITOR
+                    #if UNITY_WEBGL
+                    initiateVoiceChatUnity();
+                    #endif
                 #endif
             } else {
                 Debug.Log("Please ensure everyone is 'Ready' before starting the game.");

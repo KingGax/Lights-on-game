@@ -68,7 +68,6 @@ namespace LightsOn.LightingSystem {
 
         override public void Appear() {
             base.Appear();
-            //enemy.EnableAI();
 
 
         }

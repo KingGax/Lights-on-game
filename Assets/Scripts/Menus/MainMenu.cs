@@ -11,21 +11,11 @@ public class MainMenu : MonoBehaviourPunCallbacks {
 
     private bool hasJoinedRoom = false;
 
-    [SerializeField]
-    private GameObject mainMenu;
-
-    [SerializeField]
-    private GameObject playMenu;
 
     void Awake() {
         isConnecting = false;
         if(hasJoinedRoom){
-            mainMenu.SetActive(false);
-            playMenu.SetActive(true);
-        }
-        else {
-            mainMenu.SetActive(true);
-            playMenu.SetActive(false);
+            PhotonNetwork.LoadLevel("NameMenu");
         }
     }
 
