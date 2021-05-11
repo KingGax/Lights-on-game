@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace LightsOn {
+namespace WeaponSystem {
+
 public abstract class PlayerWeapon : Weapon {
     public float alternateCooldownTime;
     protected bool charging = false;
@@ -57,4 +60,4 @@ public abstract class PlayerWeapon : Weapon {
         return true;
     }
 
-}
+}}}

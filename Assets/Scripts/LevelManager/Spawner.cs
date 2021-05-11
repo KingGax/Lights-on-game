@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Photon.Pun;
+using LightsOn.LightingSystem;
 
 public class Spawner : MonoBehaviour {
 
@@ -8,7 +9,7 @@ public class Spawner : MonoBehaviour {
     public float spawnRadius;
     public Vector3 spawnPosition;
     public GameObject enemyParent;
-    private LightableColour[] enemyColours = new LightableColour[]{ LightableColour.Red, LightableColour.Blue, LightableColour.Green };
+    private LightColour[] enemyColours = new LightColour[]{ LightColour.Red, LightColour.Blue, LightColour.Green };
     int spawnIndex;
     int colIndex;
     int spawnCount = 0;
@@ -37,7 +38,7 @@ public class Spawner : MonoBehaviour {
             colIndex = Random.Range(0, enemyColours.Length);
             GameObject entity = PhotonNetwork.Instantiate(spawnableEntities[spawnIndex].name, pos, Quaternion.identity);
             LightableEnemy lightScript = entity.GetComponentInChildren<LightableEnemy>();
-            lightScript.InitialiseEnemy(enemyColours[colIndex], enemyParent.transform);
+            lightScript.InitialiseEnemy(enemyColours[colIndex], enemyParent.transform.name);
             spawnCount++;
         }
     }

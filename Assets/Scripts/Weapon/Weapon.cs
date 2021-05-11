@@ -1,6 +1,10 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using LightsOn.LightingSystem;
+
+namespace LightsOn {
+namespace WeaponSystem {
 
 public abstract class Weapon : MonoBehaviour {
 
@@ -13,10 +17,16 @@ public abstract class Weapon : MonoBehaviour {
     public bool debug;
     protected GameObject target = null;
 
+    public LightColour colour;
 
     protected virtual void Start() {
         cooldownLeft = 0;
     }
+
+    public void SetColour(LightColour col) {
+        colour = col;
+    }
+
     public void SetTarget(int index){
         target = GlobalValues.Instance.players[index];
     }
@@ -60,4 +70,4 @@ public abstract class Weapon : MonoBehaviour {
             }
         }
     }
-}
+}}}

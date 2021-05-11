@@ -10,21 +10,18 @@ public class GlobalValues : MonoBehaviour {
     public LayerMask environment;
     public LayerMask playerLayer;
     public LayerMask enemyLayer;
-    public LayerMask playerOrHiddenPlayerMask; 
+    public LayerMask playerOrHiddenPlayerMask;
+    public LayerMask shootTargetsLayer;
     public List<GameObject> players;
     public GameObject localPlayerInstance;
     public GameObject UIElements;
     public GameObject UIPrefab;
+    public GameObject boidManagerPrefab;
+    public GameObject boidDeathPrefab;
     public GameObject MenuItem;
     public Material defaultGreen;
     public Material defaultBlue;
     public Material defaultRed;
-    public Material hiddenGreen;
-    public Material hiddenBlue;
-    public Material hiddenRed;
-    public Material hiddenCyan;
-    public Material hiddenYellow;
-    public Material hiddenMagenta;
     public Transform respawnPoint;
     public Transform p1spawn;
     public Transform p2Spawn;
@@ -69,12 +66,15 @@ public class GlobalValues : MonoBehaviour {
             }
         }*/
     }
+
     private void UpdateGlobalValues() {
         _instance.respawnPoint = respawnPoint;
         _instance.p1spawn = p1spawn;
         _instance.p2Spawn = p2Spawn;
         _instance.fm = fm;
         _instance.navManager = navManager;
+        _instance.boidManagerPrefab = boidManagerPrefab;
+        gameObject.GetComponent<LocalObjectPool>().RespawnBoids();
     }
 
     private void Awake() {

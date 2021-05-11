@@ -92,6 +92,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "ChangePersp",
+                    "type": "Button",
+                    "id": "c3b593d1-ae6e-495d-8a18-5add1634b221",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -257,6 +265,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "SpectatorToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "02e80c23-39d4-463b-94b0-e5154070c40f",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "ChangePersp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -304,16 +304,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d90f8a1bec8fd84b8499751ea4e4fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colour: 16777215
-  greenMat: {fileID: 0}
-  blueMat: {fileID: 0}
-  redMat: {fileID: 0}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 2100000, guid: 395dd79c096a1e14280cf0535bf36182, type: 2}
-  colourRange: 0
+  colour: 16711680
+  materials: {fileID: 11400000, guid: de0f08c2a0e123424a00dbadf9776baf, type: 2}
+  hiddenMaterials: {fileID: 11400000, guid: 855a7e2072f9c79a798b3ab4cee6a304, type: 2}
+  maxSwarmRadius: 1
+  cloudPoints: {fileID: 0}
   childObjects: []
+  parentTransform: {fileID: 0}
+  useParentTransform: 0
 --- !u!1 &7168497803102791750
 GameObject:
   m_ObjectHideFlags: 0

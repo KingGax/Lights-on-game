@@ -1,37 +1,58 @@
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.AudioSystem;
 
-[RequireComponent(typeof(PhotonView))]
-public class Health : MonoBehaviour {
+namespace LightsOn.HealthSystem {
 
-    protected PhotonView pv;
-    public float maxHealth;
-    protected float health;
+    [RequireComponent(typeof(PhotonView))]
+    public class Health : MonoBehaviour {
 
-    public virtual void Awake() {
-        pv = gameObject.GetComponent<PhotonView>();
-    }
+        [MinAttribute(1)]
+        public float maxHealth;
+        protected float health;
+        protected PhotonView pv;
 
-    public virtual void Start() {
-        health = maxHealth;
-    }
+        public virtual void Awake() {
+            pv = gameObject.GetComponent<PhotonView>();
+        }
 
-    [PunRPC]
-    protected virtual void DamageRPC(float damage, float stunDuration) {
-        if (health > 0) {
-            health -= damage;
-            if (pv.IsMine && health <= 0) {
-                Die();
+        public virtual void Start() {
+            health = maxHealth;
+        }
+
+        [PunRPC]
+        protected virtual void DamageRPC(float damage, float stunDuration) {
+            if (health > 0) {
+                health -= damage;
+                if (pv.IsMine && health <= 0) {
+                    Die();
+                }
             }
         }
-    }
 
-    public virtual void Damage(float damage, float stunDuration) {
-        pv.RPC("DamageRPC", RpcTarget.All, damage);
-    }
+        public virtual void Damage(float damage, float stunDuration) {
+            pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);
+        }
 
-    public virtual void Die() {
-        AudioManager.PlaySFX(SoundClips.Instance.SFXKill, transform.position);
-        PhotonNetwork.Destroy(gameObject);
+        public virtual void DeathEffects() {
+
+        }
+
+        [PunRPC]
+        public void DieRPC() {
+            if (pv.IsMine) {
+                PhotonNetwork.CleanRpcBufferIfMine(pv);
+            }
+            Destroy(gameObject);
+        }
+
+        public virtual void Die() {
+            AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXKill, transform.position, gameObject);
+            pv.RPC("DieRPC", RpcTarget.AllBuffered);
+        }
+
+        public float getHealth() {
+            return health;
+        }
     }
 }

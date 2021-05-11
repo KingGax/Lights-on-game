@@ -150,7 +150,7 @@ LineRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: efd7b376bfc7c5f42974e7cb105717ff, type: 2}
+  - {fileID: 2100000, guid: 1d477de1ee8c7d342b2c244b1cba4853, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5276,6 +5276,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3207802551181139127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9081871530591561525}
+  m_Layer: 0
+  m_Name: DashBoids
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9081871530591561525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207802551181139127}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.2786322, y: 0.55607146, z: 0.0798949}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4464539808157270193}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3900342123473002516
 GameObject:
   m_ObjectHideFlags: 0
@@ -5414,6 +5444,7 @@ MonoBehaviour:
   damage: 12
   hitStunDuration: 0.15
   debug: 0
+  colour: 0
   alternateCooldownTime: 0
   chargeSpeedModifier: 1
   altDamage: 0
@@ -5435,6 +5466,7 @@ GameObject:
   - component: {fileID: 4464539807790254505}
   - component: {fileID: 4464539807790254510}
   - component: {fileID: 4464539807790254504}
+  - component: {fileID: 5824075534383265107}
   m_Layer: 6
   m_Name: LightWrapper
   m_TagString: Untagged
@@ -5543,8 +5575,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d155421011ba4942bbc2be54bff24bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colour: {r: 0, g: 0, b: 0, a: 0}
-  lightableColour: 0
+--- !u!114 &5824075534383265107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4464539807790254506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 1
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &4464539808011951479
 GameObject:
   m_ObjectHideFlags: 0
@@ -5647,6 +5699,7 @@ MonoBehaviour:
   damage: 10
   hitStunDuration: 0.05
   debug: 0
+  colour: 0
   alternateCooldownTime: 0.1
   chargeSpeedModifier: 0.6
   altDamage: 35
@@ -5737,6 +5790,7 @@ Transform:
   - {fileID: 5776208086442535428}
   - {fileID: 2423706551362076640}
   - {fileID: 1269002315952445439}
+  - {fileID: 9081871530591561525}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5833,12 +5887,11 @@ MonoBehaviour:
   turnSpeed: 60
   moveSpeed: 11
   micRenderer: {fileID: 2638047574653576275}
-  lantern: {fileID: 4464539807790254505}
   equiptedWeapon: {fileID: 1939310518407670539}
   weapons:
   - {fileID: 1939310518407670539}
   - {fileID: 266690505347603084}
-  lightSource: {fileID: 4464539807790254504}
+  lanturn: {fileID: 0}
   playerRenderer: {fileID: 4464539808157270195}
   UIElements: {fileID: 5241574735305807379, guid: eb2c429356db4bd448c01086ecd1f78b,
     type: 3}
@@ -5928,6 +5981,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5d5261e0-c0e9-4414-8f02-2e0fda1d3a2e
     m_ActionName: Player/SpectatorToggle[/Keyboard/rightBracket]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c3b593d1-ae6e-495d-8a18-5add1634b221
+    m_ActionName: Player/ChangePersp[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -5981,7 +6038,6 @@ MonoBehaviour:
   OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 7284417587524882932}
-  - {fileID: 4464539808157270206}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -6476,7 +6532,7 @@ GameObject:
   - component: {fileID: 7239644046273914032}
   - component: {fileID: 8468407394839457456}
   m_Layer: 8
-  m_Name: Sprite
+  m_Name: BarSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6529,13 +6585,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 45621f0fa709fea45bc306cb42459928, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
-  m_FillClockwise: 1
+  m_FillClockwise: 0
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1

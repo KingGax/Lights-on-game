@@ -184,8 +184,9 @@ MonoBehaviour:
   damage: 40
   hitStunDuration: 0
   debug: 0
+  colour: 0
   firePoint: {fileID: 1522194069406229204}
-  bullet: {fileID: 3625585865830301468, guid: 4cdca7b79d0e71f40b4ec9fdaf02fc53, type: 3}
+  bullet: {fileID: 3625585865830301468, guid: d3a4d449db5268b4f85452b4280d5abb, type: 3}
   bulletSpeed: 30
 --- !u!1 &1522194069406229205
 GameObject:
@@ -456,21 +457,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d94adf913a8b960479999997a75557a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colour: 0
-  greenMat: {fileID: 0}
-  blueMat: {fileID: 0}
-  redMat: {fileID: 0}
-  magentaMat: {fileID: 0}
-  cyanMat: {fileID: 0}
-  yellowMat: {fileID: 0}
-  whiteMat: {fileID: 0}
-  colourRange: 0
+  colour: 65280
+  materials: {fileID: 11400000, guid: 9bc4fac8eb4ed33748d7c71e6cab166e, type: 2}
+  hiddenMaterials: {fileID: 11400000, guid: 855a7e2072f9c79a798b3ab4cee6a304, type: 2}
+  maxSwarmRadius: 1
+  cloudPoints: {fileID: 0}
   childObjects:
   - {fileID: 5437242364281430983}
   - {fileID: 1522194069032540502}
+  usesMeshRenderer: 1
   smr: {fileID: 7984869124525468933}
   gunScript: {fileID: 3599781463707241827}
-  usesMeshRenderer: 1
 --- !u!1 &8422467607395490075
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,7 +588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c440da62d289347b8c170f7055c2de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 0}
+  weapon: {fileID: 3599781463707241827}
   turnSpeed: 1.8
   ignoresStun: 0
   detectionThreshold: 40

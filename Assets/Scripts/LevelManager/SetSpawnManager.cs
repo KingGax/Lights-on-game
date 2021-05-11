@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class SetSpawnManager : MonoBehaviour
 {
@@ -8,12 +9,29 @@ public class SetSpawnManager : MonoBehaviour
     float spawnTimer = 0f;
     int waveNumber = 0;
     int highestWaveNumber = 0;
+    int[] waveSums;
+    PhotonView pv;
+
+    private void Awake() {
+        pv = GetComponent<PhotonView>();
+    }
+
+    public int[] GetWaveSums() {
+        return waveSums;
+    }
+
     public void Initialise(Transform enemyContParent) {
         EnemyContainer[] contArr = enemyContParent.GetComponentsInChildren<EnemyContainer>();
         foreach (EnemyContainer cont in contArr) {
             containers.Add(cont);
             if (highestWaveNumber < cont.waveNumber) {
                 highestWaveNumber = cont.waveNumber;
+            }
+        }
+        waveSums = new int[highestWaveNumber+1];
+        foreach (EnemyContainer cont in containers) {
+            for (int i = 0; i < cont.waveNumber; i++) {
+                waveSums[i] += 1;
             }
         }
     }
@@ -31,17 +49,19 @@ public class SetSpawnManager : MonoBehaviour
     }
 
     public void SpawnWave(int waveNum, Transform enemyParent) {
-        float maxSpawnTime = 0f;
-        waveNumber = waveNum;
-        foreach (EnemyContainer cont in containers) {
-            if (cont.waveNumber == waveNum) {
-                cont.StartWave(waveNum, enemyParent);
-                if (cont.waveOffset > maxSpawnTime) {
-                    maxSpawnTime = cont.waveOffset;
+        if (PhotonNetwork.IsMasterClient) {
+            float maxSpawnTime = 0f;
+            waveNumber = waveNum;
+            foreach (EnemyContainer cont in containers) {
+                if (cont.waveNumber == waveNum) {
+                    cont.StartWave(waveNum, enemyParent);
+                    if (cont.waveOffset > maxSpawnTime) {
+                        maxSpawnTime = cont.waveOffset;
+                    }
                 }
             }
+            spawnTimer = Mathf.Max(maxSpawnTime, 1.2f);
         }
-        spawnTimer = Mathf.Max(maxSpawnTime,0.1f);
     }
 
     // Update is called once per frame

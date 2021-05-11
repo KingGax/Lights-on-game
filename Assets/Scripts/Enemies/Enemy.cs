@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using LightsOn.WeaponSystem;
 
 [RequireComponent(typeof(PhotonView))]
 [RequireComponent(typeof(NavMeshAgent))]
@@ -33,7 +34,7 @@ public abstract class Enemy : MonoBehaviour {
 
     
 
-    public void EnableAI() {
+    public virtual void EnableAI() {
         if (pv.IsMine) {
             agent.enabled = true;
             agent.isStopped = false;
@@ -41,7 +42,7 @@ public abstract class Enemy : MonoBehaviour {
         }
     }
 
-    public void DisableAI() {
+    public virtual void DisableAI() {
         if (pv.IsMine) {
             aiEnabled = false;
             agent.enabled = false;
@@ -94,6 +95,7 @@ public abstract class Enemy : MonoBehaviour {
         return !environmentCheck
             || hit.transform.gameObject.layer == LayerMask.NameToLayer("Player");
     }
+    
 
     protected void TurnTowards(Vector3 direction) {
         transform.forward = Vector3.RotateTowards(transform.forward, direction, Time.deltaTime * turnSpeed, 0.5f);

@@ -24,14 +24,8 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
         spawnScriptP1 = gameObject.AddComponent<SetSpawnManager>();
         spawnScriptP2 = gameObject.AddComponent<SetSpawnManager>();
         pv = gameObject.GetPhotonView();
-        if (pv == null || !pv.IsMine) {
-            spawnScriptP1.enabled = false;
-            spawnScriptP2.enabled = false;   
-        }
-        else {
-            spawnScriptP1.Initialise(enemyContainersP1.transform);
-            spawnScriptP2.Initialise(enemyContainersP2.transform);
-        }
+        spawnScriptP1.Initialise(enemyContainersP1.transform);
+        spawnScriptP2.Initialise(enemyContainersP2.transform);
     }
 
     public override void StartObjective() {

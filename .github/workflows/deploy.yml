@@ -50,3 +50,12 @@ jobs:
           target: "assets/unity"
           rm: true
           strip_components: 3
+
+      - name: Spam Discord 😝
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+          color: #35b5bb
+          username: "HMSSFGD Minister for Game Deployment"
+          message: "@here A new version of the Unity Game has been deployed!"

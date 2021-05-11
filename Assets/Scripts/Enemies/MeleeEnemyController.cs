@@ -43,17 +43,7 @@ public class MeleeEnemyController : Enemy {
         }
     }
 
-    void Update() {
-        if (pv == null || !pv.IsMine) return;
-        if (!hasPlayerJoined){
-            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
-                hasPlayerJoined = true;
-                SelectTarget();
-            } else {
-                return;
-            }
-        } 
-        //playerObj = GlobalValues.Instance.players[0];
+    void ManageStates(){
         if (aiEnabled) { 
             switch (enemyState) {
                 case EnemyState.Patrolling:
@@ -65,11 +55,24 @@ public class MeleeEnemyController : Enemy {
                 case EnemyState.Attacking:
                     Attacking();
                     break;
-
                 default:
                     break;
             }
         }
+    }
+
+    void Update() {
+        if (pv == null || !pv.IsMine) return;
+        if (!hasPlayerJoined){
+            if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
+                hasPlayerJoined = true;
+                SelectTarget();
+            } else {
+                return;
+            }
+        } 
+        //playerObj = GlobalValues.Instance.players[0];
+        ManageStates();
     }
 
     void Patrol()

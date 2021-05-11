@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using LightsOn.HealthSystem;
+
+namespace LightsOn {
+namespace WeaponSystem {
 
 public class PlayerSword : PlayerWeapon {
 
@@ -59,4 +63,4 @@ public class PlayerSword : PlayerWeapon {
             }
         }
     }
-}
+}}}
