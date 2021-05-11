@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Runtime.InteropServices;
 using Photon.Realtime;
 using Photon.Pun;
 using TMPro;
@@ -11,6 +12,9 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
 
     [SerializeField]
     private string _roomName;
+    
+    [DllImport("__Internal")]
+    private static extern void setupVoiceChatUnity(string username, string role);
     public int maxAllowedSpectators = 0;
     public Button playButton;
     private string glyphs = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -56,6 +60,9 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
 
     public override void OnCreatedRoom() {
         Debug.Log("Successfully created room.");
+        #if UNITY_WEBGL
+        setupVoiceChatUnity("a", "master");
+        #endif
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message) {
