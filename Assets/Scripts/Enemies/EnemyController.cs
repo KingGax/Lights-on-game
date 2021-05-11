@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using LightsOn.LightingSystem;
+using LightsOn.AudioSystem;
 
 public class EnemyController : Enemy {
 
@@ -190,6 +191,7 @@ public class EnemyController : Enemy {
                         TurnTowards(playerDirection);
                         if (weapon.Use()) {
                             shootingTimer -= missedShotReduction;
+                            AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXEnemyGunfire, transform.position, gameObject);
                         }
                     }
                 } else {

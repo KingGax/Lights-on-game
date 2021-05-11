@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using LightsOn.WeaponSystem;
+using LightsOn.AudioSystem;
 
 namespace LightsOn.HealthSystem {
 
@@ -53,6 +54,7 @@ namespace LightsOn.HealthSystem {
             pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);
             if (isLocal) {
                 hb.UpdateHealth(health);
+                AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXPlayerHit, transform.position, gameObject);
                 animator.SetTrigger("onHit");
             } else {
                 fhb.UpdateHealth(health);
