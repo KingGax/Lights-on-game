@@ -60,7 +60,9 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
 
     public override void OnCreatedRoom() {
         Debug.Log("Successfully created room.");
+        #if UNITY_WEBGL
         setupVoiceChatUnity("a", "master");
+        #endif
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message) {
