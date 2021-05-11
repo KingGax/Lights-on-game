@@ -211,9 +211,9 @@ namespace LightsOn.WeaponSystem {
         }
 
         void MakeDecision(float p) { //decides which attack/ability to use next, will not use same ability twice in a row
+            float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
             if (p < rotatingShotProbability) {
                 if (prevState == EnemyState.RotateShooting) {
-                    float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
                     float q = Random.Range(rotatingShotProbability, pTotal + 0);
                     MakeDecision(q % totalProb);
                 } else {
@@ -221,15 +221,13 @@ namespace LightsOn.WeaponSystem {
                 }
             } else if (p < cmRepProb) {
                 if (prevState == EnemyState.SwarmRepositioning) {
-                    float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
-                    float q = Random.Range(cmRepProb, pTotal + rotatingShotProbability);
+                    float q = Random.Range(cmAOEProb, pTotal + rotatingShotProbability);
                     MakeDecision(q % totalProb);
                 } else {
                     ChangeToSwarmReposition();
                 }
             } else if (p < cmAOEProb) {
                 if (prevState == EnemyState.AOEMeleeStartup) {
-                    float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
                     float q = Random.Range(cmAOEProb, pTotal + cmRepProb);
                     MakeDecision(q % totalProb);
                 } else {
@@ -237,7 +235,6 @@ namespace LightsOn.WeaponSystem {
                 }
             } else if (p < cmMissileProb) {
                 if (prevState == EnemyState.MissileAttack) {
-                    float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
                     float q = Random.Range(cmMissileProb, pTotal + cmAOEProb);
                     MakeDecision(q % totalProb);
                 } else {
@@ -245,7 +242,6 @@ namespace LightsOn.WeaponSystem {
                 }
             } else {
                 if (prevState == EnemyState.SummonAdds) {
-                    float pTotal = rotatingShotProbability + repositioningProbability + aoeProbability + missileProbability + summonProbability;
                     float q = Random.Range(0, cmAOEProb);
                     MakeDecision(q % totalProb);
                 } else {
@@ -494,7 +490,7 @@ namespace LightsOn.WeaponSystem {
                 DoAOEAttack(reappearDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
                 pv.RPC("ReappearRPC", RpcTarget.All);
                 if (aiEnabled){
-                    Debug.Log("Reappearing");
+                    //Debug.Log("Reappearing");
                     //circleLR.enabled = false;
                     pv.RPC("DisableCircleRPC", RpcTarget.All);
                     enemyState = EnemyState.DecisionState;
@@ -508,9 +504,6 @@ namespace LightsOn.WeaponSystem {
                 
             }
         }
-
-        // Start is called before the first frame update
-
 
         private IEnumerator EnemyTimers() {
             while (true) {
