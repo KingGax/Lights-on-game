@@ -342,7 +342,7 @@ namespace LightsOn.LightingSystem {
             if (!overrideMeshRenderer) {
                 //meshRenderer.material = materials.get(colour);
                 meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-                LerpMaterial(0);
+                //LerpMaterial(0); why?
             }
             if (canSwarm) {
                 fadeTimerMax = boidManagerInstance.GetComponentInChildren<BoidManager>().SendReformSignal(GetTransformedPoints());
