@@ -48,7 +48,7 @@ namespace LightsOn.AudioSystem {
                 freeAudioSource = 1 - freeAudioSource;
             }
 
-            if (time > nextTransitionEnd) {
+           /* if (time > nextTransitionEnd) {
                 nextTransitionEnd = nextStartTime;
                 mixer.SetFloat("Track1HighPass", 10.0f);
                 mixer.SetFloat("Track2HighPass", 10.0f);
@@ -58,7 +58,7 @@ namespace LightsOn.AudioSystem {
                 float frq = 10.0f + 2990.0f * pctTransition;
                 mixer.SetFloat("Track1HighPass", frq);
                 mixer.SetFloat("Track2HighPass", frq);
-            }
+            }*/
         }
 
         private double getNextSectionTime() {
