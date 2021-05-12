@@ -11,7 +11,7 @@ namespace LightsOn.AudioSystem {
         public List<double> beatstamps;
         public double bpm;
 
-        public int section = 2;
+        public int section = 0;
 
         public double getSectionLength() {
             double delta = beatstamps[section + 1] - beatstamps[section];
