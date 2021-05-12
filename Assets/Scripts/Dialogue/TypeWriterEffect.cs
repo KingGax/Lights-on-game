@@ -14,8 +14,6 @@ public class TypeWriterEffect : MonoBehaviour
 
     // Update is called once per frame
     private IEnumerator TypeText(string textToType, TMP_Text textLabel){
-        yield return new WaitForSeconds(2);
-        
         float t = 0;
         int charIndex = 0;
 

@@ -16,13 +16,17 @@ public class DialogueUI : MonoBehaviour
 
     [SerializeField]
     private GameObject dialogueBox;
+
+    [SerializeField]
+    private GlobalValues globalValues;
     void Start(){
         typeWriterEffect = GetComponent<TypeWriterEffect>();
         CloseDialogueBox();
-        ShowDialogue(testDialogue);
+        //ShowDialogue(testDialogue);
     }
 
     public void ShowDialogue(DialogueObject dialogueObject){
+        DisableLocalPlayerMovement();
         OpenDialogueBox();
         StartCoroutine(StepThroughDialogue(dialogueObject));
     }
@@ -34,6 +38,7 @@ public class DialogueUI : MonoBehaviour
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         }
         CloseDialogueBox();
+        EnableLocalPlayerMovement();
     }
 
     private void CloseDialogueBox(){
@@ -43,6 +48,14 @@ public class DialogueUI : MonoBehaviour
 
     private void OpenDialogueBox(){
         dialogueBox.SetActive(true);
+    }
+
+    private void DisableLocalPlayerMovement(){
+        globalValues.localPlayerInstance.GetComponent<PlayerInputScript>().DisableInput();
+    }
+
+    private void EnableLocalPlayerMovement(){
+        globalValues.localPlayerInstance.GetComponent<PlayerInputScript>().EnableInput();
     }
 
 }
