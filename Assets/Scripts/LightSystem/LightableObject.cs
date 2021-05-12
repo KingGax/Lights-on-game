@@ -9,6 +9,8 @@ namespace LightsOn.LightingSystem {
         protected LightColour colour;
         public ColouredMaterial materials;
         public ColouredMaterial hiddenMaterials;
+        public bool showReappearParticles;
+        public Transform particleTransform;
 
         protected bool initialised = false;
         protected bool disappearOnStart = false;
@@ -99,7 +101,10 @@ namespace LightsOn.LightingSystem {
 
         protected virtual void LerpMaterial(float lerp) {
             if (!overrideMeshRenderer) {
-                meshRenderer.material.Lerp(hiddenMaterials.get(colour), materials.get(colour), lerp);
+                //meshRenderer.material.Lerp(hiddenMaterials.get(colour), materials.get(colour), lerp);
+                Color tempcolor = meshRenderer.material.color;
+                tempcolor.a = Mathf.Lerp(hiddenMaterials.get(colour).color.a, materials.get(colour).color.a, lerp);
+                meshRenderer.material.color = tempcolor;
             }
         }
 
@@ -335,9 +340,9 @@ namespace LightsOn.LightingSystem {
 
         public virtual void Appear() {
             if (!overrideMeshRenderer) {
-                meshRenderer.material = materials.get(colour);
+                //meshRenderer.material = materials.get(colour);
                 meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-                LerpMaterial(0);
+                //LerpMaterial(0); why?
             }
             if (canSwarm) {
                 fadeTimerMax = boidManagerInstance.GetComponentInChildren<BoidManager>().SendReformSignal(GetTransformedPoints());
@@ -392,6 +397,9 @@ namespace LightsOn.LightingSystem {
         public virtual void FinishAppearing() {
             if (!overrideMeshRenderer) {
                 meshRenderer.material = materials.get(colour);
+                if (showReappearParticles){
+                    //particle effect at ParticleTransform
+                }
             }
             transform.parent.gameObject.layer = defaultLayer;
             if (canSwarm) {

@@ -20,16 +20,17 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 4x1green
+  m_Name: 4x1redHidden
   m_Shader: {fileID: 4800000, guid: ee7e4c9a5f6364b688a332c67fc32cca, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 3000
   stringTagMap:
-    RenderType: Opaque
-  disabledShaderPasses: []
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -242,14 +243,14 @@ Material:
     - _ColorMode: 0
     - _Cull: 2
     - _CullMode: 0
-    - _Cutoff: 0.5
+    - _Cutoff: 0.48
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DistortionBlend: 0.5
     - _DistortionEnabled: 0
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0.1
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _EMISSION_WEIGHT: 1
     - _EnableHeightBlend: 0
     - _EnableInstancedPerPixelNormal: 1
@@ -320,7 +321,7 @@ Material:
     - _SoftParticlesNearFadeDistance: 0
     - _SpecSource: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 1
+    - _SrcBlend: 5
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilMask: 64
@@ -328,7 +329,7 @@ Material:
     - _StencilReadMask: 255
     - _StencilRef: 64
     - _StencilWriteMask: 255
-    - _Surface: 0
+    - _Surface: 1
     - _TRANSPARENCY: 0
     - _TextureHeight: 512
     - _TextureWidth: 512
@@ -343,10 +344,10 @@ Material:
     - _WeightNormal: 0
     - _WindQuality: 0
     - _WorkflowMode: 1
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
     - _BASE_COLOR: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0.47058824}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
@@ -356,7 +357,7 @@ Material:
     - _CubeToLatLongParams: {r: 0, g: 0, b: 0, a: 0}
     - _EMISSION_COLOR: {r: 0, g: 0, b: 0, a: 0}
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 0.29309496, g: 1, b: 0.22088315, a: 1}
+    - _EmissionColor: {r: 1, g: 0.0087168375, b: 0, a: 1}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}
     - _FaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _FirstViewColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
