@@ -6,20 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Scenes/Menus/StartMenu.unity
     guid: 8fdb5a833aea6aa889549d7b94e69ffa
   - enabled: 1
-    path: Assets/Scenes/Lobby.unity
+    path: Assets/Scenes/Menus/NameMenu.unity
+    guid: dcf904a4e56dcc077b0207258ce699d8
+  - enabled: 1
+    path: Assets/Scenes/Menus/JoinRoomMenu.unity
+    guid: 3406d1eb23c3608849ac263a519cef32
+  - enabled: 1
+    path: Assets/Scenes/Menus/LobbyMenu.unity
     guid: a5e7a945743588d43a9ac6f215c3b3fa
-  - enabled: 1
-    path: Assets/Scenes/Endless_waves_1.unity
-    guid: 9ac59b89eedab44448a1776c3252e3c2
-  - enabled: 1
-    path: Assets/Scenes/Endless_waves_2.unity
-    guid: eab6bd65686391c49aa75a6a038d2d31
-  - enabled: 1
-    path: Assets/Scenes/Endless_puzzle_1.unity
-    guid: 89bf3c570c9ff4a4986d485a2e43f540
   - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: 59c32200b902fe94fa858b964fc846cc
@@ -27,9 +24,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Nightclub.unity
     guid: c8b5b6a53d6ec804e89a0139607abda7
   - enabled: 1
+    path: Assets/Scenes/EndScene.unity
+    guid: 24551a3a3441969fd9e9b4cd90eef76e
+  - enabled: 1
     path: Assets/Scenes/PuzzleTest.unity
     guid: 7301851bcdfc49e43bb23b2a09649a8e
   - enabled: 1
-    path: Assets/Scenes/EndScene.unity
-    guid: 24551a3a3441969fd9e9b4cd90eef76e
+    path: Assets/Scenes/Endless_puzzle_1.unity
+    guid: 89bf3c570c9ff4a4986d485a2e43f540
   m_configObjects: {}

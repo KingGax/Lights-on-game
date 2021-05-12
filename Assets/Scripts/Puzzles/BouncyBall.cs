@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.AudioSystem;
 
 public class BouncyBall : MonoBehaviour {
 
@@ -98,6 +99,7 @@ public class BouncyBall : MonoBehaviour {
             if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .1f, dynamicEnvironmentMask)) {
                 //Reflect direcion and adjust rotation
                 if (bouncesLeft == 0) {
+                    AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXBallShatter, transform.position, gameObject);
                     Respawn();
                     return;
                 }
@@ -106,10 +108,11 @@ public class BouncyBall : MonoBehaviour {
                 transform.eulerAngles = new Vector3(0, rotation, 0);
                 //rigidBody.velocity = reflectDirection.normalized * speed;
                 Debug.Log("bounce");
-
+                AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXBallBounce, transform.position, gameObject);
                 bouncesLeft -= 1;
             } else if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .1f, staticEnvironmentMask)) {
                 Debug.Log("Hit static wall");
+                AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXBallShatter, transform.position, gameObject);
                 Respawn();
                 return;
             }

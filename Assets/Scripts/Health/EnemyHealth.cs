@@ -77,7 +77,6 @@ namespace LightsOn.HealthSystem {
 
         public override void Die()
         {
-            
             AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXKill, transform.position, gameObject);
             pv.RPC("EnemyDieRPC", RpcTarget.AllBuffered);
         }
