@@ -234,6 +234,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
 
             //handles looking and shooting
             if (equiptedWeapon.IsCharging()) {
+                anim.SetBool("Shooting", true);//This is where charging should be set
                 if (altFireReleasedThisFrame) {
                     altFireReleasedThisFrame = false;
                     equiptedWeapon.ReleaseWeaponAlt();
@@ -245,17 +246,20 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
             } else if (shootBuffer > 0 && CanShoot()) {
                 Vector3 fireDirection = GetFireDirection(true);
                 TurnTowards(fireDirection);
+                anim.SetBool("Shooting", true);
                 if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
                     bool didShoop = equiptedWeapon.Use();
                 }
             } else if (altFireHeld && CanShoot()) {
+                anim.SetBool("Shooting", true);//this is the first frame charging starts, only called once 
                 Vector3 fireDirection = GetFireDirection(false);
                 TurnTowards(fireDirection);
                 equiptedWeapon.UseAlt();
-            } else if (reloading && shootBuffer > 0 || altFireHeld) {
+            } else if (reloading && shootBuffer > 0 || altFireHeld) { //this is for looking somewhere but not actually shooting
                 Vector3 fireDirection = GetFireDirection(altFireHeld);
                 TurnTowards(fireDirection);
             } else {
+                anim.SetBool("Shooting", false);
                 if (movement != Vector2.zero) {
                     if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
                         Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
@@ -283,6 +287,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                         float velocityX = Vector3.Dot(moveVector.normalized, transform.right);
                         anim.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
                         anim.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
+                        if (moveVector.magnitude > 0.1) {
+                            anim.SetBool("Moving", true);
+                        } else {
+                            anim.SetBool("Moving", false);
+                        }
                     }
                 }
             }
