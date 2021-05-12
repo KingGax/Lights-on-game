@@ -47,7 +47,7 @@ public class RandomEnemiesSetter : MonoBehaviour
                 int colourNum = rand.Next(3);
                 Vector3 position = new Vector3(UnityEngine.Random.Range(minX,maxX), 0, UnityEngine.Random.Range(minY,maxY));
                 GameObject container = Instantiate(enemyPrefabs[enemyNum], position, Quaternion.identity);
-                container.transform.parent = enemyContainers;
+                container.transform.parent = enemyContainers.transform;
                 EnemyContainer enemyContainer = container.GetComponent<EnemyContainer>();
                 enemyContainer.waveNumber = i;
                 enemyContainer.waveOffset = rand.Next(4);
