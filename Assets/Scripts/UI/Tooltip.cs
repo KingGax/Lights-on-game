@@ -20,6 +20,9 @@ public class Tooltip : MonoBehaviour {
     protected PhotonView pv;
     public bool parented;
     private Transform parentTransform;
+    public Image toolBox;
+    public Image toolTip;
+    public TextMeshProUGUI textPro;
 
     public void Awake() {
         pv = gameObject.GetComponent<PhotonView>();
@@ -50,6 +53,18 @@ public class Tooltip : MonoBehaviour {
 
     public void SetTextLocal(string text) {
         SetTextRPC(text);
+    }
+
+    public void ShowTooltip(bool display) {
+        if (display) {
+            textPro.alpha = 0;
+            toolBox.color = new Color(0, 0, 0, 0);
+            toolTip.color = new Color(0, 0, 0, 0);
+        } else {
+            textPro.alpha = 1;
+            toolBox.color = new Color(0, 0, 0, 1);
+            toolTip.color = new Color(0, 0, 0, 1);
+        }
     }
 
 

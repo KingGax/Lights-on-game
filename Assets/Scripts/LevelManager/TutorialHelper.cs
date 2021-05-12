@@ -24,6 +24,9 @@ public class TutorialHelper : MonoBehaviour
     private bool delayingChange = false;
     private bool trackingPlayer1 = true;
     private bool finished = false;
+    private bool hidetooltip = false;
+    public float cameraCutsceneLength;
+    private bool cameraCutscene = true;
     
 
     void Awake() {
@@ -43,7 +46,27 @@ public class TutorialHelper : MonoBehaviour
         movementInputMap.Attack.performed += ctx => {  performedShoot = true; };
         movementInputMap.AltAttack.started += ctx => { performedRightClick = true; };
         movementInputMap.AltAttack.performed += ctx => { performedRightClick = true; };
+        movementInputMap.ChangePersp.performed += ctx => { ToggleTooltip(); };
+        StartCameraCutscene(cameraCutsceneLength);
+    }
 
+    public void StartCameraCutscene(float length) {
+        cameraCutscene = true;
+        if (length < 0) {
+            length = cameraCutsceneLength;
+        }
+        Debug.Log("camera custene start");
+        Invoke("StopCameraCutscene", length);
+    }
+
+    public void StopCameraCutscene() {
+        cameraCutscene = false;
+        Debug.Log("stop camera");
+    }
+
+    private void ToggleTooltip() {
+        hidetooltip = !hidetooltip;
+        tip.ShowTooltip(hidetooltip);
     }
 
     private void Start() {
