@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using LightsOn.LightingSystem;
+using LightsOn.AudioSystem;
 
 public class WinScript : MonoBehaviour {
 
@@ -30,6 +31,7 @@ public class WinScript : MonoBehaviour {
         if (PhotonNetwork.IsMasterClient && !loadingLevel && GlobalValues.Instance.fm.GetObjectivesTriggered()) {
             loadingLevel = true;
             transition.SetTrigger("Start");
+            AudioManager.Instance.PlayNext();
             yield return new WaitForSeconds(1);
             GlobalValues.Instance.localPlayerInstance.GetComponentInChildren<Lanturn>().BufferLightColour();
             PhotonNetwork.LoadLevel(sceneName);

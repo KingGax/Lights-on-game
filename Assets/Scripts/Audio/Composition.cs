@@ -10,7 +10,6 @@ namespace LightsOn.AudioSystem {
         public AudioClip musicClip;
         public List<double> beatstamps;
         public double bpm;
-
         public int section = 0;
 
         public double getSectionLength() {
@@ -20,6 +19,15 @@ namespace LightsOn.AudioSystem {
 
         public double getSectionStartTime() {
             return beatstamps[section] * 60.0f / bpm;
+        }
+
+        public bool playNextSection() {
+            if (section == beatstamps.Count - 2) {
+                return false;
+            } else {
+                section++;
+                return true;
+            }
         }
     }
 }
