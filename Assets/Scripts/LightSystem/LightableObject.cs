@@ -101,7 +101,10 @@ namespace LightsOn.LightingSystem {
 
         protected virtual void LerpMaterial(float lerp) {
             if (!overrideMeshRenderer) {
-                meshRenderer.material.Lerp(hiddenMaterials.get(colour), materials.get(colour), lerp);
+                //meshRenderer.material.Lerp(hiddenMaterials.get(colour), materials.get(colour), lerp);
+                Color tempcolor = meshRenderer.material.color;
+                tempcolor.a = Mathf.Lerp(hiddenMaterials.get(colour).color.a, materials.get(colour).color.a, lerp);
+                meshRenderer.material.color = tempcolor;
             }
         }
 
@@ -337,7 +340,7 @@ namespace LightsOn.LightingSystem {
 
         public virtual void Appear() {
             if (!overrideMeshRenderer) {
-                meshRenderer.material = materials.get(colour);
+                //meshRenderer.material = materials.get(colour);
                 meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
                 LerpMaterial(0);
             }
