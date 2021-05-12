@@ -9,6 +9,8 @@ namespace LightsOn.LightingSystem {
         protected LightColour colour;
         public ColouredMaterial materials;
         public ColouredMaterial hiddenMaterials;
+        public bool showReappearParticles;
+        public Transform particleTransform;
 
         protected bool initialised = false;
         protected bool disappearOnStart = false;
@@ -392,6 +394,9 @@ namespace LightsOn.LightingSystem {
         public virtual void FinishAppearing() {
             if (!overrideMeshRenderer) {
                 meshRenderer.material = materials.get(colour);
+                if (showReappearParticles){
+                    //particle effect at ParticleTransform
+                }
             }
             transform.parent.gameObject.layer = defaultLayer;
             if (canSwarm) {

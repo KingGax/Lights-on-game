@@ -68,7 +68,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     }
 
     public override void OnLeftRoom() {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("JoinRoomMenu");
     }
 
     public void CopyRoomCodeToClipboard() {
