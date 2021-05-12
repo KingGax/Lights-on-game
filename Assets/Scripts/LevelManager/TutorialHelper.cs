@@ -34,20 +34,48 @@ public class TutorialHelper : MonoBehaviour
 
         movementInputMap = inputController.Player;
 
-        movementInputMap.Movement.performed += ctx => {  performedMove = true; };
-        movementInputMap.Movement.started += ctx => { performedMove = true; };
-        movementInputMap.Movement.canceled += ctx => { performedMove = true; };
-        movementInputMap.Dash.started += ctx => {  performedDash = true; };
-        movementInputMap.Light.started += ctx => {  performedLight = true; };
+        movementInputMap.Movement.performed += ctx => { PerformMove();  };
+        movementInputMap.Movement.started += ctx => { PerformMove(); };
+        movementInputMap.Movement.canceled += ctx => { PerformMove(); };
+        movementInputMap.Dash.started += ctx => { PerformDash(); };
+        movementInputMap.Light.started += ctx => {  PerformLight(); };
 
 
 
-        movementInputMap.Attack.started += ctx => {  performedShoot = true; };
-        movementInputMap.Attack.performed += ctx => {  performedShoot = true; };
-        movementInputMap.AltAttack.started += ctx => { performedRightClick = true; };
-        movementInputMap.AltAttack.performed += ctx => { performedRightClick = true; };
-        movementInputMap.ChangePersp.performed += ctx => { ToggleTooltip(); };
+        movementInputMap.Attack.started += ctx => { PerformShoot(); };
+        movementInputMap.Attack.performed += ctx => { PerformShoot(); };
+        movementInputMap.AltAttack.started += ctx => { PerformRightClick(); };
+        movementInputMap.AltAttack.performed += ctx => { PerformRightClick(); };
         StartCameraCutscene(cameraCutsceneLength);
+    }
+
+    private void PerformMove() {
+        if (!cameraCutscene) {
+            performedMove = true;
+        }
+    }
+
+    private void PerformDash() {
+        if (!cameraCutscene) {
+            performedDash = true;
+        }
+    }
+    private void PerformLight() {
+        if (!cameraCutscene) {
+            performedLight = true;
+        }
+    }
+
+    private void PerformShoot() {
+        if (!cameraCutscene) {
+            performedShoot = true;
+        }
+    }
+
+    private void PerformRightClick() {
+        if (!cameraCutscene) {
+            performedShoot = true;
+        }
     }
 
     public void StartCameraCutscene(float length) {
@@ -61,6 +89,7 @@ public class TutorialHelper : MonoBehaviour
 
     public void StopCameraCutscene() {
         cameraCutscene = false;
+        tip.SetForceShow(true);
         Debug.Log("stop camera");
     }
 

@@ -23,6 +23,8 @@ public class Tooltip : MonoBehaviour {
     public Image toolBox;
     public Image toolTip;
     public TextMeshProUGUI textPro;
+    private Animator cameraAnimator;
+    bool forceShow = false;
 
     public void Awake() {
         pv = gameObject.GetComponent<PhotonView>();
@@ -34,12 +36,29 @@ public class Tooltip : MonoBehaviour {
         }
     }
 
+    private void Start() {
+        cameraAnimator = Camera.main.GetComponent<Animator>();
+        ShowTooltip(false);
+    }
+
+    public void SetForceShow(bool enable) {
+        forceShow = enable;
+    }
+
     public void FixedUpdate() {
         t += Time.fixedDeltaTime;
         transform.position = target.position
             + new Vector3(0.0f, 0.01f * Mathf.Sin(t), 0.0f);
         if (orientation == TooltipOrientation.Camera && parented) {
             transform.rotation = Quaternion.Euler(0, -parentTransform.rotation.y - 148.5f, 0);
+        }
+        if (cameraAnimator.GetCurrentAnimatorStateInfo(0).IsName("CameraZoomInIntro")) {
+            ShowTooltip(forceShow);
+        }
+        else if (cameraAnimator.GetCurrentAnimatorStateInfo(0).IsName("CameraZoomIn")) {
+            ShowTooltip(true);
+        } else {
+            ShowTooltip(false);
         }
     }
 
@@ -56,7 +75,7 @@ public class Tooltip : MonoBehaviour {
     }
 
     public void ShowTooltip(bool display) {
-        if (display) {
+        if (!display) {
             textPro.alpha = 0;
             toolBox.color = new Color(0, 0, 0, 0);
             toolTip.color = new Color(0, 0, 0, 0);
@@ -72,7 +91,6 @@ public class Tooltip : MonoBehaviour {
     protected void SetTextRPC(string text) {
         TextMeshProUGUI label = GetComponentInChildren<TextMeshProUGUI>();
         label.text = text;
-
         RectTransform canvas = GetComponentInChildren<RectTransform>();
         canvas.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (20 * text.Length) + 64);
     }
