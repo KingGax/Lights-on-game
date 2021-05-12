@@ -207,9 +207,9 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     void UpdateReadyListings(string UserID, bool isReady){ //updates text colour
         PlayerListingInfo listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
         if (isReady){
-            _content.Find(listing.name).GetComponentInChildren<Text>().color = readyColour;
+            _content.Find(listing.name).GetComponentInChildren<TextMeshProUGUI>().color = readyColour;
         } else {
-            _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
+            _content.Find(listing.name).GetComponentInChildren<TextMeshProUGUI>().color = unreadyColour;
         }
     }
 
@@ -217,10 +217,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         PlayerListingInfo listing;
         if (isSpectator){
              listing = cachedSpectatorList[UserID].GetComponent<PlayerListingInfo>();
-            _specContent.Find(listing.name).GetComponentInChildren<Text>().color = specColour;
+            _specContent.Find(listing.name).GetComponentInChildren<TextMeshProUGUI>().color = specColour;
         } else {
             listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
-            _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
+            _content.Find(listing.name).GetComponentInChildren<TextMeshProUGUI>().color = unreadyColour;
         }
     }
 
