@@ -4,14 +4,13 @@ using UnityEngine;
 namespace LightsOn {
 namespace LightingSystem {
 
-[RequireComponent(typeof(Light))]
 [RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(PhotonView))]
 public class Lanturn : MonoBehaviour {
 
     private LightColour colour;
     private PhotonView pv;
-    private Light light;
+    public  Light light;
     private float lightRange;
     private float range;
     private SphereCollider sphere;
@@ -20,7 +19,6 @@ public class Lanturn : MonoBehaviour {
     public void Awake() {
         sphere = GetComponent<SphereCollider>();
         pv = GetComponent<PhotonView>();
-        light = GetComponent<Light>();
         colour = LightColour.Red;
     }
 
