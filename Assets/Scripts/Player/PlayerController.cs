@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     bool movementEnabled = true;
     bool spectator = false;
     bool initialised = false;
+    public Animator anim;
 
     void IOnPhotonViewOwnerChange.OnOwnerChange(Player newOwner, Player oldOwner) {
         if (PhotonNetwork.LocalPlayer == newOwner) {
@@ -278,6 +279,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                         }
                         moveVector.y = rb.velocity.y;
                         rb.velocity = moveVector;
+                        float velocityZ = Vector3.Dot(moveVector.normalized, transform.forward);
+                        float velocityX = Vector3.Dot(moveVector.normalized, transform.right);
+                        anim.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
+                        anim.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
                     }
                 }
             }
