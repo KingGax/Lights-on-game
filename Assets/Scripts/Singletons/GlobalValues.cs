@@ -10,7 +10,8 @@ public class GlobalValues : MonoBehaviour {
     public LayerMask environment;
     public LayerMask playerLayer;
     public LayerMask enemyLayer;
-    public LayerMask playerOrHiddenPlayerMask; 
+    public LayerMask playerOrHiddenPlayerMask;
+    public LayerMask shootTargetsLayer;
     public List<GameObject> players;
     public GameObject localPlayerInstance;
     public GameObject UIElements;
@@ -28,6 +29,8 @@ public class GlobalValues : MonoBehaviour {
     public NavigationManager navManager;
     public bool micEnabled = true;
     public bool micEditable = true;
+    public bool enableShader = true;
+    public bool enableBoids = true;
     
     public static GlobalValues Instance { get { return _instance; } }
 
@@ -67,24 +70,47 @@ public class GlobalValues : MonoBehaviour {
     }
 
     private void UpdateGlobalValues() {
+        _instance.UIPrefab = UIPrefab;
+        _instance.boidManagerPrefab = boidManagerPrefab;
+        _instance.boidDeathPrefab = boidDeathPrefab;
+        _instance.MenuItem = MenuItem;
+        _instance.defaultRed = defaultRed;
+        _instance.defaultGreen = defaultGreen;
+        _instance.defaultBlue = defaultBlue;
         _instance.respawnPoint = respawnPoint;
         _instance.p1spawn = p1spawn;
         _instance.p2Spawn = p2Spawn;
         _instance.fm = fm;
         _instance.navManager = navManager;
+        _instance.boidManagerPrefab = boidManagerPrefab;
+        _instance.enableBoids = enableBoids;
+        _instance.enableShader = enableShader;
+
         gameObject.GetComponent<LocalObjectPool>().RespawnBoids();
+
+        _instance.GetComponent<ShaderPlayerTracker>().enabled = enableShader;
+        _instance.GetComponent<LocalObjectPool>().enabled = enableBoids;
+    }
+
+    private void UpdateUI() {
+        if (UIPrefab != null && _instance.UIElements == null) {
+            GameObject UI = Instantiate(UIPrefab);
+            DontDestroyOnLoad(UI);
+            _instance.UIElements = UI;
+        }
     }
 
     private void Awake() {
         if (_instance != null && _instance != this) {
             UpdateGlobalValues();
+            UpdateUI();
             Destroy(this.gameObject);
         } else {
             DontDestroyOnLoad(gameObject);
             _instance = this;
-            GameObject UI = Instantiate(UIPrefab);
-            DontDestroyOnLoad(UI);
-            _instance.UIElements = UI;
+            _instance.GetComponent<ShaderPlayerTracker>().enabled = enableShader;
+            _instance.GetComponent<LocalObjectPool>().enabled = enableBoids;
+            UpdateUI();
         }
     }
 }

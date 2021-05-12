@@ -51,7 +51,11 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
             roomInfo.SetRoomInfo(info);
             cachedRoomList[info.Name] = listing;
         }
-        setupVoiceChatUnity("b", "client");
+        #if !UNITY_EDITOR
+            #if UNITY_WEBGL
+            setupVoiceChatUnity("b", "client");
+            #endif
+        #endif
     }
 
     public override void OnDisconnected(DisconnectCause cause) {

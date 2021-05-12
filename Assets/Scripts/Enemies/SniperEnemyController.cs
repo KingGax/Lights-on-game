@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using LightsOn.AudioSystem;
 
 public class SniperEnemyController : Enemy
 {
@@ -232,6 +233,7 @@ public class SniperEnemyController : Enemy
         TurnTowards(playerDirection);
         weapon.SetTarget(targetGO);
         weapon.Use();
+        AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXEnemyGunfire, transform.position, gameObject);
         ChangeToShootRecover();
     }
 

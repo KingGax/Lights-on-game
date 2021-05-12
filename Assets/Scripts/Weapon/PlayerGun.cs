@@ -130,7 +130,7 @@ namespace LightsOn.WeaponSystem {
         }
 
         private void FireLaser(float dist) {
-            RaycastHit[] hit = Physics.SphereCastAll(firePoint.transform.position, laserThickness, firePoint.transform.up, dist, GlobalValues.Instance.environment | GlobalValues.Instance.enemyLayer).OrderBy(h => h.distance).ToArray();
+            RaycastHit[] hit = Physics.SphereCastAll(firePoint.transform.position, laserThickness, firePoint.transform.up, dist, GlobalValues.Instance.environment | GlobalValues.Instance.shootTargetsLayer).OrderBy(h => h.distance).ToArray();
             foreach (RaycastHit objectHit in hit) {
                 EnemyHealth health = objectHit.collider.gameObject.GetComponent<EnemyHealth>();
                 if (health != null) {

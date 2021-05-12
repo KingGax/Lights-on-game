@@ -12,7 +12,9 @@ public class PlayerInputScript : MonoBehaviour {
     private PlayerInputs inputController;
     private PlayerInputs.PlayerActions movementInputMap;
     private bool inputEnabled = true;
+    private bool cameraCutscene = false;
     public SpriteRenderer micRenderer;
+    public float cameraCutsceneLength;
     private HelpTooltip helpView = null;
     private MenuToggle menuView = null;
     private PhotonView pv;
@@ -56,7 +58,23 @@ public class PlayerInputScript : MonoBehaviour {
         pv = GetComponent<PhotonView>();
         cameraWork = GetComponent<CameraWork>();
         cameraAnimator = Camera.main.gameObject.GetComponent<Animator>();
+        StartCameraCutscene(cameraCutsceneLength);
     }
+
+    public void StartCameraCutscene(float length) {
+        cameraCutscene = true;
+        if (length < 0) {
+            length = cameraCutsceneLength;
+        }
+        Debug.Log("camera custene start");
+        Invoke("StopCameraCutscene", length);
+    }
+
+    public void StopCameraCutscene() {
+        cameraCutscene = false;
+        Debug.Log("stop camera");
+    }
+
     
     void Reload() {
         pc.Reload();
@@ -78,13 +96,17 @@ public class PlayerInputScript : MonoBehaviour {
         inputController.Enable();
     }
 
+    private bool CanMove() {
+        return !cameraCutscene && inputEnabled;
+    }
+
     private void OnDisable() {
         inputController.Disable();
         pc.OnMovement(Vector2.zero);
     }
 
     void AttackOne(InputAction.CallbackContext ctx) {
-        if (inputEnabled) {
+        if (CanMove()) {
             if (ctx.performed) {
                 //performed in this case means released
                 pc.AttackOne(false);
@@ -96,7 +118,7 @@ public class PlayerInputScript : MonoBehaviour {
     }
 
     void AttackAlt(InputAction.CallbackContext ctx) {
-        if (inputEnabled) {
+        if (CanMove()) {
             if (ctx.performed) {
                 //performed in this case means released
                 pc.AttackAlt(false);
@@ -108,25 +130,28 @@ public class PlayerInputScript : MonoBehaviour {
     }
 
     void ChangeLight() {
-        if (inputEnabled) {
+        if (CanMove()) {
             pc.ChangeLight();
         }
     }
 
     void ChangePerspective() {
-        if (inputEnabled) {
+        if (CanMove()) {
+            if (cameraAnimator == null) {
+                cameraAnimator = Camera.main.gameObject.GetComponent<Animator>();
+            }
             cameraAnimator.SetTrigger("changePersp");
         }
     }
 
     void Dash(InputAction.CallbackContext ctx) {
-        if (inputEnabled) {
+        if (CanMove()) {
             pc.Dash();
         }
     }
 
     public void OnMovement(InputAction.CallbackContext ctx) {
-        if (inputEnabled) {
+        if (CanMove()) {
             Vector2 newMovementInput = ctx.ReadValue<Vector2>();
             pc.OnMovement(newMovementInput);
         }
@@ -144,7 +169,7 @@ public class PlayerInputScript : MonoBehaviour {
     }
     public void VoiceControl(InputAction.CallbackContext ctx) {
         if (pv.IsMine) {
-            if (inputEnabled) {
+            if (CanMove()) {
                 if(GlobalValues.Instance.micEnabled) {
                     micRenderer.enabled = true;
                     startRecogniser();

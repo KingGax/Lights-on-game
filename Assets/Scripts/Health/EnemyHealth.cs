@@ -3,26 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using LightsOn.LightingSystem;
+using LightsOn.AudioSystem;
+
 
 namespace LightsOn.HealthSystem {
     public class EnemyHealth : Health {
-        FloatingHealthBar healthBar;
+        protected HealthBar healthBar;
         Enemy controller;
         Renderer renderer;
         Material mat;
         Color baseCol;
         Color emisCol;
-        int flashNum = 2;
-        int flashesRemaining = 0;
-        float flashTimerMax = 0.1f;
-        float flashTimer;
-        bool canFlicker = false;
+        protected int flashNum = 2;
+        protected int flashesRemaining = 0;
+        protected float flashTimerMax = 0.1f;
+        protected float flashTimer;
+        protected bool canFlicker = false;
 
         public override void Start() {
             base.Start();
-            controller = gameObject.GetComponent<Enemy>();
-            healthBar = gameObject.GetComponentInChildren<FloatingHealthBar>();
-            healthBar.UpdateMaxHealth(maxHealth);
+            controller = gameObject.GetComponent<Enemy>(); 
+            healthBar = gameObject.GetComponentInChildren<HealthBar>();
+            healthBar.UpdateMaxHealth(maxHealth); //calls this after setting boss HB parent [FIX THIS]
             healthBar.UpdateHealth(health);
             StartCoroutine("Timers");
         }
@@ -71,6 +73,21 @@ namespace LightsOn.HealthSystem {
             if (enemyLightable != null) {
                 enemyLightable.SpawnDeathCloud();
             }
+        }
+
+        public override void Die()
+        {
+            AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXKill, transform.position, gameObject);
+            pv.RPC("EnemyDieRPC", RpcTarget.AllBuffered);
+        }
+        
+        [PunRPC]
+        public void EnemyDieRPC() {
+            if (pv.IsMine) {
+                PhotonNetwork.CleanRpcBufferIfMine(pv);
+            }
+            Destroy(gameObject);
+            Destroy(healthBar.gameObject);
         }
 
         void Update() {

@@ -6018,6 +6018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   micRenderer: {fileID: 2638047574653576275}
+  cameraCutsceneLength: 3.5
 --- !u!114 &6294330096512230151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6532,7 +6533,7 @@ GameObject:
   - component: {fileID: 7239644046273914032}
   - component: {fileID: 8468407394839457456}
   m_Layer: 8
-  m_Name: Sprite
+  m_Name: BarSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6585,13 +6586,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 45621f0fa709fea45bc306cb42459928, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
-  m_FillClockwise: 1
+  m_FillClockwise: 0
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1

@@ -20,8 +20,6 @@ namespace LightsOn.LightingSystem {
         public bool usesMeshRenderer = false;
         public bool disappearOnInitialise = true;
 
-
-
         public override void Start() {
             overrideMeshRenderer = !usesMeshRenderer;
             base.Start();
@@ -70,7 +68,6 @@ namespace LightsOn.LightingSystem {
 
         override public void Appear() {
             base.Appear();
-            //enemy.EnableAI();
 
 
         }
