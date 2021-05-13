@@ -2314,13 +2314,23 @@ PrefabInstance:
       objectReference: {fileID: 2038499703}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
+      propertyPath: p1NavPoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p2NavPoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
       propertyPath: p1SpawnPoints.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
       propertyPath: p2SpawnPoints.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
@@ -2329,7 +2339,27 @@ PrefabInstance:
       objectReference: {fileID: 858827161}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
+      propertyPath: p1NavPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p1NavPoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
       propertyPath: p2NavPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p2NavPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p2NavPoints.Array.data[2]
       value: 
       objectReference: {fileID: 858827161}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
@@ -2344,12 +2374,22 @@ PrefabInstance:
       objectReference: {fileID: 90497162}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
+      propertyPath: p1SpawnPoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 90497162}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
       propertyPath: p2SpawnPoints.Array.data[0]
       value: 
       objectReference: {fileID: 1877932700}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
       propertyPath: p2SpawnPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 90497162}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p2SpawnPoints.Array.data[2]
       value: 
       objectReference: {fileID: 90497162}
     - target: {fileID: 3812703217067086723, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
@@ -6857,6 +6897,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BossContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586459347629556378, guid: 1a12f7d6310ae4046910184550fd9a0a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1765957118700098158, guid: 1a12f7d6310ae4046910184550fd9a0a,
         type: 3}
