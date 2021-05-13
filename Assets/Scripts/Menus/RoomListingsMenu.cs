@@ -53,7 +53,9 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
         }
         #if !UNITY_EDITOR
             #if UNITY_WEBGL
-            setupVoiceChatUnity("b", "client");
+            if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
+                setupVoiceChatUnity("b", "client");
+            }
             #endif
         #endif
     }

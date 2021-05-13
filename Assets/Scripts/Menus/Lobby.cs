@@ -54,7 +54,9 @@ public class Lobby : MonoBehaviourPunCallbacks
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
                 #if !UNITY_EDITOR
                     #if UNITY_WEBGL
-                    initiateVoiceChatUnity();
+                    if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
+                        initiateVoiceChatUnity();
+                    }
                     #endif
                 #endif
             } else {
