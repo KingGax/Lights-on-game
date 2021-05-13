@@ -90,6 +90,8 @@ public class PlayerInputScript : MonoBehaviour {
 
     public void DisableInput() {
         inputEnabled = false;
+        Vector2 newMovementInput = new Vector2(0,0);
+        pc.OnMovement(newMovementInput);
     }
 
     private void OnEnable() {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Dialogue/DialogueObj")]
+
 
 [System.Serializable]
 public class DialogueInfo
@@ -11,6 +11,8 @@ public class DialogueInfo
     public string dialogue;
     public int playerIndex;
 }
+
+[CreateAssetMenu(menuName = "Dialogue/DialogueObject")]
 public class DialogueObject : ScriptableObject{
     [SerializeField]  public DialogueInfo[] dialogue;
 
