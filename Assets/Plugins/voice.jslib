@@ -11,6 +11,10 @@ mergeInto(LibraryManager.library, {
         //Starting record
         //Separate frontend function will handle return
     },
+    setupMicrophoneUnity__deps: ['setupVoiceDetection'],
+    setupMicrophoneUnity: function() {
+        setUpVoiceDetection();
+    },
     setupVoiceChatUnity__deps: ['setupVoiceChat'],
     setupVoiceChatUnity: function(username, role) {
         setupVoiceChat(username, role);

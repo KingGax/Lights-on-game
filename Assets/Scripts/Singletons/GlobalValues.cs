@@ -31,7 +31,10 @@ public class GlobalValues : MonoBehaviour {
     public bool micEditable = true;
     public bool enableShader = true;
     public bool enableBoids = true;
-    
+    public bool bothPlayersSpawned = false;
+    public bool p1Spawned = false;
+    public bool p2Spawned = false;
+
     public static GlobalValues Instance { get { return _instance; } }
 
     public void AddPlayer(GameObject player) {
@@ -73,7 +76,6 @@ public class GlobalValues : MonoBehaviour {
         _instance.UIPrefab = UIPrefab;
         _instance.boidManagerPrefab = boidManagerPrefab;
         _instance.boidDeathPrefab = boidDeathPrefab;
-        _instance.MenuItem = MenuItem;
         _instance.defaultRed = defaultRed;
         _instance.defaultGreen = defaultGreen;
         _instance.defaultBlue = defaultBlue;
@@ -85,6 +87,7 @@ public class GlobalValues : MonoBehaviour {
         _instance.boidManagerPrefab = boidManagerPrefab;
         _instance.enableBoids = enableBoids;
         _instance.enableShader = enableShader;
+        _instance.bothPlayersSpawned = bothPlayersSpawned; 
 
         gameObject.GetComponent<LocalObjectPool>().RespawnBoids();
 

@@ -206,10 +206,15 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     void UpdateReadyListings(string UserID, bool isReady){ //updates text colour
         PlayerListingInfo listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
+        Debug.Log(listing);
+        Debug.Log(listing.name);
+        Debug.Log(cachedPlayerList[UserID]);
+        Debug.Log(_content.Find(listing.name));
+
         if (isReady){
-            _content.Find(listing.name).GetComponentInChildren<TextMeshProUGUI>().color = readyColour;
+            _content.Find(listing.name).GetComponentInChildren<Text>().color = readyColour;
         } else {
-            _content.Find(listing.name).GetComponentInChildren<TextMeshProUGUI>().color = unreadyColour;
+            _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
         }
     }
 

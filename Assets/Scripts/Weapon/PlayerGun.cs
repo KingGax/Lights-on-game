@@ -59,7 +59,7 @@ namespace LightsOn.WeaponSystem {
         }
 
         public override void EquipWeapon() {
-            mr.enabled = true;
+            //mr.enabled = true;
             cooldownLeft = equipCooldown;
         }
 
