@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     public Animator anim;
     SkinnedMeshRenderer[] shawnRenderers;
     public GameObject shawn;
+    public Transform firePoint;
 
     void IOnPhotonViewOwnerChange.OnOwnerChange(Player newOwner, Player oldOwner) {
         if (PhotonNetwork.LocalPlayer == newOwner) {
@@ -224,7 +225,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
             if (altFireHeld) {
                 altShootBuffer = altShootBufferMax;
             }
-            playerPlane = new Plane(XZPlaneNormal, transform.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
+            playerPlane = new Plane(XZPlaneNormal, firePoint.position); // small optimisation can be made by moving this to start and making sure player y is right at the start
 
             if (dashBuffer > 0 && !dashing && canDash) {
                 StartDash();
