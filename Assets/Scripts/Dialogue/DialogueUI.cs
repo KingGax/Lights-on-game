@@ -18,6 +18,9 @@ public class DialogueUI : MonoBehaviour
     private GameObject dialogueBox;
 
     [SerializeField]
+    private TMP_Text keyPressPrompt;
+
+    [SerializeField]
     private GlobalValues globalValues;
     void Start(){
         typeWriterEffect = GetComponent<TypeWriterEffect>();
@@ -35,7 +38,9 @@ public class DialogueUI : MonoBehaviour
         
         foreach(string dialogue in dialogueObject.Dialogue){
             yield return typeWriterEffect.Run(dialogue, textLabel);
+            ShowKeyPrompt();
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            HideKeyPrompt();
         }
         CloseDialogueBox();
         EnableLocalPlayerMovement();
@@ -51,11 +56,19 @@ public class DialogueUI : MonoBehaviour
     }
 
     private void DisableLocalPlayerMovement(){
-        globalValues.localPlayerInstance.GetComponent<PlayerInputScript>().DisableInput();
+        GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerInputScript>().DisableInput();
     }
 
     private void EnableLocalPlayerMovement(){
-        globalValues.localPlayerInstance.GetComponent<PlayerInputScript>().EnableInput();
+        GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerInputScript>().EnableInput();
+    }
+
+    private void ShowKeyPrompt(){
+        keyPressPrompt.gameObject.SetActive(true);
+    }
+
+    private void HideKeyPrompt(){
+        keyPressPrompt.gameObject.SetActive(false);
     }
 
 }

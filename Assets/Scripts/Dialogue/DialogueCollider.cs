@@ -18,6 +18,7 @@ public class DialogueCollider : MonoBehaviour
 
     private void OnTriggerEnter(){
         numberOfCollisions++;
+        Debug.Log("number of collisions: " + numberOfCollisions);
         if(numberOfCollisions == targetCollisions && !activated){
             activated = true;
             dialogueUI.ShowDialogue(dialogueObject);
@@ -26,5 +27,6 @@ public class DialogueCollider : MonoBehaviour
 
     private void OnTriggerExit(){
         numberOfCollisions--;
+        Debug.Log("number of collisions: " + numberOfCollisions);
     }
 }
