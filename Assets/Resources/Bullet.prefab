@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3625585865830301536}
-  - component: {fileID: 7037363091357305691}
   - component: {fileID: 7236430431282441395}
   - component: {fileID: 959876559045281799}
   - component: {fileID: 8158333740285049925}
   - component: {fileID: 9177719166554780273}
   - component: {fileID: 1277413575395706827}
+  - component: {fileID: 1950511463866761667}
   m_Layer: 7
   m_Name: Bullet
   m_TagString: Untagged
@@ -38,20 +38,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!136 &7037363091357305691
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3625585865830301468}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.56
-  m_Height: 2.85
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!114 &7236430431282441395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +139,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   hitStunDuration: 0
+--- !u!65 &1950511463866761667
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3625585865830301468}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000001, y: 2.0000005, z: 12.769811}
+  m_Center: {x: 0.000000074505806, y: -5.7094425e-14, z: 5.636038}
 --- !u!1 &5754116363236386846
 GameObject:
   m_ObjectHideFlags: 0

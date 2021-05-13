@@ -74,6 +74,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     bool movementEnabled = true;
     bool spectator = false;
     bool initialised = false;
+    public Animator anim;
+    SkinnedMeshRenderer[] shawnRenderers;
+    public GameObject shawn;
 
     void IOnPhotonViewOwnerChange.OnOwnerChange(Player newOwner, Player oldOwner) {
         if (PhotonNetwork.LocalPlayer == newOwner) {
@@ -103,7 +106,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
         DontDestroyOnLoad(this.gameObject);
         initialised = true;
-            
+        shawnRenderers = shawn.GetComponentsInChildren<SkinnedMeshRenderer>();
     }
 
     void UpdateLocalPlayerInstance() {
@@ -233,6 +236,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
 
             //handles looking and shooting
             if (equiptedWeapon.IsCharging()) {
+                anim.SetBool("Shooting", true);//This is where charging should be set
                 if (altFireReleasedThisFrame) {
                     altFireReleasedThisFrame = false;
                     equiptedWeapon.ReleaseWeaponAlt();
@@ -244,17 +248,20 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
             } else if (shootBuffer > 0 && CanShoot()) {
                 Vector3 fireDirection = GetFireDirection(true);
                 TurnTowards(fireDirection);
+                anim.SetBool("Shooting", true);
                 if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
                     bool didShoop = equiptedWeapon.Use();
                 }
             } else if (altFireHeld && CanShoot()) {
+                anim.SetBool("Shooting", true);//this is the first frame charging starts, only called once 
                 Vector3 fireDirection = GetFireDirection(false);
                 TurnTowards(fireDirection);
                 equiptedWeapon.UseAlt();
-            } else if (reloading && shootBuffer > 0 || altFireHeld) {
+            } else if (reloading && shootBuffer > 0 || altFireHeld) { //this is for looking somewhere but not actually shooting
                 Vector3 fireDirection = GetFireDirection(altFireHeld);
                 TurnTowards(fireDirection);
             } else {
+                anim.SetBool("Shooting", false);
                 if (movement != Vector2.zero) {
                     if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
                         Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
@@ -278,6 +285,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                         }
                         moveVector.y = rb.velocity.y;
                         rb.velocity = moveVector;
+                        float velocityZ = Vector3.Dot(moveVector.normalized, transform.forward);
+                        float velocityX = Vector3.Dot(moveVector.normalized, transform.right);
+                        anim.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
+                        anim.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
+                        if (moveVector.magnitude > 0.1) {
+                            anim.SetBool("Moving", true);
+                        } else {
+                            anim.SetBool("Moving", false);
+                        }
                     }
                 }
             }
@@ -305,15 +321,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         gameObject.layer = hiddenLayer;
         dashParticles.Play();
         dashTrail.time = 1.0f;
-        playerRenderer.enabled = false;
-        gunRenderer.enabled = false;
+        foreach (SkinnedMeshRenderer renderer in shawnRenderers) {
+            renderer.enabled = false;
+        }
         hidden = true;
     }
 
     void ShowPlayer() {
         gameObject.layer = defaultLayer;
-        playerRenderer.enabled = true;
-        gunRenderer.enabled = true;
+        foreach (SkinnedMeshRenderer renderer in shawnRenderers) {
+            renderer.enabled = true;
+        }
         hidden = false;
     }
 
