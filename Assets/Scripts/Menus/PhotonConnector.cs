@@ -12,7 +12,9 @@ public class PhotonConnector : MonoBehaviourPunCallbacks {
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.AutomaticallySyncScene = true;
         //To use that we need to manually configure networking client which looks painful
-        PhotonNetwork.Disconnect();
+        if (PhotonNetwork.IsConnected) {
+            PhotonNetwork.Disconnect();
+        }
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -27,13 +29,15 @@ public class PhotonConnector : MonoBehaviourPunCallbacks {
 
     public override void OnDisconnected(DisconnectCause cause) {
         Debug.Log("Disconnected from server: " + cause.ToString());
-        tries++;
-        if (tries == 1) {
-            Debug.Log("Trying to connect to Russia");
-            PhotonNetwork.ConnectToRegion("ru");
-        } else if (tries == 2) {
-            Debug.Log("Trying to connect to USA");
-            PhotonNetwork.ConnectToRegion("us");
+        if (cause != DisconnectCause.None) {
+            tries++;
+            if (tries == 1) {
+                Debug.Log("Trying to connect to Russia");
+                PhotonNetwork.ConnectToRegion("ru");
+            } else if (tries == 2) {
+                Debug.Log("Trying to connect to USA");
+                PhotonNetwork.ConnectToRegion("us");
+            }
         }
     }
 }
