@@ -126,6 +126,7 @@ namespace LightsOn.WeaponSystem {
             moving = false;
             lightableBoss = GetComponentInChildren<LightableBossEnemy>();
             //GetComponentInChildren<BossHealthBar>().Activate();
+            ChangeToSwarmReposition();
         }
 
         // Update is called once per frame
