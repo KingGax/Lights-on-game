@@ -153,9 +153,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textLabel: {fileID: 2338783781132121281}
   testDialogue: {fileID: 11400000, guid: 384ae109ec4a96448a8bd35b52a5c938, type: 2}
+  nameText: {fileID: 2338783781564441829}
   dialogueBox: {fileID: 2338783781750091583}
   keyPressPrompt: {fileID: 2338783780757224582}
   globalValues: {fileID: 0}
+  names:
+  - 
+  - 
 --- !u!114 &2338783780770857397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +193,7 @@ PrefabInstance:
     - target: {fileID: 2274136242995911737, guid: dd7ca025ca6077842985f6118ef1d8de,
         type: 3}
       propertyPath: m_text
-      value: Name
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2274136242995911737, guid: dd7ca025ca6077842985f6118ef1d8de,
         type: 3}
@@ -343,6 +347,18 @@ RectTransform:
 --- !u!114 &2338783781132121281 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2274136242832018461, guid: dd7ca025ca6077842985f6118ef1d8de,
+    type: 3}
+  m_PrefabInstance: {fileID: 4610100144905074908}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2338783781564441829 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2274136242995911737, guid: dd7ca025ca6077842985f6118ef1d8de,
     type: 3}
   m_PrefabInstance: {fileID: 4610100144905074908}
   m_PrefabAsset: {fileID: 0}

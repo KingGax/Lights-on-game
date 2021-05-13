@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
+using Photon.Realtime;
+using System.Collections.Generic;
 
 public class DialogueUI : MonoBehaviour
 {
@@ -15,6 +18,9 @@ public class DialogueUI : MonoBehaviour
     private DialogueObject testDialogue;
 
     [SerializeField]
+    private TMP_Text nameText;
+
+    [SerializeField]
     private GameObject dialogueBox;
 
     [SerializeField]
@@ -22,9 +28,17 @@ public class DialogueUI : MonoBehaviour
 
     [SerializeField]
     private GlobalValues globalValues;
+
+    [SerializeField]
+    private List<string> names;
     void Start(){
         typeWriterEffect = GetComponent<TypeWriterEffect>();
         CloseDialogueBox();
+        foreach (Player p in PhotonNetwork.PlayerList)
+		{
+			names.Add(p.NickName);
+		}
+
         //ShowDialogue(testDialogue);
     }
 
@@ -36,8 +50,9 @@ public class DialogueUI : MonoBehaviour
 
     private IEnumerator StepThroughDialogue(DialogueObject dialogueObject){
         
-        foreach(string dialogue in dialogueObject.Dialogue){
-            yield return typeWriterEffect.Run(dialogue, textLabel);
+        foreach(DialogueInfo dialogueInfo in dialogueObject.Dialogue){
+            nameText.text = names[dialogueInfo.playerIndex];
+            yield return typeWriterEffect.Run(dialogueInfo.dialogue, textLabel);
             ShowKeyPrompt();
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
             HideKeyPrompt();
