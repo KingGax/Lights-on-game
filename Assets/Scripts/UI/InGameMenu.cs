@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class InGameMenu : MonoBehaviour
 {
+    public GameObject MenuItem;
     public GameObject MicToggle;
     public GameObject VoiceChatToggle;
     public GameObject VoiceControlToggle;
+    bool visible = false;
     // Start is called before the first frame update
     void Start()
     {
-        if(!GlobalValues.micEditable) 
+        GlobalValues.Instance.MenuItem = MenuItem;
+        MenuItem.SetActive(false);
+        if(GlobalValues.Instance.micEditable == false) 
         {
+            /*
             MicToggle.interactable = false;
             VoiceChatToggle.interactable = false;
             VoiceControlToggle.interactable = false;
+            */
         }
     }
 
@@ -22,6 +28,11 @@ public class InGameMenu : MonoBehaviour
     void Update()
     {
         
+    }
+    public bool ToggleVisibility() {
+        MenuItem.SetActive(!visible);
+        visible = !visible;
+        return visible;
     }
     public void updateMicEnabled(bool newVal)
     {

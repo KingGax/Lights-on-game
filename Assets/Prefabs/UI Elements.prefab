@@ -1763,7 +1763,6 @@ GameObject:
   - component: {fileID: 1193703355045855221}
   - component: {fileID: 1677343869247121486}
   - component: {fileID: 1089164282956889580}
-  - component: {fileID: 999024895356933364}
   - component: {fileID: 4109253585859733639}
   m_Layer: 5
   m_Name: Menu
@@ -1897,19 +1896,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &999024895356933364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4373160602981502642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2160da627ab864e5585e827217e4030d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MenuItem: {fileID: 4373160602981502642}
 --- !u!114 &4109253585859733639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1922,6 +1908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c8d74e866f6e4f7d9a345cd3f8035d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MenuItem: {fileID: 4373160602981502642}
   MicToggle: {fileID: 2669437034978239234}
   VoiceChatToggle: {fileID: 445740014162708452}
   VoiceControlToggle: {fileID: 288904680854784536}
