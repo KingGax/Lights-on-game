@@ -35,14 +35,14 @@ public class InGameMenu : MonoBehaviour
     }
     public void updateMicEnabled(bool newVal)
     {
-
+        GlobalValues.Instance.micEnabled = newVal;
     }
     public void updateVoiceChatEnabled(bool newVal)
     {
-        
+        GlobalValues.Instance.voiceChatEnabled = newVal;
     }
     public void updateVoiceControlEnabled(bool newVal)
     {
-        
+        GlobalValues.Instance.voiceControlEnabled = newVal;
     }
 }
