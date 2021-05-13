@@ -31,6 +31,9 @@ namespace LightsOn.AudioSystem {
                 DontDestroyOnLoad(gameObject);
                 _instance = this;
                 generateAudioSources();
+                foreach (Composition track in tracks) {
+                    track.section = -1;
+                }
                 PlayNext();
             }
         }
@@ -70,17 +73,19 @@ namespace LightsOn.AudioSystem {
         }
 
         private AudioClip getNextClip() {
-            if (tracks[trackIndex].section == tracks[trackIndex].beatstamps.Count) {
-                trackIndex++;
-            }
-
             return tracks[trackIndex].musicClip;
         }
 
         public void PlayNext() {
-            if (trackIndex < tracks.Count) {
+            if(trackIndex == -1){
                 trackIndex++;
                 running = true;
+            }
+            if(!tracks[trackIndex].playNextSection()){
+                if (trackIndex < tracks.Count - 1) {
+                    trackIndex++;
+                    running = true;
+                }
             }
         }
 

@@ -188,6 +188,7 @@ MonoBehaviour:
   firePoint: {fileID: 1522194069406229204}
   bullet: {fileID: 3625585865830301468, guid: d3a4d449db5268b4f85452b4280d5abb, type: 3}
   bulletSpeed: 30
+  bulletTTL: 2
 --- !u!1 &1522194069406229205
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,6 +378,36 @@ Transform:
   m_Father: {fileID: 8422467607395490048}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5701744185116111560
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8834923206153109159}
+  m_Layer: 6
+  m_Name: ParticleTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8834923206153109159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5701744185116111560}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8422467607020542403}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8422467607020542400
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,7 +437,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 8834923206153109159}
   m_Father: {fileID: 8422467607395490048}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -460,12 +492,16 @@ MonoBehaviour:
   colour: 65280
   materials: {fileID: 11400000, guid: 9bc4fac8eb4ed33748d7c71e6cab166e, type: 2}
   hiddenMaterials: {fileID: 11400000, guid: 855a7e2072f9c79a798b3ab4cee6a304, type: 2}
+  showReappearParticles: 0
+  particleTransform: {fileID: 8834923206153109159}
+  canSwarm: 1
   maxSwarmRadius: 1
   cloudPoints: {fileID: 0}
   childObjects:
   - {fileID: 5437242364281430983}
   - {fileID: 1522194069032540502}
   usesMeshRenderer: 1
+  disappearOnInitialise: 1
   smr: {fileID: 7984869124525468933}
   gunScript: {fileID: 3599781463707241827}
 --- !u!1 &8422467607395490075
