@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using LightsOn.LightingSystem;
+using LightsOn.AudioSystem;
 
 public class RoomObjective : MonoBehaviour {
     protected PhotonView pv;
@@ -44,6 +45,7 @@ public class RoomObjective : MonoBehaviour {
 
     [PunRPC]
     public void UnlockEntrancesLocal() {
+        AudioManager.Instance.PlayNext();
         foreach (LightableExitDoor door in entrances) {
             door.UnlockDoor();
         }

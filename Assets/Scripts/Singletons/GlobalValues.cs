@@ -70,7 +70,6 @@ public class GlobalValues : MonoBehaviour {
     }
 
     private void UpdateGlobalValues() {
-        _instance.localPlayerInstance = localPlayerInstance;
         _instance.UIPrefab = UIPrefab;
         _instance.boidManagerPrefab = boidManagerPrefab;
         _instance.boidDeathPrefab = boidDeathPrefab;
@@ -94,7 +93,7 @@ public class GlobalValues : MonoBehaviour {
     }
 
     private void UpdateUI() {
-        if (UIPrefab != null) {
+        if (UIPrefab != null && _instance.UIElements == null) {
             GameObject UI = Instantiate(UIPrefab);
             DontDestroyOnLoad(UI);
             _instance.UIElements = UI;

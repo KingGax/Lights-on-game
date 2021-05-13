@@ -59,6 +59,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlocked: 0
   door: {fileID: 7825319451559792210}
+--- !u!1 &2186881572470688021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6432152063231925931}
+  m_Layer: 6
+  m_Name: ParticleTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6432152063231925931
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2186881572470688021}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8065249564880233512}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7146346670031165677
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,7 +326,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 6432152063231925931}
   m_Father: {fileID: 7523048508340863575}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -328,7 +359,9 @@ MonoBehaviour:
   colour: 16777215
   materials: {fileID: 11400000, guid: 64e4ef4506346cb2e8a226b04ac96ebd, type: 2}
   hiddenMaterials: {fileID: 11400000, guid: 855a7e2072f9c79a798b3ab4cee6a304, type: 2}
-  canSwarm: 0
+  showReappearParticles: 0
+  particleTransform: {fileID: 6432152063231925931}
+  canSwarm: 1
   maxSwarmRadius: 1
   cloudPoints: {fileID: 11400000, guid: 61f4cf0a7d930794a9cfe36f2149357a, type: 2}
   light: {fileID: 8065249564034229156}

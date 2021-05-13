@@ -24,6 +24,9 @@ public class TutorialHelper : MonoBehaviour
     private bool delayingChange = false;
     private bool trackingPlayer1 = true;
     private bool finished = false;
+    private bool hidetooltip = false;
+    public float cameraCutsceneLength;
+    private bool cameraCutscene = true;
     
 
     void Awake() {
@@ -31,19 +34,68 @@ public class TutorialHelper : MonoBehaviour
 
         movementInputMap = inputController.Player;
 
-        movementInputMap.Movement.performed += ctx => {  performedMove = true; };
-        movementInputMap.Movement.started += ctx => { performedMove = true; };
-        movementInputMap.Movement.canceled += ctx => { performedMove = true; };
-        movementInputMap.Dash.started += ctx => {  performedDash = true; };
-        movementInputMap.Light.started += ctx => {  performedLight = true; };
+        movementInputMap.Movement.performed += ctx => { PerformMove();  };
+        movementInputMap.Movement.started += ctx => { PerformMove(); };
+        movementInputMap.Movement.canceled += ctx => { PerformMove(); };
+        movementInputMap.Dash.started += ctx => { PerformDash(); };
+        movementInputMap.Light.started += ctx => {  PerformLight(); };
 
 
 
-        movementInputMap.Attack.started += ctx => {  performedShoot = true; };
-        movementInputMap.Attack.performed += ctx => {  performedShoot = true; };
-        movementInputMap.AltAttack.started += ctx => { performedRightClick = true; };
-        movementInputMap.AltAttack.performed += ctx => { performedRightClick = true; };
+        movementInputMap.Attack.started += ctx => { PerformShoot(); };
+        movementInputMap.Attack.performed += ctx => { PerformShoot(); };
+        movementInputMap.AltAttack.started += ctx => { PerformRightClick(); };
+        movementInputMap.AltAttack.performed += ctx => { PerformRightClick(); };
+        StartCameraCutscene(cameraCutsceneLength);
+    }
 
+    private void PerformMove() {
+        if (!cameraCutscene) {
+            performedMove = true;
+        }
+    }
+
+    private void PerformDash() {
+        if (!cameraCutscene) {
+            performedDash = true;
+        }
+    }
+    private void PerformLight() {
+        if (!cameraCutscene) {
+            performedLight = true;
+        }
+    }
+
+    private void PerformShoot() {
+        if (!cameraCutscene) {
+            performedShoot = true;
+        }
+    }
+
+    private void PerformRightClick() {
+        if (!cameraCutscene) {
+            performedShoot = true;
+        }
+    }
+
+    public void StartCameraCutscene(float length) {
+        cameraCutscene = true;
+        if (length < 0) {
+            length = cameraCutsceneLength;
+        }
+        Debug.Log("camera custene start");
+        Invoke("StopCameraCutscene", length);
+    }
+
+    public void StopCameraCutscene() {
+        cameraCutscene = false;
+        tip.SetForceShow(true);
+        Debug.Log("stop camera");
+    }
+
+    private void ToggleTooltip() {
+        hidetooltip = !hidetooltip;
+        tip.ShowTooltip(hidetooltip);
     }
 
     private void Start() {

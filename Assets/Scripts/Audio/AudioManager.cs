@@ -31,6 +31,9 @@ namespace LightsOn.AudioSystem {
                 DontDestroyOnLoad(gameObject);
                 _instance = this;
                 generateAudioSources();
+                foreach (Composition track in tracks) {
+                    track.section = -1;
+                }
                 PlayNext();
             }
         }
@@ -48,7 +51,7 @@ namespace LightsOn.AudioSystem {
                 freeAudioSource = 1 - freeAudioSource;
             }
 
-            if (time > nextTransitionEnd) {
+           /* if (time > nextTransitionEnd) {
                 nextTransitionEnd = nextStartTime;
                 mixer.SetFloat("Track1HighPass", 10.0f);
                 mixer.SetFloat("Track2HighPass", 10.0f);
@@ -58,7 +61,7 @@ namespace LightsOn.AudioSystem {
                 float frq = 10.0f + 2990.0f * pctTransition;
                 mixer.SetFloat("Track1HighPass", frq);
                 mixer.SetFloat("Track2HighPass", frq);
-            }
+            }*/
         }
 
         private double getNextSectionTime() {
@@ -70,17 +73,19 @@ namespace LightsOn.AudioSystem {
         }
 
         private AudioClip getNextClip() {
-            if (tracks[trackIndex].section == tracks[trackIndex].beatstamps.Count) {
-                trackIndex++;
-            }
-
             return tracks[trackIndex].musicClip;
         }
 
         public void PlayNext() {
-            if (trackIndex < tracks.Count) {
+            if(trackIndex == -1){
                 trackIndex++;
                 running = true;
+            }
+            if(!tracks[trackIndex].playNextSection()){
+                if (trackIndex < tracks.Count - 1) {
+                    trackIndex++;
+                    running = true;
+                }
             }
         }
 

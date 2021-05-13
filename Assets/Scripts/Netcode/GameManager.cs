@@ -62,12 +62,14 @@ public class GameManager : MonoBehaviourPunCallbacks {
             Debug.Log("Boo son");
             if (PhotonNetwork.IsMasterClient) {
                 GlobalValues.Instance.localPlayerInstance.transform.position = GlobalValues.Instance.p1spawn.position;
+                GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerInputScript>().StartCameraCutscene(-1);
                 if (GlobalValues.Instance.players.Count > 1) {
                     
                 }
 
                 GlobalValues.Instance.navManager.SetPlayer(false);
             } else {
+                GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerInputScript>().StartCameraCutscene(-1);
                 GlobalValues.Instance.localPlayerInstance.transform.position = GlobalValues.Instance.p2Spawn.position;
                 GlobalValues.Instance.navManager.SetPlayer(true);
             }

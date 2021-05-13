@@ -4,13 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
 using Photon.Pun;
+using TMPro;
 
 public class RoomListingInfo : MonoBehaviour
 {
 
 
     [SerializeField]
-    private Text text;
+    private TextMeshProUGUI text;
 
     private RoomInfo _roomInfo;
 
