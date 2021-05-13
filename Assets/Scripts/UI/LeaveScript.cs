@@ -6,6 +6,7 @@ using Photon.Pun;
 public class LeaveScript : MonoBehaviour
 {
     public void LeaveRoom() {
+        Time.timeScale = 1f;
         PhotonNetwork.LeaveRoom();
     }
 }

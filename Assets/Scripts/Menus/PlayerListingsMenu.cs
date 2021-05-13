@@ -222,10 +222,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         PlayerListingInfo listing;
         if (isSpectator){
              listing = cachedSpectatorList[UserID].GetComponent<PlayerListingInfo>();
-            _specContent.Find(listing.name).GetComponentInChildren<TextMeshProUGUI>().color = specColour;
+            _specContent.Find(listing.name).GetComponentInChildren<Text>().color = specColour;
         } else {
             listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
-            _content.Find(listing.name).GetComponentInChildren<TextMeshProUGUI>().color = unreadyColour;
+            _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
         }
     }
 
