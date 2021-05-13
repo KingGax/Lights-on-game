@@ -126,19 +126,22 @@ public class FloorManager : MonoBehaviour
     public void UpdateLocation(GameObject player, int roomNum) {
         if (PhotonNetwork.IsMasterClient) {
             if (twoPlayers) {
-                if (player == GlobalValues.Instance.players[1]) {
-                    //Debug.Log("p1 room local " + p1RoomNum);
-                    pv.RPC("UpdateLocationRPC", RpcTarget.AllBufferedViaServer, false, roomNum);
-                    //p2RoomNum = roomNum;
+                if (GlobalValues.Instance.p1Spawned && GlobalValues.Instance.p2Spawned) {
+                    if (player == GlobalValues.Instance.players[1]) {
+                        //Debug.Log("p1 room local " + p1RoomNum);
+                        pv.RPC("UpdateLocationRPC", RpcTarget.AllBufferedViaServer, false, roomNum);
+                        //p2RoomNum = roomNum;
+                    } else if (player == GlobalValues.Instance.players[0]) {
+                        //Debug.Log("p2 room local " + p2RoomNum);
+                        pv.RPC("UpdateLocationRPC", RpcTarget.AllBufferedViaServer, true, roomNum);
+                        //p1RoomNum = roomNum;
+                    } else {
+                        Debug.LogError("Non player triggered entrance");
+                    }
+                } else {
+                    Debug.LogError("room triggered before both players loaded");
                 }
-                else if (player == GlobalValues.Instance.players[0]) {
-                    //Debug.Log("p2 room local " + p2RoomNum);
-                    pv.RPC("UpdateLocationRPC", RpcTarget.AllBufferedViaServer, true, roomNum);
-                    //p1RoomNum = roomNum;
-                }
-                else {
-                    Debug.LogError("Non player triggered entrance");
-                }
+                
             }
             else if (player == GlobalValues.Instance.players[0]) {
                 pv.RPC("UpdateLocationRPC", RpcTarget.AllBufferedViaServer, true, roomNum);
