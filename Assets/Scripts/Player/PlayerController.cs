@@ -75,6 +75,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     bool spectator = false;
     bool initialised = false;
     public Animator anim;
+    SkinnedMeshRenderer[] shawnRenderers;
+    public GameObject shawn;
 
     void IOnPhotonViewOwnerChange.OnOwnerChange(Player newOwner, Player oldOwner) {
         if (PhotonNetwork.LocalPlayer == newOwner) {
@@ -104,7 +106,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
         DontDestroyOnLoad(this.gameObject);
         initialised = true;
-            
+        shawnRenderers = shawn.GetComponentsInChildren<SkinnedMeshRenderer>();
     }
 
     void UpdateLocalPlayerInstance() {
@@ -319,15 +321,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         gameObject.layer = hiddenLayer;
         dashParticles.Play();
         dashTrail.time = 1.0f;
-        playerRenderer.enabled = false;
-        gunRenderer.enabled = false;
+        foreach (SkinnedMeshRenderer renderer in shawnRenderers) {
+            renderer.enabled = false;
+        }
         hidden = true;
     }
 
     void ShowPlayer() {
         gameObject.layer = defaultLayer;
-        playerRenderer.enabled = true;
-        gunRenderer.enabled = true;
+        foreach (SkinnedMeshRenderer renderer in shawnRenderers) {
+            renderer.enabled = true;
+        }
         hidden = false;
     }
 

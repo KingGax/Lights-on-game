@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8140725939522344402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8140725939522344401}
+  - component: {fileID: 8140725939522344400}
+  m_Layer: 0
+  m_Name: TutorialHelper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8140725939522344401
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8140725939522344402}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 74.25, y: 3.35, z: -56.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 933572096357404839}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8140725939522344400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8140725939522344402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3053c2b8a4e6d244488f46cada33eaf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialBotEnemyTransform: {fileID: 0}
+  tooltipMessages:
+  - WASD to move
+  - Press space to dash
+  - Press Q to change light colour
+  - Use your light to make obstacles/doors disappear and enemies freeze
+  - Hold left click to shoot the enemies
+  - Hold then release right click to shoot a piercing laser
+  - 'Hold right click to charge, release to shoot. Hit all three bots with the same
+    laser! '
+  offset: {x: 4.48, y: 7.59, z: 4.72}
+  tooltipChangeDelay: 1
+  cameraCutsceneLength: 4
+--- !u!1001 &8140725939630638888
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8140725939522344401}
+    m_Modifications:
+    - target: {fileID: 3173302128565170101, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5073535058441529888, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: m_Name
+      value: Tooltip (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8398696532639832566, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: text
+      value: WASD to move
+      objectReference: {fileID: 0}
+    - target: {fileID: 8398696532639832566, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: orientation
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9e13365a07103745eae4eb5fa1a3d1c2, type: 3}
+--- !u!4 &933572096357404839 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8938833804691740559, guid: 9e13365a07103745eae4eb5fa1a3d1c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8140725939630638888}
+  m_PrefabAsset: {fileID: 0}
