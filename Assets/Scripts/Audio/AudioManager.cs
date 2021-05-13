@@ -32,7 +32,7 @@ namespace LightsOn.AudioSystem {
                 _instance = this;
                 generateAudioSources();
                 foreach (Composition track in tracks) {
-                    track.section = -1;
+                    track.section = 0;
                 }
                 PlayNext();
             }
@@ -77,13 +77,14 @@ namespace LightsOn.AudioSystem {
         }
 
         public void PlayNext() {
-            if(trackIndex == -1){
-                trackIndex++;
+            if(trackIndex < 0){
+                trackIndex = 0;
                 running = true;
             }
             if(!tracks[trackIndex].playNextSection()){
                 if (trackIndex < tracks.Count - 1) {
                     trackIndex++;
+                    // tracks[trackIndex].section = 0;
                     running = true;
                 }
             }
