@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InGameMenu : MonoBehaviour
 {
     public GameObject MenuItem;
-    public GameObject MicToggle;
-    public GameObject VoiceChatToggle;
-    public GameObject VoiceControlToggle;
+    public Toggle MicToggle;
+    public Toggle VoiceChatToggle;
+    public Toggle VoiceControlToggle;
     bool visible = false;
     // Start is called before the first frame update
     void Start()
@@ -16,11 +17,9 @@ public class InGameMenu : MonoBehaviour
         MenuItem.SetActive(false);
         if(GlobalValues.Instance.micEditable == false) 
         {
-            /*
             MicToggle.interactable = false;
             VoiceChatToggle.interactable = false;
             VoiceControlToggle.interactable = false;
-            */
         }
     }
 
