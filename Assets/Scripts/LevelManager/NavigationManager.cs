@@ -45,8 +45,10 @@ public class NavigationManager : MonoBehaviour
     public void SetPlayer(bool master){
         playerSet = true;
         isMaster = master;
+        Debug.Log(navIndex);
         if (started){
             SetPoints();
+            Debug.Log(navigationPoints.Count);
             arrow.UpdateTarget(navigationPoints[navIndex].transform);
             arrow.SetEnabled(navigationEnabled);
         }
