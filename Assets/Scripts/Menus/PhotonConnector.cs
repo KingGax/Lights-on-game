@@ -12,6 +12,7 @@ public class PhotonConnector : MonoBehaviourPunCallbacks {
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.AutomaticallySyncScene = true;
         //To use that we need to manually configure networking client which looks painful
+        PhotonNetwork.Disconnect();
         PhotonNetwork.ConnectUsingSettings();
     }
 

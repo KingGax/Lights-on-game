@@ -50,18 +50,20 @@ public class GameManager : MonoBehaviourPunCallbacks {
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 if (PhotonNetwork.IsMasterClient) {
                     PhotonNetwork.Instantiate(this.playerPrefab.name, GlobalValues.Instance.p1spawn.position, Quaternion.identity, 0);
+                    pv.RPC("PlayerSpawnedRPC", RpcTarget.AllBufferedViaServer, true);
                     GlobalValues.Instance.navManager.SetPlayer(false);
                 } else {
                     PhotonNetwork.Instantiate(this.playerPrefab.name, GlobalValues.Instance.p2Spawn.position, Quaternion.identity, 0);
+                    pv.RPC("PlayerSpawnedRPC", RpcTarget.AllBufferedViaServer, false);
                     GlobalValues.Instance.navManager.SetPlayer(true);
                 }
             } else {
                 pv.RPC("RequestOwnership", RpcTarget.MasterClient);
             }
         } else {
-            Debug.Log("Boo son");
             if (PhotonNetwork.IsMasterClient) {
                 GlobalValues.Instance.localPlayerInstance.transform.position = GlobalValues.Instance.p1spawn.position;
+                pv.RPC("PlayerSpawnedRPC", RpcTarget.AllBufferedViaServer, true);
                 GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerInputScript>().StartCameraCutscene(-1);
                 if (GlobalValues.Instance.players.Count > 1) {
                     
@@ -71,9 +73,20 @@ public class GameManager : MonoBehaviourPunCallbacks {
             } else {
                 GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerInputScript>().StartCameraCutscene(-1);
                 GlobalValues.Instance.localPlayerInstance.transform.position = GlobalValues.Instance.p2Spawn.position;
+                pv.RPC("PlayerSpawnedRPC", RpcTarget.AllBufferedViaServer, false);
                 GlobalValues.Instance.navManager.SetPlayer(true);
             }
         }
+    }
+
+    [PunRPC]
+    private void PlayerSpawnedRPC(bool player1) {
+        if (player1) {
+            GlobalValues.Instance.p1Spawned = true;
+        } else {
+            GlobalValues.Instance.p2Spawned = true;
+        }
+        
     }
 
     public void LeaveRoom() {

@@ -117,6 +117,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                 FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
                 fhb.gameObject.GetComponent<Canvas>().enabled = false;
                 fhb.enabled = false;
+                Debug.Log(GlobalValues.Instance.players[0]);
+                Debug.Log(GlobalValues.Instance.localPlayerInstance);
+
                 GlobalValues.Instance.navManager.SetPlayer(GlobalValues.Instance.players[0] != GlobalValues.Instance.localPlayerInstance);
                 CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
                 if (_cameraWork != null) {
