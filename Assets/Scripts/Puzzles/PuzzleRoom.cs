@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using LightsOn.LightingSystem;
 
 public class PuzzleRoom : RoomObjective
 {
@@ -24,12 +25,18 @@ public class PuzzleRoom : RoomObjective
         LockExitGlobal();
         // StartNewSetWave();
     }
+    [PunRPC]
+    private void UnlockWithBallRPC(LightColour ballCol,Vector3 ballPos) {
+        foreach (LightableExitDoor door in exits) {
+            door.PuzzleBallUnlockDoor(ballCol, ballPos);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
         if (pv == null || !pv.IsMine) return;
         if(!objectiveComplete && trigger.unlocked){
-                UnlockExitGlobal();
+            pv.RPC("UnlockWithBallRPC", RpcTarget.AllBufferedViaServer, trigger.ballColour, trigger.ballPos);
                 objectiveComplete = true;
         }
     }
