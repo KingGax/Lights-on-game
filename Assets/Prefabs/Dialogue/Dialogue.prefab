@@ -152,14 +152,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textLabel: {fileID: 2338783781132121281}
-  testDialogue: {fileID: 11400000, guid: 384ae109ec4a96448a8bd35b52a5c938, type: 2}
+  testDialogue: {fileID: 0}
   nameText: {fileID: 2338783781564441829}
   dialogueBox: {fileID: 2338783781750091583}
   keyPressPrompt: {fileID: 2338783780757224582}
   globalValues: {fileID: 0}
-  names:
-  - 
-  - 
+  names: []
 --- !u!114 &2338783780770857397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,8 +409,7 @@ PrefabInstance:
         type: 3}
       propertyPath: dialogueObject
       value: 
-      objectReference: {fileID: 11400000, guid: 384ae109ec4a96448a8bd35b52a5c938,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8506506801936745779, guid: 30ed6f972edcff743b5125c296655d4a,
         type: 3}
       propertyPath: targetCollisions

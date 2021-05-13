@@ -72,7 +72,7 @@ public class PlayerInputScript : MonoBehaviour {
 
     public void StopCameraCutscene() {
         cameraCutscene = false;
-        Debug.Log("stop camera");
+        Debug.Log("stop camerda");
     }
 
     

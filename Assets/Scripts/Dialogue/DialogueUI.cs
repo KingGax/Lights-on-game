@@ -42,13 +42,13 @@ public class DialogueUI : MonoBehaviour
         //ShowDialogue(testDialogue);
     }
 
-    public void ShowDialogue(DialogueObject dialogueObject){
+    public void ShowDialogue(DialogueObject dialogueObject, AfterDialogue afterDialogue){
         DisableLocalPlayerMovement();
         OpenDialogueBox();
-        StartCoroutine(StepThroughDialogue(dialogueObject));
+        StartCoroutine(StepThroughDialogue(dialogueObject, afterDialogue));
     }
 
-    private IEnumerator StepThroughDialogue(DialogueObject dialogueObject){
+    private IEnumerator StepThroughDialogue(DialogueObject dialogueObject, AfterDialogue afterDialogue){
         
         foreach(DialogueInfo dialogueInfo in dialogueObject.Dialogue){
             nameText.text = names[dialogueInfo.playerIndex];
@@ -59,6 +59,7 @@ public class DialogueUI : MonoBehaviour
         }
         CloseDialogueBox();
         EnableLocalPlayerMovement();
+        afterDialogue.Effect();
     }
 
     private void CloseDialogueBox(){

@@ -81,6 +81,8 @@ namespace LightsOn.WeaponSystem {
         LightableBossEnemy lightableBoss;
         Vector3 floorPlane = new Vector3(0,1,0);
 
+        bool isActivated = false;
+
 
         enum EnemyState {
             DecisionState, //Base state - deciding what to do
@@ -128,6 +130,7 @@ namespace LightsOn.WeaponSystem {
 
         // Update is called once per frame
         void Update() {
+            if(!isActivated) return;
             if (flashesRemaining > 0 && flashTimer <= 0) {
                 if (flashesRemaining % 2 == 0) {
                     circleLR.enabled = false;
@@ -580,5 +583,9 @@ namespace LightsOn.WeaponSystem {
 
             }
         }
+        public void Activate(){
+            isActivated = true;
+        }
     }
+
 }

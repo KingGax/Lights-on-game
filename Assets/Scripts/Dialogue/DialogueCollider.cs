@@ -16,12 +16,15 @@ public class DialogueCollider : MonoBehaviour
     [SerializeField]
     private DialogueObject dialogueObject;
 
+    [SerializeField]
+    private AfterDialogue afterDialogue;
+
     private void OnTriggerEnter(){
         numberOfCollisions++;
         Debug.Log("number of collisions: " + numberOfCollisions);
         if(numberOfCollisions == targetCollisions && !activated){
             activated = true;
-            dialogueUI.ShowDialogue(dialogueObject);
+            dialogueUI.ShowDialogue(dialogueObject, afterDialogue);
         }
     }
 

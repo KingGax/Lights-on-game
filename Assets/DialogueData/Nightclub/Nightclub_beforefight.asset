@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4762451630e13fe4b8141c1830042165, type: 3}
+  m_Name: Nightclub_beforefight
+  m_EditorClassIdentifier: 
+  dialogue:
+  - dialogue: W-what the hell is this ?!
+    playerIndex: 1
+  - dialogue: I have never seen anything like this...
+    playerIndex: 0
+  - dialogue: So that's what the RGB's have been up to this whole time!
+    playerIndex: 1
+  - dialogue: And why the rebels warned of their new nanotech...
+    playerIndex: 0
+  - dialogue: If they find a way to mass produce these we will be in trouble
+    playerIndex: 0
+  - dialogue: We better destroy it!
+    playerIndex: 1
