@@ -10,16 +10,23 @@ public class EnemySpawnInitialiser : MonoBehaviour {
     public GameObject enemy;
     private double spawnTime = double.MaxValue;
     private LightColour enemyCol;
+    public GameObject spawnDecal;
     private string parentStr;
     bool spawned = false;
+    bool animSpawned = false;
     int hiddenEnemyLayer;
+    const double animTime = 1 + 1/3;
 
     private void Awake() {
         hiddenEnemyLayer = LayerMask.NameToLayer("HiddenEnemies");
     }
 
     void Update() {
-        if (!spawned && PhotonNetwork.Time > spawnTime) {
+        if (!animSpawned && PhotonNetwork.Time > spawnTime) { 
+            animSpawned = true;
+            SpawnAnim();
+        }
+        if (!spawned && PhotonNetwork.Time > spawnTime + animTime) {
             spawned = true;
             SpawnEnemy();
         } else {
@@ -48,6 +55,10 @@ public class EnemySpawnInitialiser : MonoBehaviour {
         transform.parent.SetParent(GameObject.Find(parentStr).transform);
         spawnTime = _spawnTime;
         enemyCol = col;
+    }
+
+    void SpawnAnim() {
+        Instantiate(spawnDecal, transform.position, Quaternion.identity);
     }
 
     void SpawnEnemy() {
