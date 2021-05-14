@@ -63,6 +63,10 @@ public class PlayerInputScript : MonoBehaviour {
 
     public void StartCameraCutscene(float length) {
         cameraCutscene = true;
+        pc.OnMovement(Vector2.zero);
+        pc.AttackOne(false);
+        pc.AttackAlt(false);
+
         if (length < 0) {
             length = cameraCutsceneLength;
         }
