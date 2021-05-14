@@ -18,7 +18,6 @@ public class Lobby : MonoBehaviourPunCallbacks
     public GameObject listingsPrefab;
 
     private bool loadingScene = false;
-    public Animator transition;
 
     void Awake()
     {
@@ -49,7 +48,6 @@ public class Lobby : MonoBehaviourPunCallbacks
             PlayerListingsMenu listingsMenu = GetComponentInChildren<PlayerListingsMenu>();
             if (listingsMenu.isReady()){
                 loadingScene = true;
-                transition.SetTrigger("Start");
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
                 //Initiated voice chat here
             } else {
@@ -63,7 +61,6 @@ public class Lobby : MonoBehaviourPunCallbacks
     }
 
     public override void OnLeftRoom() {
-        transition.SetTrigger("Start");
         SceneManager.LoadScene("JoinRoomMenu");
     }
 

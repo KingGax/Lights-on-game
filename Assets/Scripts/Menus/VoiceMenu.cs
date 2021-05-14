@@ -5,14 +5,12 @@ using LightsOn.AudioSystem;
 
 public class VoiceMenu : MonoBehaviour {
 
-    public Animator transition;
 
     [DllImport("__Internal")]
     private static extern void setupMicrophoneUnity();
 
     public void OnRejectClicked() {
         AudioManager.Instance.PlayNext();
-        transition.SetTrigger("Start");
         Invoke("ChangeScene", 1);
     }
 
