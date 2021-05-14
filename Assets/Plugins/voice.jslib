@@ -22,5 +22,9 @@ mergeInto(LibraryManager.library, {
     initiateVoiceChatUnity__deps: ['initiateVoiceChat'],
     initiateVoiceChatUnity: function(username, role) {
         initiateVoiceChat(username, role);
+    },
+    disableVoiceChatUnity__deps: ['disableVoiceChat'],
+    disableVoiceChatUnity: function() {
+        disableVocieChat();
     }
 });
