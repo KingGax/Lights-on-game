@@ -1035,7 +1035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colour: 255
   materials: {fileID: 11400000, guid: ddcd7d2a12b14b9828e09e49d91ffad2, type: 2}
-  hiddenMaterials: {fileID: 11400000, guid: 855a7e2072f9c79a798b3ab4cee6a304, type: 2}
+  hiddenMaterials: {fileID: 11400000, guid: 85eeeab719560aa42b0f8f6791554150, type: 2}
   showReappearParticles: 0
   particleTransform: {fileID: 0}
   canSwarm: 1
@@ -1120,6 +1120,7 @@ GameObject:
   - component: {fileID: 758367182}
   - component: {fileID: 758367181}
   - component: {fileID: 758367180}
+  - component: {fileID: 758367183}
   m_Layer: 5
   m_Name: LeaveGameBTN
   m_TagString: Untagged
@@ -1203,6 +1204,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 758367183}
+        m_TargetAssemblyTypeName: ButtonSFX, Main
+        m_MethodName: mouseClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &758367181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1241,6 +1254,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 758367178}
   m_CullTransparentMesh: 1
+--- !u!114 &758367183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758367178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dcd1b1b299834a86aae5e088884d9dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &813141610
 GameObject:
   m_ObjectHideFlags: 0
@@ -3236,6 +3261,7 @@ GameObject:
   - component: {fileID: 1690590125}
   - component: {fileID: 1690590124}
   - component: {fileID: 1690590123}
+  - component: {fileID: 1690590126}
   m_Layer: 5
   m_Name: Copy
   m_TagString: Untagged
@@ -3319,6 +3345,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1690590126}
+        m_TargetAssemblyTypeName: ButtonSFX, Main
+        m_MethodName: mouseClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1690590124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3357,6 +3395,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1690590121}
   m_CullTransparentMesh: 1
+--- !u!114 &1690590126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690590121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dcd1b1b299834a86aae5e088884d9dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1701462368
 GameObject:
   m_ObjectHideFlags: 0
@@ -3774,6 +3824,7 @@ GameObject:
   - component: {fileID: 1764828114}
   - component: {fileID: 1764828113}
   - component: {fileID: 1764828112}
+  - component: {fileID: 1764828115}
   m_Layer: 5
   m_Name: StartBTN
   m_TagString: Untagged
@@ -3845,9 +3896,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 813141612}
-        m_TargetAssemblyTypeName: Lobby, Main
-        m_MethodName: StartGame
+      - m_Target: {fileID: 1764828115}
+        m_TargetAssemblyTypeName: ButtonSFX, Main
+        m_MethodName: mouseClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3895,6 +3946,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764828110}
   m_CullTransparentMesh: 1
+--- !u!114 &1764828115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764828110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dcd1b1b299834a86aae5e088884d9dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1853565960
 GameObject:
   m_ObjectHideFlags: 0
