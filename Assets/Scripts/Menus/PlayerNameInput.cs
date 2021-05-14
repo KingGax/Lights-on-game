@@ -12,6 +12,7 @@ public class PlayerNameInput : MonoBehaviour {
     void Awake() {
         Enter.interactable = false;
     }
+    public Animator transition;
 
 
     public void SetPlayerName(string value) {
@@ -27,6 +28,7 @@ public class PlayerNameInput : MonoBehaviour {
     }
 
     public void OnPlayBTNPressed() {
+        transition.SetTrigger("Start");
         PhotonNetwork.LoadLevel("JoinRoomMenu");
     }
 }
