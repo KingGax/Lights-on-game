@@ -13,6 +13,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private GameObject startButton;
+    [DllImport("__Internal")]
+    private static extern void setupVoiceChatUnity(string roomName, string role);
 
     [SerializeField]
     private GameObject roomCode;
