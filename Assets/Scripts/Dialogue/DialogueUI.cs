@@ -49,7 +49,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     public void ShowDialogue(DialogueObject dialogueObject){
-        Debug.LogError("showing dialogue");
+        //Debug.LogError("showing dialogue");
         DisableLocalPlayerMovement();
         OpenDialogueBox();
         StartCoroutine(StepThroughDialogue(dialogueObject));
