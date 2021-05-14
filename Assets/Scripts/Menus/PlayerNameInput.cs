@@ -29,4 +29,8 @@ public class PlayerNameInput : MonoBehaviour {
     public void OnPlayBTNPressed() {
         PhotonNetwork.LoadLevel("JoinRoomMenu");
     }
+
+    public void OnBackBTNPressed() {
+        SceneManager.LoadScene("StartMenu");
+    }
 }
