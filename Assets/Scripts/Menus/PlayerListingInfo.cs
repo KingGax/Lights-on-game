@@ -13,6 +13,7 @@ public class PlayerListingInfo : MonoBehaviour
     private Text text;
     public bool _spectator;
     public bool isReady;
+    public string playerName;
 
 
     
@@ -23,6 +24,7 @@ public class PlayerListingInfo : MonoBehaviour
     {
         _player = player;
         text.text = player.NickName;
+        playerName = player.NickName;
         isReady = false;
         _spectator = spectator;
     }
