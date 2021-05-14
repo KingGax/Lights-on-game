@@ -20,7 +20,9 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
     public Dictionary<string, GameObject> cachedRoomList = new Dictionary<string, GameObject>();
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList) {
-        for(int i=0; i<roomList.Count; i++) {
+        Debug.Log("ROOM");
+        Debug.Log(roomList.Count);
+        for (int i=0; i<roomList.Count; i++) {
             RoomInfo info = roomList[i];
             if (info.RemovedFromList) {
                 if (cachedRoomList.ContainsKey(info.Name)){
