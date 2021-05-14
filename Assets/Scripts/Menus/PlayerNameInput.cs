@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using LightsOn.AudioSystem;
 
 public class PlayerNameInput : MonoBehaviour {
 
@@ -29,6 +30,7 @@ public class PlayerNameInput : MonoBehaviour {
 
     public void OnPlayBTNPressed() {
         transition.SetTrigger("Start");
+        AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
         PhotonNetwork.LoadLevel("JoinRoomMenu");
     }
 }

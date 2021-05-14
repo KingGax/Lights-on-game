@@ -12,21 +12,13 @@ public class VoiceMenu : MonoBehaviour {
 
     public void OnRejectClicked() {
         AudioManager.Instance.PlayNext();
-        AudioManager.Instance.PlaySFX(
-            SoundClips.Instance.SFXMenuClicks,
-            transform.position,
-            gameObject
-        );
+        AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
         transition.SetTrigger("Start");
         Invoke("ChangeScene", 1);
     }
 
     public void OnAcceptClicked() {
-        AudioManager.Instance.PlaySFX(
-            SoundClips.Instance.SFXMenuClicks,
-            transform.position,
-            gameObject
-        );
+        AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
         setupMicrophoneUnity();
         //Debug.Log("Need to enable voice chat here");
         //AudioManager.Instance.PlayNext();

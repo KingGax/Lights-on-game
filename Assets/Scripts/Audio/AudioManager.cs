@@ -10,10 +10,12 @@ namespace LightsOn.AudioSystem {
 
         private static AudioManager _instance;
         private AudioSource[]  audioSources = new AudioSource[2];
+        private AudioSource SFX2D;
         private int playingTrack = 0;
         private int nextTrack = 0;
         private int freeAudioSource = 0;
         private double nextStartTime = 0;
+        private float volumeSFX = 1;
 
         public static AudioManager Instance { get { return _instance; } }
 
@@ -81,12 +83,16 @@ namespace LightsOn.AudioSystem {
 
         private void generateAudioSources() {
             AudioMixerGroup[] outs = mixer.FindMatchingGroups("Master/Music");
+            GameObject child = new GameObject("AudioPlayer");
+            child.transform.parent = gameObject.transform;
+            SFX2D = child.AddComponent<AudioSource>();
+            SFX2D.outputAudioMixerGroup = mixer.FindMatchingGroups("Master/SFX2D")[0];
             for (int i = 0; i < audioSources.Length; i++) {
-                GameObject child = new GameObject("AudioPlayer");
                 child.transform.parent = gameObject.transform;
                 audioSources[i] = child.AddComponent<AudioSource>();
                 audioSources[i].outputAudioMixerGroup = outs[i+1];
             }
+            
         }
 
         // SFX
@@ -108,7 +114,11 @@ namespace LightsOn.AudioSystem {
                 playCount.Add(obj.GetInstanceID(), sfxCount);
             }
 
-            AudioSource.PlayClipAtPoint(clip.get(sfxVersion), pos);
+            AudioSource.PlayClipAtPoint(clip.get(sfxVersion), pos, volumeSFX);
+        }
+
+        public void PlaySFX2D(SFX clip) {
+            SFX2D.PlayOneShot(clip.get(0), volumeSFX);
         }
     }
 }

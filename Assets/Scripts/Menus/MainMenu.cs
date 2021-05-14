@@ -25,21 +25,13 @@ public class MainMenu : MonoBehaviourPunCallbacks {
         isConnecting = state;
     }
     public void PlayGame() {
-        AudioManager.Instance.PlaySFX(
-            SoundClips.Instance.SFXMenuClicks,
-            transform.position,
-            gameObject
-        );
+        AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
         transition.SetTrigger("Start");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public override void OnJoinedRoom() {
-        AudioManager.Instance.PlaySFX(
-            SoundClips.Instance.SFXMenuClicks,
-            transform.position,
-            gameObject
-        );
+        AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
         transition.SetTrigger("Start");
         hasJoinedRoom = true;
     }

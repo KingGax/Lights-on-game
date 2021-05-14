@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Runtime.InteropServices;
+using LightsOn.AudioSystem;
 
 public class RoomListingsMenu : MonoBehaviourPunCallbacks {
 
@@ -43,6 +44,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
 
     public override void OnJoinedRoom() {
         transition.SetTrigger("Start");
+        AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
         RoomInfo info = PhotonNetwork.CurrentRoom;
         if(cachedRoomList.ContainsKey(info.Name)) {
             RoomListingInfo roomInfo = cachedRoomList[info.Name].GetComponent<RoomListingInfo>();
