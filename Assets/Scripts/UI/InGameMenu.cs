@@ -15,12 +15,6 @@ public class InGameMenu : MonoBehaviour
     {
         GlobalValues.Instance.MenuItem = MenuItem;
         MenuItem.SetActive(false);
-        if(GlobalValues.Instance.micEditable == false) 
-        {
-            MicToggle.interactable = false;
-            VoiceChatToggle.interactable = false;
-            VoiceControlToggle.interactable = false;
-        }
     }
 
     // Update is called once per frame
@@ -31,6 +25,18 @@ public class InGameMenu : MonoBehaviour
     public bool ToggleVisibility() {
         MenuItem.SetActive(!visible);
         visible = !visible;
+
+        //Set toggle values to match GlobalValues true state.
+        MicToggle.isOn = GlobalValues.Instance.micEnabled;
+        VoiceChatToggle.isOn = GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled;
+        VoiceControlToggle.isOn = GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceControlEnabled;
+        if(GlobalValues.Instance.micEditable == false) 
+        {
+            MicToggle.interactable = false;
+            VoiceChatToggle.interactable = false;
+            VoiceControlToggle.interactable = false;
+        }
+
         return visible;
     }
     public void updateMicEnabled(bool newVal)
