@@ -180,7 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Our privacy policy is availible at https://lights-on.icedcoffee.dev/privacy
+  m_text: Our privacy policy is available at https://lights-on.icedcoffee.dev/privacy
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 64370166a353010099229701a9703fae, type: 2}
   m_sharedMaterial: {fileID: 834900053822053409, guid: 64370166a353010099229701a9703fae,
@@ -810,6 +810,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2059569964}
+        m_TargetAssemblyTypeName: ButtonSFX, Main
+        m_MethodName: mouseClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1945031620}
+        m_TargetAssemblyTypeName: TransitionTrigger, Main
+        m_MethodName: mouseClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &724305411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1351,6 +1375,7 @@ RectTransform:
   - {fileID: 2077017716}
   - {fileID: 314378728}
   - {fileID: 446579978}
+  - {fileID: 1945031619}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1521,6 +1546,98 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 868aca6bd50ad73519bb667f121862ff, type: 3}
+--- !u!1001 &1945031618
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1866366875}
+    m_Modifications:
+    - target: {fileID: -6308245618470812542, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: transition
+      value: 
+      objectReference: {fileID: 446579974}
+    - target: {fileID: 663591679360054085, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: m_Name
+      value: MenuTransitionTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921805056754167089, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921805056754167089, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -960
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921805056754167089, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -540
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921805056754167089, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921805056754167089, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921805056754167089, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921805056754167089, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921805056754167089, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921805056754167089, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921805056754167089, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921805056754167089, guid: 4c8b6db162a57314eb56caaa19046cc5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4c8b6db162a57314eb56caaa19046cc5, type: 3}
+--- !u!4 &1945031619 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2921805056754167089, guid: 4c8b6db162a57314eb56caaa19046cc5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1945031618}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1945031620 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -6308245618470812542, guid: 4c8b6db162a57314eb56caaa19046cc5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1945031618}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbc88a1d077d7b4e81d85d7939c0a31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2038627411
 GameObject:
   m_ObjectHideFlags: 0
@@ -1609,6 +1726,87 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038627411}
   m_CullTransparentMesh: 1
+--- !u!1001 &2059569963
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107029826908388432, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_Name
+      value: SFXMenuButton
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f039267ee51549842a1abc205eecc7dc, type: 3}
+--- !u!114 &2059569964 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -9090460756752854971, guid: f039267ee51549842a1abc205eecc7dc,
+    type: 3}
+  m_PrefabInstance: {fileID: 2059569963}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dcd1b1b299834a86aae5e088884d9dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2077017715
 GameObject:
   m_ObjectHideFlags: 0
@@ -1695,6 +1893,30 @@ MonoBehaviour:
       - m_Target: {fileID: 370350757}
         m_TargetAssemblyTypeName: VoiceMenu, Main
         m_MethodName: OnAcceptClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2059569964}
+        m_TargetAssemblyTypeName: ButtonSFX, Main
+        m_MethodName: mouseClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1945031620}
+        m_TargetAssemblyTypeName: TransitionTrigger, Main
+        m_MethodName: mouseClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -18,7 +18,6 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
     public GameObject _roomListing;
 
     public Dictionary<string, GameObject> cachedRoomList = new Dictionary<string, GameObject>();
-    public Animator transition;
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList) {
         for(int i=0; i<roomList.Count; i++) {
@@ -43,8 +42,6 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
     }
 
     public override void OnJoinedRoom() {
-        transition.SetTrigger("Start");
-        AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
         RoomInfo info = PhotonNetwork.CurrentRoom;
         if(cachedRoomList.ContainsKey(info.Name)) {
             RoomListingInfo roomInfo = cachedRoomList[info.Name].GetComponent<RoomListingInfo>();
@@ -58,7 +55,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
         #if !UNITY_EDITOR
             #if UNITY_WEBGL
             if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
-                setupVoiceChatUnity("b", "client");
+                setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "client");
             }
             #endif
         #endif

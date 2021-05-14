@@ -7,6 +7,7 @@ using Photon.Realtime;
 using System.Runtime.InteropServices;
 using TMPro;
 using LightsOn.AudioSystem;
+using UnityEngine.UI;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
@@ -16,9 +17,9 @@ public class Lobby : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject roomCode;
     public GameObject listingsPrefab;
+    public Button readyBtn;
 
     private bool loadingScene = false;
-    public Animator transition;
 
     void Awake()
     {
@@ -28,13 +29,23 @@ public class Lobby : MonoBehaviourPunCallbacks
             startButton.SetActive(true);
             Vector3 newLoc = transform.position + new Vector3(-10, 0, 0);
             GameObject listings = PhotonNetwork.Instantiate(listingsPrefab.name, newLoc, new Quaternion(0, 0, 0, 0), 0);
+            PlayerListingsMenu listingsMenu = listings.GetComponent<PlayerListingsMenu>();
+            readyBtn.GetComponent<Button>().onClick.AddListener(listingsMenu.ToggleReady);
+            ////readyBtn.
+            //listings.GetComponent<Canvas>.SIZE
             //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
-        } 
+        } else {
+            
+        }
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
         t.text = PhotonNetwork.CurrentRoom.Name;
         loadingScene = false;
         
+    }
+
+    public void SetReadyButton() {
+        readyBtn.onClick.AddListener(GetComponentInChildren<PlayerListingsMenu>().ToggleReady);
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -49,8 +60,6 @@ public class Lobby : MonoBehaviourPunCallbacks
             PlayerListingsMenu listingsMenu = GetComponentInChildren<PlayerListingsMenu>();
             if (listingsMenu.isReady()){
                 loadingScene = true;
-                transition.SetTrigger("Start");
-                AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
                 //Initiated voice chat here
             } else {
@@ -64,8 +73,6 @@ public class Lobby : MonoBehaviourPunCallbacks
     }
 
     public override void OnLeftRoom() {
-        transition.SetTrigger("Start");
-        AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
         SceneManager.LoadScene("JoinRoomMenu");
     }
 

@@ -63,7 +63,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         #if !UNITY_EDITOR
             #if UNITY_WEBGL
             if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
-                setupVoiceChatUnity("a", "master");
+                setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "master");
             }
             #endif
         #endif
