@@ -83,14 +83,12 @@ public class TutorialHelper : MonoBehaviour
         if (length < 0) {
             length = cameraCutsceneLength;
         }
-        Debug.Log("camera custene start");
         Invoke("StopCameraCutscene", length);
     }
 
     public void StopCameraCutscene() {
         cameraCutscene = false;
         tip.SetForceShow(true);
-        Debug.Log("stop camera");
     }
 
     private void ToggleTooltip() {
