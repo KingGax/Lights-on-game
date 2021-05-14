@@ -62,9 +62,11 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         Debug.Log("Successfully created room.");
         #if !UNITY_EDITOR
             #if UNITY_WEBGL
+            /*
             if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
                 setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "master");
             }
+            */
             #endif
         #endif
     }
