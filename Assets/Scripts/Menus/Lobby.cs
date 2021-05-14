@@ -22,6 +22,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public Button readyBtn;
 
     private bool loadingScene = false;
+    public TransitionTrigger transition;
 
     void Awake()
     {
@@ -68,6 +69,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             PlayerListingsMenu listingsMenu = GetComponentInChildren<PlayerListingsMenu>();
             if (listingsMenu.isReady()){
                 loadingScene = true;
+                transition.mouseClick();
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
                 //Initiated voice chat here
             } else {

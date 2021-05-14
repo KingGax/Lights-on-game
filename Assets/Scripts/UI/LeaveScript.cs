@@ -14,6 +14,8 @@ public class LeaveScript : MonoBehaviour
         AudioManager.Instance.PlayNext();
         PhotonNetwork.LeaveRoom();
         PhotonNetwork.Disconnect();
+        Destroy(GlobalValues.Instance.UIElements);
+        Destroy(GlobalValues.Instance.gameObject);
         SceneManager.LoadScene("StartMenu");
     }
 }
