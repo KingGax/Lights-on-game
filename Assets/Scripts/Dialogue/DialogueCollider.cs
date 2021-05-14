@@ -19,12 +19,21 @@ public class DialogueCollider : MonoBehaviour
     [SerializeField]
     private AfterDialogue afterDialogue;
 
+    void Start(){
+        Debug.Log("I AM A TRIGGER");
+    }
+
+    void Update(){
+
+    }
+
     private void OnTriggerEnter(){
         numberOfCollisions++;
         Debug.Log("number of collisions: " + numberOfCollisions);
         if(numberOfCollisions == targetCollisions && !activated){
             activated = true;
-            dialogueUI.ShowDialogue(dialogueObject, afterDialogue);
+            if(afterDialogue == null) dialogueUI.ShowDialogue(dialogueObject);
+            else dialogueUI.ShowDialogue(dialogueObject, afterDialogue);
         }
     }
 

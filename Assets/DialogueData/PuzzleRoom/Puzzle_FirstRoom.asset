@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4762451630e13fe4b8141c1830042165, type: 3}
+  m_Name: Puzzle_FirstRoom
+  m_EditorClassIdentifier: 
+  dialogue:
+  - dialogue: Seems like we're stuck...
+    playerIndex: 0
+  - dialogue: 'Wait...
+
+      We could use that light ball to escape.'
+    playerIndex: 1
+  - dialogue: If the red light nanobots inside it collide with the white door it
+      will push the red light out of it, leaving it cyan. We just need to find a
+      way to direct it.
+    playerIndex: 1
+  - dialogue: How did you come up with that?! You got a major in Light Sciences or...?
+    playerIndex: 0
+  - dialogue: 'Anyway, I am glad you did. '
+    playerIndex: 0

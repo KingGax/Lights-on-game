@@ -48,6 +48,13 @@ public class DialogueUI : MonoBehaviour
         StartCoroutine(StepThroughDialogue(dialogueObject, afterDialogue));
     }
 
+    public void ShowDialogue(DialogueObject dialogueObject){
+        Debug.LogError("showing dialogue");
+        DisableLocalPlayerMovement();
+        OpenDialogueBox();
+        StartCoroutine(StepThroughDialogue(dialogueObject));
+    }
+
     private IEnumerator StepThroughDialogue(DialogueObject dialogueObject, AfterDialogue afterDialogue){
         
         foreach(DialogueInfo dialogueInfo in dialogueObject.Dialogue){
@@ -60,6 +67,19 @@ public class DialogueUI : MonoBehaviour
         CloseDialogueBox();
         EnableLocalPlayerMovement();
         afterDialogue.Effect();
+    }
+
+    private IEnumerator StepThroughDialogue(DialogueObject dialogueObject){
+        
+        foreach(DialogueInfo dialogueInfo in dialogueObject.Dialogue){
+            nameText.text = names[dialogueInfo.playerIndex];
+            yield return typeWriterEffect.Run(dialogueInfo.dialogue, textLabel);
+            ShowKeyPrompt();
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            HideKeyPrompt();
+        }
+        CloseDialogueBox();
+        EnableLocalPlayerMovement();
     }
 
     private void CloseDialogueBox(){
