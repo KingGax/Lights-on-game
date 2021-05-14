@@ -9,6 +9,11 @@ public class InGameMenu : MonoBehaviour
     public Toggle MicToggle;
     public Toggle VoiceChatToggle;
     public Toggle VoiceControlToggle;
+
+    [DllImport("__Internal")]
+    private static extern void disableVoiceChatUnity();
+    [DllImport("__Internal")]
+    private static extern void reenableVoiceChatUnity();
     bool visible = false;
     // Start is called before the first frame update
     void Start()
@@ -50,5 +55,11 @@ public class InGameMenu : MonoBehaviour
     public void updateVoiceControlEnabled(bool newVal)
     {
         GlobalValues.Instance.voiceControlEnabled = newVal;
+        if(!newVal) {
+            disableVoiceChatUnity();
+        }
+        else {
+            reenableVoiceChatUnity();
+        }
     }
 }
