@@ -36,7 +36,13 @@ public class Lobby : MonoBehaviourPunCallbacks
             //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
         } else {
-            
+            #if !UNITY_EDITOR
+                #if UNITY_WEBGL
+                if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
+                    setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "client");
+                }
+                #endif
+            #endif
         }
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
         t.text = PhotonNetwork.CurrentRoom.Name;
