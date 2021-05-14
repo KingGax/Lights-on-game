@@ -5906,7 +5906,7 @@ MonoBehaviour:
   minChargeTime: 0.8
   altFiredCooldownTime: 0.5
   maxLaserDistance: 100
-  laserThickness: 0.3
+  laserThickness: 0.5
 --- !u!114 &130331166746090463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6087,6 +6087,7 @@ MonoBehaviour:
   anim: {fileID: 6631638869357415966}
   shawn: {fileID: 815681162562079000}
   firePoint: {fileID: 4464539808187896991}
+  altFireCooldownTimerMax: 0.5
 --- !u!114 &4464539808157270207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6290,7 +6291,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4464539808187896984}
   m_LocalRotation: {x: -0.00000005960463, y: -1.839294e-10, z: 1.839294e-10, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1290005, z: 0}
+  m_LocalPosition: {x: 0, y: 0.73, z: -1.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8603958792887159700}

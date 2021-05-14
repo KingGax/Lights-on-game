@@ -78,6 +78,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     SkinnedMeshRenderer[] shawnRenderers;
     public GameObject shawn;
     public Transform firePoint;
+    private float altFireCooldownTimer=0;
+    public float altFireCooldownTimerMax;
 
     void IOnPhotonViewOwnerChange.OnOwnerChange(Player newOwner, Player oldOwner) {
         if (PhotonNetwork.LocalPlayer == newOwner) {
@@ -245,6 +247,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                     altFireReleasedThisFrame = false;
                     if (equiptedWeapon.ReleaseWeaponAlt()) {
                         anim.SetTrigger("FireAlt");
+                        altFireCooldownTimer = altFireCooldownTimerMax;
                     }
                 } else if (altFireHeld && CanShoot()) {
                     Vector3 fireDirection = GetFireDirection(false);
@@ -268,10 +271,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                 anim.SetBool("ChargingAlt", false);
                 Vector3 fireDirection = GetFireDirection(altFireHeld);
                 TurnTowards(fireDirection);
-            } else {
+            } else { //look where you run
                 anim.SetBool("Shooting", false);
                 anim.SetBool("ChargingAlt", false);
-                if (movement != Vector2.zero) {
+                if (altFireCooldownTimer > 0) {//lock to where you just shot
+
+                } else if (movement != Vector2.zero) {
                     if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
                         Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
                         TurnTowards(moveVector);
@@ -476,6 +481,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
             }
             if (reloadBuffer > 0) {
                 reloadBuffer -= Time.deltaTime;
+            }
+            if (altFireCooldownTimer > 0) {
+                altFireCooldownTimer -= Time.deltaTime;
             }
 
             yield return null;
