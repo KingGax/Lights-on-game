@@ -13,9 +13,6 @@ public class Lobby : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject startButton;
 
-    [DllImport("__Internal")]
-    private static extern void initiateVoiceChatUnity();
-
     [SerializeField]
     private GameObject roomCode;
     public GameObject listingsPrefab;
@@ -55,13 +52,7 @@ public class Lobby : MonoBehaviourPunCallbacks
                 transition.SetTrigger("Start");
                 AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
-                #if !UNITY_EDITOR
-                    #if UNITY_WEBGL
-                    if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
-                        initiateVoiceChatUnity();
-                    }
-                    #endif
-                #endif
+                //Initiated voice chat here
             } else {
                 Debug.Log("Please ensure everyone is 'Ready' before starting the game.");
             }
