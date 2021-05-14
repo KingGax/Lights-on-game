@@ -145,15 +145,18 @@ namespace LightsOn.WeaponSystem {
             laser.enabled = false;
         }
 
-        public override void ReleaseWeaponAlt() {
+        public override bool ReleaseWeaponAlt() {
             if (charging) {
                 if (chargeTime < minChargeTime) {
                     FailAlt();
+                    return false;
                 }
                 else {
                     FireAlt();
+                    return true;
                 }
             }
+            return false;
         }
 
         protected override void UseWeapon() {

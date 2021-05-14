@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Runtime.InteropServices;
 using TMPro;
-
+using LightsOn.AudioSystem;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
@@ -21,6 +21,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public GameObject listingsPrefab;
 
     private bool loadingScene = false;
+    public Animator transition;
 
     void Awake()
     {
@@ -51,6 +52,8 @@ public class Lobby : MonoBehaviourPunCallbacks
             PlayerListingsMenu listingsMenu = GetComponentInChildren<PlayerListingsMenu>();
             if (listingsMenu.isReady()){
                 loadingScene = true;
+                transition.SetTrigger("Start");
+                AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
                 #if !UNITY_EDITOR
                     #if UNITY_WEBGL
@@ -70,6 +73,8 @@ public class Lobby : MonoBehaviourPunCallbacks
     }
 
     public override void OnLeftRoom() {
+        transition.SetTrigger("Start");
+        AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
         SceneManager.LoadScene("JoinRoomMenu");
     }
 

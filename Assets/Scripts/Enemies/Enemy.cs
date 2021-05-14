@@ -7,7 +7,7 @@ using LightsOn.WeaponSystem;
 
 [RequireComponent(typeof(PhotonView))]
 [RequireComponent(typeof(NavMeshAgent))]
-public abstract class Enemy : MonoBehaviour {
+public abstract class Enemy : MonoBehaviourPunCallbacks {
     
     protected PhotonView pv;
     protected NavMeshAgent agent;

@@ -10,19 +10,17 @@ namespace LightsOn.AudioSystem {
 
         private static AudioManager _instance;
         private AudioSource[]  audioSources = new AudioSource[2];
-        public List<Composition> tracks;
-        private int trackIndex = -1;
+        private AudioSource SFX2D;
+        private int playingTrack = 0;
+        private int nextTrack = 0;
         private int freeAudioSource = 0;
         private double nextStartTime = 0;
-        private bool running = false;
-
-        private double nextTransitionEnd = 0;
-        private float transitionLength = 3.0f;
-
-        // SFX
-        private IDictionary<int, IDictionary<int, int>> playCount = new Dictionary<int, IDictionary<int, int>>();
+        private float volumeSFX = 1;
 
         public static AudioManager Instance { get { return _instance; } }
+
+        [SerializeField]
+        private List<Clip> audioClips;
 
         public void Awake() {
             if (_instance != null && _instance != this) {
@@ -31,73 +29,74 @@ namespace LightsOn.AudioSystem {
                 DontDestroyOnLoad(gameObject);
                 _instance = this;
                 generateAudioSources();
-                foreach (Composition track in tracks) {
-                    track.section = -1;
-                }
-                PlayNext();
             }
         }
 
         public void Update() {
-            if (!running) return;
-
             double time = AudioSettings.dspTime;
+            if (nextTrack != playingTrack) {
+                Clip ac = getNextClip();
+                nextStartTime = ac.getNextBeatAfterTime((float)time + 1.0f);
+                playingTrack++;
+                // Reschedule current song to end
+                audioSources[1-freeAudioSource].SetScheduledEndTime(nextStartTime);
+            }
+
             if (time + 1.0f > nextStartTime) {
-                audioSources[freeAudioSource].clip = getNextClip();
-                audioSources[freeAudioSource].time = (float) getNextSectionTime();
+                Clip ac = getNextClip();
+                if (ac == null) return;
+
+                audioSources[freeAudioSource].clip = ac.audioClip;
+                audioSources[freeAudioSource].time = ac.start;
                 audioSources[freeAudioSource].PlayScheduled(nextStartTime);
-                nextStartTime += getSectionLength();
+                nextStartTime += ac.length();
                 audioSources[freeAudioSource].SetScheduledEndTime(nextStartTime);
                 freeAudioSource = 1 - freeAudioSource;
             }
-
-           /* if (time > nextTransitionEnd) {
-                nextTransitionEnd = nextStartTime;
-                mixer.SetFloat("Track1HighPass", 10.0f);
-                mixer.SetFloat("Track2HighPass", 10.0f);
-            } else if (time + transitionLength > nextTransitionEnd) {
-                float delta = Mathf.Sin(Mathf.PI/2 * (float)(nextTransitionEnd - time) / transitionLength);
-                float pctTransition = 1.0f - Mathf.Min(1.0f, Mathf.Max(delta, 0.0f));
-                float frq = 10.0f + 2990.0f * pctTransition;
-                mixer.SetFloat("Track1HighPass", frq);
-                mixer.SetFloat("Track2HighPass", frq);
-            }*/
         }
 
-        private double getNextSectionTime() {
-            return tracks[trackIndex].getSectionStartTime();
-        }
-
-        private double getSectionLength() {
-            return tracks[trackIndex].getSectionLength();
-        }
-
-        private AudioClip getNextClip() {
-            return tracks[trackIndex].musicClip;
+        private Clip getNextClip() {
+            if (nextTrack >= audioClips.Count) {
+                return null;
+            } else if (nextTrack == playingTrack) {
+                Clip ac = audioClips[nextTrack];
+                switch (ac.endBehaviour) {
+                    case ClipEndBehaviour.NEXT:
+                        nextTrack++;
+                        return getNextClip();
+                    case ClipEndBehaviour.LOOP:
+                        return ac;
+                    default:
+                    case ClipEndBehaviour.END:
+                        return null;
+                }
+            } else {
+                Clip ac = audioClips[nextTrack];
+                return ac;
+            }
         }
 
         public void PlayNext() {
-            if(trackIndex == -1){
-                trackIndex++;
-                running = true;
-            }
-            if(!tracks[trackIndex].playNextSection()){
-                if (trackIndex < tracks.Count - 1) {
-                    trackIndex++;
-                    running = true;
-                }
-            }
+            nextTrack++;
+            // Deal with short cicuiting current song
         }
 
         private void generateAudioSources() {
             AudioMixerGroup[] outs = mixer.FindMatchingGroups("Master/Music");
+            GameObject child = new GameObject("AudioPlayer");
+            child.transform.parent = gameObject.transform;
+            SFX2D = child.AddComponent<AudioSource>();
+            SFX2D.outputAudioMixerGroup = mixer.FindMatchingGroups("Master/SFX2D")[0];
             for (int i = 0; i < audioSources.Length; i++) {
-                GameObject child = new GameObject("AudioPlayer");
                 child.transform.parent = gameObject.transform;
                 audioSources[i] = child.AddComponent<AudioSource>();
                 audioSources[i].outputAudioMixerGroup = outs[i+1];
             }
+            
         }
+
+        // SFX
+        private IDictionary<int, IDictionary<int, int>> playCount = new Dictionary<int, IDictionary<int, int>>();
 
         public void PlaySFX(SFX clip, Vector3 pos, GameObject obj) {
             int sfxVersion = 0;
@@ -115,7 +114,11 @@ namespace LightsOn.AudioSystem {
                 playCount.Add(obj.GetInstanceID(), sfxCount);
             }
 
-            AudioSource.PlayClipAtPoint(clip.get(sfxVersion), pos);
+            AudioSource.PlayClipAtPoint(clip.get(sfxVersion), pos, volumeSFX);
+        }
+
+        public void PlaySFX2D(SFX clip) {
+            SFX2D.PlayOneShot(clip.get(0), volumeSFX);
         }
     }
 }
