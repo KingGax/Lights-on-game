@@ -25,10 +25,10 @@ mergeInto(LibraryManager.library, {
     },
     disableVoiceChatUnity__deps: ['disableVoiceChat'],
     disableVoiceChatUnity: function() {
-        disableVocieChat();
+        disableVoiceChat();
     },
     reenableVoiceChatUnity__deps: ['reenableVoiceChat'],
     reenableVoiceChatUnity: function() {
-        reenableVocieChat();
+        reenableVoiceChat();
     }
 });
