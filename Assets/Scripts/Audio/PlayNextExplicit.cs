@@ -2,12 +2,7 @@ using UnityEngine;
 using LightsOn.AudioSystem;
 
 public class PlayNextExplicit : MonoBehaviour {
-
-    // public void Awake() {
-    //     AudioManager.Instance.PlayNext();
-    // }
-
-    public void NextSong() {
+    public void Awake() {
         AudioManager.Instance.PlayNext();
     }
 }
