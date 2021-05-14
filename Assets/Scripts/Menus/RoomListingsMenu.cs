@@ -52,13 +52,6 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
             roomInfo.SetRoomInfo(info);
             cachedRoomList[info.Name] = listing;
         }
-        #if !UNITY_EDITOR
-            #if UNITY_WEBGL
-            if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
-                setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "client");
-            }
-            #endif
-        #endif
     }
 
     public override void OnDisconnected(DisconnectCause cause) {
