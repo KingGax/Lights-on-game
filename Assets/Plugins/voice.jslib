@@ -16,8 +16,8 @@ mergeInto(LibraryManager.library, {
         setUpVoiceDetection();
     },
     setupVoiceChatUnity__deps: ['setupVoiceChat'],
-    setupVoiceChatUnity: function(username, role) {
-        setupVoiceChat(username, role);
+    setupVoiceChatUnity: function(roomName, role) {
+        setupVoiceChat(roomName, role);
     },
     disableVoiceChatUnity__deps: ['disableVoiceChat'],
     disableVoiceChatUnity: function() {
