@@ -219,7 +219,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 24770964}
+      - m_Target: {fileID: 264547362}
         m_TargetAssemblyTypeName: ButtonSFX, Main
         m_MethodName: mouseClick
         m_Mode: 1
@@ -678,6 +678,87 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 105513369}
   m_CullTransparentMesh: 1
+--- !u!1001 &264547361
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 924134328557413282, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107029826908388432, guid: f039267ee51549842a1abc205eecc7dc,
+        type: 3}
+      propertyPath: m_Name
+      value: SFXMenuButton
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f039267ee51549842a1abc205eecc7dc, type: 3}
+--- !u!114 &264547362 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -9090460756752854971, guid: f039267ee51549842a1abc205eecc7dc,
+    type: 3}
+  m_PrefabInstance: {fileID: 264547361}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dcd1b1b299834a86aae5e088884d9dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &335101018
 GameObject:
   m_ObjectHideFlags: 0
@@ -1718,7 +1799,6 @@ GameObject:
   - component: {fileID: 1975178930}
   - component: {fileID: 1975178929}
   - component: {fileID: 1975178928}
-  - component: {fileID: 1975178931}
   m_Layer: 5
   m_Name: SinglePlayer
   m_TagString: Untagged
@@ -1802,7 +1882,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1975178931}
+      - m_Target: {fileID: 264547362}
         m_TargetAssemblyTypeName: ButtonSFX, Main
         m_MethodName: mouseClick
         m_Mode: 1
@@ -1852,18 +1932,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975178926}
   m_CullTransparentMesh: 1
---- !u!114 &1975178931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1975178926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dcd1b1b299834a86aae5e088884d9dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1989915003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1948,7 +2016,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1989915008}
+      - m_Target: {fileID: 264547362}
         m_TargetAssemblyTypeName: ButtonSFX, Main
         m_MethodName: mouseClick
         m_Mode: 1

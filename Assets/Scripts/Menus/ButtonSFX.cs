@@ -4,10 +4,6 @@ using LightsOn.AudioSystem;
 public class ButtonSFX : MonoBehaviour {
 
     public void mouseClick() {
-        AudioManager.Instance.PlaySFX(
-            SoundClips.Instance.SFXMenuClicks,
-            transform.position,
-            gameObject
-        );
+        AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
     }
 }

@@ -50,7 +50,6 @@ public class Lobby : MonoBehaviourPunCallbacks
             if (listingsMenu.isReady()){
                 loadingScene = true;
                 transition.SetTrigger("Start");
-                AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
                 //Initiated voice chat here
             } else {
@@ -65,7 +64,6 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom() {
         transition.SetTrigger("Start");
-        AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
         SceneManager.LoadScene("JoinRoomMenu");
     }
 

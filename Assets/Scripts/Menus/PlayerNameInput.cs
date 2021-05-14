@@ -30,7 +30,6 @@ public class PlayerNameInput : MonoBehaviour {
 
     public void OnPlayBTNPressed() {
         transition.SetTrigger("Start");
-        AudioManager.Instance.PlaySFX2D(SoundClips.Instance.SFXMenuClicks);
         PhotonNetwork.LoadLevel("JoinRoomMenu");
     }
 }
