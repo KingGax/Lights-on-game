@@ -52,15 +52,15 @@ public class InGameMenu : MonoBehaviour
     public void updateVoiceChatEnabled(bool newVal)
     {
         GlobalValues.Instance.voiceChatEnabled = newVal;
-    }
-    public void updateVoiceControlEnabled(bool newVal)
-    {
-        GlobalValues.Instance.voiceControlEnabled = newVal;
         if(!newVal) {
             disableVoiceChatUnity();
         }
         else {
             reenableVoiceChatUnity();
         }
+    }
+    public void updateVoiceControlEnabled(bool newVal)
+    {
+        GlobalValues.Instance.voiceControlEnabled = newVal;
     }
 }
