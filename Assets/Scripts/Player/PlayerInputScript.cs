@@ -58,7 +58,7 @@ public class PlayerInputScript : MonoBehaviour {
         pv = GetComponent<PhotonView>();
         cameraWork = GetComponent<CameraWork>();
         cameraAnimator = Camera.main.gameObject.GetComponent<Animator>();
-        StartCameraCutscene(cameraCutsceneLength);
+        
     }
 
     public void StartCameraCutscene(float length) {

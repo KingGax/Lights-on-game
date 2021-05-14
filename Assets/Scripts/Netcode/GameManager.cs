@@ -49,13 +49,17 @@ public class GameManager : MonoBehaviourPunCallbacks {
                 DontDestroyOnLoad(GlobalValues.Instance.gameObject);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 if (PhotonNetwork.IsMasterClient) {
-                    PhotonNetwork.Instantiate(this.playerPrefab.name, GlobalValues.Instance.p1spawn.position, Quaternion.identity, 0);
+                    GameObject player = PhotonNetwork.Instantiate(this.playerPrefab.name, GlobalValues.Instance.p1spawn.position, Quaternion.identity, 0);
                     pv.RPC("PlayerSpawnedRPC", RpcTarget.AllBufferedViaServer, true);
                     GlobalValues.Instance.navManager.SetPlayer(false);
+                    Camera.main.GetComponent<Animator>().SetTrigger("flyover");
+                    player.GetComponent<PlayerInputScript>().StartCameraCutscene(-1);
                 } else {
-                    PhotonNetwork.Instantiate(this.playerPrefab.name, GlobalValues.Instance.p2Spawn.position, Quaternion.identity, 0);
+                    GameObject player = PhotonNetwork.Instantiate(this.playerPrefab.name, GlobalValues.Instance.p2Spawn.position, Quaternion.identity, 0);
                     pv.RPC("PlayerSpawnedRPC", RpcTarget.AllBufferedViaServer, false);
                     GlobalValues.Instance.navManager.SetPlayer(true);
+                    Camera.main.GetComponent<Animator>().SetTrigger("flyover");
+                    player.GetComponent<PlayerInputScript>().StartCameraCutscene(-1);
                 }
             } else {
                 pv.RPC("RequestOwnership", RpcTarget.MasterClient);
@@ -65,6 +69,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
                 GlobalValues.Instance.localPlayerInstance.transform.position = GlobalValues.Instance.p1spawn.position;
                 pv.RPC("PlayerSpawnedRPC", RpcTarget.AllBufferedViaServer, true);
                 GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerInputScript>().StartCameraCutscene(-1);
+                Camera.main.GetComponent<Animator>().SetTrigger("flyover");
                 if (GlobalValues.Instance.players.Count > 1) {
                     
                 }
@@ -72,6 +77,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
                 GlobalValues.Instance.navManager.SetPlayer(false);
             } else {
                 GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerInputScript>().StartCameraCutscene(-1);
+                Camera.main.GetComponent<Animator>().SetTrigger("flyover");
                 GlobalValues.Instance.localPlayerInstance.transform.position = GlobalValues.Instance.p2Spawn.position;
                 pv.RPC("PlayerSpawnedRPC", RpcTarget.AllBufferedViaServer, false);
                 GlobalValues.Instance.navManager.SetPlayer(true);
