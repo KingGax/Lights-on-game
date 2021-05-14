@@ -22,6 +22,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public Button readyBtn;
 
     private bool loadingScene = false;
+    public TransitionTrigger transition;
 
     void Awake()
     {
@@ -37,6 +38,13 @@ public class Lobby : MonoBehaviourPunCallbacks
             //listings.GetComponent<Canvas>.SIZE
             //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
+            #if !UNITY_EDITOR
+                #if UNITY_WEBGL
+                if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
+                    setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "master");
+                }
+                #endif
+            #endif
         } else {
             #if !UNITY_EDITOR
                 #if UNITY_WEBGL
@@ -68,6 +76,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             PlayerListingsMenu listingsMenu = GetComponentInChildren<PlayerListingsMenu>();
             if (listingsMenu.isReady()){
                 loadingScene = true;
+                transition.mouseClick();
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
                 //Initiated voice chat here
             } else {

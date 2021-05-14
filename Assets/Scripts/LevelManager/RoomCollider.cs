@@ -8,7 +8,7 @@ public class RoomCollider : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("I AM A ROOM COLLIDER");
+        
     }
 
     // Update is called once per frame
