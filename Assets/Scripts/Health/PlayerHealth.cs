@@ -39,6 +39,7 @@ namespace LightsOn.HealthSystem {
 
         public override void Die() {
             pc.SetMovementEnabled(false);
+            pc.Die();
             Invoke("Revive", 2f);
         }
 

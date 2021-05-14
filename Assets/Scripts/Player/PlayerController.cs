@@ -240,10 +240,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
 
             //handles looking and shooting
             if (equiptedWeapon.IsCharging()) {
-                anim.SetBool("Shooting", true);//This is where charging should be set
-                if (altFireReleasedThisFrame) {
+                anim.SetBool("ChargingAlt", true);//This is where charging should be set
+                if (altFireReleasedThisFrame) { 
                     altFireReleasedThisFrame = false;
-                    equiptedWeapon.ReleaseWeaponAlt();
+                    if (equiptedWeapon.ReleaseWeaponAlt()) {
+                        anim.SetTrigger("FireAlt");
+                    }
                 } else if (altFireHeld && CanShoot()) {
                     Vector3 fireDirection = GetFireDirection(false);
                     TurnTowards(fireDirection);
@@ -253,19 +255,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                 Vector3 fireDirection = GetFireDirection(true);
                 TurnTowards(fireDirection);
                 anim.SetBool("Shooting", true);
+                anim.SetBool("ChargingAlt", false);
                 if (Vector3.Angle(transform.forward, fireDirection) <= maxShootOffsetAngle) {
                     bool didShoop = equiptedWeapon.Use();
                 }
             } else if (altFireHeld && CanShoot()) {
-                anim.SetBool("Shooting", true);//this is the first frame charging starts, only called once 
+                anim.SetBool("ChargingAlt", true);//this is the first frame charging starts, only called once 
                 Vector3 fireDirection = GetFireDirection(false);
                 TurnTowards(fireDirection);
                 equiptedWeapon.UseAlt();
             } else if (reloading && shootBuffer > 0 || altFireHeld) { //this is for looking somewhere but not actually shooting
+                anim.SetBool("ChargingAlt", false);
                 Vector3 fireDirection = GetFireDirection(altFireHeld);
                 TurnTowards(fireDirection);
             } else {
                 anim.SetBool("Shooting", false);
+                anim.SetBool("ChargingAlt", false);
                 if (movement != Vector2.zero) {
                     if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
                         Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
@@ -321,6 +326,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         }
     }
 
+    public void Die() {
+        anim.SetBool("ChargingAlt", false);
+        anim.SetBool("Shooting", false);
+        anim.SetTrigger("Death");
+    }
     void HidePlayer() {
         gameObject.layer = hiddenLayer;
         dashParticles.Play();
