@@ -52,6 +52,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             if (lobby != null) {
                 transform.SetParent(lobby.transform);
                 transform.position = new Vector3(lobby.transform.position.x - 10, lobby.transform.position.y, lobby.transform.position.z);
+                lobby.GetComponent<Lobby>().SetReadyButton();
             }
         }
     }
@@ -214,17 +215,21 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         string thisPlayerName = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>().playerName;
         if (p1.userID == UserID) {
             p1.text.color = isReady ? readyColour : unreadyColour;
+            p1.light.enabled = true;
         }
         else if (p2.userID == UserID) {
-            p2.text.color = isReady ? readyColour : unreadyColour; 
-        } else if (p1.userID == null) {
+            p2.text.color = isReady ? readyColour : unreadyColour;
+            p2.light.enabled = true;
+        } else if (p1.userID == "") {
             p1.text.color = isReady ? readyColour : unreadyColour;
             p1.userID = UserID;
             p1.text.text = thisPlayerName;
+            p1.light.enabled = true;
         } else {
             p2.text.color = isReady ? readyColour : unreadyColour;
             p2.userID = UserID;
             p2.text.text = thisPlayerName;
+            p2.light.enabled = true;
         }
 
         /*if (isReady){
@@ -353,6 +358,19 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     {
         AddToPlayerCount(-1);
         if (cachedPlayerList.ContainsKey(otherPlayer.UserId)){
+            string UserID = otherPlayer.UserId;
+            string thisPlayerName = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>().playerName;
+            if (p1.userID == UserID) {
+                p1.text.color = unreadyColour;
+                p1.light.enabled = false;
+                p1.userID = "";
+                p1.text.text = "";
+            } else if (p2.userID == UserID) {
+                p2.text.color = unreadyColour;
+                p2.light.enabled = false;
+                p2.userID = "";
+                p2.text.text = "";
+            } 
             Destroy(cachedPlayerList[otherPlayer.UserId]);
             cachedPlayerList.Remove(otherPlayer.UserId);
         } else if (cachedSpectatorList.ContainsKey(otherPlayer.UserId)) {

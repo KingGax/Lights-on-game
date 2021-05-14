@@ -712,7 +712,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: -0.227, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 271.6123, y: 150.87074}
+  m_AnchoredPosition: {x: -509, y: 44}
   m_SizeDelta: {x: -714.90076, y: 36.2945}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &407111589
@@ -758,7 +758,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 407111590}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1367219370}
+        m_TargetAssemblyTypeName: ButtonSFX, Main
+        m_MethodName: mouseClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &407111590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1194,7 +1206,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 550330108}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
@@ -2041,8 +2053,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Ready
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 64370166a353010099229701a9703fae, type: 2}
-  m_sharedMaterial: {fileID: 834900053822053409, guid: 64370166a353010099229701a9703fae,
+  m_fontAsset: {fileID: 11400000, guid: 1a3c09ff820331c658f145277218f735, type: 2}
+  m_sharedMaterial: {fileID: 9125633516238271695, guid: 1a3c09ff820331c658f145277218f735,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2067,8 +2079,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 64
+  m_fontSizeBase: 64
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2926,7 +2938,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1224810677}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
@@ -3038,7 +3050,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ralph
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a3c09ff820331c658f145277218f735, type: 2}
   m_sharedMaterial: {fileID: 9125633516238271695, guid: 1a3c09ff820331c658f145277218f735,
@@ -3308,7 +3320,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dumi
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a3c09ff820331c658f145277218f735, type: 2}
   m_sharedMaterial: {fileID: 9125633516238271695, guid: 1a3c09ff820331c658f145277218f735,
@@ -4492,7 +4504,6 @@ GameObject:
   - component: {fileID: 1764828114}
   - component: {fileID: 1764828113}
   - component: {fileID: 1764828112}
-  - component: {fileID: 1764828115}
   m_Layer: 5
   m_Name: StartBTN
   m_TagString: Untagged
@@ -4588,6 +4599,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 697448558}
+        m_TargetAssemblyTypeName: TransitionTrigger, Main
+        m_MethodName: mouseClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1764828113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4626,18 +4649,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764828110}
   m_CullTransparentMesh: 1
---- !u!114 &1764828115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1764828110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dcd1b1b299834a86aae5e088884d9dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1853565960
 GameObject:
   m_ObjectHideFlags: 0

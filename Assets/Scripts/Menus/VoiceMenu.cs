@@ -10,12 +10,19 @@ public class VoiceMenu : MonoBehaviour {
     private static extern void setupMicrophoneUnity();
 
     public void OnRejectClicked() {
+        GlobalValues.Instance.micEnabled = false; // May also change micEditable??
         AudioManager.Instance.PlayNext();
         Invoke("ChangeScene", 1);
     }
 
     public void OnAcceptClicked() {
-        setupMicrophoneUnity();
+        #if !UNITY_EDITOR
+            #if UNITY_WEBGL
+                setupMicrophoneUnity();
+            #endif
+        #endif
+        AudioManager.Instance.PlayNext();
+        Invoke("ChangeScene", 1);
         //Debug.Log("Need to enable voice chat here");
         //AudioManager.Instance.PlayNext();
     }

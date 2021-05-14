@@ -36,12 +36,16 @@ public class Lobby : MonoBehaviourPunCallbacks
             //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
         } else {
-            readyBtn.onClick.AddListener(GameObject.Find("PlayerListings(Clone)").GetComponent<PlayerListingsMenu>().ToggleReady);
+            
         }
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
         t.text = PhotonNetwork.CurrentRoom.Name;
         loadingScene = false;
         
+    }
+
+    public void SetReadyButton() {
+        readyBtn.onClick.AddListener(GetComponentInChildren<PlayerListingsMenu>().ToggleReady);
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
