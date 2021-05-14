@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using LightsOn.LightingSystem;
+using Photon.Realtime;
+
 namespace LightsOn.WeaponSystem {
-    public class BossController : Enemy {
+    public class BossController : Enemy , IOnPhotonViewOwnerChange {
         [Header("Bullet/weapon setup")]
         public GameObject bullet;
         public float bulletSpeed;
@@ -80,6 +82,11 @@ namespace LightsOn.WeaponSystem {
         List<EnemyGun> rotatingGuns;
         LightableBossEnemy lightableBoss;
         Vector3 floorPlane = new Vector3(0,1,0);
+        EnemyState lastSentState = EnemyState.Spawning;
+
+        double stateStartTime;
+
+        private bool isActivated = false;
 
 
         enum EnemyState {
@@ -99,6 +106,7 @@ namespace LightsOn.WeaponSystem {
 
         void Start() //0.7s, 0.59rad/s
         {
+            stateStartTime = PhotonNetwork.Time;
             bulletColour = LightColour.Red;
             currentPhase = 0;
             enemyState = EnemyState.Spawning;
@@ -126,8 +134,27 @@ namespace LightsOn.WeaponSystem {
             //GetComponentInChildren<BossHealthBar>().Activate();
         }
 
+        public void OnOwnerChange(Player newOwner, Player previousOwner) {
+            if (PhotonNetwork.LocalPlayer == newOwner) {
+                HandoverBoss();
+            }
+        }
+
+        void HandoverBoss() {
+            enemyState = EnemyState.SwarmRepositioning;
+            ChangeToSwarmReposition();
+        }
+
+        void IOnPhotonViewOwnerChangeOnOwnerChange(Player newOwner, Player oldOwner) {
+            if (PhotonNetwork.LocalPlayer == newOwner) {
+                HandoverBoss();
+            }
+        }
+
         // Update is called once per frame
         void Update() {
+            if(!isActivated) return;
+            Debug.Log("update");
             if (flashesRemaining > 0 && flashTimer <= 0) {
                 if (flashesRemaining % 2 == 0) {
                     circleLR.enabled = false;
@@ -167,6 +194,10 @@ namespace LightsOn.WeaponSystem {
             //     }
             // } 
             ManageStates();
+            //if (enemyState != lastSentState) {
+            //    pv.RPC("UpdateStateRPC", RpcTarget.AllBufferedViaServer, enemyState);
+            //    lastSentState = enemyState;
+            // }
         }
 
         void ManageStates() {
@@ -208,6 +239,11 @@ namespace LightsOn.WeaponSystem {
                         break;
                 }
             //} 
+        }
+
+        [PunRPC]
+        void UpdateStateRPC(EnemyState state) {
+            enemyState = state;
         }
 
         void MakeDecision(float p) { //decides which attack/ability to use next, will not use same ability twice in a row
@@ -461,7 +497,7 @@ namespace LightsOn.WeaponSystem {
             NavMesh.SamplePosition(playerObj.transform.position, out destPos, 2f, NavMesh.AllAreas);
             agent.speed = repositionSpeed;
             agent.destination = destPos.position;
-            pv.RPC("DisappearRPC", RpcTarget.All);
+            pv.RPC("DisappearRPC", RpcTarget.AllBufferedViaServer);
             lightableBoss.BossSwarm();
             
         }
@@ -478,7 +514,7 @@ namespace LightsOn.WeaponSystem {
             agent.speed = normalSpeed;
             agent.enabled = false;
             ShowCircle((reappearingTimerMax) / (flashNum + 1));
-            pv.RPC("QueueReappearRPC", RpcTarget.Others, PhotonNetwork.Time, reappearingTimerMax);
+            pv.RPC("QueueReappearRPC", RpcTarget.AllBufferedViaServer, PhotonNetwork.Time, reappearingTimerMax);
             pv.RPC("StartAOE", RpcTarget.Others,PhotonNetwork.Time,reappearingTimerMax);
         }
         [PunRPC]
@@ -487,7 +523,9 @@ namespace LightsOn.WeaponSystem {
             if (dt > startup) {
                 dt = startup;
             }
-            Invoke("InvokeReappear", startup - dt);
+            if (dt<5) {
+                Invoke("InvokeReappear", startup - dt);
+            }
         }
 
         void InvokeReappear() {
@@ -580,5 +618,11 @@ namespace LightsOn.WeaponSystem {
 
             }
         }
+
+        public void Activate(){
+            isActivated = true;
+        }
+
+        
     }
 }

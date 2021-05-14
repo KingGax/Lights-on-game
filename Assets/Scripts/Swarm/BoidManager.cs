@@ -136,6 +136,7 @@ namespace LightsOn {
 
             private void UpdateRisingCentre() {
                 boidCentre = GetAveragePos();
+                visionObject.transform.position = boidCentre;
                 risingYFloor += 0.1f * riseSpeed;
                 boidCentre = new Vector3(boidCentre.x, Mathf.Max(risingYFloor, boidCentre.y), boidCentre.z);
             }

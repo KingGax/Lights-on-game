@@ -6,19 +6,18 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Runtime.InteropServices;
 using TMPro;
-
+using LightsOn.AudioSystem;
+using UnityEngine.UI;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private GameObject startButton;
 
-    [DllImport("__Internal")]
-    private static extern void initiateVoiceChatUnity();
-
     [SerializeField]
     private GameObject roomCode;
     public GameObject listingsPrefab;
+    public Button readyBtn;
 
     private bool loadingScene = false;
 
@@ -30,9 +29,15 @@ public class Lobby : MonoBehaviourPunCallbacks
             startButton.SetActive(true);
             Vector3 newLoc = transform.position + new Vector3(-10, 0, 0);
             GameObject listings = PhotonNetwork.Instantiate(listingsPrefab.name, newLoc, new Quaternion(0, 0, 0, 0), 0);
+            PlayerListingsMenu listingsMenu = listings.GetComponent<PlayerListingsMenu>();
+            readyBtn.GetComponent<Button>().onClick.AddListener(listingsMenu.ToggleReady);
+            ////readyBtn.
+            //listings.GetComponent<Canvas>.SIZE
             //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
-        } 
+        } else {
+            readyBtn.onClick.AddListener(GameObject.Find("PlayerListings(Clone)").GetComponent<PlayerListingsMenu>().ToggleReady);
+        }
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
         t.text = PhotonNetwork.CurrentRoom.Name;
         loadingScene = false;
@@ -52,11 +57,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             if (listingsMenu.isReady()){
                 loadingScene = true;
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
-                #if !UNITY_EDITOR
-                    #if UNITY_WEBGL
-                    initiateVoiceChatUnity();
-                    #endif
-                #endif
+                //Initiated voice chat here
             } else {
                 Debug.Log("Please ensure everyone is 'Ready' before starting the game.");
             }

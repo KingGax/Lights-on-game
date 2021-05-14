@@ -7,13 +7,17 @@ public class PuzzleDoorTrigger : MonoBehaviour {
 
     public bool unlocked = false;
     public LightableExitDoor door;
+    public LightColour ballColour;
+    public Vector3 ballPos;
 
     void OnTriggerEnter(Collider other) { 
         if (other.gameObject.layer == 17) {
             if (!unlocked) {
                 Debug.Log(other);
                 Debug.Log(other.transform.gameObject.GetComponentInChildren<LightablePuzzleBall>());
-                door.PuzzleBallUnlockDoor(other.transform.gameObject.GetComponentInChildren<LightablePuzzleBall>().GetColour(),other.transform.position);
+                ballColour = other.transform.gameObject.GetComponentInChildren<LightablePuzzleBall>().GetColour();
+                ballPos = other.transform.position;
+                //door.PuzzleBallUnlockDoor(ballColour,ballPos);
                 other.transform.gameObject.GetComponent<BouncyBall>().DestroyBall();
                 unlocked = true;
             } else {

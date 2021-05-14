@@ -6,6 +6,7 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
@@ -13,6 +14,8 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     private Transform _content;
     [SerializeField]
     private Transform _specContent;
+    public PlayerListingText p1;
+    public PlayerListingText p2;
 
     public Color readyColour = Color.green;
     public Color unreadyColour = Color.red;
@@ -39,6 +42,8 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     {
         pv = GetComponent<PhotonView>();
         StartCoroutine("SyncedLobbyTimers");
+        p1 = GameObject.Find("P1").GetComponent<PlayerListingText>();
+        p2 = GameObject.Find("P2").GetComponent<PlayerListingText>();
         if (PhotonNetwork.IsMasterClient) {
             cachedPlayerList.Clear();
             initialised = true;
@@ -206,26 +211,37 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     void UpdateReadyListings(string UserID, bool isReady){ //updates text colour
         PlayerListingInfo listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
-        Debug.Log(listing);
-        Debug.Log(listing.name);
-        Debug.Log(cachedPlayerList[UserID]);
-        Debug.Log(_content.Find(listing.name));
+        string thisPlayerName = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>().playerName;
+        if (p1.userID == UserID) {
+            p1.text.color = isReady ? readyColour : unreadyColour;
+        }
+        else if (p2.userID == UserID) {
+            p2.text.color = isReady ? readyColour : unreadyColour; 
+        } else if (p1.userID == null) {
+            p1.text.color = isReady ? readyColour : unreadyColour;
+            p1.userID = UserID;
+            p1.text.text = thisPlayerName;
+        } else {
+            p2.text.color = isReady ? readyColour : unreadyColour;
+            p2.userID = UserID;
+            p2.text.text = thisPlayerName;
+        }
 
-        if (isReady){
+        /*if (isReady){
             _content.Find(listing.name).GetComponentInChildren<Text>().color = readyColour;
         } else {
             _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
-        }
+        }*/
     }
 
     void UpdateSpectatorListings(string UserID, bool isSpectator){ //updates text colour
         PlayerListingInfo listing;
         if (isSpectator){
              listing = cachedSpectatorList[UserID].GetComponent<PlayerListingInfo>();
-            _specContent.Find(listing.name).GetComponentInChildren<TextMeshProUGUI>().color = specColour;
+            _specContent.Find(listing.name).GetComponentInChildren<Text>().color = specColour;
         } else {
             listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
-            _content.Find(listing.name).GetComponentInChildren<TextMeshProUGUI>().color = unreadyColour;
+            _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
         }
     }
 

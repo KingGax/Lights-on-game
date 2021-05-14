@@ -8,7 +8,6 @@ using LightsOn.AudioSystem;
 
 public class WinScript : MonoBehaviour {
 
-    public Animator transition;
     public string sceneName;
     LayerMask playerLayers;
     bool loadingLevel = false;
@@ -30,7 +29,6 @@ public class WinScript : MonoBehaviour {
         PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
         if (PhotonNetwork.IsMasterClient && !loadingLevel && GlobalValues.Instance.fm.GetObjectivesTriggered()) {
             loadingLevel = true;
-            transition.SetTrigger("Start");
             AudioManager.Instance.PlayNext();
             yield return new WaitForSeconds(1);
             GlobalValues.Instance.localPlayerInstance.GetComponentInChildren<Lanturn>().BufferLightColour();

@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Runtime.InteropServices;
+using LightsOn.AudioSystem;
 
 public class RoomListingsMenu : MonoBehaviourPunCallbacks {
 
@@ -53,7 +54,9 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
         }
         #if !UNITY_EDITOR
             #if UNITY_WEBGL
-            setupVoiceChatUnity("b", "client");
+            if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
+                setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "client");
+            }
             #endif
         #endif
     }

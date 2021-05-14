@@ -15,8 +15,6 @@ namespace LightsOn.LightingSystem {
 
         public void BossSwarm() {
             ForceDisappear();
-            boidInstance = GetCurrentBoidManagerInstance();
-            boidInstance.SetFollowTransform(transform.parent);
         }
 
         public void BossReappear() {
@@ -27,6 +25,8 @@ namespace LightsOn.LightingSystem {
         public override void ForceDisappear() {
             stayHidden = true;
             base.ForceDisappear();
+            boidInstance = GetCurrentBoidManagerInstance();
+            boidInstance.SetFollowTransform(transform.parent);
         }
 
         protected override void TryAppear() {

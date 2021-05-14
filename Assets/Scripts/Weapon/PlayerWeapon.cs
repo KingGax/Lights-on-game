@@ -19,7 +19,7 @@ public abstract class PlayerWeapon : Weapon {
     protected override abstract void UseWeapon();
     protected virtual void UseWeaponAlt() { }
 
-    public virtual void ReleaseWeaponAlt() { }
+    public virtual bool ReleaseWeaponAlt() { return false; }
 
     public virtual void Reload() {
         if (ammo < maxAmmo) {
