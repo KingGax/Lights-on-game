@@ -14,7 +14,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
     private string _roomName;
     
     [DllImport("__Internal")]
-    private static extern void setupVoiceChatUnity(string username, string role);
+    private static extern void setupVoiceChatUnity(string roomName, string role);
     public int maxAllowedSpectators = 0;
     public Button playButton;
     private string glyphs = "abcdefghijklmnopqrstuvwxyz0123456789";
