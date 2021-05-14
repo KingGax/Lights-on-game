@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4762451630e13fe4b8141c1830042165, type: 3}
+  m_Name: Tutorial_BothPlayers_1
+  m_EditorClassIdentifier: 
+  dialogue:
+  - dialogue: That wasn't too bad
+    playerIndex: 0
+  - dialogue: Those new nanobots didn't seems that hard to deal with
+    playerIndex: 0
+  - dialogue: 'Yeah....
+
+      I don''t know what everyone is raving about. The RGB
+      purists have embarassed themselves this time...'
+    playerIndex: 1
+  - dialogue: 'Anyway, enough chatting.
+
+      Let''s infiltrate the nightclub, snoop
+      around, get some intel and make a run for it.'
+    playerIndex: 0
+  - dialogue: Agreed.
+    playerIndex: 1

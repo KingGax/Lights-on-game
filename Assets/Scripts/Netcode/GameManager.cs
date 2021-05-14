@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviourPunCallbacks {
                 }
             } else {
                 pv.RPC("RequestOwnership", RpcTarget.MasterClient);
+                Time.timeScale = 0;
+                UnPauseGame();
             }
         } else {
             if (PhotonNetwork.IsMasterClient) {
@@ -118,10 +120,22 @@ public class GameManager : MonoBehaviourPunCallbacks {
 
     void PauseGame() {
         Time.timeScale = 0;
+        rejoinText.SetRejoinText("Waiting for other player to rejoin...");
         rejoinText.DisplayRejoinText(true);
     }
 
     void UnPauseGame() {
+        StartCoroutine(StartCountDown());
+    }
+
+    IEnumerator StartCountDown() {
+        rejoinText.SetRejoinText("3");
+        rejoinText.DisplayRejoinText(true);
+        yield return new WaitForSecondsRealtime(1f);
+        rejoinText.SetRejoinText("2");
+        yield return new WaitForSecondsRealtime(1f);
+        rejoinText.SetRejoinText("1");
+        yield return new WaitForSecondsRealtime(1f);
         Time.timeScale = 1;
         rejoinText.DisplayRejoinText(false);
     }
