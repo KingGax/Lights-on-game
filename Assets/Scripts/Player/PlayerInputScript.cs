@@ -16,7 +16,7 @@ public class PlayerInputScript : MonoBehaviour {
     public SpriteRenderer micRenderer;
     public float cameraCutsceneLength;
     private HelpTooltip helpView = null;
-    private MenuToggle menuView = null;
+    private InGameMenu menuView = null;
     private PhotonView pv;
     CameraWork cameraWork;
     Animator cameraAnimator;
@@ -58,7 +58,7 @@ public class PlayerInputScript : MonoBehaviour {
         pv = GetComponent<PhotonView>();
         cameraWork = GetComponent<CameraWork>();
         cameraAnimator = Camera.main.gameObject.GetComponent<Animator>();
-        StartCameraCutscene(cameraCutsceneLength);
+        
     }
 
     public void StartCameraCutscene(float length) {
@@ -194,7 +194,7 @@ public class PlayerInputScript : MonoBehaviour {
     public void ToggleMenu(InputAction.CallbackContext ctx) {
         if (gameObject == PlayerController.LocalPlayerInstance) {
             if (menuView == null)
-                menuView = GlobalValues.Instance.MenuItem.GetComponent<MenuToggle>();
+                menuView = GlobalValues.Instance.MenuItem.GetComponent<InGameMenu>();
             inputEnabled = !menuView.ToggleVisibility();
             if (!inputEnabled) {
                 pc.AttackOne(false);

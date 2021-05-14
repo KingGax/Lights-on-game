@@ -15,6 +15,10 @@ public class RejoinTextUI : MonoBehaviour
         text.enabled = show;
     }
 
+    public void SetRejoinText(string newText) {
+        text.text = newText;
+    }
+
     // Update is called once per frame
     void Update()
     {

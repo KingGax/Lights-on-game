@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
+using LightsOn.AudioSystem;
+
 
 public class OfflineMode : MonoBehaviourPunCallbacks {
 
@@ -17,6 +19,7 @@ public class OfflineMode : MonoBehaviourPunCallbacks {
     }
 
     public override void OnJoinedRoom() {
+        AudioManager.Instance.PlayNext();
         PhotonNetwork.LoadLevel("Tutorial");
     }
 }

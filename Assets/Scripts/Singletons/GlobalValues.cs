@@ -29,6 +29,8 @@ public class GlobalValues : MonoBehaviour {
     public NavigationManager navManager;
     public bool micEnabled = true;
     public bool micEditable = true;
+    public bool voiceChatEnabled = true;
+    public bool voiceControlEnabled = true;
     public bool enableShader = true;
     public bool enableBoids = true;
     public bool bothPlayersSpawned = false;

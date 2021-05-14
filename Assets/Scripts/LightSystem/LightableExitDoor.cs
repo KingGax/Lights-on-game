@@ -23,16 +23,30 @@ namespace LightsOn.LightingSystem {
             SetColour(LightColour.White);
         }
 
+        [PunRPC]
+        public void PuzzleBallUnlockDoorRPC(LightColour ballCol, Vector3 ballPos) {
+            Vector3[] doorPoints = GetTransformedPoints();
+            Vector3[] ballPoints = ballCloud.points.ToArray();
+            for (int i = 0; i < ballPoints.Length; i++) {
+                ballPoints[i] += ballPos;
+            }
+            SpawnDeathCloud(ballPoints.Concat(doorPoints).ToArray(), ballCol);
+            BoidManager bm = GetCurrentBoidManagerInstance();
+            bm.MoveBoidCentre(ballPos);
+            unlockedColour = colour.Subtract(ballCol);
+        }
+
         public void PuzzleBallUnlockDoor(LightColour ballCol, Vector3 ballPos) {
             Vector3[] doorPoints = GetTransformedPoints();
             Vector3[] ballPoints = ballCloud.points.ToArray();
             for (int i = 0; i < ballPoints.Length; i++) {
                 ballPoints[i] += ballPos;
             }
-            SpawnDeathCloud(ballPoints.Concat(doorPoints).ToArray(),ballCol);
+            SpawnDeathCloud(ballPoints.Concat(doorPoints).ToArray(), ballCol);
             BoidManager bm = GetCurrentBoidManagerInstance();
             bm.MoveBoidCentre(ballPos);
             unlockedColour = colour.Subtract(ballCol);
+            UnlockDoor();
         }
 
         public override void SetColour(LightColour col) {
