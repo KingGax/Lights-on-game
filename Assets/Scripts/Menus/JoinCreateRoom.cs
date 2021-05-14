@@ -7,6 +7,7 @@ using LightsOn.AudioSystem;
 public class JoinCreateRoom : MonoBehaviour {
 
     public void OnBackBTNPressed() {
-        PhotonNetwork.LoadLevel("NameMenu");
+        PhotonNetwork.Disconnect();
+        SceneManager.LoadScene("NameMenu");
     }
 }

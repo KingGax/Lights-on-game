@@ -31,6 +31,6 @@ public class PlayerNameInput : MonoBehaviour {
     }
 
     public void OnBackBTNPressed() {
-        PhotonNetwork.LoadLevel("StartMenu");
+        SceneManager.LoadScene("StartMenu");
     }
 }
