@@ -7,6 +7,7 @@ using Photon.Realtime;
 using System.Runtime.InteropServices;
 using TMPro;
 using LightsOn.AudioSystem;
+using UnityEngine.UI;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
@@ -16,6 +17,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject roomCode;
     public GameObject listingsPrefab;
+    public Button readyBtn;
 
     private bool loadingScene = false;
 
@@ -27,9 +29,15 @@ public class Lobby : MonoBehaviourPunCallbacks
             startButton.SetActive(true);
             Vector3 newLoc = transform.position + new Vector3(-10, 0, 0);
             GameObject listings = PhotonNetwork.Instantiate(listingsPrefab.name, newLoc, new Quaternion(0, 0, 0, 0), 0);
+            PlayerListingsMenu listingsMenu = listings.GetComponent<PlayerListingsMenu>();
+            readyBtn.GetComponent<Button>().onClick.AddListener(listingsMenu.ToggleReady);
+            ////readyBtn.
+            //listings.GetComponent<Canvas>.SIZE
             //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
-        } 
+        } else {
+            readyBtn.onClick.AddListener(GameObject.Find("PlayerListings(Clone)").GetComponent<PlayerListingsMenu>().ToggleReady);
+        }
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
         t.text = PhotonNetwork.CurrentRoom.Name;
         loadingScene = false;
