@@ -154,7 +154,7 @@ namespace LightsOn.WeaponSystem {
         // Update is called once per frame
         void Update() {
             if(!isActivated) return;
-            Debug.Log("update");
+            //Debug.Log("update");
             if (flashesRemaining > 0 && flashTimer <= 0) {
                 if (flashesRemaining % 2 == 0) {
                     circleLR.enabled = false;
@@ -291,6 +291,7 @@ namespace LightsOn.WeaponSystem {
             prevState = enemyState;
             rotatingShotTimer = Random.Range(rotatingShotTimerMin, rotatingShotTimerMax);
             changeBulletColTimer = changeBulletColTimerMax;
+            currentGunAngle = transform.eulerAngles.y;
         }
 
         Vector3 GetTargetPosition(Vector3 pos) {
@@ -331,7 +332,8 @@ namespace LightsOn.WeaponSystem {
 
                 }
             }
-            gunParent.transform.parent.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+            //gunParent.transform.parent.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+            
             for (int i = 0; i < rotatingGuns.Count; i++) {
 
                 EnemyGun g = rotatingGuns[i];
@@ -352,6 +354,11 @@ namespace LightsOn.WeaponSystem {
             }
             if (rotatingShotTimer <= 0) {
                 enemyState = EnemyState.DecisionState;
+            }
+        }
+        private void LateUpdate() {
+            if(enemyState == EnemyState.RotateShooting){
+                gunParent.transform.parent.rotation = Quaternion.Euler(new Vector3(0f, currentGunAngle, 0f));
             }
         }
 
