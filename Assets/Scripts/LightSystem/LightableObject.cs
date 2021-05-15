@@ -30,7 +30,7 @@ namespace LightsOn.LightingSystem {
         float lightOverpowerRatio = 1.4f;
 
         List<Lanturn> currentLights = new List<Lanturn>();
-        MeshRenderer meshRenderer;
+        protected MeshRenderer meshRenderer;
         Collider physicsCollider;
         GameObject boidManagerPrefab;
         GameObject deathBoidManagerPrefab;
@@ -40,7 +40,7 @@ namespace LightsOn.LightingSystem {
         public PointCloudSO cloudPoints;
         Vector3[] transformedPoints;
         Quaternion lastRotation;
-        bool fading = false;
+        protected bool fading = false;
         float fadeTimer = 0f;
         float fadeTimerMax = 0f;
         BoxCollider physicsBox;
@@ -311,6 +311,9 @@ namespace LightsOn.LightingSystem {
                 meshRenderer.material = hiddenMaterials.get(colour);
                 meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             }
+            SwarmDisappearLogic();
+        }
+        protected void SwarmDisappearLogic(){ //to fix inheritance/overriding issue
             transform.parent.gameObject.layer = hiddenLayer;
             if (canSwarm) {
                 fading = false;
@@ -401,6 +404,11 @@ namespace LightsOn.LightingSystem {
                     //particle effect at ParticleTransform
                 }
             }
+            FinishAppearingSwarm();
+            
+        }
+
+        void FinishAppearingSwarm(){
             transform.parent.gameObject.layer = defaultLayer;
             if (canSwarm) {
                 boidManagerInstance.GetComponentInChildren<BoidManager>().DestroyMyAgents();
