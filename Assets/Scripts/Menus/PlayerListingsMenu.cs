@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using System.Runtime.InteropServices;
 using UnityEngine.UI;
 using TMPro;
 
@@ -21,11 +20,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public Color readyColour = Color.green;
     public Color unreadyColour = Color.red;
     public Color specColour = Color.black;
-
-    [DllImport("__Internal")]
-    private static extern void setupVoiceChatUnity(string roomName, string role);
-
-
     [SerializeField]
     public GameObject _playerListing;
     PhotonView pv;

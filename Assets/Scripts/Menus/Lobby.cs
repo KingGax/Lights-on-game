@@ -38,23 +38,21 @@ public class Lobby : MonoBehaviourPunCallbacks
             //listings.GetComponent<Canvas>.SIZE
             //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
+            Debug.Log("master: " + PhotonNetwork.CurrentRoom.Name);
             #if !UNITY_EDITOR
                 #if UNITY_WEBGL
-                /*
                 if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
                     setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "master");
                 }
-                */
                 #endif
             #endif
         } else {
+            Debug.Log("client: " + PhotonNetwork.CurrentRoom.Name);
             #if !UNITY_EDITOR
                 #if UNITY_WEBGL
-                /*
                 if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
                     setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "client");
                 }
-                */
                 #endif
             #endif
         }
