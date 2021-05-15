@@ -4,12 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
 using Photon.Pun;
+using System.Runtime.InteropServices;
 using TMPro;
 
 public class JoinRoom : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private string _roomCode;
+    [DllImport("__Internal")]
+    private static extern void setupVoiceChatUnity(string roomName, string role);
 
     public Button playButton;
 
@@ -28,6 +31,13 @@ public class JoinRoom : MonoBehaviourPunCallbacks
             playButton.interactable = true;
             TextMeshProUGUI t = playButton.GetComponentInChildren<TextMeshProUGUI>();
             t.color = Color.white;
+            #if !UNITY_EDITOR
+                #if UNITY_WEBGL
+                if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
+                    setupVoiceChatUnity(_roomCode, "client");
+                }
+                #endif
+            #endif
         } else {
             playButton.interactable = false;
             TextMeshProUGUI t = playButton.GetComponentInChildren<TextMeshProUGUI>();

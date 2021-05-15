@@ -20,6 +20,6 @@ public class OfflineMode : MonoBehaviourPunCallbacks {
 
     public override void OnJoinedRoom() {
         // AudioManager.Instance.PlayNext();
-        PhotonNetwork.LoadLevel("Tutorial");
+        PhotonNetwork.LoadLevel("Nightclub");
     }
 }
