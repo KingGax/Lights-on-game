@@ -83,7 +83,8 @@ namespace LightsOn.WeaponSystem {
         LightableBossEnemy lightableBoss;
         Vector3 floorPlane = new Vector3(0,1,0);
         EnemyState lastSentState = EnemyState.Spawning;
-
+        public Animator bossanim;
+        public float meleeStartup;
         double stateStartTime;
 
         private bool isActivated = false;
@@ -154,7 +155,7 @@ namespace LightsOn.WeaponSystem {
         // Update is called once per frame
         void Update() {
             if(!isActivated) return;
-            Debug.Log("update");
+            //Debug.Log("update");
             if (flashesRemaining > 0 && flashTimer <= 0) {
                 if (flashesRemaining % 2 == 0) {
                     circleLR.enabled = false;
@@ -291,6 +292,7 @@ namespace LightsOn.WeaponSystem {
             prevState = enemyState;
             rotatingShotTimer = Random.Range(rotatingShotTimerMin, rotatingShotTimerMax);
             changeBulletColTimer = changeBulletColTimerMax;
+            currentGunAngle = transform.eulerAngles.y;
         }
 
         Vector3 GetTargetPosition(Vector3 pos) {
@@ -331,26 +333,33 @@ namespace LightsOn.WeaponSystem {
 
                 }
             }
+            //gunParent.transform.parent.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+            
             for (int i = 0; i < rotatingGuns.Count; i++) {
 
                 EnemyGun g = rotatingGuns[i];
                 if (changeCol) {
                     g.SetColour(bulletColour);
                 }
-                float x = transform.position.x + gunCircleRadius * Mathf.Cos(currentGunAngle + phase);
-                float z = transform.position.z + gunCircleRadius * Mathf.Sin(currentGunAngle + phase);
-                g.transform.position = new Vector3(x, g.transform.position.y, z);
+                //float x = transform.position.x + gunCircleRadius * Mathf.Cos(currentGunAngle + phase);
+                //float z = transform.position.z + gunCircleRadius * Mathf.Sin(currentGunAngle + phase);
+                //g.transform.position = new Vector3(x, g.transform.position.y, z);
                 phase += (Mathf.PI * 2) / rotatingGuns.Count;
                 if (canShoot) {
-                    targetGOs[i].transform.position = new Vector3(transform.position.x + gunCircleRadius * 3 * Mathf.Cos(currentGunAngle + phase),
-                    g.firePoint.position.y,
-                    transform.position.z + gunCircleRadius * 3 * Mathf.Sin(currentGunAngle + phase));
+                    //targetGOs[i].transform.position = new Vector3(transform.position.x + gunCircleRadius * 3 * Mathf.Cos(currentGunAngle + phase),
+                    //g.firePoint.position.y,
+                    //transform.position.z + gunCircleRadius * 3 * Mathf.Sin(currentGunAngle + phase));
                     g.SetTarget(targetGOs[i]);
                     g.Use();
                 }
             }
             if (rotatingShotTimer <= 0) {
                 enemyState = EnemyState.DecisionState;
+            }
+        }
+        private void LateUpdate() {
+            if(enemyState == EnemyState.RotateShooting){
+                gunParent.transform.parent.rotation = Quaternion.Euler(new Vector3(0f, currentGunAngle, 0f));
             }
         }
 
@@ -399,6 +408,7 @@ namespace LightsOn.WeaponSystem {
             agent.enabled = false;
             ShowCircle((aoeStartTimerMax) / (flashNum + 1));
             pv.RPC("StartAOE", RpcTarget.Others, PhotonNetwork.Time, aoeStartTimerMax);
+            Invoke("SetMeleeTrigger", aoeStartTimerMax - meleeStartup);
         }
 
         void AOEMeleeStartup() {
@@ -418,7 +428,17 @@ namespace LightsOn.WeaponSystem {
             if (dt > startup) {
                 dt = startup;
             }
+            if (startup - dt - meleeStartup < 0) {
+                SetMeleeTrigger();
+            } else {
+                Invoke("SetMeleeTrigger", startup - dt - meleeStartup);
+            }
+            
             Invoke("InvokeAOE", startup - dt);
+        }
+
+        void SetMeleeTrigger() {
+            bossanim.SetTrigger("Melee");
         }
         void InvokeAOE() {
             DoAOEAttack(aoeDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
@@ -426,6 +446,7 @@ namespace LightsOn.WeaponSystem {
 
         void DoAOEAttack(float dmg, float knockbackMag, float knockbackDuration) {
             Collider[] cols = Physics.OverlapSphere(transform.position, aoeRadius, GlobalValues.Instance.playerLayer);
+            
             if (cols.Length > 0) {
                 foreach (Collider col in cols) {
                     HealthSystem.Health h = col.gameObject.GetComponentInChildren<HealthSystem.Health>();
@@ -516,6 +537,7 @@ namespace LightsOn.WeaponSystem {
             ShowCircle((reappearingTimerMax) / (flashNum + 1));
             pv.RPC("QueueReappearRPC", RpcTarget.AllBufferedViaServer, PhotonNetwork.Time, reappearingTimerMax);
             pv.RPC("StartAOE", RpcTarget.Others,PhotonNetwork.Time,reappearingTimerMax);
+            Invoke("SetMeleeTrigger", reappearingTimerMax - meleeStartup);
         }
         [PunRPC]
         void QueueReappearRPC(double time, float startup){
@@ -546,6 +568,7 @@ namespace LightsOn.WeaponSystem {
                     float newReappearTimer = 1.5f;
                     reappearingTimer = newReappearTimer; //get from globalvalues
                     pv.RPC("StartAOE", RpcTarget.Others, PhotonNetwork.Time, reappearingTimer);
+                    Invoke("SetMeleeTrigger", reappearingTimer - meleeStartup);
                     ShowCircle(newReappearTimer / (flashNum + 1));
                 }
                 
