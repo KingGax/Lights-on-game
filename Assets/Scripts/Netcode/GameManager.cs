@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 using Photon.Pun.UtilityScripts;
+using System.Runtime.InteropServices;
 
 public class GameManager : MonoBehaviourPunCallbacks {
     private GameObject otherPlayerGO;
@@ -15,6 +16,11 @@ public class GameManager : MonoBehaviourPunCallbacks {
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
 
+    [DllImport("__Internal")]
+    private static extern void disconnectVoiceChatUnity();
+
+    [DllImport("__Internal")]
+    private static extern void setupVoiceChatUnity(string roomName, string role);
 
     // Called when the local player left the room. We need to load the launcher scene.
     public override void OnLeftRoom() {
@@ -64,6 +70,13 @@ public class GameManager : MonoBehaviourPunCallbacks {
             } else {
                 pv.RPC("RequestOwnership", RpcTarget.MasterClient);
                 Time.timeScale = 0;
+                #if !UNITY_EDITOR
+                    #if UNITY_WEBGL
+                    if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
+                        setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "client");
+                    }
+                    #endif
+                #endif
                 UnPauseGame();
             }
         } else {
@@ -115,6 +128,13 @@ public class GameManager : MonoBehaviourPunCallbacks {
         if (PhotonNetwork.IsMasterClient) {
             Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
         }
+        #if !UNITY_EDITOR
+            #if UNITY_WEBGL
+            if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
+                setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "master");
+            }
+            #endif
+        #endif
         UnPauseGame();
     }
 
@@ -158,5 +178,10 @@ public class GameManager : MonoBehaviourPunCallbacks {
             Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
             PauseGame();
         }
+        #if !UNITY_EDITOR
+            #if UNITY_WEBGL
+                disconnectVoiceChatUnity();
+            #endif
+        #endif
     }
 }
