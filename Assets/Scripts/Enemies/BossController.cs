@@ -331,20 +331,21 @@ namespace LightsOn.WeaponSystem {
 
                 }
             }
+            gunParent.transform.parent.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
             for (int i = 0; i < rotatingGuns.Count; i++) {
 
                 EnemyGun g = rotatingGuns[i];
                 if (changeCol) {
                     g.SetColour(bulletColour);
                 }
-                float x = transform.position.x + gunCircleRadius * Mathf.Cos(currentGunAngle + phase);
-                float z = transform.position.z + gunCircleRadius * Mathf.Sin(currentGunAngle + phase);
-                g.transform.position = new Vector3(x, g.transform.position.y, z);
+                //float x = transform.position.x + gunCircleRadius * Mathf.Cos(currentGunAngle + phase);
+                //float z = transform.position.z + gunCircleRadius * Mathf.Sin(currentGunAngle + phase);
+                //g.transform.position = new Vector3(x, g.transform.position.y, z);
                 phase += (Mathf.PI * 2) / rotatingGuns.Count;
                 if (canShoot) {
-                    targetGOs[i].transform.position = new Vector3(transform.position.x + gunCircleRadius * 3 * Mathf.Cos(currentGunAngle + phase),
-                    g.firePoint.position.y,
-                    transform.position.z + gunCircleRadius * 3 * Mathf.Sin(currentGunAngle + phase));
+                    //targetGOs[i].transform.position = new Vector3(transform.position.x + gunCircleRadius * 3 * Mathf.Cos(currentGunAngle + phase),
+                    //g.firePoint.position.y,
+                    //transform.position.z + gunCircleRadius * 3 * Mathf.Sin(currentGunAngle + phase));
                     g.SetTarget(targetGOs[i]);
                     g.Use();
                 }
