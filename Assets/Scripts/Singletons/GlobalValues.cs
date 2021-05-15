@@ -46,7 +46,11 @@ public class GlobalValues : MonoBehaviour {
         }
     }
     public void updateMicPermissions(bool micEnabledValue) {
-        micEnabled = micEnabledValue;
+        this.micEnabled = micEnabledValue;
+        if(micEnabledValue == false) {
+            this.voiceChatEnabled = false;
+            this.voiceControlEnabled = false;
+        }
     }
     public void disableMicFrontend() {
         updateMicPermissions(false);
