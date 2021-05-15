@@ -34,7 +34,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
             #if !UNITY_EDITOR
                 #if UNITY_WEBGL
                 if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
-                    setupVoiceChatUnity(_roomCode, "client");
+                    setupVoiceChatUnity(_roomCode, "master"); //only master accesses this
                 }
                 #endif
             #endif

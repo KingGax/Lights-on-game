@@ -56,6 +56,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         } else {
             Debug.Log("Empty room name");
         }
+        /*
         #if !UNITY_EDITOR
             #if UNITY_WEBGL
             if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
@@ -63,6 +64,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
             }
             #endif
         #endif
+        */
     }
 
     public override void OnCreatedRoom() {
