@@ -177,7 +177,7 @@ public class PlayerInputScript : MonoBehaviour {
     public void VoiceControl(InputAction.CallbackContext ctx) {
         if (pv.IsMine) {
             if (CanMove()) {
-                if(GlobalValues.Instance.micEnabled) {
+                if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceControlEnabled) {
                     micRenderer.enabled = true;
                     startRecogniser();
                 }
