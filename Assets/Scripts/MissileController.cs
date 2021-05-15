@@ -128,7 +128,7 @@ public class MissileController : MonoBehaviour
                                         transform.position.y,
                                         targetPlayer.transform.position.z);
         transform.up = Vector3.RotateTowards(transform.up, targetPostition - transform.position,Time.deltaTime*turnSpeed,0);
-        transform.position += transform.up * moveSpeed * Time.deltaTime + new Vector3(0,(targetPlayer.transform.position.y - transform.position.y)*Time.deltaTime,0);
+        transform.position += transform.up * moveSpeed * Time.deltaTime + new Vector3(0,(targetPlayer.transform.position.y+targetPlayer.transform.localScale.y - transform.position.y)*Time.deltaTime,0);
         retargetCounter--;   
     }
 }

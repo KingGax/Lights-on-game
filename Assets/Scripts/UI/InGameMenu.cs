@@ -48,6 +48,19 @@ public class InGameMenu : MonoBehaviour
     public void updateMicEnabled(bool newVal)
     {
         GlobalValues.Instance.micEnabled = newVal;
+        if(newVal == false) {
+            GlobalValues.Instance.voiceChatEnabled = false;
+            GlobalValues.Instance.voiceControlEnabled = false;
+            VoiceChatToggle.interactable = false;
+            VoiceControlToggle.interactable = false;
+            VoiceChatToggle.isOn = false;
+            VoiceControlToggle.isOn = false;
+            updateVoiceChatEnabled(false);
+        }
+        else {
+            VoiceChatToggle.interactable = true;
+            VoiceControlToggle.interactable = true;
+        }
     }
     public void updateVoiceChatEnabled(bool newVal)
     {
