@@ -20,8 +20,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public Color readyColour = Color.green;
     public Color unreadyColour = Color.red;
     public Color specColour = Color.black;
-
-
     [SerializeField]
     public GameObject _playerListing;
     PhotonView pv;
