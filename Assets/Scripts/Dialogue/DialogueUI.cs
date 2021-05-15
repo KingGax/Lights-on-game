@@ -36,7 +36,7 @@ public class DialogueUI : MonoBehaviour
         CloseDialogueBox();
         foreach (Player p in PhotonNetwork.PlayerList)
 		{
-			names.Add(p.NickName);
+			names.Add(p.NickName.ToUpper());
 		}
 
         //ShowDialogue(testDialogue);
@@ -45,6 +45,7 @@ public class DialogueUI : MonoBehaviour
     public void ShowDialogue(DialogueObject dialogueObject, AfterDialogue afterDialogue){
         DisableLocalPlayerMovement();
         OpenDialogueBox();
+        DisableUIElements();
         StartCoroutine(StepThroughDialogue(dialogueObject, afterDialogue));
     }
 
@@ -52,6 +53,7 @@ public class DialogueUI : MonoBehaviour
         //Debug.LogError("showing dialogue");
         DisableLocalPlayerMovement();
         OpenDialogueBox();
+        DisableUIElements();
         StartCoroutine(StepThroughDialogue(dialogueObject));
     }
 
@@ -63,9 +65,11 @@ public class DialogueUI : MonoBehaviour
             ShowKeyPrompt();
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
             HideKeyPrompt();
+            
         }
         CloseDialogueBox();
         EnableLocalPlayerMovement();
+        EnableUIElements();
         afterDialogue.Effect();
     }
 
@@ -80,6 +84,7 @@ public class DialogueUI : MonoBehaviour
         }
         CloseDialogueBox();
         EnableLocalPlayerMovement();
+        EnableUIElements();
     }
 
     private void CloseDialogueBox(){
@@ -100,11 +105,23 @@ public class DialogueUI : MonoBehaviour
     }
 
     private void ShowKeyPrompt(){
+        Debug.Log("key prompt");
         keyPressPrompt.gameObject.SetActive(true);
     }
 
     private void HideKeyPrompt(){
         keyPressPrompt.gameObject.SetActive(false);
+    }
+
+    private void EnableUIElements(){
+        Debug.Log("Disable UI");
+        GlobalValues.Instance.UIElements.GetComponent<UIController>().EnableLeaveButton();
+        GlobalValues.Instance.UIElements.GetComponent<UIController>().EnableControlsHelp();
+    }
+
+    private void DisableUIElements(){
+        GlobalValues.Instance.UIElements.GetComponent<UIController>().DisableLeaveButton();
+        GlobalValues.Instance.UIElements.GetComponent<UIController>().DisableControlsHelp();
     }
 
 }
