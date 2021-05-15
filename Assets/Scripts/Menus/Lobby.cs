@@ -38,6 +38,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             //listings.GetComponent<Canvas>.SIZE
             //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
+            Debug.Log("master: " + PhotonNetwork.CurrentRoom.Name);
             #if !UNITY_EDITOR
                 #if UNITY_WEBGL
                 if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
@@ -46,6 +47,7 @@ public class Lobby : MonoBehaviourPunCallbacks
                 #endif
             #endif
         } else {
+            Debug.Log("client: " + PhotonNetwork.CurrentRoom.Name);
             #if !UNITY_EDITOR
                 #if UNITY_WEBGL
                 if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {

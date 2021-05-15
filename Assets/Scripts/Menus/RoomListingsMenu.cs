@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using System.Runtime.InteropServices;
 using LightsOn.AudioSystem;
 
 public class RoomListingsMenu : MonoBehaviourPunCallbacks {
 
     [SerializeField]
     private Transform _content;
-
-    [DllImport("__Internal")]
-    private static extern void setupVoiceChatUnity(string username, string role);
 
     [SerializeField]
     public GameObject _roomListing;

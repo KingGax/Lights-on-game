@@ -10,7 +10,6 @@ public class JoinRoom : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private string _roomCode;
-
     public Button playButton;
 
     public void Awake() {
