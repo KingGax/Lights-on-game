@@ -26,5 +26,9 @@ mergeInto(LibraryManager.library, {
     reenableVoiceChatUnity__deps: ['reenableVoiceChat'],
     reenableVoiceChatUnity: function() {
         reenableVoiceChat();
+    },
+    disconnectVoiceChatUnity__deps: ['disconnectVoiceChat'],
+    disconnectVoiceChatUnity: function() {
+        disconnectVoiceChat();
     }
 });
