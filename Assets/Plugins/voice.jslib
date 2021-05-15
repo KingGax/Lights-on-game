@@ -17,7 +17,7 @@ mergeInto(LibraryManager.library, {
     },
     setupVoiceChatUnity__deps: ['setupVoiceChat'],
     setupVoiceChatUnity: function(roomName, role) {
-        setupVoiceChat(roomName, role);
+        setupVoiceChat(Pointer_stringify(roomName), Pointer_stringify(role));
     },
     disableVoiceChatUnity__deps: ['disableVoiceChat'],
     disableVoiceChatUnity: function() {
