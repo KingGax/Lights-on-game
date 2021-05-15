@@ -277,16 +277,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             } else{
                 Debug.Log("Attempting to 'Ready' as spectator.");
             }
-            Debug.Log("Joining Voice Chat Client Unity");
-            Debug.Log(PhotonNetwork.CurrentRoom.Name);
-            #if !UNITY_EDITOR
-                #if UNITY_WEBGL
-                    if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
-                        setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "client");
-                    }
-                #endif
-            #endif
-
         }
     }
 

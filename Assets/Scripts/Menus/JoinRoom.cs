@@ -27,13 +27,6 @@ public class JoinRoom : MonoBehaviourPunCallbacks
             playButton.interactable = true;
             TextMeshProUGUI t = playButton.GetComponentInChildren<TextMeshProUGUI>();
             t.color = Color.white;
-            #if !UNITY_EDITOR
-                #if UNITY_WEBGL
-                if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
-                    setupVoiceChatUnity(_roomCode, "master"); //only master accesses this
-                }
-                #endif
-            #endif
         } else {
             playButton.interactable = false;
             TextMeshProUGUI t = playButton.GetComponentInChildren<TextMeshProUGUI>();
