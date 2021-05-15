@@ -4,16 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
 using Photon.Pun;
-using System.Runtime.InteropServices;
 using TMPro;
 
 public class JoinRoom : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private string _roomCode;
-    [DllImport("__Internal")]
-    private static extern void setupVoiceChatUnity(string roomName, string role);
-
     public Button playButton;
 
     public void Awake() {
