@@ -83,7 +83,8 @@ namespace LightsOn.WeaponSystem {
         LightableBossEnemy lightableBoss;
         Vector3 floorPlane = new Vector3(0,1,0);
         EnemyState lastSentState = EnemyState.Spawning;
-
+        public Animator bossanim;
+        public float meleeStartup;
         double stateStartTime;
 
         private bool isActivated = false;
@@ -407,6 +408,7 @@ namespace LightsOn.WeaponSystem {
             agent.enabled = false;
             ShowCircle((aoeStartTimerMax) / (flashNum + 1));
             pv.RPC("StartAOE", RpcTarget.Others, PhotonNetwork.Time, aoeStartTimerMax);
+            Invoke("SetMeleeTrigger", aoeStartTimerMax - meleeStartup);
         }
 
         void AOEMeleeStartup() {
@@ -426,7 +428,17 @@ namespace LightsOn.WeaponSystem {
             if (dt > startup) {
                 dt = startup;
             }
+            if (startup - dt - meleeStartup < 0) {
+                SetMeleeTrigger();
+            } else {
+                Invoke("SetMeleeTrigger", startup - dt - meleeStartup);
+            }
+            
             Invoke("InvokeAOE", startup - dt);
+        }
+
+        void SetMeleeTrigger() {
+            bossanim.SetTrigger("Melee");
         }
         void InvokeAOE() {
             DoAOEAttack(aoeDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
@@ -434,6 +446,7 @@ namespace LightsOn.WeaponSystem {
 
         void DoAOEAttack(float dmg, float knockbackMag, float knockbackDuration) {
             Collider[] cols = Physics.OverlapSphere(transform.position, aoeRadius, GlobalValues.Instance.playerLayer);
+            
             if (cols.Length > 0) {
                 foreach (Collider col in cols) {
                     HealthSystem.Health h = col.gameObject.GetComponentInChildren<HealthSystem.Health>();
@@ -524,6 +537,7 @@ namespace LightsOn.WeaponSystem {
             ShowCircle((reappearingTimerMax) / (flashNum + 1));
             pv.RPC("QueueReappearRPC", RpcTarget.AllBufferedViaServer, PhotonNetwork.Time, reappearingTimerMax);
             pv.RPC("StartAOE", RpcTarget.Others,PhotonNetwork.Time,reappearingTimerMax);
+            Invoke("SetMeleeTrigger", reappearingTimerMax - meleeStartup);
         }
         [PunRPC]
         void QueueReappearRPC(double time, float startup){
@@ -554,6 +568,7 @@ namespace LightsOn.WeaponSystem {
                     float newReappearTimer = 1.5f;
                     reappearingTimer = newReappearTimer; //get from globalvalues
                     pv.RPC("StartAOE", RpcTarget.Others, PhotonNetwork.Time, reappearingTimer);
+                    Invoke("SetMeleeTrigger", reappearingTimer - meleeStartup);
                     ShowCircle(newReappearTimer / (flashNum + 1));
                 }
                 

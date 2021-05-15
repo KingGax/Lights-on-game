@@ -1185,6 +1185,8 @@ MonoBehaviour:
   missileTimeBetweenShots: 0.7
   missileSpeed: 7.5
   missileTurnSpeed: 2
+  bossanim: {fileID: 3798342957595791836}
+  meleeStartup: 0.6
 --- !u!120 &4259912167623479042
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -1627,6 +1629,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &3798342957595791836
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5938580443060843598}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e46542994dcf1df4b96dbac1cf513617, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6063291054524142520
 GameObject:
   m_ObjectHideFlags: 0
@@ -1911,15 +1932,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3824f74a2cc9884b943a1f33c73f445, type: 3}
---- !u!4 &4023707560497885722 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -1622300724032193787, guid: d3824f74a2cc9884b943a1f33c73f445,
-    type: 3}
-  m_PrefabInstance: {fileID: 6821680901461903647}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6422629903602642676 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d3824f74a2cc9884b943a1f33c73f445,
+    type: 3}
+  m_PrefabInstance: {fileID: 6821680901461903647}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5938580443060843598 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d3824f74a2cc9884b943a1f33c73f445,
+    type: 3}
+  m_PrefabInstance: {fileID: 6821680901461903647}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4023707560497885722 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -1622300724032193787, guid: d3824f74a2cc9884b943a1f33c73f445,
     type: 3}
   m_PrefabInstance: {fileID: 6821680901461903647}
   m_PrefabAsset: {fileID: 0}
