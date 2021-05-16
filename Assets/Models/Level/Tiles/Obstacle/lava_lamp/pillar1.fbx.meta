@@ -33,7 +33,12 @@ ModelImporter:
   - first:
       74: 7796132661432777835
     second: Mball.002|Mball.004Action
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metal
+    second: {fileID: 2100000, guid: ae8b34641e4c75945b1fb86e18a8c23d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
