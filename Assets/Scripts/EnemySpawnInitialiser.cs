@@ -23,6 +23,9 @@ public class EnemySpawnInitialiser : MonoBehaviour {
     }
 
     void Update() {
+        if (PhotonNetwork.Time > spawnTime + animTime) {
+            animSpawned = true;
+        }
         if (!animSpawned && PhotonNetwork.Time > spawnTime) { 
             animSpawned = true;
             SpawnAnim();
