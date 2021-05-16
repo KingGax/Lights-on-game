@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     bool reloading;
     private int hiddenLayer;
     private int defaultLayer;
-
+    private PlayerInputScript inputScript;
     public bool isTakingKnockback { get; set; }
     public MeshRenderer gunRenderer;
 
@@ -93,6 +93,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         rb = gameObject.GetComponent<Rigidbody>();
         cam = Camera.main;
         defaultLayer = gameObject.layer;
+        inputScript = GetComponent<PlayerInputScript>();
         hiddenLayer = LayerMask.NameToLayer("HiddenPlayer");
         // #Important
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
@@ -430,6 +431,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
 
     public void ChangeLightToColourText(string colour) {
         micRenderer.enabled = false;
+        inputScript.MicOutputRecieved();
         if (colour == "GREEN") {
             lanturn.SetColour(LightColour.Green);
         } else if (colour == "RED") {
