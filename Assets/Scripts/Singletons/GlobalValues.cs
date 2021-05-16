@@ -36,6 +36,7 @@ public class GlobalValues : MonoBehaviour {
     public bool bothPlayersSpawned = false;
     public bool p1Spawned = false;
     public bool p2Spawned = false;
+    public bool hasSeenMainMenu = false;
 
     public static GlobalValues Instance { get { return _instance; } }
 
