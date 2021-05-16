@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
 
@@ -10,6 +11,7 @@ public class InGameMenu : MonoBehaviour
     public Toggle MicToggle;
     public Toggle VoiceChatToggle;
     public Toggle VoiceControlToggle;
+    public AudioMixer mixer;
 
     [DllImport("__Internal")]
     private static extern void disableVoiceChatUnity();
@@ -75,5 +77,8 @@ public class InGameMenu : MonoBehaviour
     public void updateVoiceControlEnabled(bool newVal)
     {
         GlobalValues.Instance.voiceControlEnabled = newVal;
+    }
+    public void updateVolume(float volume) {
+        mixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
     }
 }
