@@ -20,7 +20,10 @@ public class MainMenu : MonoBehaviourPunCallbacks {
         if(hasJoinedRoom){
             PhotonNetwork.LoadLevel("NameMenu");
         }
-        mixer.SetFloat("MasterVolume", Mathf.Log10(initialVolume) * 20);
+        if (!GlobalValues.Instance.hasSeenMainMenu){
+            mixer.SetFloat("MasterVolume", Mathf.Log10(initialVolume) * 20);
+            GlobalValues.Instance.hasSeenMainMenu = true;
+        }
     }
 
     public void SetIsConnecting(bool state) {
