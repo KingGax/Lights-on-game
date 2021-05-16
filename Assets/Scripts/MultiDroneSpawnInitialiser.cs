@@ -7,7 +7,7 @@ using LightsOn.LightingSystem;
 public class MultiDroneSpawnInitialiser : EnemySpawnInitialiser {
 
     public List<Transform> dronePositions;
-    public float spawnDecalYOffset;
+    
     
     protected override void SpawnAnim() {
         foreach(Transform t in dronePositions){

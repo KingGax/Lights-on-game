@@ -16,6 +16,7 @@ public class EnemySpawnInitialiser : MonoBehaviour {
     bool animSpawned = false;
     int hiddenEnemyLayer;
     const double animTime = 1 + 1/3;
+    public float spawnDecalYOffset = 0.0f;
 
     private void Awake() {
         hiddenEnemyLayer = LayerMask.NameToLayer("HiddenEnemies");
@@ -58,7 +59,8 @@ public class EnemySpawnInitialiser : MonoBehaviour {
     }
 
     protected virtual void SpawnAnim() {
-        Instantiate(spawnDecal, transform.position, Quaternion.identity);
+        Vector3 decalPos = new Vector3(transform.position.x, transform.position.y + spawnDecalYOffset, transform.position.z);
+        Instantiate(spawnDecal, decalPos, Quaternion.identity);
     }
 
     void SpawnEnemy() {
