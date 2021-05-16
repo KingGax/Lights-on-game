@@ -57,7 +57,7 @@ public class EnemySpawnInitialiser : MonoBehaviour {
         enemyCol = col;
     }
 
-    void SpawnAnim() {
+    protected virtual void SpawnAnim() {
         Instantiate(spawnDecal, transform.position, Quaternion.identity);
     }
 

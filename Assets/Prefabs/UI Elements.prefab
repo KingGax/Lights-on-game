@@ -242,16 +242,16 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 8c8d74e866f6e4f7d9a345cd3f8035d8, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
-        m_MethodName: set_name
-        m_Mode: 5
+      - m_Target: {fileID: 4109253585859733639}
+        m_TargetAssemblyTypeName: InGameMenu, Main
+        m_MethodName: updateVoiceControlEnabled
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: updateVoiceControl
+          m_StringArgument: updateVoiceControlEnabled
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 1
@@ -338,13 +338,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 362592643593612660}
   m_HandleRect: {fileID: 5053582532277518527}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.001
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4109253585859733639}
+        m_TargetAssemblyTypeName: InGameMenu, Main
+        m_MethodName: updateVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &407525106345124115
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,10 +518,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 8c8d74e866f6e4f7d9a345cd3f8035d8, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
-        m_MethodName: set_name
-        m_Mode: 5
+      - m_Target: {fileID: 4109253585859733639}
+        m_TargetAssemblyTypeName: InGameMenu, Main
+        m_MethodName: updateVoiceChatEnabled
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1273,7 +1285,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4109253585859733639}
+        m_TargetAssemblyTypeName: InGameMenu, Main
+        m_MethodName: updateMicEnabled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: updateMicEnabled
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &2947146597183100188
 GameObject:
@@ -2189,6 +2213,7 @@ MonoBehaviour:
   MicToggle: {fileID: 8443943004824124088}
   VoiceChatToggle: {fileID: 2282149202533159213}
   VoiceControlToggle: {fileID: 966982896233197229}
+  mixer: {fileID: 24100000, guid: 3a86f656af4788a85a143184d05eddad, type: 2}
 --- !u!1 &4466238403636728213
 GameObject:
   m_ObjectHideFlags: 0
@@ -4062,7 +4087,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 37.15
+  m_fontSize: 18
   m_fontSizeBase: 64
   m_fontWeight: 400
   m_enableAutoSizing: 1
