@@ -29,4 +29,11 @@ public class MainMenu : MonoBehaviourPunCallbacks {
     public override void OnJoinedRoom() {
         hasJoinedRoom = true;
     }
+    public void loadOptions() {
+        SceneManager.LoadScene("OptionsMenu");
+    }
+    public void loadOptionsWrapper() {
+        Invoke("loadOptions", 1);
+    }
+    
 }
