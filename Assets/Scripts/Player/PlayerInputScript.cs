@@ -18,6 +18,7 @@ public class PlayerInputScript : MonoBehaviour {
     private HelpTooltip helpView = null;
     private InGameMenu menuView = null;
     private PhotonView pv;
+    private bool micRequestActive = false;
     CameraWork cameraWork;
     Animator cameraAnimator;
 
@@ -174,15 +175,25 @@ public class PlayerInputScript : MonoBehaviour {
 
         //transform.Rotate(new Vector3(0, 30, 0), Space.World);
     }
+
+    public void MicOutputRecieved() {
+        micRequestActive = false;
+    }
     public void VoiceControl(InputAction.CallbackContext ctx) {
         if (pv.IsMine) {
             if (CanMove()) {
                 if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceControlEnabled) {
-                    micRenderer.enabled = true;
-                    startRecogniser();
+                    if (!micRequestActive) {
+                        micRequestActive = true;
+                        micRenderer.enabled = true;
+                        startRecogniser();
+                    } 
                 }
-                else
+                else {
+                    micRenderer.enabled = false;
                     ChangeLight();
+                }
+                    
             }
         }
     }
