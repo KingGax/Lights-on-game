@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
+using UnityEngine.SceneManagement;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -69,6 +70,12 @@ public class OptionsMenu : MonoBehaviour
     }
     public void updateVolume(float volume) {
         mixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
+    }
+    public void loadMenu() {
+        SceneManager.LoadScene("StartMenu");
+    }
+    public void loadMenuWrapper() {
+        Invoke("loadMenu", 1);
     }
 }
 
