@@ -189,7 +189,7 @@ public class PlayerInputScript : MonoBehaviour {
     public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
         if (pv.IsMine) {
             if (helpView == null) {
-                GameObject controlsHelp = GlobalValues.Instance.UIElements.transform.Find("ControlsHelp").gameObject;
+                GameObject controlsHelp = GlobalValues.Instance.UIElements.transform.Find("ControlsPNG").gameObject;
                 HelpTooltip actualScript = controlsHelp.GetComponent<HelpTooltip>();
                 helpView = actualScript;
             }

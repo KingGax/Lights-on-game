@@ -15,6 +15,7 @@ namespace LightsOn.HealthSystem {
         Material mat;
         Color baseCol;
         Color emisCol;
+        bool hasStarted = false;
         protected int flashNum = 2;
         protected int flashesRemaining = 0;
         protected float flashTimerMax = 0.1f;
@@ -29,6 +30,7 @@ namespace LightsOn.HealthSystem {
             healthBar.UpdateHealth(health);
             lightableEnemy = GetComponentInChildren<LightableEnemy>();
             StartCoroutine("Timers");
+            hasStarted = true;
         }
 
         public override void Damage(float damage, float stunDuration) {
@@ -37,6 +39,9 @@ namespace LightsOn.HealthSystem {
         }
 
         public void InitialiseMaterials() {
+            if (!hasStarted){
+                Start();
+            }
             if (lightableEnemy.usesMeshRenderer){
                 if (gameObject.GetComponents<MeshRenderer>().Length == 0) {
                     renderer = gameObject.GetComponentInChildren<MeshRenderer>();

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 using Photon.Pun;
 using LightsOn.AudioSystem;
 
@@ -10,6 +11,8 @@ public class MainMenu : MonoBehaviourPunCallbacks {
 
     private bool isConnecting;
     private bool hasJoinedRoom = false;
+    public AudioMixer mixer;
+    float initialVolume = 0.5f;
 
 
     void Awake() {
@@ -17,6 +20,7 @@ public class MainMenu : MonoBehaviourPunCallbacks {
         if(hasJoinedRoom){
             PhotonNetwork.LoadLevel("NameMenu");
         }
+        mixer.SetFloat("MasterVolume", Mathf.Log10(initialVolume) * 20);
     }
 
     public void SetIsConnecting(bool state) {
@@ -29,4 +33,11 @@ public class MainMenu : MonoBehaviourPunCallbacks {
     public override void OnJoinedRoom() {
         hasJoinedRoom = true;
     }
+    public void loadOptions() {
+        SceneManager.LoadScene("OptionsMenu");
+    }
+    public void loadOptionsWrapper() {
+        Invoke("loadOptions", 1);
+    }
+    
 }

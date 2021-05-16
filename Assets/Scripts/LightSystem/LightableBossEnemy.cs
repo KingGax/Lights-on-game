@@ -8,6 +8,8 @@ namespace LightsOn.LightingSystem {
         private bool stayHidden = true;
         public float boidSpeed;
         BoidManager boidInstance;
+        public PointCloudSO cannonPoints;
+        public Transform cannonTransform;
 
         public override void Start() {
             base.Start();
@@ -24,9 +26,15 @@ namespace LightsOn.LightingSystem {
 
         public override void ForceDisappear() {
             stayHidden = true;
+            SetExtraSpawnPoints(GetTransformedPoints(cannonPoints,cannonTransform));
             base.ForceDisappear();
             boidInstance = GetCurrentBoidManagerInstance();
             boidInstance.SetFollowTransform(transform.parent);
+        }
+
+        public override void Appear() {
+            SetExtraSpawnPoints(GetTransformedPoints(cannonPoints, cannonTransform));
+            base.Appear();
         }
 
         protected override void TryAppear() {
@@ -34,6 +42,7 @@ namespace LightsOn.LightingSystem {
                 base.TryAppear();
             }
         }
+
 
     }
 }
