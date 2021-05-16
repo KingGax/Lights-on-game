@@ -12,6 +12,7 @@ public class OptionsMenu : MonoBehaviour
     public Toggle VoiceChatToggle;
     public Toggle VoiceControlToggle;
     public AudioMixer mixer;
+    public Slider volumeSlider;
 
     [DllImport("__Internal")]
     private static extern void disableVoiceChatUnity();
@@ -30,6 +31,10 @@ public class OptionsMenu : MonoBehaviour
             VoiceChatToggle.interactable = false;
             VoiceControlToggle.interactable = false;
         }
+        float initialRawValue;
+        mixer.GetFloat("MasterVolume", out initialRawValue);
+        float initialValue = Mathf.Pow(10, initialRawValue/20);
+        volumeSlider.value = initialValue;
     }
 
     // Update is called once per frame
