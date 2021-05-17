@@ -60,6 +60,7 @@ namespace LightsOn.WeaponSystem {
         public float reappearDamage;
         public float reappearKnockbackMagnitude;
         public float reappearKnockbackDuration;
+        public float aoeHeight;
         LineRenderer circleLR;
         [Header("Missile attack setup")]
         public int missileDamage;
@@ -155,7 +156,6 @@ namespace LightsOn.WeaponSystem {
         // Update is called once per frame
         void Update() {
             if(!isActivated) return;
-            //Debug.Log("update");
             if (flashesRemaining > 0 && flashTimer <= 0) {
                 if (flashesRemaining % 2 == 0) {
                     circleLR.enabled = false;
@@ -393,7 +393,7 @@ namespace LightsOn.WeaponSystem {
             flashesRemaining = flashNum;
             flashTimerMax = time;
             flashTimer = flashTimerMax;
-            DrawPolygon(100, aoeRadius, new Vector3(fireOrigin.position.x, 0.25f, fireOrigin.position.z), 0.1f, 0.1f);
+            DrawPolygon(100, aoeRadius, new Vector3(fireOrigin.position.x, aoeHeight, fireOrigin.position.z), 0.1f, 0.1f);
         }
 
         void ShowCircle(float time) {
@@ -559,7 +559,6 @@ namespace LightsOn.WeaponSystem {
                 DoAOEAttack(reappearDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
                 lightableBoss.BossReappear();
                 if (aiEnabled){
-                    //Debug.Log("Reappearing");
                     //circleLR.enabled = false;
                     pv.RPC("DisableCircleRPC", RpcTarget.All);
                     enemyState = EnemyState.DecisionState;

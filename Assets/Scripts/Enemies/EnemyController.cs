@@ -154,7 +154,6 @@ public class EnemyController : Enemy {
     public override void RequestHitStun(float duration)
     {
         if (inStunnableState) {
-            //Debug.Log("Float stunned");
             hitStunned = true;
             hitStunTimer = duration;
             weapon.cooldownLeft+=duration; //yes this is janky
@@ -165,13 +164,11 @@ public class EnemyController : Enemy {
     
 
     void ChangeToShooting() {
-        //Debug.Log("Started shooting");
         if (HasPlayerLOS(playerObj, detectionThreshold)) {
             agent.enabled = false;
             shootingTimer = shootingTimerMax;
             enemyState = EnemyState.Shooting;
         } else {
-            //Debug.Log("Getting LOS");
             ChangeToGettingLOS();
         }
     }
@@ -183,7 +180,6 @@ public class EnemyController : Enemy {
                 bool canSeePlayer = HasPlayerLOS(playerObj, detectionThreshold);
                 if (!canSeePlayer) {
                     if (reactsToPlayerCover) {
-                        //Debug.Log("Reacting!");
                         ChangeToGettingLOS();
                     } else {
                         Vector3 playerDirection = playerObj.transform.position - transform.position;
@@ -211,12 +207,10 @@ public class EnemyController : Enemy {
     }
 
     void ChangeToRepositioning() {
-        //Debug.Log("Started repositioning");
         enemyState = EnemyState.Repositioning;
         agent.enabled = true;
         int index = SelectTarget();
         weapon.SetTarget(index);
-        //Debug.Log("Generating Point");
         GeneratePoint();
     }
 
@@ -232,9 +226,6 @@ public class EnemyController : Enemy {
         //     agent.destination = playerObj.transform.position;
         // }
         float dist = agent.remainingDistance;
-        // Debug.Log(agent.remainingDistance);
-        // Debug.Log("Dist: "+dist);
-        // Debug.Log("Status: "+agent.pathStatus);
         if (dist != Mathf.Infinity && agent.remainingDistance <= pathStoppingThreshold) {
             //agent.pathStatus==NavMeshPathStatus.PathComplete &&
             //path complete. credit: https://answers.unity.com/questions/324589/how-can-i-tell-when-a-navmesh-has-reached-its-dest.html
@@ -243,7 +234,6 @@ public class EnemyController : Enemy {
     }
 
     void ChangeToGettingLOS() {
-        //Debug.Log("Started getting LOS");
         losCheckTimer = losCheckTimerMax;
         agent.enabled = true;
         agent.destination = playerObj.transform.position;
@@ -253,7 +243,6 @@ public class EnemyController : Enemy {
 
     void GettingLOS() {
         if (losCheckTimer <= 0) {
-            //Debug.Log("Checking LOS again!");
             if (HasPlayerLOS(playerObj, detectionThreshold)) {
                 agent.enabled = false;
                 ChangeToShooting();

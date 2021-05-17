@@ -13,6 +13,9 @@ public class Lobby : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private GameObject startButton;
+
+    [SerializeField]
+    private GameObject gameMode;
     [DllImport("__Internal")]
     private static extern void setupVoiceChatUnity(string roomName, string role);
 
@@ -24,12 +27,16 @@ public class Lobby : MonoBehaviourPunCallbacks
     private bool loadingScene = false;
     public TransitionTrigger transition;
 
+    private string nextScene;
+
     void Awake()
     {
         PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate = 0.1f;
         if(PhotonNetwork.IsMasterClient)
         {
             startButton.SetActive(true);
+            gameMode.SetActive(true);
+            nextScene = "Tutorial";
             Vector3 newLoc = transform.position + new Vector3(-10, 0, 0);
             GameObject listings = PhotonNetwork.Instantiate(listingsPrefab.name, newLoc, new Quaternion(0, 0, 0, 0), 0);
             PlayerListingsMenu listingsMenu = listings.GetComponent<PlayerListingsMenu>();
@@ -38,7 +45,6 @@ public class Lobby : MonoBehaviourPunCallbacks
             //listings.GetComponent<Canvas>.SIZE
             //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
-            Debug.Log("master: " + PhotonNetwork.CurrentRoom.Name);
             #if !UNITY_EDITOR
                 #if UNITY_WEBGL
                 if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
@@ -47,7 +53,6 @@ public class Lobby : MonoBehaviourPunCallbacks
                 #endif
             #endif
         } else {
-            Debug.Log("client: " + PhotonNetwork.CurrentRoom.Name);
             #if !UNITY_EDITOR
                 #if UNITY_WEBGL
                 if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
@@ -69,6 +74,8 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         if (PhotonNetwork.IsMasterClient) {
+            gameMode.SetActive(true);
+            nextScene = "Tutorial";
             startButton.SetActive(true);
         }
     }
@@ -76,19 +83,21 @@ public class Lobby : MonoBehaviourPunCallbacks
     public void StartGame() {
         if(loadingScene == false){
             PlayerListingsMenu listingsMenu = GetComponentInChildren<PlayerListingsMenu>();
-            if (listingsMenu.isReady()){
+            if (listingsMenu.isReady() && PhotonNetwork.PlayerList.Length == 2){
                 loadingScene = true;
                 transition.mouseClick();
-                PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+                //PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+                PhotonNetwork.LoadLevel(nextScene);
                 //Initiated voice chat here
-            } else {
-                Debug.Log("Please ensure everyone is 'Ready' before starting the game.");
             }
         }
     }
 
     public void LeaveRoom() {
         PhotonNetwork.LeaveRoom();
+        PhotonNetwork.Disconnect();
+
+        //PhotonNetwork.Reconnect();
     }
 
     public override void OnLeftRoom() {
@@ -98,6 +107,18 @@ public class Lobby : MonoBehaviourPunCallbacks
     public void CopyRoomCodeToClipboard() {
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
         GUIUtility.systemCopyBuffer = t.text;
-        Debug.Log("copied to clipboard: " + t.text);
+    }
+
+    public void HandleGameModeChange(int index){
+        switch(index){
+            case 0:
+                nextScene = "Tutorial";
+                break;
+            case 1:
+                nextScene = "Endless_waves_1";
+                break;
+            default:
+                return;
+        }
     }
 }

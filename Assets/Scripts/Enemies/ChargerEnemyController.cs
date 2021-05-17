@@ -165,11 +165,9 @@ public class ChargerEnemyController : Enemy {
         NavMeshHit navmeshPos;
         if (NavMesh.SamplePosition(backOffPos, out navmeshPos, 5f, NavMesh.AllAreas)){
             agent.enabled = true;
-            Debug.Log("Navmeshpos: " +navmeshPos.position);
             agent.destination = navmeshPos.position;
             enemyState = EnemyState.Backoff;
         } else {
-            Debug.Log("No navigable area was found for state: Backoff.");
             ChangeToPatrolling();
         }
     }

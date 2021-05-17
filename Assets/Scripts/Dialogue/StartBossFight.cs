@@ -27,7 +27,6 @@ public class StartBossFight : AfterDialogue
             yield return new WaitForSeconds(1);
         }
         boss = spawnedBoss.GetComponent<BossController>();
-        Debug.Log("PLAYER LIST SIZE: " + PhotonNetwork.PlayerList.Length);
         if(PhotonNetwork.PlayerList.Length == 1){
             ActivateEffect();
         }
@@ -46,7 +45,6 @@ public class StartBossFight : AfterDialogue
     }
 
     private void ActivateEffect(){
-        Debug.Log("effect");
         boss.Activate();
     }
 }

@@ -55,17 +55,21 @@ public class SetSpawnRoom : RoomObjective {
                         pv.RPC("UpdateObjectiveText", RpcTarget.AllBufferedViaServer, 0);
                     }
                 }
-            }
-            else {
+            } else {
                 if (WaveSpawnFinished() && CountEnemies() == 0) {
                     StartNewSetWave();
                 }
             }
+
             if (currentWaveCounter < numEnemiesInFutureWaves.Length) {
                 if (prevNumEnemies != GetEnemiesLeft()) {
                     prevNumEnemies = GetEnemiesLeft();
                     pv.RPC("UpdateObjectiveText", RpcTarget.AllBufferedViaServer, prevNumEnemies);
                 }
+            } else {
+                if (!complete){
+                    pv.RPC("SetCompleteTrue", RpcTarget.AllBufferedViaServer);
+                }                
             }
         }
     }
@@ -85,8 +89,7 @@ public class SetSpawnRoom : RoomObjective {
         pv.RPC("SetWaveCounterRPC", RpcTarget.AllBufferedViaServer, currentWaveCounter);
         if (spawnScript.SpawnedAllWaves()) {
             allWavesSpawned = true;
-        }
-        else {
+        } else {
             spawnScript.SpawnWave(currentWaveCounter, enemyParent.transform);
         }
     }
@@ -94,8 +97,8 @@ public class SetSpawnRoom : RoomObjective {
     public int GetEnemiesLeft() {
         if (currentWaveCounter < numEnemiesInFutureWaves.Length) {
             return CountEnemies() + numEnemiesInFutureWaves[currentWaveCounter];
-        }
-        else {
+        } else {
+            complete = true;
             return 0;
         }
         
