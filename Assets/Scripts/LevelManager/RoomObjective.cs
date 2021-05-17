@@ -11,6 +11,7 @@ public class RoomObjective : MonoBehaviour {
     public List<LightableExitDoor> entrances;
     public bool complete = false;
     //public GameObject EndTooltip;
+    public bool playNextTrack = true;
 
     void Start() {
         pv = gameObject.GetPhotonView();
@@ -18,6 +19,13 @@ public class RoomObjective : MonoBehaviour {
 
     public virtual void StartObjective() {
         
+    }
+
+    [PunRPC]
+    protected void SetCompleteTrue(){
+        complete = true;
+        if (playNextTrack)
+            AudioManager.Instance.PlayNext();
     }
 
     [PunRPC]
@@ -46,7 +54,6 @@ public class RoomObjective : MonoBehaviour {
 
     [PunRPC]
     public void UnlockEntrancesLocal() {
-        AudioManager.Instance.PlayNext();
         foreach (LightableExitDoor door in entrances) {
             door.UnlockDoor();
         }
