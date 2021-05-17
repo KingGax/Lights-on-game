@@ -31,6 +31,7 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
     public override void StartObjective() {
         if (pv == null || !pv.IsMine) return;
         started = true;
+        pv.RPC("SetStartedRPC", RpcTarget.AllBufferedViaServer, true);
         if (GlobalValues.Instance.players.Count == 2) {
             twoPlayers = true;
         }
@@ -40,6 +41,21 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
         LockEntrancesGlobal();
         LockExitGlobal();
         StartNewSetWave();
+    }
+
+    [PunRPC]
+    void SetStartedRPC(bool _started) {
+        started = _started;
+    }
+
+    [PunRPC]
+    void UpdateObjectiveText(int prevEnemies) {
+        objectiveText.RefreshEnemyObjective(prevEnemies);
+    }
+
+    [PunRPC]
+    void SetWaveCounterRPC(int num) {
+        currentWaveCounter = num;
     }
 
     void Update() {
@@ -73,6 +89,7 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
 
     void StartNewSetWave() {
         currentWaveCounter += 1;
+        pv.RPC("SetWaveCounterRPC", RpcTarget.AllBufferedViaServer, currentWaveCounter);
         if (twoPlayers) {
             if (spawnScriptP2.SpawnedAllWaves()) {
                 allWavesSpawnedP2 = true;
