@@ -34,20 +34,38 @@ namespace LightsOn.AudioSystem {
         }
 
         private bool nextTrackScheduled = false;
+        private bool nextTrackOnNext = false;
+
+        private void ShortCircuite(double time) {
+            Debug.Log("Looking to short circuit next track");
+            Clip ac = audioClips[playingTrack];
+
+            if (nextTrackOnNext && ac.endBehaviour == ClipEndBehaviour.NEXT) {
+                return;
+            } else {
+                nextTrackOnNext = false;
+            }
+
+            if (ac.endBehaviour == ClipEndBehaviour.NEXT) {
+                nextTrackOnNext = true;
+                nextTrackScheduled = true;
+                return;
+            }
+
+            nextStartTime = ac.getNextBeatAfterTime(
+                (float) currentStartedTime,
+                (float) time + 1.0f
+            );
+            // Reschedule current song to end
+            audioSources[1-freeAudioSource].SetScheduledEndTime(nextStartTime);
+            nextTrackScheduled = true;
+        }
 
         public void Update() {
             double time = AudioSettings.dspTime;
 
             if (nextTrack != playingTrack && !nextTrackScheduled) {
-                Debug.Log("Looking to short circuit next track");
-                Clip ac = audioClips[playingTrack];
-                nextStartTime = ac.getNextBeatAfterTime(
-                    (float) currentStartedTime,
-                    (float)time + 1.0f
-                );
-                // Reschedule current song to end
-                audioSources[1-freeAudioSource].SetScheduledEndTime(nextStartTime);
-                nextTrackScheduled = true;
+                ShortCircuite(time);
             }
 
             if (time + 1.0f > nextStartTime) {
@@ -67,6 +85,10 @@ namespace LightsOn.AudioSystem {
                 freeAudioSource = 1 - freeAudioSource;
                 playingTrack = nextTrack;
                 nextTrackScheduled = false;
+                
+                if (nextTrackOnNext) {
+                    nextTrack++;
+                }
             }
         }
 

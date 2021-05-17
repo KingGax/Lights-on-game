@@ -27,6 +27,7 @@ namespace LightsOn.AudioSystem {
                 case ClipEndBehaviour.LOOPSHORT:
                     foreach (float l in shortCicuiteLocations) {
                         if (t < startT + l) {
+                            Debug.Log("Hi" + t + " " + startT + " " + l);
                             return startT + l;
                         }
                     }
