@@ -83,7 +83,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public void StartGame() {
         if(loadingScene == false){
             PlayerListingsMenu listingsMenu = GetComponentInChildren<PlayerListingsMenu>();
-            if (listingsMenu.isReady() && PhotonNetwork.PlayerList.Length == 1){
+            if (listingsMenu.isReady() && PhotonNetwork.PlayerList.Length == 2){
                 loadingScene = true;
                 transition.mouseClick();
                 //PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
