@@ -42,7 +42,15 @@ public class DialogueUI : MonoBehaviour
         //ShowDialogue(testDialogue);
     }
 
+    private void GetNames() {
+        names.Clear();
+        foreach (Player p in PhotonNetwork.PlayerList) {
+            names.Add(p.NickName.ToUpper());
+        }
+    }
+
     public void ShowDialogue(DialogueObject dialogueObject, AfterDialogue afterDialogue){
+        GetNames();
         DisableLocalPlayerMovement();
         OpenDialogueBox();
         DisableUIElements();
@@ -51,6 +59,7 @@ public class DialogueUI : MonoBehaviour
 
     public void ShowDialogue(DialogueObject dialogueObject){
         //Debug.LogError("showing dialogue");
+        GetNames();
         DisableLocalPlayerMovement();
         OpenDialogueBox();
         DisableUIElements();
