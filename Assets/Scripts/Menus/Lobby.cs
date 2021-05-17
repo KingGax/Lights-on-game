@@ -16,6 +16,9 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     [SerializeField]
     private GameObject gameMode;
+
+    [DllImport("__Internal")]
+    private static extern void disconnectVoiceChatUnity();
     [DllImport("__Internal")]
     private static extern void setupVoiceChatUnity(string roomName, string role);
 
@@ -96,7 +99,11 @@ public class Lobby : MonoBehaviourPunCallbacks
     public void LeaveRoom() {
         PhotonNetwork.LeaveRoom();
         PhotonNetwork.Disconnect();
-
+        #if !UNITY_EDITOR
+            #if UNITY_WEBGL
+                disconnectVoiceChatUnity();
+            #endif
+        #endif
         //PhotonNetwork.Reconnect();
     }
 
