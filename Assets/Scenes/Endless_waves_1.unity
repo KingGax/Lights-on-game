@@ -1827,8 +1827,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 145.67339, y: 0.7270981, z: 100.36124}
-  m_Center: {x: 8.636696, y: -0.13645095, z: -49.68062}
+  m_Size: {x: 160.5047, y: 0.7270981, z: 100.36124}
+  m_Center: {x: 1.2210388, y: -0.13645095, z: -49.68062}
 --- !u!1001 &405844053
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7110,6 +7110,16 @@ PrefabInstance:
       propertyPath: enemyContainers
       value: 
       objectReference: {fileID: 459360739}
+    - target: {fileID: 4189881590407235907, guid: b3a4eeb576c1be04cb252c5284d03633,
+        type: 3}
+      propertyPath: enemyPrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189881590407235907, guid: b3a4eeb576c1be04cb252c5284d03633,
+        type: 3}
+      propertyPath: enemyPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4709738564507352759, guid: b3a4eeb576c1be04cb252c5284d03633,
         type: 3}
       propertyPath: m_RootOrder
