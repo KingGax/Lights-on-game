@@ -48,10 +48,6 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
         started = _started;
     }
 
-    [PunRPC]
-    void UpdateObjectiveText(int prevEnemies) {
-        objectiveText.RefreshEnemyObjective(prevEnemies);
-    }
 
     [PunRPC]
     void SetWaveCounterRPC(int num) {
