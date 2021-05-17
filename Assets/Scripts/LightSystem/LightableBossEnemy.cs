@@ -26,14 +26,14 @@ namespace LightsOn.LightingSystem {
 
         public override void ForceDisappear() {
             stayHidden = true;
-            SetExtraSpawnPoints(GetTransformedPoints(cannonPoints,cannonTransform));
+            //SetExtraSpawnPoints(GetTransformedPoints(cannonPoints,cannonTransform));
             base.ForceDisappear();
             boidInstance = GetCurrentBoidManagerInstance();
             boidInstance.SetFollowTransform(transform.parent);
         }
 
         public override void Appear() {
-            SetExtraSpawnPoints(GetTransformedPoints(cannonPoints, cannonTransform));
+            //SetExtraSpawnPoints(GetTransformedPoints(cannonPoints, cannonTransform));
             base.Appear();
         }
 

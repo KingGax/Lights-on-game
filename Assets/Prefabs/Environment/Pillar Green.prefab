@@ -91,7 +91,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2143553366882501866}
   - component: {fileID: 143828063227528002}
-  m_Layer: 0
+  - component: {fileID: 6386994489790124354}
+  - component: {fileID: 7290314253099589945}
+  m_Layer: 13
   m_Name: Pillar Green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,6 +138,35 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &6386994489790124354
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654156705810849360}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 7.5, z: 2}
+  m_Center: {x: 0, y: 3.5, z: 0}
+--- !u!208 &7290314253099589945
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654156705810849360}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1, y: 3.5, z: 1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 3.5, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2725452053610620136
 GameObject:
   m_ObjectHideFlags: 0
