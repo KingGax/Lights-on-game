@@ -74,6 +74,8 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         if (PhotonNetwork.IsMasterClient) {
+            gameMode.SetActive(true);
+            nextScene = "Tutorial";
             startButton.SetActive(true);
         }
     }
@@ -81,7 +83,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public void StartGame() {
         if(loadingScene == false){
             PlayerListingsMenu listingsMenu = GetComponentInChildren<PlayerListingsMenu>();
-            if (listingsMenu.isReady()){
+            if (listingsMenu.isReady() && PhotonNetwork.PlayerList.Length == 2){
                 loadingScene = true;
                 transition.mouseClick();
                 //PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
