@@ -50,6 +50,7 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
                     if (!doorUnlocked) {
                         UnlockEntrancesGlobal();
                         UnlockExitGlobal();
+                        pv.RPC("SetCompleteTrue", RpcTarget.AllBufferedViaServer);
                         doorUnlocked = true;
                     }
                 }
