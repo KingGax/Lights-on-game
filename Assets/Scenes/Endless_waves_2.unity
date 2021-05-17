@@ -2232,6 +2232,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
+      propertyPath: p2NavPoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
       propertyPath: p1SpawnPoints.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -2258,6 +2263,16 @@ PrefabInstance:
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
       propertyPath: p2NavPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p2NavPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p2NavPoints.Array.data[2]
       value: 
       objectReference: {fileID: 858827161}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
