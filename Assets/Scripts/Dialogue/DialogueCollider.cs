@@ -20,7 +20,6 @@ public class DialogueCollider : MonoBehaviour
     private AfterDialogue afterDialogue;
 
     void Start(){
-        Debug.Log("I AM A TRIGGER");
     }
 
     void Update(){
@@ -29,7 +28,6 @@ public class DialogueCollider : MonoBehaviour
 
     private void OnTriggerEnter(){
         numberOfCollisions++;
-        Debug.Log("number of collisions: " + numberOfCollisions);
         if(numberOfCollisions == targetCollisions && !activated){
             activated = true;
             if(afterDialogue == null) dialogueUI.ShowDialogue(dialogueObject);
@@ -39,6 +37,5 @@ public class DialogueCollider : MonoBehaviour
 
     private void OnTriggerExit(){
         numberOfCollisions--;
-        Debug.Log("number of collisions: " + numberOfCollisions);
     }
 }

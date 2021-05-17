@@ -38,7 +38,6 @@ public class Lobby : MonoBehaviourPunCallbacks
             //listings.GetComponent<Canvas>.SIZE
             //PlayerListingsMenu lmenu = listings.GetComponent<PlayerListingsMenu>();
             listings.transform.SetParent(transform);
-            Debug.Log("master: " + PhotonNetwork.CurrentRoom.Name);
             #if !UNITY_EDITOR
                 #if UNITY_WEBGL
                 if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
@@ -47,7 +46,6 @@ public class Lobby : MonoBehaviourPunCallbacks
                 #endif
             #endif
         } else {
-            Debug.Log("client: " + PhotonNetwork.CurrentRoom.Name);
             #if !UNITY_EDITOR
                 #if UNITY_WEBGL
                 if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
@@ -82,7 +80,6 @@ public class Lobby : MonoBehaviourPunCallbacks
                 PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
                 //Initiated voice chat here
             } else {
-                Debug.Log("Please ensure everyone is 'Ready' before starting the game.");
             }
         }
     }
@@ -98,6 +95,5 @@ public class Lobby : MonoBehaviourPunCallbacks
     public void CopyRoomCodeToClipboard() {
         TextMeshProUGUI t = roomCode.GetComponentInChildren<TextMeshProUGUI>();
         GUIUtility.systemCopyBuffer = t.text;
-        Debug.Log("copied to clipboard: " + t.text);
     }
 }

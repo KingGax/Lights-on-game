@@ -276,8 +276,6 @@ namespace UnityEditor.AI
 
         void ForgetUnsavedNavMeshDataChanges(PrefabStage prefabStage)
         {
-            // Debug.Log("On prefab closing - forget about this object's surfaces and stop caring about prefab saving");
-
             if (prefabStage == null)
                 return;
 

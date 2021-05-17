@@ -97,7 +97,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                     // playerInfo.isReady = rdy;
                 }
                 else {
-                    Debug.Log("Building for new player");
                     GameObject listing =  Instantiate(_playerListing,_content);
                     listing.name = player.UserId;
                     playerInfo = listing.GetComponent<PlayerListingInfo>();
@@ -189,7 +188,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log("Player entered");
         if (cachedPlayerList.Count < 2){
             AddToPlayerCount(1);
             GameObject listing =  Instantiate(_playerListing,_content);
@@ -267,7 +265,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         if (readyCooldown <= 0){
             readyCooldown = readyCooldownMax;
             Photon.Realtime.Player player = PhotonNetwork.LocalPlayer;
-            Debug.Log(player.UserId);
             if (cachedPlayerList.ContainsKey(player.UserId)){
                 PlayerListingInfo listing = cachedPlayerList[player.UserId].GetComponent<PlayerListingInfo>();
                 if (!listing._spectator){
@@ -275,7 +272,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                     pv.RPC("ToggleReadyRPC", RpcTarget.All, player.UserId, listing.isReady);
                 }
             } else{
-                Debug.Log("Attempting to 'Ready' as spectator.");
             }
         }
     }
@@ -321,8 +317,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                 }
             }
             UpdateSpectatorListings(UserID, toSpectator);
-            Debug.Log("Player count: "+ cachedPlayerList.Values.Count);
-            Debug.Log("Spectator count: "+ cachedSpectatorList.Values.Count);
         }
     }
 
@@ -338,14 +332,12 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                 pv.RPC("SwapSpectateStateRPC", RpcTarget.All, player.UserId, true);
                 spectateButton.GetComponentInChildren<TextMeshProUGUI>().text = "Player";
                 } else {
-                    Debug.Log("Error: another player is currently attempting to swap. [PLACEHOLDER]");
                 }
             } else if (cachedPlayerList.Count < 2 && cachedSpectatorList.ContainsKey(player.UserId)){
                 if (AddToPlayerCount(1)){
                     pv.RPC("SwapSpectateStateRPC", RpcTarget.All, player.UserId, false);
                     spectateButton.GetComponentInChildren<TextMeshProUGUI>().text = "Spectator";
                 } else {
-                    Debug.Log("Error: another player is currently attempting to swap. [PLACEHOLDER]");
                 }
                 
             }

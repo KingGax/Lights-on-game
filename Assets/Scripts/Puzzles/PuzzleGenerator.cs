@@ -31,7 +31,6 @@ public class PuzzleGenerator : MonoBehaviour
     void Awake(){
         rand = new System.Random(DateTime.Now.ToString().GetHashCode());
         if(walls.Count != 9){
-            Debug.Log("Incorrect number of walls");
         }
         foreach (GameObject wall in walls){
             //wall.GetComponentInChildren<LightableObstacle>().colour = LightableColour.Green;
@@ -125,7 +124,6 @@ public class PuzzleGenerator : MonoBehaviour
         int location;
         int nextLocation;
 
-        Debug.Log("Adjusting walls");
 
         for(int i = path.Count - 1; i > 0; i--){
             location = path[i];
@@ -133,7 +131,6 @@ public class PuzzleGenerator : MonoBehaviour
 
             bounceDirection = findBounceDirection(path[i],path[i-1]);
             rotation = (bounceDirection + incomingDirection) % 4;
-            Debug.Log("Rotation " + rotation + ", Incoming " + incomingDirection + ", Bounce " + bounceDirection);
 
             RotatePuzzleWall(location, rotation);
 
@@ -143,8 +140,6 @@ public class PuzzleGenerator : MonoBehaviour
         location = path[0];
         bounceDirection = 0;
         rotation = (bounceDirection + incomingDirection) % 4;
-
-        Debug.Log("Rotation " + rotation + ", Incoming " + incomingDirection + ", Bounce " + bounceDirection);
 
         RotatePuzzleWall(location, rotation);
     }
@@ -173,11 +168,6 @@ public class PuzzleGenerator : MonoBehaviour
         List<int> path = new List<int>();
 
         FindPath(taken,0,0,path);
-
-        Debug.Log("path");
-        for(int i = 0; i < path.Count; i++){
-            Debug.Log(path[i]);
-        }
 
         AdjustPuzzlePathWalls(path);
         AdjustPuzzleNonPathWalls(taken);
