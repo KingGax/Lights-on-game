@@ -17,7 +17,6 @@ public class RoomCollider : MonoBehaviour
         
     }
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("ROOM COLLISION");
         GlobalValues.Instance.fm.UpdateLocation(other.gameObject, roomID);
     }
 }

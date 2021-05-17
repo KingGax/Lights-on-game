@@ -17,7 +17,6 @@ public class DestroyDecal : MonoBehaviour
     }
 
     void DestroySpawnDecal() {
-        Debug.Log("Destroy decal");
         Destroy(gameObject);
     }
 }

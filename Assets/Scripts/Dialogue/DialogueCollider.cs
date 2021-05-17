@@ -21,7 +21,6 @@ public class DialogueCollider : MonoBehaviour
     private AfterDialogue afterDialogue;
 
     void Start(){
-        Debug.Log("I AM A TRIGGER");
     }
 
     void Update(){
@@ -30,8 +29,6 @@ public class DialogueCollider : MonoBehaviour
 
     private void OnTriggerEnter(){
         numberOfCollisions++;
-        //Debug.Log("number of collisions: " + numberOfCollisions);
-       
         if(numberOfCollisions == targetCollisions && !activated){
             if (waitForEventIndex == -1 || GlobalValues.Instance.fm.levels[waitForEventIndex].complete){
                 activated = true;
@@ -43,6 +40,5 @@ public class DialogueCollider : MonoBehaviour
 
     private void OnTriggerExit(){
         numberOfCollisions--;
-        //Debug.Log("number of collisions: " + numberOfCollisions);
     }
 }

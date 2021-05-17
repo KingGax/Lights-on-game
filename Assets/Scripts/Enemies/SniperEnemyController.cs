@@ -191,7 +191,6 @@ public class SniperEnemyController : Enemy
         pv.RPC("ChangeLaserStateRPC", RpcTarget.All, true);
         targetTF.position = hitPos;
         shootPrepareTimer = shootPrepareTimerMax;
-        Debug.Log("Preparing shot");
     }
 
     void TrackLaser(bool isMaster){

@@ -19,7 +19,6 @@ public class PuzzleRoom : RoomObjective
     }
 
     public override void StartObjective() {
-        Debug.Log("started objective");
         started = true;
         LockEntrancesGlobal();
         LockExitGlobal();
