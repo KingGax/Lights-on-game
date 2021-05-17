@@ -40,17 +40,20 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     {
         pv = GetComponent<PhotonView>();
         StartCoroutine("SyncedLobbyTimers");
-        p1 = GameObject.Find("P1").GetComponent<PlayerListingText>();
-        p2 = GameObject.Find("P2").GetComponent<PlayerListingText>();
-        if (PhotonNetwork.IsMasterClient) {
-            cachedPlayerList.Clear();
-            initialised = true;
-        } else {
-            GameObject lobby = GameObject.Find("Lobby");
-            if (lobby != null) {
-                transform.SetParent(lobby.transform);
-                transform.position = new Vector3(lobby.transform.position.x - 10, lobby.transform.position.y, lobby.transform.position.z);
-                lobby.GetComponent<Lobby>().SetReadyButton();
+        GameObject temp = GameObject.Find("P1");
+        if (temp != null) {
+            p1 = temp.GetComponent<PlayerListingText>();
+            p2 = GameObject.Find("P2").GetComponent<PlayerListingText>();
+            if (PhotonNetwork.IsMasterClient) {
+                cachedPlayerList.Clear();
+                initialised = true;
+            } else {
+                GameObject lobby = GameObject.Find("Lobby");
+                if (lobby != null) {
+                    transform.SetParent(lobby.transform);
+                    transform.position = new Vector3(lobby.transform.position.x - 10, lobby.transform.position.y, lobby.transform.position.z);
+                    lobby.GetComponent<Lobby>().SetReadyButton();
+                }
             }
         }
     }
@@ -123,11 +126,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
-
-    public void OnPhotonCustomRoomPropertiesChanged(ExitGames.Client.Photon.Hashtable propertiesThatChanged) {
-        Debug.Log("bingo");
-        Debug.Log(propertiesThatChanged);
-    }
 
 
     bool SetActorNumber(int actorNumber) { //this should use CAS and hence be network-safe BUT IT ISN'T :(((((
@@ -217,47 +215,51 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log(SetActorNumber(newPlayer.ActorNumber));
-        Debug.Log(newPlayer.ActorNumber);
-        if (cachedPlayerList.Count < 2){
-            AddToPlayerCount(1);
-            GameObject listing =  Instantiate(_playerListing,_content);
-            listing.name = newPlayer.UserId;
-            PlayerListingInfo roomInfo = listing.GetComponent<PlayerListingInfo>();
-            roomInfo.SetPlayerInfo(newPlayer, false);
-            cachedPlayerList[newPlayer.UserId] = listing;
-            UpdateReadyListings(newPlayer.UserId, false);
-        } else {
-            GameObject listing =  Instantiate(_playerListing,_specContent);
-            listing.name = newPlayer.UserId;
-            PlayerListingInfo roomInfo = listing.GetComponent<PlayerListingInfo>();
-            roomInfo.SetPlayerInfo(newPlayer, true);
-            cachedPlayerList[newPlayer.UserId] = listing;
+        if (p1 != null) {
+            Debug.Log(SetActorNumber(newPlayer.ActorNumber));
+            Debug.Log(newPlayer.ActorNumber);
+            if (cachedPlayerList.Count < 2) {
+                AddToPlayerCount(1);
+                GameObject listing = Instantiate(_playerListing, _content);
+                listing.name = newPlayer.UserId;
+                PlayerListingInfo roomInfo = listing.GetComponent<PlayerListingInfo>();
+                roomInfo.SetPlayerInfo(newPlayer, false);
+                cachedPlayerList[newPlayer.UserId] = listing;
+                UpdateReadyListings(newPlayer.UserId, false);
+            } else {
+                GameObject listing = Instantiate(_playerListing, _specContent);
+                listing.name = newPlayer.UserId;
+                PlayerListingInfo roomInfo = listing.GetComponent<PlayerListingInfo>();
+                roomInfo.SetPlayerInfo(newPlayer, true);
+                cachedPlayerList[newPlayer.UserId] = listing;
+            }
+            SetTruthValues();
         }
-        SetTruthValues();
     }
 
     void UpdateReadyListings(string UserID, bool isReady){ //updates text colour
-        PlayerListingInfo listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
-        string thisPlayerName = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>().playerName;
-        if (p1.userID == UserID) {
-            p1.text.color = isReady ? readyColour : unreadyColour;
-            p1.light.enabled = true;
+        if (p1 != null) {
+            PlayerListingInfo listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
+            string thisPlayerName = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>().playerName;
+            if (p1.userID == UserID) {
+                p1.text.color = isReady ? readyColour : unreadyColour;
+                p1.light.enabled = true;
+            } else if (p2.userID == UserID) {
+                p2.text.color = isReady ? readyColour : unreadyColour;
+                p2.light.enabled = true;
+            } else if (p1.userID == "") {
+                p1.text.color = isReady ? readyColour : unreadyColour;
+                p1.userID = UserID;
+                p1.text.text = thisPlayerName;
+                p1.light.enabled = true;
+            } else {
+                p2.text.color = isReady ? readyColour : unreadyColour;
+                p2.userID = UserID;
+                p2.text.text = thisPlayerName;
+                p2.light.enabled = true;
+            }
         }
-        else if (p2.userID == UserID) {
-            p2.text.color = isReady ? readyColour : unreadyColour;
-            p2.light.enabled = true;
-        } else if (p1.userID == "") {
-            p1.text.color = isReady ? readyColour : unreadyColour;
-            p1.userID = UserID;
-            p1.text.text = thisPlayerName;
-            p1.light.enabled = true;
-        } else {
-            p2.text.color = isReady ? readyColour : unreadyColour;
-            p2.userID = UserID;
-            p2.text.text = thisPlayerName;
-            p2.light.enabled = true;
-        }
+        
 
         /*if (isReady){
             _content.Find(listing.name).GetComponentInChildren<Text>().color = readyColour;
