@@ -47,8 +47,11 @@ public class GameManager : MonoBehaviourPunCallbacks {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",this);
         } else if (PlayerController.LocalPlayerInstance == null) {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            Room photonRoom = PhotonNetwork.CurrentRoom;
             
-            if (PhotonNetwork.LocalPlayer.ActorNumber < 3) {
+            int highestActor = (int)photonRoom.CustomProperties["highestActor"];
+            Debug.Log(highestActor);
+            if (PhotonNetwork.LocalPlayer.ActorNumber <= highestActor) {
                 DontDestroyOnLoad(GlobalValues.Instance.gameObject);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 if (PhotonNetwork.IsMasterClient) {

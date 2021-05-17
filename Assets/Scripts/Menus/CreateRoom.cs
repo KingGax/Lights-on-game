@@ -27,10 +27,11 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = System.Convert.ToByte(2 + maxAllowedSpectators);
         options.PublishUserId = true;
-        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable() { {"name", _roomName }, {"playerCount", 1}};
-        string[] lobbyOptions = new string[2];
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable() { {"name", _roomName }, {"playerCount", 1}, { "highestActor", 2 } };
+        string[] lobbyOptions = new string[3];
         lobbyOptions[0] = "name";
         lobbyOptions[1] = "playerCount"; //number of players, as opposed to spectators
+        lobbyOptions[2] = "highestActor";
         options.CustomRoomPropertiesForLobby = lobbyOptions;
         options.CustomRoomProperties = properties;
         options.CleanupCacheOnLeave = false;
