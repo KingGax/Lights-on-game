@@ -66,8 +66,16 @@ public class SetSpawnRoom : RoomObjective {
                     prevNumEnemies = GetEnemiesLeft();
                     pv.RPC("UpdateObjectiveText", RpcTarget.AllBufferedViaServer, prevNumEnemies);
                 }
+            } else{
+                if (!complete){
+                    pv.RPC("SetCompleteTrue", RpcTarget.All);
+                }                
             }
         }
+    }
+    [PunRPC]
+    void SetCompleteTrue(){
+        complete = true;
     }
 
     [PunRPC]
@@ -96,6 +104,7 @@ public class SetSpawnRoom : RoomObjective {
             return CountEnemies() + numEnemiesInFutureWaves[currentWaveCounter];
         }
         else {
+            complete = true;
             return 0;
         }
         

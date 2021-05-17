@@ -12,8 +12,8 @@ public class FloorManager : MonoBehaviour
     int numPlayers;
     float startEventTimer = 0f;
     float minEventTimer = 0.4f;
-    bool[] roomEventsTriggered;
-    bool[] objectivesComplete;
+    public bool[] roomEventsTriggered;
+    public bool[] objectivesComplete;
     public List<RoomObjective> levels;
     public List<Transform> p1SpawnPoints;
     public List<Transform> p2SpawnPoints;
