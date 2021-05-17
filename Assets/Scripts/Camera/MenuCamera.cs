@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class MenuCamera : MonoBehaviour
 {
-    public float velX = 2.0f;
+    public float velX = 0.5f;
     private float pitch;
     private float yaw;
-    public float velY = 2.0f;
+    public float velY = 0.5f;
+    public bool rot = true;
     private float originPitch, originYaw;
+    private Vector3 pos, originPos;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,16 +18,27 @@ public class MenuCamera : MonoBehaviour
         yaw = transform.eulerAngles[1];
         originPitch = pitch;
         originYaw = yaw;
+        pos = new Vector3(transform.position[0], transform.position[1], transform.position[2]);
+        originPos = pos;
     }
 
     // Update is called once per frame
     void Update()
-    {
-        yaw += velX * Input.GetAxis("Mouse X") / yaw;
-        pitch -= velY * Input.GetAxis("Mouse Y") / yaw;
-        yaw = Mathf.Clamp(yaw, originYaw - 20f, originYaw + 20f);
-        pitch = Mathf.Clamp(pitch, originPitch - 20f, originPitch + 20f);
-
-        transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+    {   
+        if(rot) {
+            yaw += velX * Input.GetAxis("Mouse X");
+            pitch -= velY * Input.GetAxis("Mouse Y");
+            yaw = Mathf.Clamp(yaw, originYaw - 10f, originYaw + 10f);
+            pitch = Mathf.Clamp(pitch, originPitch - 10f, originPitch + 10f);
+            transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+        }
+        else {
+            pos[0] += velX * Input.GetAxis("Mouse X")/10;
+            pos[1] += velY * Input.GetAxis("Mouse Y")/10;
+            pos[0] = Mathf.Clamp(pos[0], originPos[0] - 2.0f, originPos[0] + 2.0f);
+            pos[1] = Mathf.Clamp(pos[1], originPos[1] - 2.0f, originPos[1] + 2.0f);
+            transform.position = pos;
+        }
+        
     }
 }
