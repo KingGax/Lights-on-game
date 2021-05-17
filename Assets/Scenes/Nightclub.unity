@@ -1743,6 +1743,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 381146351}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &381146353 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7825319451559792210, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 381146351}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0055e5c7fc72cfc4daea402b9c360ef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &396747961
 GameObject:
   m_ObjectHideFlags: 0
@@ -5261,6 +5273,7 @@ MonoBehaviour:
   entrances:
   - {fileID: 0}
   complete: 0
+  playNextTrack: 1
   enemyContainersP1: {fileID: 127764694}
   enemyParentP1: {fileID: 1994854422}
   enemyContainersP2: {fileID: 479299513}
@@ -6521,6 +6534,54 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 721cb6a77683aa74d9aca76b604050ef, type: 3}
+--- !u!1 &1112199405
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1112199407}
+  - component: {fileID: 1112199406}
+  m_Layer: 0
+  m_Name: singleplayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1112199406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112199405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbaa70547ff4b004da21f13ce37e7cc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doors:
+  - {fileID: 8065249563295924571}
+  - {fileID: 381146353}
+  - {fileID: 1992662121}
+  - {fileID: 267280462}
+--- !u!4 &1112199407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112199405}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 48.747147, y: 25.982471, z: -48.02346}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1134390408
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10232,6 +10293,7 @@ MonoBehaviour:
   entrances:
   - {fileID: 1992662121}
   complete: 0
+  playNextTrack: 1
   enemyContainers: {fileID: 459360738}
   enemyParent: {fileID: 1101293651}
 --- !u!1 &2039776682

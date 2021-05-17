@@ -48,8 +48,12 @@ public class GameManager : MonoBehaviourPunCallbacks {
         } else if (PlayerController.LocalPlayerInstance == null) {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             Room photonRoom = PhotonNetwork.CurrentRoom;
-            
-            int highestActor = (int)photonRoom.CustomProperties["highestActor"];
+            int highestActor;
+            if (!PhotonNetwork.OfflineMode) {
+                highestActor = (int)photonRoom.CustomProperties["highestActor"];
+            } else {
+                highestActor = 999;
+            }
             Debug.Log(highestActor);
             if (PhotonNetwork.LocalPlayer.ActorNumber <= highestActor) {
                 DontDestroyOnLoad(GlobalValues.Instance.gameObject);
