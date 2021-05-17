@@ -60,6 +60,7 @@ namespace LightsOn.WeaponSystem {
         public float reappearDamage;
         public float reappearKnockbackMagnitude;
         public float reappearKnockbackDuration;
+        public float aoeHeight;
         LineRenderer circleLR;
         [Header("Missile attack setup")]
         public int missileDamage;
@@ -392,7 +393,7 @@ namespace LightsOn.WeaponSystem {
             flashesRemaining = flashNum;
             flashTimerMax = time;
             flashTimer = flashTimerMax;
-            DrawPolygon(100, aoeRadius, new Vector3(fireOrigin.position.x, 0.25f, fireOrigin.position.z), 0.1f, 0.1f);
+            DrawPolygon(100, aoeRadius, new Vector3(fireOrigin.position.x, aoeHeight, fireOrigin.position.z), 0.1f, 0.1f);
         }
 
         void ShowCircle(float time) {

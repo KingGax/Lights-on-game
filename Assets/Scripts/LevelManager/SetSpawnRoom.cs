@@ -68,7 +68,7 @@ public class SetSpawnRoom : RoomObjective {
                 }
             } else{
                 if (!complete){
-                    pv.RPC("SetCompleteTrue", RpcTarget.All);
+                    pv.RPC("SetCompleteTrue", RpcTarget.AllBufferedViaServer);
                 }                
             }
         }
