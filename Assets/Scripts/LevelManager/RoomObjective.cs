@@ -9,6 +9,7 @@ public class RoomObjective : MonoBehaviour {
     protected PhotonView pv;
     public List<LightableExitDoor> exits;
     public List<LightableExitDoor> entrances;
+    public bool complete = false;
     //public GameObject EndTooltip;
 
     void Start() {
