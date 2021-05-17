@@ -123,12 +123,19 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
+
+    public void OnPhotonCustomRoomPropertiesChanged(ExitGames.Client.Photon.Hashtable propertiesThatChanged) {
+        Debug.Log("bingo");
+        Debug.Log(propertiesThatChanged);
+    }
+
+
     bool SetActorNumber(int actorNumber) { //this should use CAS and hence be network-safe BUT IT ISN'T :(((((
         Room room = PhotonNetwork.CurrentRoom;
         int oldHighestActor = (int)room.CustomProperties["highestActor"];
         //Debug.Log("Original count: " + playerCount);
         ExitGames.Client.Photon.Hashtable expectedVals = new ExitGames.Client.Photon.Hashtable();
-        expectedVals.Add("highestActor", actorNumber);
+        expectedVals.Add("highestActor", oldHighestActor);
         ExitGames.Client.Photon.Hashtable newVals = new ExitGames.Client.Photon.Hashtable();
         newVals.Add("highestActor", actorNumber);
         //room.SetCustomProperties(newVals);
