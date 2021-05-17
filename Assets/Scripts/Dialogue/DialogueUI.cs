@@ -105,7 +105,6 @@ public class DialogueUI : MonoBehaviour
     }
 
     private void ShowKeyPrompt(){
-        Debug.Log("key prompt");
         keyPressPrompt.gameObject.SetActive(true);
     }
 
@@ -114,7 +113,6 @@ public class DialogueUI : MonoBehaviour
     }
 
     private void EnableUIElements(){
-        Debug.Log("Disable UI");
         GlobalValues.Instance.UIElements.GetComponent<UIController>().EnableLeaveButton();
         GlobalValues.Instance.UIElements.GetComponent<UIController>().EnableControlsHelp();
     }

@@ -16,22 +16,18 @@ public class PhotonConnector : MonoBehaviourPunCallbacks {
     }
 
     public override void OnConnectedToMaster(){
-        Debug.Log("Connected to master.");
         PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
 
     public override void OnJoinedLobby() {
-        Debug.Log("joinedlobby");
         PhotonNetwork.LoadLevel("JoinRoomMenu");
     }
 
     public override void OnLeftLobby() {
-        Debug.Log("leftlobby");
         base.OnLeftLobby();
     }
 
     public override void OnDisconnected(DisconnectCause cause) {
-        Debug.Log("Disconnected from server: " + cause.ToString());
         if (cause != DisconnectCause.None) {
             tries++;
             if (tries == 1) {

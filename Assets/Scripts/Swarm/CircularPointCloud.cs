@@ -36,7 +36,6 @@ public class CircularPointCloud : PointCloud {
                 currentAngle += angleInc;
             }
         }
-        Debug.Log("casting complete, total size: " + pointsList.Count + " points missed: " + pointsMissed);
         DestroyImmediate(tempCollider);
 
         return pointsList.ToArray();

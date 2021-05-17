@@ -10,7 +10,8 @@ public class VoiceMenu : MonoBehaviour {
     private static extern void setupMicrophoneUnity();
 
     public void OnRejectClicked() {
-        GlobalValues.Instance.micEnabled = false; // May also change micEditable??
+        GlobalValues.Instance.micEnabled = false;
+        GlobalValues.Instance.micEditable = false;
         AudioManager.Instance.PlayNext();
         Invoke("ChangeScene", 1);
     }

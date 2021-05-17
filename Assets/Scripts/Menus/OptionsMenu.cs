@@ -52,7 +52,12 @@ public class OptionsMenu : MonoBehaviour
             VoiceControlToggle.interactable = false;
             VoiceChatToggle.isOn = false;
             VoiceControlToggle.isOn = false;
-            updateVoiceChatEnabled(false);
+            #if !UNITY_EDITOR
+                #if UNITY_WEBGL
+                    updateVoiceChatEnabled(false);
+                #endif
+            #endif
+            
         }
         else {
             VoiceChatToggle.interactable = true;
@@ -63,10 +68,18 @@ public class OptionsMenu : MonoBehaviour
     {
         GlobalValues.Instance.voiceChatEnabled = newVal;
         if(!newVal) {
-            disableVoiceChatUnity();
+            #if !UNITY_EDITOR
+                #if UNITY_WEBGL
+                    disableVoiceChatUnity();
+                #endif
+            #endif
         }
         else {
-            reenableVoiceChatUnity();
+            #if !UNITY_EDITOR
+                #if UNITY_WEBGL
+                    reenableVoiceChatUnity();
+                #endif
+            #endif
         }
     }
     public void updateVoiceControlEnabled(bool newVal)

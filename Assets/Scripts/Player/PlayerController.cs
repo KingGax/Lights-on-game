@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     bool reloading;
     private int hiddenLayer;
     private int defaultLayer;
-
+    private PlayerInputScript inputScript;
     public bool isTakingKnockback { get; set; }
     public MeshRenderer gunRenderer;
 
@@ -93,6 +93,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         rb = gameObject.GetComponent<Rigidbody>();
         cam = Camera.main;
         defaultLayer = gameObject.layer;
+        inputScript = GetComponent<PlayerInputScript>();
         hiddenLayer = LayerMask.NameToLayer("HiddenPlayer");
         // #Important
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
@@ -119,8 +120,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                 FloatingHealthBar fhb = gameObject.GetComponentInChildren<FloatingHealthBar>();
                 fhb.gameObject.GetComponent<Canvas>().enabled = false;
                 fhb.enabled = false;
-                Debug.Log(GlobalValues.Instance.players[0]);
-                Debug.Log(GlobalValues.Instance.localPlayerInstance);
 
                 GlobalValues.Instance.navManager.SetPlayer(GlobalValues.Instance.players[0] != GlobalValues.Instance.localPlayerInstance);
                 CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
@@ -216,11 +215,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     }
 
     void Update() {
-        if (photonView == null || !photonView.IsMine) return;
-        
         if (dashTrail.time > 0) {
                 dashTrail.time -= Time.deltaTime;
         }
+        if (photonView == null || !photonView.IsMine) return;
+        
+        
 
         if (movementEnabled) {
             reloading = equiptedWeapon.IsReloading();
@@ -336,7 +336,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         anim.SetBool("Shooting", false);
         anim.SetTrigger("Death");
     }
-    void HidePlayer() {
+
+    [PunRPC]
+    void HidePlayerRPC(){
         gameObject.layer = hiddenLayer;
         dashParticles.Play();
         dashTrail.time = 1.0f;
@@ -345,13 +347,21 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         }
         hidden = true;
     }
+    void HidePlayer() {
+        photonView.RPC("HidePlayerRPC", RpcTarget.All);
+    }
 
-    void ShowPlayer() {
+    [PunRPC]
+    void ShowPlayerRPC(){
         gameObject.layer = defaultLayer;
         foreach (SkinnedMeshRenderer renderer in shawnRenderers) {
             renderer.enabled = true;
         }
         hidden = false;
+    }
+
+    void ShowPlayer() {
+        photonView.RPC("ShowPlayerRPC", RpcTarget.All);
     }
 
     void HandleDash() {
@@ -430,6 +440,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
 
     public void ChangeLightToColourText(string colour) {
         micRenderer.enabled = false;
+        inputScript.MicOutputRecieved();
         if (colour == "GREEN") {
             lanturn.SetColour(LightColour.Green);
         } else if (colour == "RED") {

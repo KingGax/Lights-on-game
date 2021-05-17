@@ -42,7 +42,6 @@ public class BossHealthBar : HealthBar
     //Called when enemy spawns, called from BossController so reparenting doesn't break anything
     //Positions healthbar and reparents it to UIElements
     public void Activate(){
-        Debug.Log("Activated");
         //hbCanvas = GetComponent<Canvas>();
         GameObject uielem = GlobalValues.Instance.UIElements;
         Canvas UICanvas = uielem.GetComponent<Canvas>();
@@ -62,7 +61,6 @@ public class BossHealthBar : HealthBar
         //originalWidth = barRect.rect.width;
         // // // Vector3 vector = barRect.transform.position;
         // // // vector.x += barRect.rect.xMin;
-        // // // Debug.Log("HOIUWEFLOHIUW: "+ barRect.rect.xMin);
         // // // leftPosX = vector.x;//transform.position.x-80*transform.localScale.x;
         //leftPosX = bar.GetComponent<Renderer>().bounds.min.x;
         //hbCanvasTransform.sizeDelta = new Vector2(160, 40);

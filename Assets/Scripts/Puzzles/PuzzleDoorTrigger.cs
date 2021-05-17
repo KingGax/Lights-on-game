@@ -13,8 +13,6 @@ public class PuzzleDoorTrigger : MonoBehaviour {
     void OnTriggerEnter(Collider other) { 
         if (other.gameObject.layer == 17) {
             if (!unlocked) {
-                Debug.Log(other);
-                Debug.Log(other.transform.gameObject.GetComponentInChildren<LightablePuzzleBall>());
                 ballColour = other.transform.gameObject.GetComponentInChildren<LightablePuzzleBall>().GetColour();
                 ballPos = other.transform.position;
                 //door.PuzzleBallUnlockDoor(ballColour,ballPos);
