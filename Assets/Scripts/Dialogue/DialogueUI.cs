@@ -107,6 +107,8 @@ public class DialogueUI : MonoBehaviour
 
     private void DisableLocalPlayerMovement(){
         GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerInputScript>().DisableInput();
+        GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerController>().AttackOne(false);
+        GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerController>().AttackAlt(false);
     }
 
     private void EnableLocalPlayerMovement(){
