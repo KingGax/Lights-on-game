@@ -217,11 +217,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     }
 
     void Update() {
-        if (photonView == null || !photonView.IsMine) return;
-        
         if (dashTrail.time > 0) {
                 dashTrail.time -= Time.deltaTime;
         }
+        if (photonView == null || !photonView.IsMine) return;
+        
+        
 
         if (movementEnabled) {
             reloading = equiptedWeapon.IsReloading();
@@ -337,7 +338,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         anim.SetBool("Shooting", false);
         anim.SetTrigger("Death");
     }
-    void HidePlayer() {
+
+    [PunRPC]
+    void HidePlayerRPC(){
         gameObject.layer = hiddenLayer;
         dashParticles.Play();
         dashTrail.time = 1.0f;
@@ -346,13 +349,21 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         }
         hidden = true;
     }
+    void HidePlayer() {
+        photonView.RPC("HidePlayerRPC", RpcTarget.All);
+    }
 
-    void ShowPlayer() {
+    [PunRPC]
+    void ShowPlayerRPC(){
         gameObject.layer = defaultLayer;
         foreach (SkinnedMeshRenderer renderer in shawnRenderers) {
             renderer.enabled = true;
         }
         hidden = false;
+    }
+
+    void ShowPlayer() {
+        photonView.RPC("ShowPlayerRPC", RpcTarget.All);
     }
 
     void HandleDash() {
