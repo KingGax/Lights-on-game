@@ -2078,6 +2078,16 @@ PrefabInstance:
       objectReference: {fileID: 2038499703}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
+      propertyPath: p1NavPoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p2NavPoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
       propertyPath: p1SpawnPoints.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -2093,7 +2103,27 @@ PrefabInstance:
       objectReference: {fileID: 858827161}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
+      propertyPath: p1NavPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p1NavPoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
       propertyPath: p2NavPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p2NavPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p2NavPoints.Array.data[2]
       value: 
       objectReference: {fileID: 858827161}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
@@ -2126,6 +2156,26 @@ PrefabInstance:
       propertyPath: navigationEnabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3812703217067086783, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: navigationPoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812703217067086783, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: navigationPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086783, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: navigationPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086783, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: navigationPoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 858827161}
     - target: {fileID: 3812703217209667544, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
       propertyPath: viewIdField
@@ -2159,7 +2209,7 @@ PrefabInstance:
     - target: {fileID: 3812703217861537789, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
       propertyPath: sceneName
-      value: Endless_waves_2
+      value: Endless_waves_1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fc03c6d549e1ec6bae8c843490c12a2, type: 3}
@@ -3870,6 +3920,7 @@ MonoBehaviour:
   entrances:
   - {fileID: 0}
   complete: 0
+  playNextTrack: 1
   enemyContainersP1: {fileID: 127764694}
   enemyParentP1: {fileID: 1994854422}
   enemyContainersP2: {fileID: 479299513}
@@ -6664,6 +6715,7 @@ MonoBehaviour:
   entrances:
   - {fileID: 1992662121}
   complete: 0
+  playNextTrack: 1
   enemyContainers: {fileID: 459360738}
   enemyParent: {fileID: 1101293651}
 --- !u!1 &2039776682

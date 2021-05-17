@@ -184,8 +184,6 @@ namespace LightsOn {
             // Update is called once per frame
             void Update() {
                 if (followParent) {
-                    Debug.Log(this.gameObject.name);
-                    Debug.Log(this.gameObject);
                     boidCentre = followTransform.position;
                     visionObject.transform.position = followTransform.position;
                 }

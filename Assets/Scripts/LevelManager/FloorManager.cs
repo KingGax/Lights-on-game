@@ -124,6 +124,10 @@ public class FloorManager : MonoBehaviour
     }
 
     public void UpdateLocation(GameObject player, int roomNum) {
+        if (GlobalValues.Instance.p1Spawned && GlobalValues.Instance.p2Spawned) {
+            twoPlayers = true;
+            numPlayers = 2;
+        }
         if (PhotonNetwork.IsMasterClient) {
             if (twoPlayers) {
                 if (GlobalValues.Instance.p1Spawned && GlobalValues.Instance.p2Spawned) {

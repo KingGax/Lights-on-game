@@ -48,10 +48,14 @@ public class GameManager : MonoBehaviourPunCallbacks {
         } else if (PlayerController.LocalPlayerInstance == null) {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             Room photonRoom = PhotonNetwork.CurrentRoom;
-            
-            int highestActor = (int)photonRoom.CustomProperties["highestActor"];
+            int highestActor;
+            if (!PhotonNetwork.OfflineMode) {
+                highestActor = (int)photonRoom.CustomProperties["highestActor"];
+            } else {
+                highestActor = 999;
+            }
             Debug.Log(highestActor);
-            if (PhotonNetwork.LocalPlayer.ActorNumber <= highestActor) {
+            if (PhotonNetwork.LocalPlayer.ActorNumber <= highestActor && GlobalValues.Instance.localPlayerInstance == null) {
                 DontDestroyOnLoad(GlobalValues.Instance.gameObject);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 if (PhotonNetwork.IsMasterClient) {
@@ -167,6 +171,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
         foreach (PhotonView view in childPhotons) {
             view.TransferOwnership(otherPlayer);
         }
+        GlobalValues.Instance.p2Spawned = true;
     }
 
     public override void OnPlayerLeftRoom(Player other) {
@@ -178,6 +183,8 @@ public class GameManager : MonoBehaviourPunCallbacks {
             if (SceneManagerHelper.ActiveSceneName == "Nightclub"){
                 GlobalValues.Instance.players[0].transform.transform.position = GlobalValues.Instance.fm.p1SpawnPoints[0].position;
                 GlobalValues.Instance.players[1].transform.transform.position = GlobalValues.Instance.fm.p2SpawnPoints[0].position;
+                PhotonNetwork.RemoveRPCs(other);
+                PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
                 PhotonNetwork.LoadLevel("Nightclub");
             }
             PauseGame();
