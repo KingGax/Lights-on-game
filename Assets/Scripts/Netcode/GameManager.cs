@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
                 highestActor = 999;
             }
             Debug.Log(highestActor);
-            if (PhotonNetwork.LocalPlayer.ActorNumber <= highestActor) {
+            if (PhotonNetwork.LocalPlayer.ActorNumber <= highestActor && GlobalValues.Instance.localPlayerInstance == null) {
                 DontDestroyOnLoad(GlobalValues.Instance.gameObject);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 if (PhotonNetwork.IsMasterClient) {
@@ -171,6 +171,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
         foreach (PhotonView view in childPhotons) {
             view.TransferOwnership(otherPlayer);
         }
+        GlobalValues.Instance.p2Spawned = true;
     }
 
     public override void OnPlayerLeftRoom(Player other) {
