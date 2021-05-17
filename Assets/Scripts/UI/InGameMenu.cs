@@ -12,6 +12,7 @@ public class InGameMenu : MonoBehaviour
     public Toggle VoiceChatToggle;
     public Toggle VoiceControlToggle;
     public AudioMixer mixer;
+    public Slider volumeSlider;
 
     [DllImport("__Internal")]
     private static extern void disableVoiceChatUnity();
@@ -33,6 +34,11 @@ public class InGameMenu : MonoBehaviour
     public bool ToggleVisibility() {
         MenuItem.SetActive(!visible);
         visible = !visible;
+
+        float initialRawValue;
+        mixer.GetFloat("MasterVolume", out initialRawValue);
+        float initialValue = Mathf.Pow(10, initialRawValue/20);
+        volumeSlider.value = initialValue;
 
         //Set toggle values to match GlobalValues true state.
         MicToggle.isOn = GlobalValues.Instance.micEnabled;
