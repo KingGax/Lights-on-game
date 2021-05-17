@@ -71,10 +71,10 @@ namespace LightsOn.AudioSystem {
             if (time + 1.0f > nextStartTime) {
                 Clip ac = getNextClip();
                 if (ac == null) return;
-                Debug.Log("Scheduling track " + nextTrack + " to play in 1 second"
+                /*Debug.Log("Scheduling track " + nextTrack + " to play in 1 second"
                     + "\n\tstarting clip at: " + ac.start
                     + "\n\tclip ends at: " + ac.end
-                );
+                );*/
 
                 audioSources[freeAudioSource].clip = ac.audioClip;
                 audioSources[freeAudioSource].time = ac.start;
@@ -100,14 +100,14 @@ namespace LightsOn.AudioSystem {
                 switch (ac.endBehaviour) {
                     case ClipEndBehaviour.NEXT:
                         nextTrack++;
-                        Debug.Log("Advancing to track " + nextTrack
+                        /*Debug.Log("Advancing to track " + nextTrack
                             + " as track " + playingTrack + " has ended"
-                        );
+                        );*/
                         return getNextClip();
                     case ClipEndBehaviour.LOOP:
                     case ClipEndBehaviour.LOOPSHORT:
                     case ClipEndBehaviour.LOOPBEAT:
-                        Debug.Log("Scheduling to loop track " + playingTrack);
+                        //Debug.Log("Scheduling to loop track " + playingTrack);
                         return ac;
                     default:
                     case ClipEndBehaviour.END:
