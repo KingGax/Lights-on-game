@@ -123,6 +123,29 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
+    bool SetActorNumber(int actorNumber) { //this should use CAS and hence be network-safe BUT IT ISN'T :(((((
+        Room room = PhotonNetwork.CurrentRoom;
+        int oldHighestActor = (int)room.CustomProperties["highestActor"];
+        //Debug.Log("Original count: " + playerCount);
+        ExitGames.Client.Photon.Hashtable expectedVals = new ExitGames.Client.Photon.Hashtable();
+        expectedVals.Add("highestActor", actorNumber);
+        ExitGames.Client.Photon.Hashtable newVals = new ExitGames.Client.Photon.Hashtable();
+        newVals.Add("highestActor", actorNumber);
+        //room.SetCustomProperties(newVals);
+        if (!room.SetCustomProperties(newVals, expectedVals)) {
+            return false;
+        } else {
+            //debug
+            // StartCoroutine(Printer(0.2f));
+            // IEnumerator Printer(float delay){
+            //     yield return new WaitForSeconds(delay);
+            //     Room newRoom = PhotonNetwork.CurrentRoom;
+            //     Debug.Log("New count: " + (int)newRoom.CustomProperties["playerCount"]);
+            // }
+            return true;
+        }
+    }
+
     bool AddToPlayerCount(int amount){ //this should use CAS and hence be network-safe BUT IT ISN'T :(((((
             Room room = PhotonNetwork.CurrentRoom;
             int playerCount = (int)room.CustomProperties["playerCount"];
@@ -145,7 +168,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                 // }
                 return true;
             }
-        
     }
 
     [PunRPC] 
@@ -188,6 +210,8 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        Debug.Log(SetActorNumber(newPlayer.ActorNumber));
+        Debug.Log(newPlayer.ActorNumber);
         if (cachedPlayerList.Count < 2){
             AddToPlayerCount(1);
             GameObject listing =  Instantiate(_playerListing,_content);
