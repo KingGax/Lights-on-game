@@ -33,6 +33,7 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
         started = true;
         pv.RPC("SetStartedRPC", RpcTarget.AllBufferedViaServer, true);
         if (GlobalValues.Instance.players.Count == 2) {
+            pv.RPC("SetTwoPlayersRPC", RpcTarget.AllBufferedViaServer, true);
             twoPlayers = true;
         }
         else {
@@ -41,6 +42,11 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
         LockEntrancesGlobal();
         LockExitGlobal();
         StartNewSetWave();
+    }
+
+    [PunRPC]
+    void SetTwoPlayersRPC(bool _twoPlayers) {
+        twoPlayers = _twoPlayers;
     }
 
     [PunRPC]
