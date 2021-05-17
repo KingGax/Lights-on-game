@@ -50,7 +50,6 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         if (!(string.IsNullOrEmpty(_roomName))) {
             PhotonNetwork.CreateRoom(roomCode, options);
         } else {
-            Debug.Log("Empty room name");
         }
     }
 
@@ -58,7 +57,6 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message) {
-        Debug.Log("Room creation failed: " + message);
     }
 
     public void SetRoomName(string value) {

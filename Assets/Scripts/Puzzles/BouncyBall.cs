@@ -39,7 +39,6 @@ public class BouncyBall : MonoBehaviour {
         staticLayer = LayerMask.NameToLayer("StaticEnvironment");
         dynamicLayer = LayerMask.NameToLayer("DynamicEnvironment");
         lr = GetComponent<LineRenderer>();
-        Debug.Log("awake bouncy ball");
 
     }
 
@@ -56,10 +55,8 @@ public class BouncyBall : MonoBehaviour {
 
     public void ActivateBall() {
         if (!PhotonNetwork.IsMasterClient || isActivated) return;
-        Debug.Log("activated");
         this.isActivated = true;
         pv.RPC("Activate", RpcTarget.Others);
-        Debug.Log(transform.forward.normalized * speed);
         //rigidBody.velocity = transform.forward.normalized * speed;
     }
 
@@ -107,11 +104,9 @@ public class BouncyBall : MonoBehaviour {
                 float rotation = 90 - Mathf.Atan2(reflectDirection.z, reflectDirection.x) * Mathf.Rad2Deg;
                 transform.eulerAngles = new Vector3(0, rotation, 0);
                 //rigidBody.velocity = reflectDirection.normalized * speed;
-                Debug.Log("bounce");
                 AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXBallBounce, transform.position, gameObject);
                 bouncesLeft -= 1;
             } else if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .1f, staticEnvironmentMask)) {
-                Debug.Log("Hit static wall");
                 AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXBallShatter, transform.position, gameObject);
                 Respawn();
                 return;

@@ -2273,6 +2273,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2610039348453064451, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4892123908154149241, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
       propertyPath: viewIdField
@@ -2892,6 +2897,7 @@ MonoBehaviour:
   entrances:
   - {fileID: 464579384}
   - {fileID: 863657891}
+  complete: 0
   enemyContainers: {fileID: 1880626972}
   enemyParent: {fileID: 310210454}
 --- !u!1 &343718587
@@ -7444,6 +7450,7 @@ MonoBehaviour:
   entrances:
   - {fileID: 381146353}
   - {fileID: 1769015927}
+  complete: 0
   enemyContainersP1: {fileID: 1123461446}
   enemyParentP1: {fileID: 2005645772}
   enemyContainersP2: {fileID: 196791511}
@@ -8511,6 +8518,7 @@ MonoBehaviour:
   - {fileID: 464579384}
   - {fileID: 863657891}
   - {fileID: 273565148}
+  complete: 0
   enemyContainers: {fileID: 113585749}
   enemyParent: {fileID: 264770400}
 --- !u!114 &1659427684
@@ -10092,9 +10100,9 @@ Transform:
   m_Children:
   - {fileID: 471582872}
   - {fileID: 1682953936}
-  - {fileID: 1684558533}
   - {fileID: 374842504}
   - {fileID: 373849871}
+  - {fileID: 1684558533}
   m_Father: {fileID: 315580695}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10701,6 +10709,11 @@ PrefabInstance:
     - target: {fileID: 8359486586964530650, guid: 217d212f20b9d514d96b8cbbb83b2f31,
         type: 3}
       propertyPath: targetCollisions
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8359486586964530650, guid: 217d212f20b9d514d96b8cbbb83b2f31,
+        type: 3}
+      propertyPath: waitForEventIndex
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8871685269615772874, guid: 217d212f20b9d514d96b8cbbb83b2f31,
