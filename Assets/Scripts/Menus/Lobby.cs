@@ -89,7 +89,6 @@ public class Lobby : MonoBehaviourPunCallbacks
                 //PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
                 PhotonNetwork.LoadLevel(nextScene);
                 //Initiated voice chat here
-            } else {
             }
         }
     }
