@@ -379,6 +379,9 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        if (SceneManagerHelper.ActiveSceneName != "LobbyMenu") {
+            Destroy(gameObject);
+        }
         AddToPlayerCount(-1);
         if (cachedPlayerList.ContainsKey(otherPlayer.UserId)){
             string UserID = otherPlayer.UserId;
