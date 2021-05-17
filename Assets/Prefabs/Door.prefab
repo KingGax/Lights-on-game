@@ -59,6 +59,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlocked: 0
   door: {fileID: 7825319451559792210}
+  ballColour: 0
+  ballPos: {x: 0, y: 0, z: 0}
 --- !u!1 &2186881572470688021
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,8 +188,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.059224032, y: 0.007885474, z: 0.06686394}
-  m_Center: {x: -0.10024593, y: 0.000053120104, z: 0.03379776}
+  m_Size: {x: 0.06232424, y: 0.014922514, z: 0.06686394}
+  m_Center: {x: -0.10000845, y: -0.00055252074, z: 0.03379776}
 --- !u!208 &5863195002309965202
 NavMeshObstacle:
   m_ObjectHideFlags: 0
