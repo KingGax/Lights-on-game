@@ -697,6 +697,7 @@ GameObject:
   - component: {fileID: 90880128}
   - component: {fileID: 90880127}
   - component: {fileID: 90880129}
+  - component: {fileID: 90880130}
   m_Layer: 0
   m_Name: NavMesh
   m_TagString: Untagged
@@ -732,7 +733,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: fcc25425d46a1e54bbb5f839858cbb74, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 2c349769ff7aa2d4aae917d80fd9a2c5, type: 2}
 --- !u!4 &90880128
 Transform:
   m_ObjectHideFlags: 0
@@ -775,7 +776,36 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 1
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 0b0d3f54e36519f41a4ee30b2d56c04f, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 1a1dfbfd92e852047b2cf0811da89542, type: 2}
+--- !u!114 &90880130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90880126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: -334000983
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.41
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: 7d68f1c1d89993c48bebba831f947df9, type: 2}
 --- !u!1001 &95906154
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3783,7 +3813,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &917561453
 Transform:
   m_ObjectHideFlags: 0
@@ -3839,6 +3869,7 @@ MonoBehaviour:
   - {fileID: 0}
   entrances:
   - {fileID: 0}
+  complete: 0
   enemyContainersP1: {fileID: 127764694}
   enemyParentP1: {fileID: 1994854422}
   enemyContainersP2: {fileID: 479299513}
@@ -4997,7 +5028,7 @@ PrefabInstance:
         type: 3}
       propertyPath: boidManagerPrefab
       value: 
-      objectReference: {fileID: 939448544427429772, guid: 6575686122eadc143be419cfc15765c6,
+      objectReference: {fileID: 939448544427429772, guid: 6297739851b2df94bb39d52e1e1023d7,
         type: 3}
     - target: {fileID: 1970930420014976212, guid: ed6bf0faa10a4a042a52401007fa7703,
         type: 3}
@@ -6632,6 +6663,7 @@ MonoBehaviour:
   - {fileID: 267280462}
   entrances:
   - {fileID: 1992662121}
+  complete: 0
   enemyContainers: {fileID: 459360738}
   enemyParent: {fileID: 1101293651}
 --- !u!1 &2039776682
