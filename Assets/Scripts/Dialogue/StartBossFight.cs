@@ -15,6 +15,9 @@ public class StartBossFight : AfterDialogue
 
     private int activations = 0;
 
+    [SerializeField]
+    private bool isEndlessMode = false;
+
     void Start(){
         StartCoroutine(GetBossObject());
         
@@ -27,7 +30,7 @@ public class StartBossFight : AfterDialogue
             yield return new WaitForSeconds(1);
         }
         boss = spawnedBoss.GetComponent<BossController>();
-        if(PhotonNetwork.PlayerList.Length == 1){
+        if(PhotonNetwork.PlayerList.Length == 1 || isEndlessMode){
             ActivateEffect();
         }
     } 
