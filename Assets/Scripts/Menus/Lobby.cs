@@ -83,13 +83,12 @@ public class Lobby : MonoBehaviourPunCallbacks
     public void StartGame() {
         if(loadingScene == false){
             PlayerListingsMenu listingsMenu = GetComponentInChildren<PlayerListingsMenu>();
-            if (listingsMenu.isReady() && PhotonNetwork.PlayerList.Length == 2){
+            if (listingsMenu.isReady() && PhotonNetwork.PlayerList.Length == 1){
                 loadingScene = true;
                 transition.mouseClick();
                 //PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
                 PhotonNetwork.LoadLevel(nextScene);
                 //Initiated voice chat here
-            } else {
             }
         }
     }
