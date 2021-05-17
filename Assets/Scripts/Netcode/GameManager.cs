@@ -170,7 +170,13 @@ public class GameManager : MonoBehaviourPunCallbacks {
         Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
         GlobalValues.Instance.PlayerLeft();
         if (PhotonNetwork.IsMasterClient) {
+
             Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
+            if (SceneManagerHelper.ActiveSceneName == "Nightclub"){
+                GlobalValues.Instance.players[0].transform.transform.position = GlobalValues.Instance.fm.p1SpawnPoints[0].position;
+                GlobalValues.Instance.players[1].transform.transform.position = GlobalValues.Instance.fm.p2SpawnPoints[0].position;
+                PhotonNetwork.LoadLevel("Nightclub");
+            }
             PauseGame();
         }
         #if !UNITY_EDITOR

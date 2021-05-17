@@ -1231,12 +1231,6 @@ Transform:
   - {fileID: 227957565}
   - {fileID: 401871097}
   - {fileID: 292883312}
-  - {fileID: 1910273860}
-  - {fileID: 1706890471}
-  - {fileID: 607158063}
-  - {fileID: 536867682}
-  - {fileID: 2052742093}
-  - {fileID: 2055257336}
   - {fileID: 2060355411}
   - {fileID: 1733758552}
   - {fileID: 802959323}
@@ -2144,17 +2138,22 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 343718588}
+    m_TransformParent: {fileID: 1854086285}
     m_Modifications:
     - target: {fileID: 1654156705810849360, guid: 6554e3d07c161b945ae3188eab12981d,
         type: 3}
       propertyPath: m_Name
       value: Pillar Blue (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1654156705810849360, guid: 6554e3d07c161b945ae3188eab12981d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 2143553366882501866, guid: 6554e3d07c161b945ae3188eab12981d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2143553366882501866, guid: 6554e3d07c161b945ae3188eab12981d,
         type: 3}
@@ -4293,7 +4292,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 721cb6a77683aa74d9aca76b604050ef,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 721cb6a77683aa74d9aca76b604050ef,
         type: 3}
@@ -4479,17 +4478,22 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 343718588}
+    m_TransformParent: {fileID: 1854086285}
     m_Modifications:
     - target: {fileID: 1654156705810849360, guid: 49b7a7365b7f02c47a26098cd54360bc,
         type: 3}
       propertyPath: m_Name
       value: Pillar Red
       objectReference: {fileID: 0}
+    - target: {fileID: 1654156705810849360, guid: 49b7a7365b7f02c47a26098cd54360bc,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 2143553366882501866, guid: 49b7a7365b7f02c47a26098cd54360bc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2143553366882501866, guid: 49b7a7365b7f02c47a26098cd54360bc,
         type: 3}
@@ -5192,6 +5196,7 @@ MonoBehaviour:
   - {fileID: 0}
   entrances:
   - {fileID: 0}
+  complete: 0
   enemyContainersP1: {fileID: 127764694}
   enemyParentP1: {fileID: 1994854422}
   enemyContainersP2: {fileID: 479299513}
@@ -6457,17 +6462,22 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 343718588}
+    m_TransformParent: {fileID: 1854086285}
     m_Modifications:
     - target: {fileID: 1654156705810849360, guid: 6554e3d07c161b945ae3188eab12981d,
         type: 3}
       propertyPath: m_Name
       value: Pillar Blue
       objectReference: {fileID: 0}
+    - target: {fileID: 1654156705810849360, guid: 6554e3d07c161b945ae3188eab12981d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 2143553366882501866, guid: 6554e3d07c161b945ae3188eab12981d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2143553366882501866, guid: 6554e3d07c161b945ae3188eab12981d,
         type: 3}
@@ -7294,17 +7304,22 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 343718588}
+    m_TransformParent: {fileID: 1854086285}
     m_Modifications:
     - target: {fileID: 1654156705810849360, guid: 8c953ca1fb7593745a895ebcc899635b,
         type: 3}
       propertyPath: m_Name
       value: Pillar Green (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1654156705810849360, guid: 8c953ca1fb7593745a895ebcc899635b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 2143553366882501866, guid: 8c953ca1fb7593745a895ebcc899635b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2143553366882501866, guid: 8c953ca1fb7593745a895ebcc899635b,
         type: 3}
@@ -8200,17 +8215,22 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 343718588}
+    m_TransformParent: {fileID: 1854086285}
     m_Modifications:
     - target: {fileID: 1654156705810849360, guid: 49b7a7365b7f02c47a26098cd54360bc,
         type: 3}
       propertyPath: m_Name
       value: Pillar Red (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1654156705810849360, guid: 49b7a7365b7f02c47a26098cd54360bc,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 2143553366882501866, guid: 49b7a7365b7f02c47a26098cd54360bc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2143553366882501866, guid: 49b7a7365b7f02c47a26098cd54360bc,
         type: 3}
@@ -8309,6 +8329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetCollisions: 1
+  waitForEventIndex: -1
   dialogueUI: {fileID: 822106727}
   dialogueObject: {fileID: 11400000, guid: db44b294d18e3d6439a01c61e6bb0a18, type: 2}
   afterDialogue: {fileID: 1157093880}
@@ -8632,7 +8653,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 721cb6a77683aa74d9aca76b604050ef,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 721cb6a77683aa74d9aca76b604050ef,
         type: 3}
@@ -8727,7 +8748,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 343718588}
+    m_TransformParent: {fileID: 1854086285}
     m_Modifications:
     - target: {fileID: 1366449786003672581, guid: 8c953ca1fb7593745a895ebcc899635b,
         type: 3}
@@ -8749,10 +8770,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pillar Green
       objectReference: {fileID: 0}
+    - target: {fileID: 1654156705810849360, guid: 8c953ca1fb7593745a895ebcc899635b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 2143553366882501866, guid: 8c953ca1fb7593745a895ebcc899635b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2143553366882501866, guid: 8c953ca1fb7593745a895ebcc899635b,
         type: 3}
@@ -9104,6 +9130,12 @@ Transform:
   - {fileID: 1992662120}
   - {fileID: 267280461}
   - {fileID: 1212677322}
+  - {fileID: 1910273860}
+  - {fileID: 1706890471}
+  - {fileID: 607158063}
+  - {fileID: 536867682}
+  - {fileID: 2052742093}
+  - {fileID: 2055257336}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10233,6 +10265,7 @@ MonoBehaviour:
   - {fileID: 267280462}
   entrances:
   - {fileID: 1992662121}
+  complete: 0
   enemyContainers: {fileID: 459360738}
   enemyParent: {fileID: 1101293651}
 --- !u!1 &2039776682
@@ -10390,7 +10423,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 721cb6a77683aa74d9aca76b604050ef,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 721cb6a77683aa74d9aca76b604050ef,
         type: 3}
