@@ -61,7 +61,6 @@ public class BossHealthBar : HealthBar
         //originalWidth = barRect.rect.width;
         // // // Vector3 vector = barRect.transform.position;
         // // // vector.x += barRect.rect.xMin;
-        Debug.Log("HOIUWEFLOHIUW: "+ barRect.rect.xMin);
         // // // leftPosX = vector.x;//transform.position.x-80*transform.localScale.x;
         //leftPosX = bar.GetComponent<Renderer>().bounds.min.x;
         //hbCanvasTransform.sizeDelta = new Vector2(160, 40);
