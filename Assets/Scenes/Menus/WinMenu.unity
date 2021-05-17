@@ -554,7 +554,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: e950d54f86a72344a92380f2fbef3ccd, type: 2}
+      objectReference: {fileID: 9100000, guid: 885a5300d485ad24a9eae4a3c243fdb4, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 02da14359d1b3f048ac908dcaa42a52b,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7096676514755187342, guid: 02da14359d1b3f048ac908dcaa42a52b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1114,7 +1119,7 @@ Light:
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 3.45
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -1233,7 +1238,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.52
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2329,7 +2334,7 @@ Light:
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 2.74
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -3006,7 +3011,7 @@ Light:
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 1.59
     m_CullingMatrixOverride:
       e00: 1
       e01: 0

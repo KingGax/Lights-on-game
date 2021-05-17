@@ -96,6 +96,9 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public void LeaveRoom() {
         PhotonNetwork.LeaveRoom();
+        PhotonNetwork.Disconnect();
+
+        //PhotonNetwork.Reconnect();
     }
 
     public override void OnLeftRoom() {
