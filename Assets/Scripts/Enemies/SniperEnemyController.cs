@@ -45,7 +45,6 @@ public class SniperEnemyController : Enemy
         shotFlashDuration = flashNum * flashTimerMax + 0.02f;
         targetGO = new GameObject();
         targetTF = targetGO.transform;
-        //hitStunned = false;
         inStunnableState = true;
     }
 
@@ -59,7 +58,7 @@ public class SniperEnemyController : Enemy
         }
     }
 
-    void ManageStates(){
+    void ManageStates(){ //Handles decision logic for AI states
         if (aiEnabled) {
             switch (enemyState) {
                 case EnemyState.Patrolling:
@@ -84,6 +83,9 @@ public class SniperEnemyController : Enemy
     }
 
     // Update is called once per frame
+    /*
+    Handles indicator flashing, target acquisition and calls state decision logic
+    */
     void Update()
     {
         if (flashesRemaining > 0 && flashTimer <= 0){
@@ -114,11 +116,10 @@ public class SniperEnemyController : Enemy
             }
         } 
         ManageStates();
-        //playerObj = GlobalValues.Instance.players[0];
         
     }
 
-    public override void RequestHitStun(float duration)
+    public override void RequestHitStun(float duration) //if indicator is not flashing, increase current shot preparation/recovery time
     {
         if (inStunnableState) {
             //Debug.Log("Float stunned");
@@ -134,9 +135,9 @@ public class SniperEnemyController : Enemy
         }
     }
 
-    Vector3 GetLaserPosition(){
+    Vector3 GetLaserPosition(){ //get endpoint for laser sight/shot indicator
         RaycastHit hit;
-        Vector3 playerDirection = transform.forward; //GetPlayerDirection();
+        Vector3 playerDirection = transform.forward;
         if (Physics.Raycast(transform.position, playerDirection, out hit, maxLaserDistance, GlobalValues.Instance.environment | GlobalValues.Instance.playerLayer)){
             return hit.point;
         } else{
@@ -144,13 +145,13 @@ public class SniperEnemyController : Enemy
         }
     }
 
-    Vector3 GetPlayerDirection(){
+    Vector3 GetPlayerDirection(){ //get planar vector to targeted player
         Vector3 playerDirection = playerObj.transform.position - transform.position;
         playerDirection.y = 0f;
         return playerDirection;
     }
 
-    void Patrol() {
+    void Patrol() { //idle state - retargeting and LOS decision logic
         float minDist  = Mathf.Infinity;
         int index = 0;
         for (int i = 0; i < GlobalValues.Instance.players.Count; i++){
@@ -167,7 +168,7 @@ public class SniperEnemyController : Enemy
         }
     }
     [PunRPC]
-    protected void ChangeLaserStateRPC(bool isStarting){
+    protected void ChangeLaserStateRPC(bool isStarting){ //RPC for changing laser flash state
         RPCLaserEnabled = isStarting;
         laser.enabled = isStarting;
         if (isStarting){
@@ -180,7 +181,7 @@ public class SniperEnemyController : Enemy
         }
     }
 
-    void ChangeToShootPrepare(){
+    void ChangeToShootPrepare(){ //Setup for shot preparation
         enemyState = EnemyState.ShootPrepare;
         hasFlashed = false;
         //activate laser
@@ -193,7 +194,7 @@ public class SniperEnemyController : Enemy
         shootPrepareTimer = shootPrepareTimerMax;
     }
 
-    void TrackLaser(bool isMaster){
+    void TrackLaser(bool isMaster){ //logic for moving laser as enemy rotates
         Vector3 playerDirection = GetPlayerDirection();
         if (isMaster){
             TurnTowards(playerDirection); 
@@ -208,25 +209,21 @@ public class SniperEnemyController : Enemy
         }
     }
 
-    void ShootPrepare(){
+    void ShootPrepare(){ //State handler for shot preparation
         TrackLaser(true);
         if (shootPrepareTimer <= 0){
             ChangeToShooting();
         }
     }
 
-    void ChangeToShooting(){
-        //if (HasPlayerLOS(playerObj, detectionThreshold)) {
+    void ChangeToShooting(){ //Setup for shooting state proper
         agent.enabled = false;
         enemyState = EnemyState.Shooting;
         laser.enabled = false;
         pv.RPC("ChangeLaserStateRPC", RpcTarget.All, false);
-        // } else {
-        //     ChangeToGettingLOS();
-        // }
     }
 
-    void Shooting(){
+    void Shooting(){ //State handler for shooting
         Vector3 playerDirection = playerObj.transform.position - transform.position;
         playerDirection.y = 0f;
         TurnTowards(playerDirection);
@@ -236,21 +233,20 @@ public class SniperEnemyController : Enemy
         ChangeToShootRecover();
     }
 
-    void ChangeToShootRecover(){
+    void ChangeToShootRecover(){ //Setup for shot recovery
         enemyState = EnemyState.ShootRecover;
         shootRecoverTimer = shootRecoverTimerMax;
         inStunnableState = true;
         agent.enabled = true;
     }
 
-    void ShootRecover(){
-        //play reload animation?
+    void ShootRecover(){ //Shot recovery/cooldown handler
         if (shootRecoverTimer <= 0){
             ChangeToGettingLOS();
         }
     }
 
-    void ChangeToGettingLOS(){
+    void ChangeToGettingLOS(){ //Setup for finding LOS/repositioning state
         int index = SelectTarget();
         weapon.SetTarget(index);
         losCheckTimer = losCheckTimerMax;
@@ -259,9 +255,8 @@ public class SniperEnemyController : Enemy
         enemyState = EnemyState.GettingLOS;
     }
 
-    void GettingLOS(){
+    void GettingLOS(){ //FindLOS/reposition state - reposition if cannot currently see the player
         if (losCheckTimer <= 0) {
-            //Debug.Log("Checking LOS again!");
             if (HasPlayerLOS(playerObj, detectionThreshold)) {
                 agent.enabled = false;
                 ChangeToShootPrepare();
@@ -276,7 +271,7 @@ public class SniperEnemyController : Enemy
         }
     }
 
-    private IEnumerator EnemyTimers() {
+    private IEnumerator EnemyTimers() { //Coroutine for AI-related timers
         while (true) {
             if (shootRecoverTimer > 0) {
                 shootRecoverTimer -= Time.deltaTime;

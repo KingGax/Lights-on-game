@@ -16,7 +16,7 @@ namespace LightsOn.HealthSystem {
 
         bool isLocal = false;
 
-        public override void Start() {
+        public override void Start() { //setup values, update healthbar depending on if local player or not
             base.Start();
             pc = GetComponent<PlayerController>();
             if (gameObject == GlobalValues.Instance.localPlayerInstance) {
@@ -32,18 +32,18 @@ namespace LightsOn.HealthSystem {
             }
         }
 
-        public override void Awake() {
+        public override void Awake() { //setup bullet layer
             base.Awake();
             bulletLayer = LayerMask.NameToLayer("EnemyBullets");
         }
 
-        public override void Die() {
+        public override void Die() { //Kill player and respawn in 2s
             pc.SetMovementEnabled(false);
             pc.Die();
             Invoke("Revive", 2f);
         }
 
-        private void Revive() {
+        private void Revive() { //Respawn player, reenable movement and reset health and healthbars
             transform.position = GlobalValues.Instance.fm.GetSpawnPoint();
             health = maxHealth;
             pc.SetMovementEnabled(true);
@@ -51,7 +51,7 @@ namespace LightsOn.HealthSystem {
         }
 
 
-        public override void Damage(float damage, float stunDuration) {
+        public override void Damage(float damage, float stunDuration) { //request damage, update health and healthbars
             pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);
             if (isLocal) {
                 hb.UpdateHealth(health);
@@ -63,14 +63,14 @@ namespace LightsOn.HealthSystem {
         }
 
         [PunRPC]
-        protected override void DamageRPC(float damage, float stunDuration) {
+        protected override void DamageRPC(float damage, float stunDuration) { //RPC for requesting damage on player, update healthbars
             base.DamageRPC(damage, stunDuration);
             if (!isLocal) {
                 fhb.UpdateHealth(health);
             }
         }
 
-        private void OnTriggerEnter(Collider other) {
+        private void OnTriggerEnter(Collider other) { //On being hit by bullet, feedback hit to bullet and request damage on player
             if (other.gameObject.layer == bulletLayer && pv.IsMine) {
                 IDamagingProjectile proj = other.gameObject.GetComponent<IDamagingProjectile>();
                 if (proj != null) {
