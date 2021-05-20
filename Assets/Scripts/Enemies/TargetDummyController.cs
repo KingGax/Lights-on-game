@@ -52,7 +52,7 @@ public class TargetDummyController : Enemy {
         //this could all be replaced with a call to SelectTarget() 
         // (if SelectTarget() returned a tuple), but would need network testing
         //{
-        TurnTowardsPosition(GlobalValues.Instance.localPlayerInstance.transform.position);
+        TurnTowards(GlobalValues.Instance.localPlayerInstance.transform.position-transform.position);
     }
 
     public override void RequestHitStun(float duration) {
