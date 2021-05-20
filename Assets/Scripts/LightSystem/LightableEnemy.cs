@@ -29,11 +29,12 @@ namespace LightsOn.LightingSystem {
             }
         }
 
+        //Method to set up the enemy colour and spawn parent over the network
         public virtual void InitialiseEnemy(LightColour newCol, string _parentName) {
-            if (initialised) {
+            if (initialised) {//this check is necessary to prevent it setting up before lightable object has fetched its materials
                 gameObject.GetComponentInParent<EnemyHealth>().InitialiseMaterials();
                 pv.RPC("InitialiseEnemyRPC", RpcTarget.AllBuffered, newCol, _parentName);
-            } else {
+            } else { //postpone setup until the start method is called
                 initCol = newCol;
                 parentName = _parentName;
                 initialiseOnStart = true;
@@ -41,6 +42,7 @@ namespace LightsOn.LightingSystem {
 
         }
 
+        //Method to set up the enemy colour and spawn parent over the network
         [PunRPC]
         protected virtual void InitialiseEnemyRPC(LightColour newCol, string parentName) {
             if (initialised) {

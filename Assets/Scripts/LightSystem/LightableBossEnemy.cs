@@ -37,6 +37,7 @@ namespace LightsOn.LightingSystem {
             base.Appear();
         }
 
+        //Method overriding so that the boss can prevent itself from reappearing even when it is lit to reappear
         protected override void TryAppear() {
             if (!stayHidden) {
                 base.TryAppear();
