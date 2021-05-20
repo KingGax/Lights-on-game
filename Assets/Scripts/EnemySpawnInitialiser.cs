@@ -16,12 +16,16 @@ public class EnemySpawnInitialiser : MonoBehaviour {
     bool animSpawned = false;
     int hiddenEnemyLayer;
     const double animTime = 1 + 1/3;
+    public float spawnDecalYOffset = 0.0f;
 
     private void Awake() {
         hiddenEnemyLayer = LayerMask.NameToLayer("HiddenEnemies");
     }
 
     void Update() {
+        if (PhotonNetwork.Time > spawnTime + animTime) {
+            animSpawned = true;
+        }
         if (!animSpawned && PhotonNetwork.Time > spawnTime) { 
             animSpawned = true;
             SpawnAnim();
@@ -57,8 +61,9 @@ public class EnemySpawnInitialiser : MonoBehaviour {
         enemyCol = col;
     }
 
-    void SpawnAnim() {
-        Instantiate(spawnDecal, transform.position, Quaternion.identity);
+    protected virtual void SpawnAnim() {
+        Vector3 decalPos = new Vector3(transform.position.x, transform.position.y + spawnDecalYOffset, transform.position.z);
+        Instantiate(spawnDecal, decalPos, Quaternion.identity);
     }
 
     void SpawnEnemy() {

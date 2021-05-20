@@ -12,8 +12,8 @@ public class FloorManager : MonoBehaviour
     int numPlayers;
     float startEventTimer = 0f;
     float minEventTimer = 0.4f;
-    bool[] roomEventsTriggered;
-    bool[] objectivesComplete;
+    public bool[] roomEventsTriggered;
+    public bool[] objectivesComplete;
     public List<RoomObjective> levels;
     public List<Transform> p1SpawnPoints;
     public List<Transform> p2SpawnPoints;
@@ -124,6 +124,10 @@ public class FloorManager : MonoBehaviour
     }
 
     public void UpdateLocation(GameObject player, int roomNum) {
+        if (GlobalValues.Instance.p1Spawned && GlobalValues.Instance.p2Spawned) {
+            twoPlayers = true;
+            numPlayers = 2;
+        }
         if (PhotonNetwork.IsMasterClient) {
             if (twoPlayers) {
                 if (GlobalValues.Instance.p1Spawned && GlobalValues.Instance.p2Spawned) {

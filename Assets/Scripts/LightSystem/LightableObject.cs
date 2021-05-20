@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace LightsOn.LightingSystem {
     public class LightableObject : MonoBehaviour {
@@ -30,7 +31,7 @@ namespace LightsOn.LightingSystem {
         float lightOverpowerRatio = 1.4f;
 
         List<Lanturn> currentLights = new List<Lanturn>();
-        MeshRenderer meshRenderer;
+        protected MeshRenderer meshRenderer;
         Collider physicsCollider;
         GameObject boidManagerPrefab;
         GameObject deathBoidManagerPrefab;
@@ -40,11 +41,13 @@ namespace LightsOn.LightingSystem {
         public PointCloudSO cloudPoints;
         Vector3[] transformedPoints;
         Quaternion lastRotation;
-        bool fading = false;
+        protected bool fading = false;
         float fadeTimer = 0f;
         float fadeTimerMax = 0f;
         BoxCollider physicsBox;
         bool usesBoxCollider= false;
+        bool extraSwarmSpawnPoints = false;
+        Vector3[] extraSwarmPoints;
         
         //public Transform swarmPoint;
         virtual protected void Awake() {
@@ -281,6 +284,20 @@ namespace LightsOn.LightingSystem {
             }
         }
 
+        protected Vector3[] GetTransformedPoints(PointCloudSO pointCloud,Transform rotTransform) {
+            if (pointCloud != null) {
+                Quaternion defaultQuat = pointCloud.initialRotation;
+                Quaternion rotationQuat = rotTransform.rotation * Quaternion.Inverse(defaultQuat); //trivially
+                Vector3[] newPoints = new Vector3[pointCloud.points.Length];
+                for (int i = 0; i < pointCloud.points.Length; i++) {
+                    newPoints[i] = rotTransform.position + rotationQuat * pointCloud.points[i];
+                }
+                return newPoints;
+            } else {
+                return null;
+            }
+        }
+
         protected BoidManager GetCurrentBoidManagerInstance() {
             return boidManagerInstance.GetComponentInChildren<BoidManager>();
         }
@@ -311,6 +328,9 @@ namespace LightsOn.LightingSystem {
                 meshRenderer.material = hiddenMaterials.get(colour);
                 meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             }
+            SwarmDisappearLogic();
+        }
+        protected void SwarmDisappearLogic(){ //to fix inheritance/overriding issue
             transform.parent.gameObject.layer = hiddenLayer;
             if (canSwarm) {
                 fading = false;
@@ -323,7 +343,14 @@ namespace LightsOn.LightingSystem {
                     man.col = colour;
                     //man.SetCol(colour);
                     if (cloudPoints != null) {
-                        man.SetSpawnPoints(GetTransformedPoints(), maxSwarmRadius, GetComponent<BoxCollider>().bounds.size, GetComponent<BoxCollider>().transform.position);
+                        if (!extraSwarmSpawnPoints) {
+                            man.SetSpawnPoints(GetTransformedPoints(), maxSwarmRadius, GetComponent<BoxCollider>().bounds.size, GetComponent<BoxCollider>().transform.position);
+                        } else {
+                            Vector3[] allSpawnPoints = GetTransformedPoints().Concat(extraSwarmPoints).ToArray();
+                            man.SetSpawnPoints(allSpawnPoints, maxSwarmRadius, GetComponent<BoxCollider>().bounds.size, GetComponent<BoxCollider>().transform.position);
+                        }
+                        
+
                     }
                     man.Spawn();
                 } else {
@@ -332,10 +359,16 @@ namespace LightsOn.LightingSystem {
                 }
             }
 
+
             Light[] lights = GetComponentsInChildren<Light>();
             foreach (Light l in lights) {
                 l.enabled = false;
             }
+        }
+
+        protected void SetExtraSpawnPoints(Vector3[] spawnPoints) {
+            extraSwarmSpawnPoints = true;
+            extraSwarmPoints = spawnPoints;
         }
 
         public virtual void Appear() {
@@ -345,7 +378,12 @@ namespace LightsOn.LightingSystem {
                 //LerpMaterial(0); why?
             }
             if (canSwarm) {
-                fadeTimerMax = boidManagerInstance.GetComponentInChildren<BoidManager>().SendReformSignal(GetTransformedPoints());
+                if (!extraSwarmSpawnPoints) {
+                    fadeTimerMax = boidManagerInstance.GetComponentInChildren<BoidManager>().SendReformSignal(GetTransformedPoints());
+                } else {
+                    fadeTimerMax = boidManagerInstance.GetComponentInChildren<BoidManager>().SendReformSignal(GetTransformedPoints().Concat(extraSwarmPoints).ToArray());
+                }
+                
                 fadeTimer = fadeTimerMax;
                 fading = true;
                 InvokeRepeating("TryReform", 0, 0.1f);
@@ -401,6 +439,11 @@ namespace LightsOn.LightingSystem {
                     //particle effect at ParticleTransform
                 }
             }
+            FinishAppearingSwarm();
+            
+        }
+
+        void FinishAppearingSwarm(){
             transform.parent.gameObject.layer = defaultLayer;
             if (canSwarm) {
                 boidManagerInstance.GetComponentInChildren<BoidManager>().DestroyMyAgents();

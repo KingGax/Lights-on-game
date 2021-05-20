@@ -36,22 +36,33 @@ public class DialogueUI : MonoBehaviour
         CloseDialogueBox();
         foreach (Player p in PhotonNetwork.PlayerList)
 		{
-			names.Add(p.NickName);
+			names.Add(p.NickName.ToUpper());
 		}
 
         //ShowDialogue(testDialogue);
     }
 
+    private void GetNames() {
+        names.Clear();
+        foreach (Player p in PhotonNetwork.PlayerList) {
+            names.Add(p.NickName.ToUpper());
+        }
+    }
+
     public void ShowDialogue(DialogueObject dialogueObject, AfterDialogue afterDialogue){
+        GetNames();
         DisableLocalPlayerMovement();
         OpenDialogueBox();
+        DisableUIElements();
         StartCoroutine(StepThroughDialogue(dialogueObject, afterDialogue));
     }
 
     public void ShowDialogue(DialogueObject dialogueObject){
         //Debug.LogError("showing dialogue");
+        GetNames();
         DisableLocalPlayerMovement();
         OpenDialogueBox();
+        DisableUIElements();
         StartCoroutine(StepThroughDialogue(dialogueObject));
     }
 
@@ -63,9 +74,11 @@ public class DialogueUI : MonoBehaviour
             ShowKeyPrompt();
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
             HideKeyPrompt();
+            
         }
         CloseDialogueBox();
         EnableLocalPlayerMovement();
+        EnableUIElements();
         afterDialogue.Effect();
     }
 
@@ -80,6 +93,7 @@ public class DialogueUI : MonoBehaviour
         }
         CloseDialogueBox();
         EnableLocalPlayerMovement();
+        EnableUIElements();
     }
 
     private void CloseDialogueBox(){
@@ -93,6 +107,8 @@ public class DialogueUI : MonoBehaviour
 
     private void DisableLocalPlayerMovement(){
         GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerInputScript>().DisableInput();
+        GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerController>().AttackOne(false);
+        GlobalValues.Instance.localPlayerInstance.GetComponent<PlayerController>().AttackAlt(false);
     }
 
     private void EnableLocalPlayerMovement(){
@@ -105,6 +121,16 @@ public class DialogueUI : MonoBehaviour
 
     private void HideKeyPrompt(){
         keyPressPrompt.gameObject.SetActive(false);
+    }
+
+    private void EnableUIElements(){
+        GlobalValues.Instance.UIElements.GetComponent<UIController>().EnableLeaveButton();
+        GlobalValues.Instance.UIElements.GetComponent<UIController>().EnableControlsHelp();
+    }
+
+    private void DisableUIElements(){
+        GlobalValues.Instance.UIElements.GetComponent<UIController>().DisableLeaveButton();
+        GlobalValues.Instance.UIElements.GetComponent<UIController>().DisableControlsHelp();
     }
 
 }

@@ -7,6 +7,7 @@ public class DialogueCollider : MonoBehaviour
     [SerializeField]
     private int targetCollisions;
     private int numberOfCollisions = 0;
+    public int waitForEventIndex = -1;
 
     private bool activated = false;
 
@@ -20,7 +21,6 @@ public class DialogueCollider : MonoBehaviour
     private AfterDialogue afterDialogue;
 
     void Start(){
-        Debug.Log("I AM A TRIGGER");
     }
 
     void Update(){
@@ -29,16 +29,16 @@ public class DialogueCollider : MonoBehaviour
 
     private void OnTriggerEnter(){
         numberOfCollisions++;
-        Debug.Log("number of collisions: " + numberOfCollisions);
         if(numberOfCollisions == targetCollisions && !activated){
-            activated = true;
-            if(afterDialogue == null) dialogueUI.ShowDialogue(dialogueObject);
-            else dialogueUI.ShowDialogue(dialogueObject, afterDialogue);
+            if (waitForEventIndex == -1 || GlobalValues.Instance.fm.levels[waitForEventIndex].complete){
+                activated = true;
+                if(afterDialogue == null) dialogueUI.ShowDialogue(dialogueObject);
+                else dialogueUI.ShowDialogue(dialogueObject, afterDialogue);
+            }
         }
     }
 
     private void OnTriggerExit(){
         numberOfCollisions--;
-        Debug.Log("number of collisions: " + numberOfCollisions);
     }
 }

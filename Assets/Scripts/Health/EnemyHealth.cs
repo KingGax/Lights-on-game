@@ -11,9 +11,11 @@ namespace LightsOn.HealthSystem {
         protected HealthBar healthBar;
         Enemy controller;
         Renderer renderer;
+        LightableEnemy lightableEnemy;
         Material mat;
         Color baseCol;
         Color emisCol;
+        bool hasStarted = false;
         protected int flashNum = 2;
         protected int flashesRemaining = 0;
         protected float flashTimerMax = 0.1f;
@@ -26,7 +28,9 @@ namespace LightsOn.HealthSystem {
             healthBar = gameObject.GetComponentInChildren<HealthBar>();
             healthBar.UpdateMaxHealth(maxHealth); //calls this after setting boss HB parent [FIX THIS]
             healthBar.UpdateHealth(health);
+            lightableEnemy = GetComponentInChildren<LightableEnemy>();
             StartCoroutine("Timers");
+            hasStarted = true;
         }
 
         public override void Damage(float damage, float stunDuration) {
@@ -35,11 +39,23 @@ namespace LightsOn.HealthSystem {
         }
 
         public void InitialiseMaterials() {
-            if (gameObject.GetComponents<Renderer>().Length == 0) {
-                renderer = gameObject.GetComponentInChildren<Renderer>();
-            } else {
-                renderer = gameObject.GetComponent<Renderer>();
+            if (!hasStarted){
+                Start();
             }
+            if (lightableEnemy.usesMeshRenderer){
+                if (gameObject.GetComponents<MeshRenderer>().Length == 0) {
+                    renderer = gameObject.GetComponentInChildren<MeshRenderer>();
+                } else {
+                    renderer = gameObject.GetComponent<MeshRenderer>();
+                }
+            } else {
+                if (gameObject.GetComponents<SkinnedMeshRenderer>().Length == 0) {
+                    renderer = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
+                } else {
+                    renderer = gameObject.GetComponent<SkinnedMeshRenderer>();
+                }
+            }
+            
 
             mat = renderer.material;
             canFlicker = true;
@@ -93,9 +109,21 @@ namespace LightsOn.HealthSystem {
         void Update() {
             if (flashesRemaining > 0 && flashTimer <= 0) {
                 if (flashesRemaining % 2 == 0) {
+                    if (lightableEnemy.childObjects != null) {
+                        foreach (Renderer r in lightableEnemy.childObjects) {
+                            r.material.SetColor("_BaseColor", Color.red);
+                            r.material.SetColor("_EmissionColour", Color.white);
+                        }
+                    }
                     mat.SetColor("_BaseColor", Color.red);
                     mat.SetColor("_EmissionColour", Color.white);
                 } else {
+                     if (lightableEnemy.childObjects != null) {
+                        foreach (Renderer r in lightableEnemy.childObjects) {
+                            r.material.SetColor("_BaseColor", baseCol);
+                            r.material.SetColor("_EmissionColour", emisCol);
+                        }
+                    }
                     mat.SetColor("_BaseColor", baseCol);
                     mat.SetColor("_EmissionColour", emisCol);
                 }

@@ -16,8 +16,9 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks {
     public Dictionary<string, GameObject> cachedRoomList = new Dictionary<string, GameObject>();
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList) {
-        Debug.Log("ROOM");
-        Debug.Log(roomList.Count);
+        if (SceneManagerHelper.ActiveSceneName != "LobbyMenu") {
+            Destroy(gameObject);
+        }
         for (int i=0; i<roomList.Count; i++) {
             RoomInfo info = roomList[i];
             if (info.RemovedFromList) {

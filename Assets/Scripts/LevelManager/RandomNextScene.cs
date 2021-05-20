@@ -21,7 +21,6 @@ public class RandomNextScene : MonoBehaviour
 
     void generateRandomNextScene(){
         int sceneNum = Random.Range(0,10);
-        Debug.Log("Scene Random Num: "+ sceneNum);
         winScript.sceneName = scenes[getSceneIndex(sceneNum)];
     }
 }

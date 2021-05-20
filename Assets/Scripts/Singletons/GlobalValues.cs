@@ -36,6 +36,7 @@ public class GlobalValues : MonoBehaviour {
     public bool bothPlayersSpawned = false;
     public bool p1Spawned = false;
     public bool p2Spawned = false;
+    public bool hasSeenMainMenu = false;
 
     public static GlobalValues Instance { get { return _instance; } }
 
@@ -46,7 +47,11 @@ public class GlobalValues : MonoBehaviour {
         }
     }
     public void updateMicPermissions(bool micEnabledValue) {
-        micEnabled = micEnabledValue;
+        this.micEnabled = micEnabledValue;
+        if(micEnabledValue == false) {
+            this.voiceChatEnabled = false;
+            this.voiceControlEnabled = false;
+        }
     }
     public void disableMicFrontend() {
         updateMicPermissions(false);

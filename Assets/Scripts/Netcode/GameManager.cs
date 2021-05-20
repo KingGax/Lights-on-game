@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 using Photon.Pun.UtilityScripts;
+using System.Runtime.InteropServices;
 
 public class GameManager : MonoBehaviourPunCallbacks {
     private GameObject otherPlayerGO;
@@ -15,6 +16,11 @@ public class GameManager : MonoBehaviourPunCallbacks {
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
 
+    [DllImport("__Internal")]
+    private static extern void disconnectVoiceChatUnity();
+
+    [DllImport("__Internal")]
+    private static extern void setupVoiceChatUnity(string roomName, string role);
 
     // Called when the local player left the room. We need to load the launcher scene.
     public override void OnLeftRoom() {
@@ -40,12 +46,16 @@ public class GameManager : MonoBehaviourPunCallbacks {
         if (playerPrefab == null) {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",this);
         } else if (PlayerController.LocalPlayerInstance == null) {
-            Debug.Log("Damn son");
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-            
-            if (PhotonNetwork.LocalPlayer.ActorNumber < 3) {
-                Debug.Log("Actor number " + PhotonNetwork.LocalPlayer.ActorNumber);
-                Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
+            Room photonRoom = PhotonNetwork.CurrentRoom;
+            int highestActor;
+            if (!PhotonNetwork.OfflineMode) {
+                highestActor = (int)photonRoom.CustomProperties["highestActor"];
+            } else {
+                highestActor = 999;
+            }
+            Debug.Log(highestActor);
+            if (PhotonNetwork.LocalPlayer.ActorNumber <= highestActor && GlobalValues.Instance.localPlayerInstance == null) {
                 DontDestroyOnLoad(GlobalValues.Instance.gameObject);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 if (PhotonNetwork.IsMasterClient) {
@@ -64,6 +74,13 @@ public class GameManager : MonoBehaviourPunCallbacks {
             } else {
                 pv.RPC("RequestOwnership", RpcTarget.MasterClient);
                 Time.timeScale = 0;
+                #if !UNITY_EDITOR
+                    #if UNITY_WEBGL
+                    if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
+                        setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "client");
+                    }
+                    #endif
+                #endif
                 UnPauseGame();
             }
         } else {
@@ -104,7 +121,6 @@ public class GameManager : MonoBehaviourPunCallbacks {
     public override void OnPlayerEnteredRoom(Player other) {
         otherPlayer = other;
         Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
-        Debug.Log("Entered room.");
         if (other.ActorNumber > 2) {
             if (GlobalValues.Instance.localPlayerInstance == GlobalValues.Instance.players[0]) {
                  otherPlayerGO = GlobalValues.Instance.players[1];
@@ -115,6 +131,13 @@ public class GameManager : MonoBehaviourPunCallbacks {
         if (PhotonNetwork.IsMasterClient) {
             Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
         }
+        #if !UNITY_EDITOR
+            #if UNITY_WEBGL
+            if(GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled) {
+                setupVoiceChatUnity(PhotonNetwork.CurrentRoom.Name, "master");
+            }
+            #endif
+        #endif
         UnPauseGame();
     }
 
@@ -148,15 +171,28 @@ public class GameManager : MonoBehaviourPunCallbacks {
         foreach (PhotonView view in childPhotons) {
             view.TransferOwnership(otherPlayer);
         }
+        GlobalValues.Instance.p2Spawned = true;
     }
 
     public override void OnPlayerLeftRoom(Player other) {
         Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
-        Debug.Log(other.ActorNumber);
         GlobalValues.Instance.PlayerLeft();
         if (PhotonNetwork.IsMasterClient) {
+
             Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
+            if (SceneManagerHelper.ActiveSceneName == "Nightclub"){
+                GlobalValues.Instance.players[0].transform.transform.position = GlobalValues.Instance.fm.p1SpawnPoints[0].position;
+                GlobalValues.Instance.players[1].transform.transform.position = GlobalValues.Instance.fm.p2SpawnPoints[0].position;
+                PhotonNetwork.RemoveRPCs(other);
+                PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
+                PhotonNetwork.LoadLevel("Nightclub");
+            }
             PauseGame();
         }
+        #if !UNITY_EDITOR
+            #if UNITY_WEBGL
+                disconnectVoiceChatUnity();
+            #endif
+        #endif
     }
 }

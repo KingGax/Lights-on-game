@@ -37,6 +37,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
 
     public void OnCLick_JoinButton()
     {
+        //PhotonNetwork.Reconnect();   
         PhotonNetwork.JoinRoom(_roomCode);
     }
 

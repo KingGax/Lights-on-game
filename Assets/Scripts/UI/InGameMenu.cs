@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
 
@@ -10,6 +11,8 @@ public class InGameMenu : MonoBehaviour
     public Toggle MicToggle;
     public Toggle VoiceChatToggle;
     public Toggle VoiceControlToggle;
+    public AudioMixer mixer;
+    public Slider volumeSlider;
 
     [DllImport("__Internal")]
     private static extern void disableVoiceChatUnity();
@@ -32,6 +35,11 @@ public class InGameMenu : MonoBehaviour
         MenuItem.SetActive(!visible);
         visible = !visible;
 
+        float initialRawValue;
+        mixer.GetFloat("MasterVolume", out initialRawValue);
+        float initialValue = Mathf.Pow(10, initialRawValue/20);
+        volumeSlider.value = initialValue;
+
         //Set toggle values to match GlobalValues true state.
         MicToggle.isOn = GlobalValues.Instance.micEnabled;
         VoiceChatToggle.isOn = GlobalValues.Instance.micEnabled && GlobalValues.Instance.voiceChatEnabled;
@@ -48,6 +56,19 @@ public class InGameMenu : MonoBehaviour
     public void updateMicEnabled(bool newVal)
     {
         GlobalValues.Instance.micEnabled = newVal;
+        if(newVal == false) {
+            GlobalValues.Instance.voiceChatEnabled = false;
+            GlobalValues.Instance.voiceControlEnabled = false;
+            VoiceChatToggle.interactable = false;
+            VoiceControlToggle.interactable = false;
+            VoiceChatToggle.isOn = false;
+            VoiceControlToggle.isOn = false;
+            updateVoiceChatEnabled(false);
+        }
+        else {
+            VoiceChatToggle.interactable = true;
+            VoiceControlToggle.interactable = true;
+        }
     }
     public void updateVoiceChatEnabled(bool newVal)
     {
@@ -62,5 +83,8 @@ public class InGameMenu : MonoBehaviour
     public void updateVoiceControlEnabled(bool newVal)
     {
         GlobalValues.Instance.voiceControlEnabled = newVal;
+    }
+    public void updateVolume(float volume) {
+        mixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
     }
 }

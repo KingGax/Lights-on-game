@@ -14,6 +14,7 @@ namespace LightsOn.AudioSystem {
         public int playingTrack = 0;
         public int nextTrack = 0;
         private int freeAudioSource = 0;
+        private double currentStartedTime = 0;
         private double nextStartTime = 0;
         private float volumeSFX = 1;
 
@@ -32,26 +33,62 @@ namespace LightsOn.AudioSystem {
             }
         }
 
+        private bool nextTrackScheduled = false;
+        private bool nextTrackOnNext = false;
+
+        private void ShortCircuite(double time) {
+            Debug.Log("Looking to short circuit next track");
+            Clip ac = audioClips[playingTrack];
+
+            if (nextTrackOnNext && ac.endBehaviour == ClipEndBehaviour.NEXT) {
+                return;
+            } else {
+                nextTrackOnNext = false;
+            }
+
+            if (ac.endBehaviour == ClipEndBehaviour.NEXT) {
+                nextTrackOnNext = true;
+                nextTrackScheduled = true;
+                return;
+            }
+
+            nextStartTime = ac.getNextBeatAfterTime(
+                (float) currentStartedTime,
+                (float) time + 1.0f
+            );
+            // Reschedule current song to end
+            audioSources[1-freeAudioSource].SetScheduledEndTime(nextStartTime);
+            nextTrackScheduled = true;
+        }
+
         public void Update() {
             double time = AudioSettings.dspTime;
-            if (nextTrack != playingTrack) {
-                Clip ac = getNextClip();
-                nextStartTime = ac.getNextBeatAfterTime((float)time + 1.0f);
-                playingTrack++;
-                // Reschedule current song to end
-                audioSources[1-freeAudioSource].SetScheduledEndTime(nextStartTime);
+
+            if (nextTrack != playingTrack && !nextTrackScheduled) {
+                ShortCircuite(time);
             }
 
             if (time + 1.0f > nextStartTime) {
                 Clip ac = getNextClip();
                 if (ac == null) return;
+                /*Debug.Log("Scheduling track " + nextTrack + " to play in 1 second"
+                    + "\n\tstarting clip at: " + ac.start
+                    + "\n\tclip ends at: " + ac.end
+                );*/
 
                 audioSources[freeAudioSource].clip = ac.audioClip;
                 audioSources[freeAudioSource].time = ac.start;
                 audioSources[freeAudioSource].PlayScheduled(nextStartTime);
+                currentStartedTime = nextStartTime; // Update with next songs start time as scheduled
                 nextStartTime += ac.length();
                 audioSources[freeAudioSource].SetScheduledEndTime(nextStartTime);
                 freeAudioSource = 1 - freeAudioSource;
+                playingTrack = nextTrack;
+                nextTrackScheduled = false;
+                
+                if (nextTrackOnNext) {
+                    nextTrack++;
+                }
             }
         }
 
@@ -59,26 +96,34 @@ namespace LightsOn.AudioSystem {
             if (nextTrack >= audioClips.Count) {
                 return null;
             } else if (nextTrack == playingTrack) {
-                Clip ac = audioClips[nextTrack];
+                Clip ac = audioClips[playingTrack];
                 switch (ac.endBehaviour) {
                     case ClipEndBehaviour.NEXT:
                         nextTrack++;
+                        /*Debug.Log("Advancing to track " + nextTrack
+                            + " as track " + playingTrack + " has ended"
+                        );*/
                         return getNextClip();
                     case ClipEndBehaviour.LOOP:
+                    case ClipEndBehaviour.LOOPSHORT:
+                    case ClipEndBehaviour.LOOPBEAT:
+                        //Debug.Log("Scheduling to loop track " + playingTrack);
                         return ac;
                     default:
                     case ClipEndBehaviour.END:
                         return null;
                 }
             } else {
+                Debug.Log("Scheduling to move to next track, track " + nextTrack);
                 Clip ac = audioClips[nextTrack];
                 return ac;
             }
         }
 
         public void PlayNext() {
+            // TODO: conditon where play next is called within a NEXT section
+            Debug.Log("Play Next");
             nextTrack++;
-            // Deal with short cicuiting current song
         }
 
         private void generateAudioSources() {

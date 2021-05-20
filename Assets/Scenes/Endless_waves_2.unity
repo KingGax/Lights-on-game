@@ -880,7 +880,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: fcc25425d46a1e54bbb5f839858cbb74, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 8c38d76051a3e514a896c096dc972d26, type: 2}
 --- !u!4 &90880128
 Transform:
   m_ObjectHideFlags: 0
@@ -923,7 +923,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 1
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 0b0d3f54e36519f41a4ee30b2d56c04f, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 302d8f3efbd15b944bd045fbd6d07d6d, type: 2}
 --- !u!1001 &95906154
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1326,6 +1326,11 @@ PrefabInstance:
         type: 3}
       propertyPath: colour
       value: 16777215
+      objectReference: {fileID: 0}
+    - target: {fileID: 7825319451559792210, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
+        type: 3}
+      propertyPath: unlockedColour
+      value: 16711680
       objectReference: {fileID: 0}
     - target: {fileID: 8065249564727648290, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
@@ -1971,8 +1976,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 145.67339, y: 0.7270981, z: 100.36124}
-  m_Center: {x: 8.636696, y: -0.13645095, z: -49.68062}
+  m_Size: {x: 158.29391, y: 0.7270981, z: 100.36124}
+  m_Center: {x: 2.326435, y: -0.13645095, z: -49.68062}
 --- !u!1001 &405844053
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2222,6 +2227,16 @@ PrefabInstance:
       objectReference: {fileID: 2038499703}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
+      propertyPath: p1NavPoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p2NavPoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
       propertyPath: p1SpawnPoints.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -2237,7 +2252,27 @@ PrefabInstance:
       objectReference: {fileID: 858827161}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
+      propertyPath: p1NavPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p1NavPoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
       propertyPath: p2NavPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p2NavPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: p2NavPoints.Array.data[2]
       value: 
       objectReference: {fileID: 858827161}
     - target: {fileID: 3812703217067086722, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
@@ -2270,6 +2305,26 @@ PrefabInstance:
       propertyPath: navigationEnabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3812703217067086783, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: navigationPoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812703217067086783, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: navigationPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086783, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: navigationPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 858827161}
+    - target: {fileID: 3812703217067086783, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
+        type: 3}
+      propertyPath: navigationPoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 858827161}
     - target: {fileID: 3812703217209667544, guid: 8fc03c6d549e1ec6bae8c843490c12a2,
         type: 3}
       propertyPath: viewIdField
@@ -3267,6 +3322,52 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.06468769, y: 0.024009548, z: 0.07000001}
   m_Center: {x: -0.16790178, y: 0.00015674591, z: 0.03536579}
+--- !u!1 &724745976
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 724745978}
+  - component: {fileID: 724745977}
+  m_Layer: 0
+  m_Name: StartBossFight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &724745977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724745976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47dd461871bca7641ba1300614673db4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boss: {fileID: 0}
+  targetActivations: 2
+  isEndlessMode: 1
+--- !u!4 &724745978
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724745976}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -30.844915, y: 6.7607203, z: -77.86445}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &764725732
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4134,6 +4235,8 @@ MonoBehaviour:
   - {fileID: 0}
   entrances:
   - {fileID: 0}
+  complete: 0
+  playNextTrack: 1
   enemyContainersP1: {fileID: 127764694}
   enemyParentP1: {fileID: 1994854422}
   enemyContainersP2: {fileID: 479299513}
@@ -7260,7 +7363,7 @@ PrefabInstance:
     - target: {fileID: 7825319451559792210, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
       propertyPath: colour
-      value: 16711680
+      value: 65280
       objectReference: {fileID: 0}
     - target: {fileID: 7825319451559792210, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}
@@ -7532,6 +7635,8 @@ MonoBehaviour:
   - {fileID: 267280462}
   entrances:
   - {fileID: 1992662121}
+  complete: 0
+  playNextTrack: 1
   enemyContainers: {fileID: 459360738}
   enemyParent: {fileID: 1101293651}
 --- !u!1 &2039776682
@@ -8307,6 +8412,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7825319451559792210, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
+        type: 3}
+      propertyPath: unlockedColour
+      value: 16711680
       objectReference: {fileID: 0}
     - target: {fileID: 8065249564727648290, guid: d4adba2d9e36b6a4aab90ed4eb3129ab,
         type: 3}

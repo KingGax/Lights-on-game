@@ -10,6 +10,7 @@ public class MissileController : MonoBehaviour
     public int damage;
     public float hitstun;
     private float turnSpeed;
+    private float playerGunHeight = 2.1f;
     private int retargetCounter;
     private float missileDeathDelay = 5f;
     private float explosionRadius = 1.3f;
@@ -128,7 +129,8 @@ public class MissileController : MonoBehaviour
                                         transform.position.y,
                                         targetPlayer.transform.position.z);
         transform.up = Vector3.RotateTowards(transform.up, targetPostition - transform.position,Time.deltaTime*turnSpeed,0);
-        transform.position += transform.up * moveSpeed * Time.deltaTime + new Vector3(0,(targetPlayer.transform.position.y - transform.position.y)*Time.deltaTime,0);
-        retargetCounter--;   
+        transform.position += transform.up * moveSpeed * Time.deltaTime + new Vector3(0,(playerGunHeight - transform.position.y)*Time.deltaTime,0); 
+        retargetCounter--;  
+        //targetPlayer.transform.position.y+targetPlayer.transform.localScale.y 
     }
 }
