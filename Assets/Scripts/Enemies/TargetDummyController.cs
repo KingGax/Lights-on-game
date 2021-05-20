@@ -26,6 +26,7 @@ public class TargetDummyController : Enemy {
         }
     }
     // Update is called once per frame
+    /*Always patrol*/
     void Update() {
         if (pv == null || !pv.IsMine) return;
         if (!hasPlayerJoined) {
@@ -36,7 +37,6 @@ public class TargetDummyController : Enemy {
                 return;
             }
         }
-        //playerObj = GlobalValues.Instance.players[0];
         if (aiEnabled) {
             switch (enemyState) {
                 case EnemyState.Patrolling:
@@ -48,14 +48,11 @@ public class TargetDummyController : Enemy {
         }
     }
 
-    void Patrol() {
-        //this could all be replaced with a call to SelectTarget() 
-        // (if SelectTarget() returned a tuple), but would need network testing
-        //{
+    void Patrol() { //idle state handler (look at player)
         TurnTowards(GlobalValues.Instance.localPlayerInstance.transform.position-transform.position);
     }
 
-    public override void RequestHitStun(float duration) {
+    public override void RequestHitStun(float duration) { //doesn't take hitstun
 
     }
 

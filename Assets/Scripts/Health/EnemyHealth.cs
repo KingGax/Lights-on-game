@@ -22,7 +22,7 @@ namespace LightsOn.HealthSystem {
         protected float flashTimer;
         protected bool canFlicker = false;
 
-        public override void Start() {
+        public override void Start() { //Get components, start coroutine and update health/healthbar
             base.Start();
             controller = gameObject.GetComponent<Enemy>(); 
             healthBar = gameObject.GetComponentInChildren<HealthBar>();
@@ -33,12 +33,12 @@ namespace LightsOn.HealthSystem {
             hasStarted = true;
         }
 
-        public override void Damage(float damage, float stunDuration) {
+        public override void Damage(float damage, float stunDuration) { //Request damage on enemyl, update health bar
             pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);
             healthBar.UpdateHealth(health);
         }
 
-        public void InitialiseMaterials() {
+        public void InitialiseMaterials() { //Gets materials for enemy flashing on receiving damage
             if (!hasStarted){
                 Start();
             }
@@ -55,8 +55,6 @@ namespace LightsOn.HealthSystem {
                     renderer = gameObject.GetComponent<SkinnedMeshRenderer>();
                 }
             }
-            
-
             mat = renderer.material;
             canFlicker = true;
             baseCol = mat.GetColor("_BaseColor");
@@ -64,14 +62,13 @@ namespace LightsOn.HealthSystem {
         }
 
         [PunRPC]
-        protected override void DamageRPC(float damage, float stunDuration) {
+        protected override void DamageRPC(float damage, float stunDuration) { //RPC for requesting damage on enemy, starting enemy flashing
             health -= damage;
             if (canFlicker) {
                 if (flashesRemaining == 0) {
                     flashesRemaining = flashNum;
                 }
             }
-
             if (pv.IsMine) {
                 controller.RequestHitStun(stunDuration);
                 if (health <= 0) {
@@ -79,26 +76,25 @@ namespace LightsOn.HealthSystem {
                     Die();
                 }
             }
-
             healthBar.UpdateHealth(health);
         }
 
         [PunRPC]
-        void SpawnDeathBoids() {
+        void SpawnDeathBoids() { //Spawn swarms for dead enemy
             LightableEnemy enemyLightable = GetComponentInChildren<LightableEnemy>();
             if (enemyLightable != null) {
                 enemyLightable.SpawnDeathCloud();
             }
         }
 
-        public override void Die()
+        public override void Die() //Death handler - call SFX and RPC on all clients
         {
             AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXKill, transform.position, gameObject);
             pv.RPC("EnemyDieRPC", RpcTarget.AllBuffered);
         }
         
         [PunRPC]
-        public void EnemyDieRPC() {
+        public void EnemyDieRPC() { //RPC for enemy death
             if (pv.IsMine) {
                 PhotonNetwork.CleanRpcBufferIfMine(pv);
             }
@@ -106,7 +102,7 @@ namespace LightsOn.HealthSystem {
             Destroy(healthBar.gameObject);
         }
 
-        void Update() {
+        void Update() { //handles enemy flashing logic
             if (flashesRemaining > 0 && flashTimer <= 0) {
                 if (flashesRemaining % 2 == 0) {
                     if (lightableEnemy.childObjects != null) {
@@ -132,7 +128,7 @@ namespace LightsOn.HealthSystem {
             }
         }
 
-        private IEnumerator Timers() {
+        private IEnumerator Timers() { //coroutine for timers
             while (true) {
                 if (flashTimer > 0) {
                     flashTimer -= Time.deltaTime;
