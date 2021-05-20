@@ -15,14 +15,15 @@ namespace LightsOn.LightingSystem {
 
         public override void Start() {
             base.Start();
-
         }
+
         public void LockDoor() {
             disappeared = false;
             transform.parent.gameObject.layer = defaultLayer;
             SetColour(LightColour.White);
         }
 
+        //RPC for unlocking door with puzzle ball break effect
         [PunRPC]
         public void PuzzleBallUnlockDoorRPC(LightColour ballCol, Vector3 ballPos) {
             Vector3[] doorPoints = GetTransformedPoints();
@@ -36,6 +37,7 @@ namespace LightsOn.LightingSystem {
             unlockedColour = colour.Subtract(ballCol);
         }
 
+        //local method for unlocking door with puzzle ball break effect
         public void PuzzleBallUnlockDoor(LightColour ballCol, Vector3 ballPos) {
             Vector3[] doorPoints = GetTransformedPoints();
             Vector3[] ballPoints = ballCloud.points.ToArray();
@@ -66,6 +68,7 @@ namespace LightsOn.LightingSystem {
             }
         }
 
+        //override to keep the door unlocked once it is opened
         public override void Disappear() {
             if (!disappeared) {
                 base.Disappear();
