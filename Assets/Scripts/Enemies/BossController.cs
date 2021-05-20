@@ -9,15 +9,15 @@ using Photon.Realtime;
 namespace LightsOn.WeaponSystem {
     public class BossController : Enemy , IOnPhotonViewOwnerChange {
         [Header("Bullet/weapon setup")]
-        public GameObject bullet;
-        public float bulletSpeed;
-        public int bulletDamage;
-        public LightColour bulletColour = LightColour.Red;
-        public List<GameObject> targetGOs;
-        public GameObject gunParent;
-        public float gunCircleRadius;
-        public float bulletTTL;
-        public Transform fireOrigin;
+        public GameObject bullet; //Bullet prefab reference
+        public float bulletSpeed; //Bullet speed magnitude
+        public int bulletDamage; //Damage per bullet
+        public LightColour bulletColour = LightColour.Red; //current colour of boss bullets
+        public List<GameObject> targetGOs; //Target gameobject list (one for each gun)
+        public GameObject gunParent; //Parent gameobject of boss guns
+        public float gunCircleRadius; //Shot radius for spinning attack
+        public float bulletTTL; //Time-to-live of boss projectiles
+        public Transform fireOrigin; //Origin
         [Header("Attack probabilities")]
         public float rotatingShotProbability; //Probability of starting rotating fire
         public float repositioningProbability; //Probability of repositioning
@@ -25,40 +25,35 @@ namespace LightsOn.WeaponSystem {
         public float missileProbability; //Probability of choosing missile attack
         public float summonProbability; //Probability of summoning minions
         [Header("State timers")]
-        public float aoeStartTimerMax;
-        float aoeStartTimer;
-        public float aoeEndTimerMax;
-        float aoeEndTimer;
-        public float rotatingShotTimerMin;
-        public float rotatingShotTimerMax;
-        float rotatingShotTimer;
-        public float gunCooldownTimerMax;
-        float gunCooldownTimer;
-        public float changeBulletColTimerMax;
-        float changeBulletColTimer;
-        public float reappearingTimerMax;
-        float reappearingTimer;
-        public float summonTimerMax;
-        float summonTimer;
-        public float movementCooldownTimerMax;
-        float movementCooldownTimer;
-        EnemyState enemyState;
-        EnemyState prevState;
+        public float aoeStartTimerMax; //AoE attack "wind-up" duration
+        float aoeStartTimer; //AoE attack "wind-up" timer
+        public float aoeEndTimerMax; //AoE attack "wind-down" duration
+        float aoeEndTimer; //AoE attack "wind-down" timer
+        public float rotatingShotTimerMin; //Spinning bullet attack minimum duration
+        public float rotatingShotTimerMax; //Spinning bullet attack maximum duration
+        float rotatingShotTimer; //Timer for spinning bullet attack
+        public float gunCooldownTimerMax; //Time between shots
+        float gunCooldownTimer; //Timer for deciding when to shoot again
+        public float changeBulletColTimerMax; //Time between changing bullet colours (when shooting)
+        float changeBulletColTimer; //Timer for changing bullet colours
+        public float reappearingTimerMax; //Duration of reappearing/reappear attack "wind-up"
+        float reappearingTimer; //Timer for reappearing/reappear attack "wind up"
+        public float movementCooldownTimerMax; //Time between moving passively
+        float movementCooldownTimer; //Timer for passive movement
+        EnemyState enemyState; //Current enemy state
+        EnemyState prevState; //Previous enemy state
         [Header("Navigation/movement")]
-        public float pathStoppingThreshold = 0.5f;
-        public float walkRadius;
-        public float normalSpeed;
-        public float repositionSpeed;
-
-        float staggerCount;
-        public float staggerCountMax;
-        public float rotationSpeed;
-        public float currentGunAngle;
+        public float pathStoppingThreshold = 0.5f; //Acceptable distance from navmesh target
+        public float walkRadius; //Search radius for walkable areas
+        public float normalSpeed; //Standard movement speed
+        public float repositionSpeed; //Repositioning movement speed
+        public float rotationSpeed; //Rotation speed while using rotating shot attack
+        public float currentGunAngle; //Base rotation angle for guns
         [Header("AOE attack setup")]
-        public float aoeRadius;
-        public float aoeDamage;
-        public float reappearDamage;
-        public float reappearKnockbackMagnitude;
+        public float aoeRadius; //Radius of AoE attack
+        public float aoeDamage; //Damage of AoE attack 
+        public float reappearDamage; //Damage of reappearing AoE attack
+        public float reappearKnockbackMagnitude; //Magnitude of knockback of reappearing AoE attack
         public float reappearKnockbackDuration;
         public float aoeHeight;
         LineRenderer circleLR;
@@ -99,14 +94,13 @@ namespace LightsOn.WeaponSystem {
             AOEMeleeStartup, //Area-of-effect melee attack startup
             AOEMelee, //actively attacking
             AOEMeleeRecovery, //recovery from AOE melee attack
-            SummonAdds, //Currently summoning minions
             SwarmRepositioning, //Moving during combat
             Reappearing, //Reapearring and performing AoE attack
             Staggered, //Staggered/stunned (after taking a certain amount of damage) [not sure if I want to use this]
             Spawning //For when the enemy initially appears
         }
 
-        void Start() //0.7s, 0.59rad/s
+        void Start() //Initialise values, setup renderers and weapons
         {
             stateStartTime = PhotonNetwork.Time;
             bulletColour = LightColour.Red;
@@ -153,7 +147,11 @@ namespace LightsOn.WeaponSystem {
             }
         }
 
-        // Update is called once per frame
+        //Update is called once per frame
+        /*
+        Handles AoE attack indicator flashing, as well as passive movement.
+        Also calls ManageStates for enemy state handling
+        */
         void Update() {
             if(!isActivated) return;
             if (flashesRemaining > 0 && flashTimer <= 0) {
@@ -183,24 +181,11 @@ namespace LightsOn.WeaponSystem {
                 }
             } else if (enemyState == EnemyState.Spawning){
                 ChangeToSwarmReposition();
-            }
-            
-            // if (!hasPlayerJoined){
-            //     if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
-            //         hasPlayerJoined = true;
-            //         int index = SelectTarget();
-            //         weapon.SetTarget(index);
-            //     } else {
-            //         return;
-            //     }
-            // } 
+            }   
             ManageStates();
-            //if (enemyState != lastSentState) {
-            //    pv.RPC("UpdateStateRPC", RpcTarget.AllBufferedViaServer, enemyState);
-            //    lastSentState = enemyState;
-            // }
         }
 
+        //Handles enemy states each frame/iteration
         void ManageStates() {
             //if (aiEnabled) {
                 switch (enemyState) {
@@ -226,9 +211,6 @@ namespace LightsOn.WeaponSystem {
                         break;
                     case EnemyState.AOEMeleeRecovery:
                         AOEMeleeRecovery();
-                        break;
-                    case EnemyState.SummonAdds:
-                        SummonAdds();
                         break;
                     case EnemyState.SwarmRepositioning:
                         SwarmReposition();
@@ -270,24 +252,17 @@ namespace LightsOn.WeaponSystem {
                 } else {
                     ChangeToAOEMeleeStartup();
                 }
-            } else if (p < cmMissileProb) {
+            } else {
                 if (prevState == EnemyState.MissileAttack) {
                     float q = Random.Range(cmMissileProb, pTotal + cmAOEProb);
                     MakeDecision(q % totalProb);
                 } else {
                     ChangeToMissileAttack();
                 }
-            } else {
-                if (prevState == EnemyState.SummonAdds) {
-                    float q = Random.Range(0, cmAOEProb);
-                    MakeDecision(q % totalProb);
-                } else {
-                    ChangeToSummonAdds();
-                }
             }
         }
 
-        void ChangeToRotateShoot() {
+        void ChangeToRotateShoot() { //setup for rotating shot attack
             enemyState = EnemyState.RotateShooting;
             prevState = enemyState;
             rotatingShotTimer = Random.Range(rotatingShotTimerMin, rotatingShotTimerMax);
@@ -295,17 +270,7 @@ namespace LightsOn.WeaponSystem {
             currentGunAngle = transform.eulerAngles.y;
         }
 
-        Vector3 GetTargetPosition(Vector3 pos) {
-            RaycastHit hit;
-            Vector3 playerDirection = Vector3.Normalize(pos - fireOrigin.position); //GetPlayerDirection();
-            if (Physics.Raycast(fireOrigin.position, playerDirection, out hit, 999f, GlobalValues.Instance.environment | GlobalValues.Instance.playerLayer)) {
-                return hit.point;
-            } else {
-                return fireOrigin.position;
-            }
-        }
-
-        void RotateShoot() {
+        void RotateShoot() { //handles rotating shot attack logic (changes bullet colours and calls fire() methods)
             currentGunAngle += (rotationSpeed * Time.deltaTime) % (Mathf.PI * 2);
             float phase = 0f;
             bool canShoot = false;
@@ -332,9 +297,7 @@ namespace LightsOn.WeaponSystem {
                         break;
 
                 }
-            }
-            //gunParent.transform.parent.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
-            
+            }            
             for (int i = 0; i < rotatingGuns.Count; i++) {
 
                 EnemyGun g = rotatingGuns[i];
@@ -357,19 +320,19 @@ namespace LightsOn.WeaponSystem {
                 enemyState = EnemyState.DecisionState;
             }
         }
-        private void LateUpdate() {
+        private void LateUpdate() { //Rotates guns if in RotateShooting state
             if(enemyState == EnemyState.RotateShooting){
                 gunParent.transform.parent.rotation = Quaternion.Euler(new Vector3(0f, currentGunAngle, 0f));
             }
         }
 
-        void ChangeToMissileAttack() {
+        void ChangeToMissileAttack() { //Setup for missile attack
             enemyState = EnemyState.MissileAttack;
             prevState = enemyState;
             missileShotsFired = 0;
         }
 
-        void MissileAttack() {
+        void MissileAttack() { //Missile attack state handler
             if (missileTimer <= 0) {
                 GameObject mis = PhotonNetwork.Instantiate("HomingMissile",transform.position,Quaternion.identity);
                 MissileController mc = mis.GetComponent<MissileController>();
@@ -384,11 +347,11 @@ namespace LightsOn.WeaponSystem {
         }
 
         void Patrol() {
-
+            //Do nothing
         }
 
         [PunRPC]
-        void ShowCircleRPC(float time){
+        void ShowCircleRPC(float time){ //RPC for showing AoE indicator
             circleLR.enabled = true;
             flashesRemaining = flashNum;
             flashTimerMax = time;
@@ -396,12 +359,12 @@ namespace LightsOn.WeaponSystem {
             DrawPolygon(100, aoeRadius, new Vector3(fireOrigin.position.x, aoeHeight, fireOrigin.position.z), 0.1f, 0.1f);
         }
 
-        void ShowCircle(float time) {
+        void ShowCircle(float time) { //Shows AoE indicator
             pv.RPC("ShowCircleRPC", RpcTarget.All, time);
             
         }
 
-        void ChangeToAOEMeleeStartup() {
+        void ChangeToAOEMeleeStartup() { //Setup for AoE startup
             enemyState = EnemyState.AOEMeleeStartup;
             prevState = enemyState;
             aoeStartTimer = aoeStartTimerMax;
@@ -411,19 +374,18 @@ namespace LightsOn.WeaponSystem {
             Invoke("SetMeleeTrigger", aoeStartTimerMax - meleeStartup);
         }
 
-        void AOEMeleeStartup() {
+        void AOEMeleeStartup() { //AoE startup handler
             if (aoeStartTimer <= 0) {
                 ChangeToAOEMelee();
             }
-            //visual effect?
         }
 
-        void ChangeToAOEMelee() {
+        void ChangeToAOEMelee() { //Setup for AoE attack proper
             enemyState = EnemyState.AOEMelee;
         }
 
         [PunRPC]
-        protected void StartAOE(double time, float startup) {
+        protected void StartAOE(double time, float startup) {  
             float dt = (float)(PhotonNetwork.Time - time);
             if (dt > startup) {
                 dt = startup;
@@ -444,7 +406,7 @@ namespace LightsOn.WeaponSystem {
             DoAOEAttack(aoeDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
         }
 
-        void DoAOEAttack(float dmg, float knockbackMag, float knockbackDuration) {
+        void DoAOEAttack(float dmg, float knockbackMag, float knockbackDuration) { //Perform AoE attack, apply damage and knockback
             Collider[] cols = Physics.OverlapSphere(transform.position, aoeRadius, GlobalValues.Instance.playerLayer);
             
             if (cols.Length > 0) {
@@ -469,47 +431,34 @@ namespace LightsOn.WeaponSystem {
             }
         }
 
-        void AOEMelee() {
+        void AOEMelee() { //Handler for AoE attack state
             DoAOEAttack(aoeDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
             //do attack
             ChangeToAOEMeleeRecovery();
         }
         [PunRPC]
-        void DisableCircleRPC(){
+        void DisableCircleRPC(){ //RPC for disabling AoE indicator
             circleLR.enabled = false;
         }
-        void ChangeToAOEMeleeRecovery() {
+        void ChangeToAOEMeleeRecovery() { //Setup for AoE "wind-down"
 
             pv.RPC("DisableCircleRPC", RpcTarget.All);
             enemyState = EnemyState.AOEMeleeRecovery;
             aoeEndTimer = aoeEndTimerMax;
         }
 
-        void AOEMeleeRecovery() {
+        void AOEMeleeRecovery() { //State handler for AoE "wind-down"
             if (aoeEndTimer <= 0) {
                 agent.enabled = true;
                 enemyState = EnemyState.DecisionState;
             }
         }
-
-        void ChangeToSummonAdds() {
-            enemyState = EnemyState.SummonAdds;
-            prevState = enemyState;
-            summonTimer = summonTimerMax;
-        }
-
-        void SummonAdds() {
-            if (summonTimer <= 0) {
-                enemyState = EnemyState.DecisionState;
-            }
-            //do nothing
-        }
         [PunRPC]
-        void DisappearRPC(){
+        void DisappearRPC(){ //RPC for boss disappearing/dispersing
             GetComponentInChildren<LightableBossEnemy>().ForceDisappear();
         }
 
-        void ChangeToSwarmReposition() {
+        void ChangeToSwarmReposition() { //Setup for boss repositioning
             enemyState = EnemyState.SwarmRepositioning;
             prevState = enemyState;
             NavMeshHit destPos;
@@ -523,13 +472,13 @@ namespace LightsOn.WeaponSystem {
             
         }
 
-        void SwarmReposition() {
+        void SwarmReposition() { //State handler for SwarmReposition
             if (agent.remainingDistance <= pathStoppingThreshold) {
                 ChangeToReappearState();
             }
         }
 
-        void ChangeToReappearState() {
+        void ChangeToReappearState() { //Setup for reappearing AoE attack
             enemyState = EnemyState.Reappearing;
             reappearingTimer = reappearingTimerMax;
             agent.speed = normalSpeed;
@@ -554,7 +503,7 @@ namespace LightsOn.WeaponSystem {
             lightableBoss.BossReappear();
         }
 
-        void ReappearState() {
+        void ReappearState() { //State handler for ReappearState
             if (reappearingTimer <= 0) {
                 DoAOEAttack(reappearDamage, reappearKnockbackMagnitude, reappearKnockbackDuration);
                 lightableBoss.BossReappear();
@@ -574,7 +523,7 @@ namespace LightsOn.WeaponSystem {
             }
         }
 
-        private IEnumerator EnemyTimers() {
+        private IEnumerator EnemyTimers() { //Coroutine for various enemy timers
             while (true) {
                 if (aoeStartTimer > 0) {
                     aoeStartTimer -= Time.deltaTime;
@@ -587,9 +536,6 @@ namespace LightsOn.WeaponSystem {
                 }
                 if (reappearingTimer > 0) {
                     reappearingTimer -= Time.deltaTime;
-                }
-                if (summonTimer > 0) {
-                    summonTimer -= Time.deltaTime;
                 }
                 if (gunCooldownTimer > 0) {
                     gunCooldownTimer -= Time.deltaTime;
@@ -614,7 +560,7 @@ namespace LightsOn.WeaponSystem {
             base.EnableAI();
         }
 
-        public override void DisableAI()
+        public override void DisableAI() //change AI flag to disabled without disabling navmeshagent
         {
              if (pv.IsMine) {
                 aiEnabled = false;
