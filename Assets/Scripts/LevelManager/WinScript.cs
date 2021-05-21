@@ -28,16 +28,14 @@ public class WinScript : MonoBehaviour {
     public IEnumerator ChangeSceneRPC() {
         PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
 
-        if (!loadingLevel && GlobalValues.Instance.fm.GetObjectivesTriggered()) {
+        if (!PhotonNetwork.IsMasterClient && !loadingLevel && GlobalValues.Instance.fm.GetObjectivesTriggered()) {
+            loadingLevel = true;
             AudioManager.Instance.PlayNext();
-        }
-
-        if (PhotonNetwork.IsMasterClient && !loadingLevel && GlobalValues.Instance.fm.GetObjectivesTriggered()) {
+        } else if (PhotonNetwork.IsMasterClient && !loadingLevel && GlobalValues.Instance.fm.GetObjectivesTriggered()) {
+            loadingLevel = true;
             yield return new WaitForSeconds(1);
             GlobalValues.Instance.localPlayerInstance.GetComponentInChildren<Lanturn>().BufferLightColour();
             PhotonNetwork.LoadLevel(sceneName);
         }
-
-        loadingLevel = true;
     }
 }
