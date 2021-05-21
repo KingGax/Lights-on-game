@@ -33,6 +33,7 @@ public class WinScript : MonoBehaviour {
             AudioManager.Instance.PlayNext();
         } else if (PhotonNetwork.IsMasterClient && !loadingLevel && GlobalValues.Instance.fm.GetObjectivesTriggered()) {
             loadingLevel = true;
+            AudioManager.Instance.PlayNext();
             yield return new WaitForSeconds(1);
             GlobalValues.Instance.localPlayerInstance.GetComponentInChildren<Lanturn>().BufferLightColour();
             PhotonNetwork.LoadLevel(sceneName);
