@@ -7,7 +7,7 @@ using LightsOn.WeaponSystem;
 
 [RequireComponent(typeof(PhotonView))]
 [RequireComponent(typeof(NavMeshAgent))]
-public abstract class Enemy : MonoBehaviourPunCallbacks {
+public abstract class Enemy : MonoBehaviourPunCallbacks { //enemy AI base class
     
     protected PhotonView pv;
     protected NavMeshAgent agent;
@@ -21,7 +21,7 @@ public abstract class Enemy : MonoBehaviourPunCallbacks {
     protected bool hasPlayerJoined;
     private LayerMask environmentAndPlayerMask;
 
-    public virtual void Awake() {
+    public virtual void Awake() { //Get components, setup mask and enable AI
         pv = GetComponent<PhotonView>();
         weapon = GetComponentInChildren<Weapon>();
         agent = GetComponent<NavMeshAgent>();
@@ -33,7 +33,7 @@ public abstract class Enemy : MonoBehaviourPunCallbacks {
 
     
 
-    public virtual void EnableAI() {
+    public virtual void EnableAI() { //enable AI processing
         if (pv.IsMine) {
             agent.enabled = true;
             agent.isStopped = false;
@@ -41,14 +41,14 @@ public abstract class Enemy : MonoBehaviourPunCallbacks {
         }
     }
 
-    public virtual void DisableAI() {
+    public virtual void DisableAI() { //disable AI processing
         if (pv.IsMine) {
             aiEnabled = false;
             agent.enabled = false;
         }
     }
 
-    public virtual void RequestHitStun(float duration){
+    public virtual void RequestHitStun(float duration){ //default hitstun handler
         if (inStunnableState){
             agent.velocity = new Vector3(0,agent.velocity.y,0);
             if (agent.enabled){
@@ -78,8 +78,7 @@ public abstract class Enemy : MonoBehaviourPunCallbacks {
         return targetIndex;
     }
 
-    //TODO make enemies check for LOS in their FOV 
-    protected bool HasPlayerLOS(GameObject playerObj, float sightRange) { 
+    protected bool HasPlayerLOS(GameObject playerObj, float sightRange) { //check if player is in line of sight of enemy
         RaycastHit hit;
         bool environmentCheck = Physics.Raycast(
             transform.position,
@@ -94,10 +93,8 @@ public abstract class Enemy : MonoBehaviourPunCallbacks {
     }
     
 
-    protected void TurnTowards(Vector3 direction) {
+    protected void TurnTowards(Vector3 direction) { //turn towards direction
         transform.forward = Vector3.RotateTowards(transform.forward, direction, Time.deltaTime * turnSpeed, 0.5f);
     }
-    protected void TurnTowardsPosition(Vector3 position) {
-        transform.forward = Vector3.RotateTowards(transform.forward, position - transform.position, Time.deltaTime * turnSpeed, 0.0f);
-    }
+
 }

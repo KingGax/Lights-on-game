@@ -9,7 +9,7 @@ public class TargetDummyHealth : EnemyHealth {
     private bool recentlyHit = false;
 
     [PunRPC]
-    protected override void DamageRPC(float damage, float stunDuration) {
+    protected override void DamageRPC(float damage, float stunDuration) { 
         if (health <= 0) {
             Die();
         }

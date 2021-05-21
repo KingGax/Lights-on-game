@@ -35,7 +35,7 @@ public class ChargerEnemyController : Enemy {
         Backoff //Started charging too close to enemy, backing off
     }
     // Start is called before the first frame update
-    void Start()
+    void Start() //Initialise variables and start timers
     {
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
@@ -47,7 +47,7 @@ public class ChargerEnemyController : Enemy {
         StartCoroutine("EnemyTimers");
     }
 
-    public override void Awake()
+    public override void Awake() //Select target from existing players on wakeup
     {
         base.Awake();
         if (GlobalValues.Instance != null && GlobalValues.Instance.players.Count > 0){
@@ -56,15 +56,15 @@ public class ChargerEnemyController : Enemy {
         }
     }
 
-    public void Disappear(){
+    public void Disappear(){ //store velocity when frozen
         savedSpeed = agent.velocity;
     }
 
-    public void Appear(){
+    public void Appear(){ //set velocity to saved velocity on being unfrozen
         agent.velocity = savedSpeed;
         savedSpeed = new Vector3(0,0,0);
     }
-    void Patrol()
+    void Patrol() //Handler for idle state - detection logic/targeting logic
     {
         float minDist  = Mathf.Infinity;
         int index = 0;
@@ -82,16 +82,14 @@ public class ChargerEnemyController : Enemy {
         }
     }
 
-    void ChangeToChargeStart()
+    void ChangeToChargeStart() //Setup for charge "wind-up"
     {
         chargeStartTimer = chargeStartTimerMax;
         enemyState = EnemyState.ChargeStart;
         SelectTarget();
     }
-    void ChargeStart()
+    void ChargeStart() //State handler for charge "wind-up"; decide whether to charge or back-off. Also includes animation calls
     {
-        //animation stuff here
-        //-- time passes before charges/backs off so do anim here
         animator.SetBool("chargeStart", true);
         if (chargeStartTimer <= 0) {
             animator.SetBool("chargeStart", false);
@@ -103,7 +101,7 @@ public class ChargerEnemyController : Enemy {
         }
     }
 
-    void ChangeToCharging()
+    void ChangeToCharging() //Setup for charging state
     {
         inStunnableState = false;
         chargeTimer = chargeTimerMax;
@@ -112,7 +110,7 @@ public class ChargerEnemyController : Enemy {
         enemyState = EnemyState.Charging;
         weapon.Use();
     }
-    void Charge()
+    void Charge() //Poll player position regularly and update navmesh destination
     {
         if (playerPositionPoll <= 0)
         {
@@ -128,39 +126,31 @@ public class ChargerEnemyController : Enemy {
         }
     }
 
-    public void ChangeToChargeEnd()
+    public void ChangeToChargeEnd() //Setup for charge "wind-down"
     {
         weaponScript.Deactivate();
         inStunnableState = true;
         chargeTimer = 0f;
         playerPositionPoll = 0f;
-        //[deactivate melee weapon]
         chargeEndTimer = chargeEndTimerMax;
         agent.enabled = false;
         enemyState = EnemyState.ChargeEnd;
     }
-    void ChargeEnd()
+    void ChargeEnd() //State handler for charge "wind-down"
     {
-        //animation stuff here
         if (chargeEndTimer <= 0)
         {
             ChangeToPatrolling();
         }
     }
 
-    void ChangeToStunned()
-    {
-        enemyState = EnemyState.Stunned;
-        //[disable melee weapon]
-    }
-
-    void ChangeToPatrolling()
+    void ChangeToPatrolling() //Setup for patrolling state (idle state)
     {
         enemyState = EnemyState.Patrolling;
         //do nothing at the moment
     }
     
-    void ChangeToBackingOff(){
+    void ChangeToBackingOff(){ //Setup for backOff state
         Vector3 backOffPos = gameObject.transform.position + Vector3.Normalize(gameObject.transform.position - playerObj.transform.position) * backoffThreshold * 2; //backoff in opposite direction of player
         NavMeshHit navmeshPos;
         if (NavMesh.SamplePosition(backOffPos, out navmeshPos, 5f, NavMesh.AllAreas)){
@@ -172,14 +162,14 @@ public class ChargerEnemyController : Enemy {
         }
     }
 
-    void BackingOff(){
+    void BackingOff(){ //Handler for enemy backing away from player if too close
         float dist = agent.remainingDistance;
         if (dist != Mathf.Infinity && agent.remainingDistance <= pathStoppingThreshold) {
             ChangeToChargeStart();
         }
     }
 
-    void ManageStates(){
+    void ManageStates(){ //Calls appropriate state handler depending on current enemy state
         if (aiEnabled)
         {
             switch (enemyState)
@@ -209,6 +199,7 @@ public class ChargerEnemyController : Enemy {
     }
 
     // Update is called once per frame
+    /* Decides whether AI processing should be enabled, then calls target selection and state managing logic*/
     void Update()
     {
         if (pv == null || !pv.IsMine) return;
@@ -224,7 +215,7 @@ public class ChargerEnemyController : Enemy {
     }
 
 
-    private IEnumerator EnemyTimers()
+    private IEnumerator EnemyTimers() //Coroutine for enemy timers
     {
         while (true)
         {

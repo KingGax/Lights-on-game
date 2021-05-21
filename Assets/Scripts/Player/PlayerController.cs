@@ -10,7 +10,7 @@ using LightsOn.LightingSystem;
 using LightsOn.WeaponSystem;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPhotonViewOwnerChange {
-    
+
     public float turnSpeed;
     public float moveSpeed;
 
@@ -36,10 +36,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     Plane playerPlane;
 
     [Header("Shooting")]
-    public float shootBufferMax;
+    public float shootBufferMax; //input buffer for shooting
     public float altShootBufferMax;
     public float reloadSpeedModifier;
-    public float reloadBufferMax;
+    public float reloadBufferMax; //input buffer for reload
     public LayerMask aimTargetsMask;
     public float maxShootOffsetAngle;
     float shootBuffer = 0;
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     bool altFireReleasedThisFrame = false;
     bool fireHeld = false;
     bool altFireHeld = false;
-    float currentChargeSpeedModifier;
+    float currentChargeSpeedModifier; //movement modifier for equipped weapon
     float reloadBuffer;
     bool reloading;
     private int hiddenLayer;
@@ -60,10 +60,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     public TrailRenderer dashTrail;
     public ParticleSystem dashParticles;
     public float dashSpeed;
-    public float dashDurationTimerMax;
-    public float dashCooldownMax;
-    public float dashBufferMax;
-    public float dashVulnerability;
+    public float dashDurationTimerMax; //dash length
+    public float dashCooldownMax; //dash cooldown
+    public float dashBufferMax; //dash input buffer
+    public float dashVulnerability; //time invisible during dash
     float dashDurationTimer = 0;
     float dashCooldown = 0;
     float dashBuffer = 0;
@@ -76,11 +76,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     bool initialised = false;
     public Animator anim;
     SkinnedMeshRenderer[] shawnRenderers;
-    public GameObject shawn;
+    public GameObject shawn; //player model refrence
     public Transform firePoint;
-    private float altFireCooldownTimer=0;
+    private float altFireCooldownTimer = 0;
     public float altFireCooldownTimerMax;
 
+    //Callback to handle the object being passed to a rejoining player
     void IOnPhotonViewOwnerChange.OnOwnerChange(Player newOwner, Player oldOwner) {
         if (PhotonNetwork.LocalPlayer == newOwner) {
             UpdateLocalPlayerInstance();
@@ -104,7 +105,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
             fhb.gameObject.GetComponent<Canvas>().enabled = false;
             //cam.GetComponent<CameraController>().bindToPlayer(this.gameObject.transform);
         } else {
-            
+
         }
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
@@ -113,6 +114,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         shawnRenderers = shawn.GetComponentsInChildren<SkinnedMeshRenderer>();
     }
 
+    //Function to handle the object being passed to a rejoining player
     void UpdateLocalPlayerInstance() {
         if (initialised) {
             if (photonView.IsMine) {
@@ -126,27 +128,28 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                 if (_cameraWork != null) {
                     if (photonView.IsMine) {
                         gameObject.name = "LocalPlayer";
-                        _cameraWork.OnStartFollowing();
+                        _cameraWork.OnStartFollowing();//setup camera
                         GlobalValues.Instance.localPlayerInstance = this.gameObject;
                         PlayerHealth h = GetComponent<PlayerHealth>();
                         h.Start();
-                        rb.isKinematic = false;
+                        rb.isKinematic = false;//allow movement
                     } else {
-                        
+
                     }
                 }
                 //cam.GetComponent<CameraController>().bindToPlayer(this.gameObject.transform);
-            } else {
+            } else { //waiting if ownership has not been registered yet
                 rb.isKinematic = true;
                 Invoke("UpdateLocalPlayerInstance", 0.5f);
             }
         } else {
             Invoke("UpdateLocalPlayerInstance", 0.5f);
         }
-        
+
     }
 
-    [PunRPC] 
+    //RPC function to update changed weapons across the network
+    [PunRPC]
     public void SetWeaponRPC(int wepIndex) {
         foreach (Weapon wep in weapons) {
             wep.UnequipWeapon();
@@ -155,6 +158,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         equiptedWeapon = weapons[wepIndex];
         currentChargeSpeedModifier = equiptedWeapon.chargeSpeedModifier;
     }
+
     public void SwitchWeapon() {
         weaponIndex = (weaponIndex + 1) % weapons.Count;
         photonView.RPC("SetWeaponRPC", RpcTarget.All, weaponIndex);
@@ -172,7 +176,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
             playerCount = 1;
             Debug.LogError("no player count room property found");
         }
-        if (index >= playerCount){
+        if (index >= playerCount) {
             spectator = true;
             _cameraWork.TargetPlayer(0);
         }
@@ -199,6 +203,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         StartCoroutine("CountdownTimers");
     }
 
+    //function for disabling/enabling movement
     public void SetMovementEnabled(bool enabled) {
         movementEnabled = enabled;
         if (!enabled) {
@@ -215,15 +220,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     }
 
     void Update() {
-        if (dashTrail.time > 0) {
-                dashTrail.time -= Time.deltaTime;
+        if (dashTrail.time > 0) {//handles keeping dash trail updated
+            dashTrail.time -= Time.deltaTime;
         }
         if (photonView == null || !photonView.IsMine) return;
-        
-        
+
+
 
         if (movementEnabled) {
             reloading = equiptedWeapon.IsReloading();
+            //updates shooting buffer
             if (fireHeld) {
                 shootBuffer = shootBufferMax;
             }
@@ -241,20 +247,20 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
             }
 
             //handles looking and shooting
-            if (equiptedWeapon.IsCharging()) {
-                anim.SetBool("ChargingAlt", true);//This is where charging should be set
-                if (altFireReleasedThisFrame) { 
+            if (equiptedWeapon.IsCharging()) {//handles charging attack
+                anim.SetBool("ChargingAlt", true);
+                if (altFireReleasedThisFrame) { //handles releasing charged attack
                     altFireReleasedThisFrame = false;
                     if (equiptedWeapon.ReleaseWeaponAlt()) {
                         anim.SetTrigger("FireAlt");
                         altFireCooldownTimer = altFireCooldownTimerMax;
                     }
-                } else if (altFireHeld && CanShoot()) {
+                } else if (altFireHeld && CanShoot()) {//starts charging alt fire
                     Vector3 fireDirection = GetFireDirection(false);
                     TurnTowards(fireDirection);
                     equiptedWeapon.UseAlt();
                 }
-            } else if (shootBuffer > 0 && CanShoot()) {
+            } else if (shootBuffer > 0 && CanShoot()) {//handles default shooting
                 Vector3 fireDirection = GetFireDirection(true);
                 TurnTowards(fireDirection);
                 anim.SetBool("Shooting", true);
@@ -271,12 +277,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                 anim.SetBool("ChargingAlt", false);
                 Vector3 fireDirection = GetFireDirection(altFireHeld);
                 TurnTowards(fireDirection);
-            } else { //look where you run
+            } else { //not firing currently
                 anim.SetBool("Shooting", false);
                 anim.SetBool("ChargingAlt", false);
-                if (altFireCooldownTimer > 0) {//lock to where you just shot
+                if (altFireCooldownTimer > 0) {//lock to where you just shot so that it does not instantly turn away
 
-                } else if (movement != Vector2.zero) {
+                } else if (movement != Vector2.zero) {//look where you are moving
                     if (photonView.IsMine == true || PhotonNetwork.IsConnected == false) {
                         Vector3 moveVector = cameraForward * movement.y * moveSpeed + cameraRight * movement.x * moveSpeed;
                         TurnTowards(moveVector);
@@ -284,11 +290,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
 
                 }
             }
-            if (!isTakingKnockback) {
-                if (dashing) {
+            if (!isTakingKnockback) {//this handles player movement
+                if (dashing) {//dash is highest priority
                     HandleDash();
-                } else {
-                    if (reloadBuffer > 0 && CanShoot()) {
+                } else {//if not dashing move normally
+                    if (reloadBuffer > 0 && CanShoot()) {//this is here as you can only reload if not shooting, dashing or being knocked back
                         equiptedWeapon.Reload();
                     }
 
@@ -298,7 +304,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
                             moveVector *= currentChargeSpeedModifier;
                         }
                         moveVector.y = rb.velocity.y;
-                        rb.velocity = moveVector;
+                        rb.velocity = moveVector;//animation blending parameters
                         float velocityZ = Vector3.Dot(moveVector.normalized, transform.forward);
                         float velocityX = Vector3.Dot(moveVector.normalized, transform.right);
                         anim.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
@@ -313,21 +319,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
             }
         } else {
             if (!isTakingKnockback) {
-                rb.velocity = new Vector3(0,rb.velocity.y,0);
+                rb.velocity = new Vector3(0, rb.velocity.y, 0); //movement disabled and not knocked back, so do not move
             }
         }
     }
 
+    //Function for initiating dashes
     void StartDash() {
         dashing = true;
         canDash = false;
         HidePlayer();
         AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXDash, transform.position, gameObject);
         dashDurationTimer = dashDurationTimerMax;
-        if (movement == Vector2.zero) {
+        if (movement == Vector2.zero) { //dashes where currently looking otherwise dashes where moving
             dashDirection = transform.forward;
         } else {
-            dashDirection = cameraForward* movement.y + cameraRight * movement.x;
+            dashDirection = cameraForward * movement.y + cameraRight * movement.x;
         }
     }
 
@@ -337,8 +344,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         anim.SetTrigger("Death");
     }
 
+    //RPC for making player invisible on dash
     [PunRPC]
-    void HidePlayerRPC(){
+    void HidePlayerRPC() {
         gameObject.layer = hiddenLayer;
         dashParticles.Play();
         dashTrail.time = 1.0f;
@@ -351,8 +359,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         photonView.RPC("HidePlayerRPC", RpcTarget.All);
     }
 
+    //RPC for making player visible after dash
     [PunRPC]
-    void ShowPlayerRPC(){
+    void ShowPlayerRPC() {
         gameObject.layer = defaultLayer;
         foreach (SkinnedMeshRenderer renderer in shawnRenderers) {
             renderer.enabled = true;
@@ -371,6 +380,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         rb.velocity = dashDirection * dashSpeed;
     }
 
+    //Function to get the direction the player clicks, can optionally lock aim onto enemies
     Vector3 GetFireDirection(bool lockToEnemies) {
         //Create a ray from the Mouse click position
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -378,6 +388,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         //Initialise the enter variable
         float enter = 0.0f;
 
+        //Either gets point by raycasting into scene or by raycasting onto player plane
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100f, aimTargetsMask) && lockToEnemies) {
             Vector3 hitPoint = playerPlane.ClosestPointOnPlane(hit.point);
@@ -409,8 +420,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
     }
 
     public void Dash() {
-        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-        {
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true) {
             return;
         }
         dashBuffer = dashBufferMax;
@@ -458,12 +468,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
         reloadBuffer = reloadBufferMax;
     }
 
+    //Unity collision clalback used to cancel knockback
     private void OnCollisionEnter(Collision other) {
-        if((GlobalValues.Instance.environment | (1 << other.gameObject.layer)) == GlobalValues.Instance.environment && isTakingKnockback){
+        if ((GlobalValues.Instance.environment | (1 << other.gameObject.layer)) == GlobalValues.Instance.environment && isTakingKnockback) {
             EndKnockback();
         }
     }
 
+    //Coroutine that counts down all timers
     private IEnumerator CountdownTimers() {
         while (true) {
             if (dashDurationTimer > 0) {
@@ -475,8 +487,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IKnockbackable, IOnPh
             }
 
             if (dashCooldown > 0) {
-                dashCooldown-=Time.deltaTime;
-                if (dashCooldown <=0) {
+                dashCooldown -= Time.deltaTime;
+                if (dashCooldown <= 0) {
                     canDash = true;
                 }
             }

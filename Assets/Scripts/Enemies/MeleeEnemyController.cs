@@ -43,7 +43,7 @@ public class MeleeEnemyController : Enemy {
         }
     }
 
-    void ManageStates(){
+    void ManageStates(){ //Handles decision logic
         if (aiEnabled) { 
             switch (enemyState) {
                 case EnemyState.Patrolling:
@@ -71,11 +71,10 @@ public class MeleeEnemyController : Enemy {
                 return;
             }
         } 
-        //playerObj = GlobalValues.Instance.players[0];
         ManageStates();
     }
 
-    void Patrol()
+    void Patrol() //Handler for idle state - select target and chase player if targeted and in range
     {
         float minDist = Mathf.Infinity;
         int index = 0;
@@ -102,14 +101,14 @@ public class MeleeEnemyController : Enemy {
 
     }
 
-    void ChangeToChasing() {
+    void ChangeToChasing() { //Setup for chasing state
         enemyState = EnemyState.Chasing;
         agent.speed = chasingSpeed;
         agent.enabled = true;
         SelectTarget();
     }
 
-    void Attacking() {
+    void Attacking() { //Handler for melee attack state
         float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
         if (distToPlayer <= minDistance) {
             agent.destination = agent.transform.position;
@@ -128,13 +127,13 @@ public class MeleeEnemyController : Enemy {
         weapon.Use();
     }
 
-    void ChangeToAttacking() {
+    void ChangeToAttacking() { //Setup for attack state
         enemyState = EnemyState.Attacking;
         agent.speed = attackingMoveSpeed;
         agent.enabled = true;
     }
 
-    void Chasing() {
+    void Chasing() { //Handler for chasing state
         float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
         agent.destination = playerObj.transform.position;
         if (distToPlayer < engageDistance) {
@@ -142,7 +141,7 @@ public class MeleeEnemyController : Enemy {
         }
     }
 
-    private IEnumerator EnemyTimers() {
+    private IEnumerator EnemyTimers() { //Coroutine for enemy timer(s)
         while (true) {
             if (losCheckTimer > 0) {
                 losCheckTimer -= Time.deltaTime;

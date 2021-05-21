@@ -20,6 +20,7 @@ public class SetSpawnManager : MonoBehaviour
         return waveSums;
     }
 
+    //Sets up the spawn room objective by counting the number of enemy containers and getting wave information from them
     public void Initialise(Transform enemyContParent) {
         EnemyContainer[] contArr = enemyContParent.GetComponentsInChildren<EnemyContainer>();
         foreach (EnemyContainer cont in contArr) {
@@ -48,6 +49,7 @@ public class SetSpawnManager : MonoBehaviour
         return spawnTimer <= 0;
     }
 
+    //Activates all enemies in the wave number
     public void SpawnWave(int waveNum, Transform enemyParent) {
         if (PhotonNetwork.IsMasterClient) {
             float maxSpawnTime = 0f;

@@ -5,7 +5,7 @@ using Photon.Pun;
 namespace LightsOn.HealthSystem {
     public class MissileHealth : EnemyHealth {
         [PunRPC]
-        protected override void DamageRPC(float damage, float stunDuration) {
+        protected override void DamageRPC(float damage, float stunDuration) { //Request damage on missile and start flickering
             health -= damage;
             if (canFlicker) {
                 if (flashesRemaining == 0) {

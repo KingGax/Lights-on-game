@@ -11,11 +11,7 @@ public class SingleplayerDoorUnlocker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Room room = PhotonNetwork.CurrentRoom;
-        int playerCount;
-        try {
-            playerCount = (int)room.CustomProperties["playerCount"];
-        } catch (System.Exception) {
+        if (PhotonNetwork.OfflineMode) {
             foreach (LightableExitDoor door in doors) {
                 if (door.GetColour() == LightColour.White) {
                     door.SetColour(LightColour.Yellow);

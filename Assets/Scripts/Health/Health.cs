@@ -21,7 +21,7 @@ namespace LightsOn.HealthSystem {
         }
 
         [PunRPC]
-        protected virtual void DamageRPC(float damage, float stunDuration) {
+        protected virtual void DamageRPC(float damage, float stunDuration) { //take damage, check if dead
             if (health > 0) {
                 health -= damage;
                 if (pv.IsMine && health <= 0) {
@@ -30,7 +30,7 @@ namespace LightsOn.HealthSystem {
             }
         }
 
-        public virtual void Damage(float damage, float stunDuration) {
+        public virtual void Damage(float damage, float stunDuration) { //request damage on all clients
             pv.RPC("DamageRPC", RpcTarget.All, damage, stunDuration);
         }
 
@@ -39,14 +39,14 @@ namespace LightsOn.HealthSystem {
         }
 
         [PunRPC]
-        public void DieRPC() {
+        public void DieRPC() { //cleanup on death
             if (pv.IsMine) {
                 PhotonNetwork.CleanRpcBufferIfMine(pv);
             }
             Destroy(gameObject);
         }
 
-        public virtual void Die() {
+        public virtual void Die() { //play audio and call RPC for dying
             AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXKill, transform.position, gameObject);
             pv.RPC("DieRPC", RpcTarget.AllBuffered);
         }

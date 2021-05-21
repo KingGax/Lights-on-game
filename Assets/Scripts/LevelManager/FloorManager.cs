@@ -50,7 +50,7 @@ public class FloorManager : MonoBehaviour
     {
         if (pv == null || !pv.IsMine) return;
         if (numPlayers == GlobalValues.Instance.players.Count) {
-            if ((twoPlayers && p1RoomNum == p2RoomNum) || !twoPlayers) {
+            if ((twoPlayers && p1RoomNum == p2RoomNum) || !twoPlayers) {//main loop checks for whether both players are in the same room
                 if (!roomEventsTriggered[p1RoomNum]) {
                     levels[p1RoomNum].StartObjective();
                     roomEventsTriggered[p1RoomNum] = true;
@@ -123,6 +123,7 @@ public class FloorManager : MonoBehaviour
         }
     }
 
+    //This function updates the room number of one of the players, but does not do it if both players are not loaded
     public void UpdateLocation(GameObject player, int roomNum) {
         if (GlobalValues.Instance.p1Spawned && GlobalValues.Instance.p2Spawned) {
             twoPlayers = true;

@@ -39,7 +39,6 @@ public class EnemyController : Enemy {
 
     // Start is called before the first frame update
     void Start() {
-        //SelectTarget();
         StartCoroutine("EnemyTimers");
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.Patrolling;
@@ -61,14 +60,13 @@ public class EnemyController : Enemy {
         bulletColour = col;
     }
 
-    void GeneratePoint() {
+    void GeneratePoint() { //generate point on circle of radius engageDistance, +- 60 degrees from angle between player and enemy
         Vector3 playerPos = playerObj.transform.position;
         float vectorDir = AngleDir(gameObject.transform.position - playerPos);
         float playerAngle = Vector3.Angle(Vector3.forward, gameObject.transform.position - playerPos);
         float minAngle = (playerAngle - 60);
         float maxAngle = (playerAngle + 60);
         float angle = Random.Range(minAngle, maxAngle);
-        //angle = playerAngle;
         minX = playerPos.x + engageDistance * vectorDir * Mathf.Sin((minAngle) * Mathf.Deg2Rad);
         minZ = playerPos.z + engageDistance * Mathf.Cos((minAngle) * Mathf.Deg2Rad);
         maxX = playerPos.x + engageDistance * vectorDir * Mathf.Sin((maxAngle) * Mathf.Deg2Rad);
@@ -93,7 +91,7 @@ public class EnemyController : Enemy {
         }
     }
 
-    void ManageStates(){
+    void ManageStates(){ //Handles decision logic
         if (aiEnabled) {
             switch (enemyState) {
                 case EnemyState.Patrolling:
@@ -126,14 +124,10 @@ public class EnemyController : Enemy {
                 return;
             }
         } 
-        //playerObj = GlobalValues.Instance.players[0];
         ManageStates();
     }
 
-    void Patrol() {
-        //this could all be replaced with a call to SelectTarget() 
-        // (if SelectTarget() returned a tuple), but would need network testing
-        //{
+    void Patrol() { //Idle state handler - select target then change to repositioning if in range
         float minDist  = Mathf.Infinity;
         int index = 0;
         for (int i = 0; i < GlobalValues.Instance.players.Count; i++){
@@ -151,19 +145,18 @@ public class EnemyController : Enemy {
         }
     }
 
-    public override void RequestHitStun(float duration)
+    public override void RequestHitStun(float duration) //increase shot cooldown
     {
         if (inStunnableState) {
             hitStunned = true;
             hitStunTimer = duration;
-            weapon.cooldownLeft+=duration; //yes this is janky
-            //no i cannot see an easier way than restructuring the way weapons work (:
+            weapon.cooldownLeft+=duration;
             base.RequestHitStun(duration);  
         }
     }
     
 
-    void ChangeToShooting() {
+    void ChangeToShooting() { //Setup for shooting state
         if (HasPlayerLOS(playerObj, detectionThreshold)) {
             agent.enabled = false;
             shootingTimer = shootingTimerMax;
@@ -173,7 +166,11 @@ public class EnemyController : Enemy {
         }
     }
 
-    void Shooting() {
+    /*
+    State handler for shooting/ranged attack
+    Checks LoS and reacts accordingly
+    */
+    void Shooting() { 
         if (!hitStunned) {
             float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
             if (distToPlayer <= detectionThreshold) {
@@ -206,7 +203,7 @@ public class EnemyController : Enemy {
         }
     }
 
-    void ChangeToRepositioning() {
+    void ChangeToRepositioning() { //Setup for repositioning
         enemyState = EnemyState.Repositioning;
         agent.enabled = true;
         int index = SelectTarget();
@@ -214,26 +211,15 @@ public class EnemyController : Enemy {
         GeneratePoint();
     }
 
-    void Repositioning() {
-        // float distToPlayer = Vector3.Distance(playerObj.transform.position, transform.position);
-
-        // if (distToPlayer <= engageDistance)
-        // {
-        //     ChangeToShooting();
-        // }
-        // else
-        // {
-        //     agent.destination = playerObj.transform.position;
-        // }
+    void Repositioning() { //repositioning state handler
         float dist = agent.remainingDistance;
         if (dist != Mathf.Infinity && agent.remainingDistance <= pathStoppingThreshold) {
-            //agent.pathStatus==NavMeshPathStatus.PathComplete &&
             //path complete. credit: https://answers.unity.com/questions/324589/how-can-i-tell-when-a-navmesh-has-reached-its-dest.html
             ChangeToShooting();
         }
     }
 
-    void ChangeToGettingLOS() {
+    void ChangeToGettingLOS() { //setup for finding LoS
         losCheckTimer = losCheckTimerMax;
         agent.enabled = true;
         agent.destination = playerObj.transform.position;
@@ -241,7 +227,7 @@ public class EnemyController : Enemy {
 
     }
 
-    void GettingLOS() {
+    void GettingLOS() { //State handler for GettingLOS
         if (losCheckTimer <= 0) {
             if (HasPlayerLOS(playerObj, detectionThreshold)) {
                 agent.enabled = false;
@@ -257,7 +243,7 @@ public class EnemyController : Enemy {
         }
     }
 
-    private IEnumerator EnemyTimers() {
+    private IEnumerator EnemyTimers() { //Coroutine for enemy timers
         while (true) {
             if (shootingTimer > 0) {
                 shootingTimer -= Time.deltaTime;

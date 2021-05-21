@@ -9,16 +9,27 @@ using Photon.Realtime;
 
 public class PhotonTest {
 
+    GameObject audioManager;
+    GameObject listner;
+
     [OneTimeSetUp]
     public void SetUp() {
         GameObject obj = new GameObject();
         var l = obj.AddComponent<PhotonTestLobby>();
+        listner = new GameObject();
+        listner.AddComponent<AudioListener>();
         l.Connect();
         Object.Instantiate(
             AssetDatabase.LoadAssetAtPath<GameObject>(
                 "Assets/Prefabs/LevelComponents/AudioManager.prefab"
             )
         );
+    }
+
+    [OneTimeTearDown]
+    public void TearDown() {
+        Object.Destroy(audioManager);
+        Object.Destroy(listner);
     }
 
     public GameObject CreatePhotonGameObject() {

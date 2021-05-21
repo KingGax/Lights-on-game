@@ -158,10 +158,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 774561292995369599}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d6aec098d2061243bfb63d1bd45fc84, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f401835c1d02d140a2060261f3f0cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 40
 --- !u!1 &2219964293367224281
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,9 +307,14 @@ MonoBehaviour:
   colour: 16711680
   materials: {fileID: 11400000, guid: de0f08c2a0e123424a00dbadf9776baf, type: 2}
   hiddenMaterials: {fileID: 11400000, guid: 855a7e2072f9c79a798b3ab4cee6a304, type: 2}
+  showReappearParticles: 0
+  particleTransform: {fileID: 0}
+  canSwarm: 1
   maxSwarmRadius: 1
   cloudPoints: {fileID: 0}
   childObjects: []
+  usesMeshRenderer: 0
+  disappearOnInitialise: 1
   parentTransform: {fileID: 0}
   useParentTransform: 0
 --- !u!1 &7168497803102791750

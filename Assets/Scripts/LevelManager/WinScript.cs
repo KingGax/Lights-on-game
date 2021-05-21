@@ -27,7 +27,11 @@ public class WinScript : MonoBehaviour {
     [PunRPC]
     public IEnumerator ChangeSceneRPC() {
         PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
-        if (PhotonNetwork.IsMasterClient && !loadingLevel && GlobalValues.Instance.fm.GetObjectivesTriggered()) {
+
+        if (!PhotonNetwork.IsMasterClient && !loadingLevel && GlobalValues.Instance.fm.GetObjectivesTriggered()) {
+            loadingLevel = true;
+            AudioManager.Instance.PlayNext();
+        } else if (PhotonNetwork.IsMasterClient && !loadingLevel && GlobalValues.Instance.fm.GetObjectivesTriggered()) {
             loadingLevel = true;
             AudioManager.Instance.PlayNext();
             yield return new WaitForSeconds(1);

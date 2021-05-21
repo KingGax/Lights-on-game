@@ -5,6 +5,9 @@ using Photon.Pun;
 
 public class TwoPlayerSetSpawnRoom : RoomObjective
 {
+    //This class is very similar to SetSpawnRoom, except it can spawn one or two objectives for when the
+    //players would not be able to progress if there was one player and both enemies spawned
+
     private SetSpawnManager spawnScriptP1;
     private SetSpawnManager spawnScriptP2;
     private bool allWavesSpawnedP1 = false;
@@ -63,7 +66,7 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
     void Update() {
         if (pv == null || !pv.IsMine) return;
         if (started) {
-            if (allWavesSpawnedP1 && allWavesSpawnedP2) {
+            if (allWavesSpawnedP1 && allWavesSpawnedP2) {//checks if objective is on the last wave
                 if (CountEnemies() == 0) {
                     if (!doorUnlocked) {
                         UnlockEntrancesGlobal();
@@ -73,7 +76,7 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
                     }
                 }
             }
-            else {
+            else {//checks if current wave is finishing
                 if (WaveSpawnFinished() && CountEnemies() == 0) {
                     StartNewSetWave();
                 }
@@ -109,10 +112,12 @@ public class TwoPlayerSetSpawnRoom : RoomObjective
         
     }
 
+    //This counts how many of both players enemies are left
     int CountEnemies() {
         return enemyParentP1.transform.childCount + enemyParentP2.transform.childCount;
     }
 
+    //This function checks if both players have had all their enemies spawned
     bool WaveSpawnFinished() {
         if (twoPlayers) {
             return spawnScriptP2.FinishedSpawning() && spawnScriptP1.FinishedSpawning();

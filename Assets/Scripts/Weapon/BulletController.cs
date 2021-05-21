@@ -39,6 +39,7 @@ namespace LightsOn.WeaponSystem {
             RequestDestroyBullet();
         }
 
+        //This is the RPC for spawning bullets on the other client
         [PunRPC]
         protected void ChildFire(double time, float _damage, float _hitStunDuration, float _speed, Vector3 _direction) {
             float dt = (float)(PhotonNetwork.Time - time);
@@ -50,6 +51,7 @@ namespace LightsOn.WeaponSystem {
             rb.velocity = direction.normalized * speed;
         }
 
+        //This is the local fire method
         public void Fire(float _damage, float _hitStunDuration, float _speed, Vector3 _direction, float ttl) {
             pv.RPC(
                 "ChildFire",
@@ -68,6 +70,7 @@ namespace LightsOn.WeaponSystem {
             Invoke("RequestDestroyBullet", ttl);
         }
 
+        //This allows other clients to request the bullet be destroyed
         public void RequestDestroyBullet() {
             pv.RPC("DestroyBullet", RpcTarget.All);
         }
@@ -76,6 +79,7 @@ namespace LightsOn.WeaponSystem {
             yield return new WaitForSeconds(2.0f);
         }
 
+        //This allows other clients to request the bullet be destroyed
         [PunRPC]
         protected IEnumerator DestroyBullet() {
             rb.velocity = Vector3.zero;
@@ -90,6 +94,7 @@ namespace LightsOn.WeaponSystem {
                 for (int i = 1; i < pSystems.Length; i++) {
                     pSystems[i].Play(true);
                 }
+                //destroy after waiting for particles to play
                 IEnumerator beforeDeath = BeforeDeath();
                 yield return StartCoroutine(beforeDeath);
             }
@@ -107,6 +112,7 @@ namespace LightsOn.WeaponSystem {
             }
         }
 
+        //This checks for collisions with objects on the master client, enemy bullet has a more complex implementation
         protected virtual void OnTriggerEnter(Collider other) {
             if (pv == null || !pv.IsMine) return;
             if (!other.isTrigger) {

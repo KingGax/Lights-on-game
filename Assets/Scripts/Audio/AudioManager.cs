@@ -13,7 +13,7 @@ namespace LightsOn.AudioSystem {
         private AudioSource SFX2D;
         public int playingTrack = 0;
         public int nextTrack = 0;
-        private int freeAudioSource = 0;
+        public int freeAudioSource = 0;
         private double currentStartedTime = 0;
         private double nextStartTime = 0;
         private float volumeSFX = 1;

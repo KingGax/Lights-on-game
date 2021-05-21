@@ -42,11 +42,11 @@ public class SetSpawnRoom : RoomObjective {
         StartNewSetWave();
     }
 
-
+    //This Update handles checking if the objective is finished as well as checking if the current wave is finished and updating the objective text
     void Update() {
         if (pv == null || !pv.IsMine) return;
         if (started) {
-            if (allWavesSpawned) {
+            if (allWavesSpawned) { //finish objective
                 if (CountEnemies() == 0) {
                     if (!doorUnlocked) {
                         UnlockEntrancesGlobal();
@@ -55,12 +55,13 @@ public class SetSpawnRoom : RoomObjective {
                         pv.RPC("UpdateObjectiveText", RpcTarget.AllBufferedViaServer, 0);
                     }
                 }
-            } else {
+            } else {//if this wave is finished start the next one
                 if (WaveSpawnFinished() && CountEnemies() == 0) {
                     StartNewSetWave();
                 }
             }
 
+            //This handles updating the objective
             if (currentWaveCounter < numEnemiesInFutureWaves.Length) {
                 if (prevNumEnemies != GetEnemiesLeft()) {
                     prevNumEnemies = GetEnemiesLeft();
@@ -83,7 +84,8 @@ public class SetSpawnRoom : RoomObjective {
     void SetWaveCounterRPC(int num) {
         currentWaveCounter = num;
     }
-
+    
+    //Increment wave counter and start the next wave
     void StartNewSetWave() {
         currentWaveCounter += 1;
         pv.RPC("SetWaveCounterRPC", RpcTarget.AllBufferedViaServer, currentWaveCounter);

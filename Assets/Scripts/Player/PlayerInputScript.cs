@@ -62,6 +62,7 @@ public class PlayerInputScript : MonoBehaviour {
         
     }
 
+    //function to disable player input whilst camera scenes play
     public void StartCameraCutscene(float length) {
         cameraCutscene = true;
         if (pc != null) {
@@ -177,6 +178,8 @@ public class PlayerInputScript : MonoBehaviour {
     public void MicOutputRecieved() {
         micRequestActive = false;
     }
+
+    //Function for handling voice control input button
     public void VoiceControl(InputAction.CallbackContext ctx) {
         if (pv.IsMine) {
             if (CanMove()) {
@@ -195,6 +198,8 @@ public class PlayerInputScript : MonoBehaviour {
             }
         }
     }
+
+    //Function to enable and disable control help tooltip
     public void ToggleHelpTooltip(InputAction.CallbackContext ctx) {
         if (pv.IsMine) {
             if (helpView == null) {
@@ -205,6 +210,8 @@ public class PlayerInputScript : MonoBehaviour {
             helpView.ToggleVisibility();
         }
     }
+
+    //Function for pause input
     public void ToggleMenu(InputAction.CallbackContext ctx) {
         if (gameObject == PlayerController.LocalPlayerInstance) {
             if (menuView == null)

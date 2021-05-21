@@ -111,7 +111,7 @@ public class TutorialHelper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!playerFound) {
+        if (!playerFound) {//first searches for player
             if (GlobalValues.Instance.localPlayerInstance != null) {
                 player = GlobalValues.Instance.localPlayerInstance;
                 playerFound = true;
@@ -125,17 +125,20 @@ public class TutorialHelper : MonoBehaviour
             }
         }
         else {
-            if (!finished) {
+            if (!finished) {//otherwise follows player
                 transform.position = player.transform.position + offset;
-                if (!delayingChange) {
+                if (!delayingChange) {//if not already changing
                     CheckEventInput();
                 }
             }
         }
         
     }
+
+    //Handles transitioning to the next text on the tooltip
     void NextEvent() {
         currentTooltipIndex++;
+        //disables the flag for the current tooltip input in case they have already pressed it
         switch (currentTooltipIndex) {
             case 0:
                 performedMove = false;
@@ -155,6 +158,7 @@ public class TutorialHelper : MonoBehaviour
             default:
                 break;
         }
+        //moves on to next tooltip or disables the tooltip
         if (currentTooltipIndex < tooltipMessages.Count) {
             tip.SetTextLocal(tooltipMessages[currentTooltipIndex]);
         }
@@ -166,6 +170,8 @@ public class TutorialHelper : MonoBehaviour
         delayingChange = false;
 
     }
+
+    //This handles checking the objective for each event has been completed and schedules advancing to the next tip
     void CheckEventInput() {
         switch (currentTooltipIndex) {
             case 0:
@@ -213,6 +219,7 @@ public class TutorialHelper : MonoBehaviour
             default:
                 break;
         }
+        //This disables the tooltip once they have killed the tutorial enemies by progressing to room id 2
         if (GlobalValues.Instance.fm.GetPlayerRoom(trackingPlayer1) > 1) {
             currentTooltipIndex = tooltipMessages.Count;
             Invoke("NextEvent", tooltipChangeDelay/2);
