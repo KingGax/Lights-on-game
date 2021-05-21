@@ -5,6 +5,7 @@ using LightsOn.LightingSystem;
 
 public class Spawner : MonoBehaviour {
 
+    //This script is currently unused but is for spawning enemies across an area
     public List<GameObject> spawnableEntities;
     public float spawnRadius;
     public Vector3 spawnPosition;
