@@ -45,6 +45,7 @@ namespace LightsOn.WeaponSystem {
             HideChargeIndicator();
         }
 
+        //This hides the white ball for when right click is charged
         void HideChargeIndicator() {
             chargeIndicator.enabled = false;
             laserSight.material = unChargedSightMat;
@@ -52,6 +53,7 @@ namespace LightsOn.WeaponSystem {
             laserSight.widthMultiplier = 0.1f;
         }
 
+        //This shows the white ball for when right click is charged
         void ShowChargeIndicator() {
             chargeIndicator.enabled = true;
             laserSight.material = chargedSightMat;
@@ -90,6 +92,7 @@ namespace LightsOn.WeaponSystem {
             }
         }
 
+        //This is used to find where to draw the laser 
         private Vector3 GetHitPoint() {
             RaycastHit hit;
             if (Physics.Raycast(firePoint.transform.position, firePoint.transform.up, out hit, maxLaserDistance, GlobalValues.Instance.environment)) {
@@ -102,12 +105,14 @@ namespace LightsOn.WeaponSystem {
             }
         }
 
+        //This is for releasing right click when it is uncharged
         private void FailAlt() {
             chargeTime = 0f;
             charging = false;
             HideChargeIndicator();
         }
 
+        //This is the method that handles firing the laser
         private void FireAlt() {
             chargeTime = 0f;
             charging = false;
@@ -121,6 +126,7 @@ namespace LightsOn.WeaponSystem {
             }
         }
 
+        //Syncs the laser visuals across the network
         [PunRPC]
         public void AltFireRPC(Vector3 pos1, Vector3 pos2) {
             laser.SetPosition(0, firePoint.position);
@@ -129,6 +135,7 @@ namespace LightsOn.WeaponSystem {
             Invoke("DisableLaser", 0.3f);
         }
 
+        //This deals with handling the damage lasers give
         private void FireLaser(float dist) {
             RaycastHit[] hit = Physics.SphereCastAll(firePoint.transform.position, laserThickness, firePoint.transform.up, dist, GlobalValues.Instance.environment | GlobalValues.Instance.shootTargetsLayer).OrderBy(h => h.distance).ToArray();
             foreach (RaycastHit objectHit in hit) {
@@ -159,6 +166,7 @@ namespace LightsOn.WeaponSystem {
             return false;
         }
 
+        //Gun primary fire
         protected override void UseWeapon() {
             ammo -= 1;
             GameObject newBullet = PhotonNetwork.Instantiate(bullet.name, firePoint.position, transform.rotation);

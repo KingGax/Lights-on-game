@@ -117,7 +117,7 @@ public class MissileController : MonoBehaviour
     }
 
 
-    // Update is called once per frame
+    // This aims towards the player but drifts the missile towards a certain y value to prevent it hitting the ground
     void Update()
     {
         if (pv == null || !pv.IsMine) return;
