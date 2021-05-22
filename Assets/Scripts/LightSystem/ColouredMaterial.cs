@@ -21,20 +21,6 @@ namespace LightsOn.LightingSystem {
         [SerializeField]
         protected Material white;
 
-        public void Awake() {
-            GlobalValues gv = GlobalValues.Instance;
-            if (gv != null) {
-                if (green == null)
-                    green = gv.defaultGreen;
-
-                if (red == null)
-                    red = gv.defaultRed;
-
-                if (blue == null)
-                    blue = gv.defaultBlue;
-            }
-        }
-
         public Material get(LightColour col) {
             switch (col) {
                 case LightColour.Black:

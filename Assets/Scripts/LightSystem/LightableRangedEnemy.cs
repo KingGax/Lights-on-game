@@ -10,6 +10,7 @@ namespace LightsOn.LightingSystem {
         public SkinnedMeshRenderer smr;
         public EnemyGun gunScript;
         public LineRenderer lineRenderer;
+        public ColouredMaterial lineMaterials;
         private Animator anim;
         //allows for non-modelled ranged enemies, remove once sniper has a model
 
@@ -29,32 +30,9 @@ namespace LightsOn.LightingSystem {
             if (initialised) {
                 smr.material = materials.get(colour);
             }
+
             if (lineRenderer != null) {
-                Material rendererMat = GlobalValues.Instance.defaultRed;
-                switch (col) {
-                    case LightColour.Black:
-                        break;
-                    case LightColour.Red:
-                        rendererMat = GlobalValues.Instance.defaultRed;
-                        break;
-                    case LightColour.Green:
-                        rendererMat = GlobalValues.Instance.defaultGreen;
-                        break;
-                    case LightColour.Blue:
-                        rendererMat = GlobalValues.Instance.defaultBlue;
-                        break;
-                    case LightColour.Cyan:
-                        break;
-                    case LightColour.Magenta:
-                        break;
-                    case LightColour.Yellow:
-                        break;
-                    case LightColour.White:
-                        break;
-                    default:
-                        break;
-                }
-                lineRenderer.material = rendererMat;
+                lineRenderer.material = lineMaterials.get(colour);
             }
         }
 
