@@ -13,10 +13,9 @@ public class NavigationManager : MonoBehaviour
     PhotonView pv;
     bool isMaster = true;
     bool started = false;
-    //bool playerSet = false;
     int navIndex = 0; //index of target point
     // Start is called before the first frame update
-    void Start()
+    void Start() //Setup components, enable compass UI if player assigned to manager
     {
         pv = gameObject.GetPhotonView();
         navigationPoints = new List<NavigationPoint>();
@@ -32,7 +31,7 @@ public class NavigationManager : MonoBehaviour
     }
 
     [PunRPC]
-    protected void SetPointsRPC(){
+    protected void SetPointsRPC(){ //RPC for assigning navpoints to manager
         if (!isMaster){
             navigationPoints = floorManager.p1NavPoints;
             navIndex = floorManager.GetPlayerRoom(true);
@@ -42,7 +41,7 @@ public class NavigationManager : MonoBehaviour
         }
     }
 
-    public void SetPlayer(bool master){
+    public void SetPlayer(bool master){ //Assign manager to player
         playerSet = true;
         isMaster = master;
         if (started){
@@ -52,8 +51,7 @@ public class NavigationManager : MonoBehaviour
         }
     }
 
-    public void SetPoints(){
-        //initialised = true;
+    public void SetPoints(){ //Set points according to player index
         arrow.enabled = true;
         if (isMaster){
             navigationPoints = floorManager.p1NavPoints;
@@ -61,10 +59,9 @@ public class NavigationManager : MonoBehaviour
             navigationPoints = floorManager.p2NavPoints;
         }
         pv.RPC("SetPointsRPC", RpcTarget.All);
-        //navigationPoints = points;
     }
 
-    public void UpdateManager(Vector3 gate){
+    public void UpdateManager(Vector3 gate){ //Update next navpoint
         if (navigationPoints[navIndex].transform.position == gate){
             if (navIndex < navigationPoints.Count-1){
                 navIndex++;
@@ -72,17 +69,9 @@ public class NavigationManager : MonoBehaviour
                 arrow.enabled = false;
                 return;
             }
-        } else { //backtracking
-            //navIndex--; //do nothing for now, to prevent entering and leaving from the same side, etc.
+        } else {
         }
         arrow.UpdateTarget(navigationPoints[navIndex].transform);
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //Vector3 rot = arrow.transform.rotation.eulerAngles;
         
     }
 }
