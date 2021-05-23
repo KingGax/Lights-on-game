@@ -19,9 +19,6 @@ public class GlobalValues : MonoBehaviour {
     public GameObject boidManagerPrefab;
     public GameObject boidDeathPrefab;
     public GameObject MenuItem;
-    public Material defaultGreen;
-    public Material defaultBlue;
-    public Material defaultRed;
     public Transform respawnPoint;
     public Transform p1spawn;
     public Transform p2Spawn;
@@ -83,9 +80,6 @@ public class GlobalValues : MonoBehaviour {
         _instance.UIPrefab = UIPrefab;
         _instance.boidManagerPrefab = boidManagerPrefab;
         _instance.boidDeathPrefab = boidDeathPrefab;
-        _instance.defaultRed = defaultRed;
-        _instance.defaultGreen = defaultGreen;
-        _instance.defaultBlue = defaultBlue;
         _instance.respawnPoint = respawnPoint;
         _instance.p1spawn = p1spawn;
         _instance.p2Spawn = p2Spawn;
