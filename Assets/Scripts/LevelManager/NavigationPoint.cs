@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class NavigationPoint : MonoBehaviour
+public class NavigationPoint : MonoBehaviour //Class for navigation compass points
 {
     private NavigationManager navigationManager;
 
@@ -11,7 +11,7 @@ public class NavigationPoint : MonoBehaviour
         navigationManager = GlobalValues.Instance.navManager;
     }
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other) { //Oncollision with player, tell manager to update next navpoint
         if (((1 << other.gameObject.layer) & GlobalValues.Instance.playerOrHiddenPlayerMask) != 0){
             //PhotonView pv = other.gameObject.GetComponent<PhotonView>();
             if (GlobalValues.Instance.localPlayerInstance.transform.position != null) {

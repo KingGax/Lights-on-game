@@ -58,13 +58,13 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnEnable()
+    public override void OnEnable() //On script enabled, get all players in room, update listings
     {
         base.OnEnable();
         GetCurrentPlayers();
     }
 
-    public bool isReady(){
+    public bool isReady(){ //Check if all players are ready
         Room room = PhotonNetwork.CurrentRoom;
         if (readyPlayers == (int)room.CustomProperties["playerCount"]){
             return true;
@@ -72,7 +72,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         return false;
     }
 
-    public override void OnDisable()
+    public override void OnDisable() //Destroy all listings, clear list of players when script disabled
     {
         base.OnDisable();
         foreach(KeyValuePair<string, GameObject> elem in cachedPlayerList) {
@@ -81,7 +81,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         cachedPlayerList.Clear();
     }
 
-    private void GetCurrentPlayers()
+    private void GetCurrentPlayers() //Updates listings for players and spectators in room
     {
         if (!PhotonNetwork.IsConnected)
             return;
@@ -95,9 +95,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                 PlayerListingInfo playerInfo;
                 if (cachedPlayerList.ContainsKey(player.UserId)){
                     playerInfo = cachedPlayerList[player.UserId].GetComponent<PlayerListingInfo>();
-                    // bool rdy = playerInfo.isReady;
-                    // playerInfo.SetPlayerInfo(player, false);
-                    // playerInfo.isReady = rdy;
                 }
                 else {
                     GameObject listing =  Instantiate(_playerListing,_content);
@@ -111,7 +108,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                 PlayerListingInfo playerInfo;
                 if (cachedSpectatorList.ContainsKey(player.UserId)){
                     playerInfo = cachedPlayerList[player.UserId].GetComponent<PlayerListingInfo>();
-                    //playerInfo.SetPlayerInfo(player, true);
                 }
                 else {
                     GameObject listing =  Instantiate(_playerListing,_specContent);
@@ -127,56 +123,39 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
 
 
-
-    bool SetActorNumber(int actorNumber) { //this should use CAS and hence be network-safe BUT IT ISN'T :(((((
+    //Returns true on success, false on failure
+    bool SetActorNumber(int actorNumber) { //CAS set room actor number
         Room room = PhotonNetwork.CurrentRoom;
         int oldHighestActor = (int)room.CustomProperties["highestActor"];
-        //Debug.Log("Original count: " + playerCount);
         ExitGames.Client.Photon.Hashtable expectedVals = new ExitGames.Client.Photon.Hashtable();
         expectedVals.Add("highestActor", oldHighestActor);
         ExitGames.Client.Photon.Hashtable newVals = new ExitGames.Client.Photon.Hashtable();
         newVals.Add("highestActor", actorNumber);
-        //room.SetCustomProperties(newVals);
         if (!room.SetCustomProperties(newVals, expectedVals)) {
             return false;
         } else {
-            //debug
-            // StartCoroutine(Printer(0.2f));
-            // IEnumerator Printer(float delay){
-            //     yield return new WaitForSeconds(delay);
-            //     Room newRoom = PhotonNetwork.CurrentRoom;
-            //     Debug.Log("New count: " + (int)newRoom.CustomProperties["playerCount"]);
-            // }
             return true;
         }
     }
 
-    bool AddToPlayerCount(int amount){ //this should use CAS and hence be network-safe BUT IT ISN'T :(((((
+    //Returns true on success, false on failure
+    bool AddToPlayerCount(int amount){ //CAS addition to room's player count
             Room room = PhotonNetwork.CurrentRoom;
             int playerCount = (int)room.CustomProperties["playerCount"];
-            //Debug.Log("Original count: " + playerCount);
             ExitGames.Client.Photon.Hashtable expectedVals = new ExitGames.Client.Photon.Hashtable();
             expectedVals.Add("playerCount", playerCount);
             int newPlayerCount  = playerCount  + amount;
             ExitGames.Client.Photon.Hashtable newVals = new ExitGames.Client.Photon.Hashtable();
             newVals.Add("playerCount", newPlayerCount);
-            //room.SetCustomProperties(newVals);
             if (!room.SetCustomProperties(newVals, expectedVals)){
                 return false;
             } else {
-                //debug
-                // StartCoroutine(Printer(0.2f));
-                // IEnumerator Printer(float delay){
-                //     yield return new WaitForSeconds(delay);
-                //     Room newRoom = PhotonNetwork.CurrentRoom;
-                //     Debug.Log("New count: " + (int)newRoom.CustomProperties["playerCount"]);
-                // }
                 return true;
             }
     }
 
     [PunRPC] 
-    public void SetTruthValuesRPC(string UserID, bool isSpectator, bool isReady){
+    public void SetTruthValuesRPC(string UserID, bool isSpectator, bool isReady){ //RPC for updating user's isReady and isSpectator states
         if (!pv.IsMine && initialised == false){
             initialised = true;
             PlayerListingInfo listingInfo;
@@ -196,7 +175,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SetTruthValues(){
+    public void SetTruthValues(){ //Update player listing's isReady and isSpectator values
         if (cachedPlayerList.Count == 0 && cachedSpectatorList.Count == 0){
             GetCurrentPlayers();
         }
@@ -213,11 +192,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         } 
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    //Called when player enters room. Checks if new player should be a spectator or not and calls appropriate functions
+    public override void OnPlayerEnteredRoom(Player newPlayer) 
     {
         if (p1 != null) {
-            Debug.Log(SetActorNumber(newPlayer.ActorNumber));
-            Debug.Log(newPlayer.ActorNumber);
             if (cachedPlayerList.Count < 2) {
                 AddToPlayerCount(1);
                 GameObject listing = Instantiate(_playerListing, _content);
@@ -237,7 +215,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    void UpdateReadyListings(string UserID, bool isReady){ //updates text colour
+    void UpdateReadyListings(string UserID, bool isReady){ //updates text colour of ready listing
         if (p1 != null) {
             PlayerListingInfo listing = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>();
             string thisPlayerName = cachedPlayerList[UserID].GetComponent<PlayerListingInfo>().playerName;
@@ -259,16 +237,9 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                 p2.light.enabled = true;
             }
         }
-        
-
-        /*if (isReady){
-            _content.Find(listing.name).GetComponentInChildren<Text>().color = readyColour;
-        } else {
-            _content.Find(listing.name).GetComponentInChildren<Text>().color = unreadyColour;
-        }*/
     }
 
-    void UpdateSpectatorListings(string UserID, bool isSpectator){ //updates text colour
+    void UpdateSpectatorListings(string UserID, bool isSpectator){ //updates text colour for spectator listings (unused atm)
         PlayerListingInfo listing;
         if (isSpectator){
              listing = cachedSpectatorList[UserID].GetComponent<PlayerListingInfo>();
@@ -280,12 +251,12 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void AddToReadyPlayers(int val){
+    public void AddToReadyPlayers(int val){ //RPC to alter ready player count
         readyPlayers+=val;
     }
 
     [PunRPC] 
-    public void ToggleReadyRPC(string UserID, bool toReady){
+    public void ToggleReadyRPC(string UserID, bool toReady){ //RPC to set user's readystate
         if (toReady){
             readyPlayers++;
         } else{
@@ -294,7 +265,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         UpdateReadyListings(UserID, toReady);
     }
 
-    public void ToggleReady(){
+    public void ToggleReady(){ //Toggle ready state of local player
         if (readyCooldown <= 0){
             readyCooldown = readyCooldownMax;
             Photon.Realtime.Player player = PhotonNetwork.LocalPlayer;
@@ -310,11 +281,11 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
 
     [PunRPC] 
-    public void SwapSpectateStateRPC(string UserID, bool toSpectator){
+    public void SwapSpectateStateRPC(string UserID, bool toSpectator){ //RPC to swap user's spectator state
         Room room = PhotonNetwork.CurrentRoom;
         
         Photon.Realtime.Player player = null;
-        foreach (Photon.Realtime.Player p in room.Players.Values){ //I hate this but photon doesn't leave me much choice as far as I can tell
+        foreach (Photon.Realtime.Player p in room.Players.Values){ //Photon doesn't leave me much choice as far as I can tell
             if (p.UserId == UserID){
                 player = p;
             }
@@ -353,7 +324,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SwapSpectateState(){
+    public void SwapSpectateState(){ //Swap spectator state of local player
         if (spectateCooldown <= 0){
             spectateCooldown = spectateCooldownMax;
             if (pv == null) return;
@@ -377,7 +348,8 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    //Called when player leaves room. Removes listing and updates text
+    public override void OnPlayerLeftRoom(Player otherPlayer) 
     {
         if (SceneManagerHelper.ActiveSceneName != "LobbyMenu") {
             Destroy(gameObject);
@@ -405,7 +377,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    private IEnumerator SyncedLobbyTimers() {
+    private IEnumerator SyncedLobbyTimers() { //timers for button cooldowns
         while (true) {
             if (readyCooldown > 0) {
                 readyCooldown -= Time.deltaTime;

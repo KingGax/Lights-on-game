@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class NavigationManager : MonoBehaviour
+public class NavigationManager : MonoBehaviour //Class for navigation compass manager
 {
     bool playerSet = false;
     public List<NavigationPoint> navigationPoints;
