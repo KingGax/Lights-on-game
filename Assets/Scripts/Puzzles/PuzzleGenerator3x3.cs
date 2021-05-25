@@ -24,13 +24,16 @@ public class PuzzleGenerator3x3 : MonoBehaviour
         GeneratePuzzle();
     }
 
+    //Finds the coordinates of the ball as a tuple
     private (int,int) findCoordinates(int location){
         return (location/3, location%3);
     }
 
+    //Recursive algorithm to find a valid path for the ball
     bool FindPath(HashSet<int> taken, int depth, int location, List<int> path){
         if(depth > 3) return false;
 
+        //Find all valid options for the next step in the path
         List<int> validOptions = new List<int>();
 
         if (depth == 0) {
@@ -49,6 +52,7 @@ public class PuzzleGenerator3x3 : MonoBehaviour
             if(coord.Item1 == 1 && depth != 1) validOptions.Add(-1);
         }
 
+        //Pick a random option and recurse
         while(!(validOptions.Count == 0)){
             int index = rand.Next(validOptions.Count);
             int newLocation = validOptions[index];
@@ -68,6 +72,7 @@ public class PuzzleGenerator3x3 : MonoBehaviour
         return false;
     }
 
+    //Adjusts the wall rotation based on an int input
     void RotatePuzzleWall(int location, int rotation){
         //walls[location].GetComponentInChildren<LightableObstacle>().colour = LightableColour.Red;
         switch(rotation){
@@ -87,6 +92,11 @@ public class PuzzleGenerator3x3 : MonoBehaviour
         }
     }
 
+    //Finds the integer encoding of the direction a ball has to travel in after bouncing towards $next from $location
+    //Directions: x 1 x
+    //            0 w 2
+    //            x 3 x 
+    // where w is the wall at $location.
     int findBounceDirection(int location, int next){
         (int,int) locationCoordinates = findCoordinates(location);
         (int,int) nextCoordinates     = findCoordinates(next);
@@ -99,6 +109,7 @@ public class PuzzleGenerator3x3 : MonoBehaviour
         }
     }
 
+    //Adjusts the wall rotations along a path
     void AdjustPuzzlePathWalls(List<int> path){
         int incomingDirection = 3;
         int bounceDirection;
@@ -127,6 +138,7 @@ public class PuzzleGenerator3x3 : MonoBehaviour
         RotatePuzzleWall(location, rotation);
     }
 
+    //Adjusts the walls that are not part of the picked path
     void AdjustPuzzleNonPathWalls(HashSet<int> taken){
         for(int i = 0; i < 9; i++){
             if(!taken.Contains(i)){
@@ -139,6 +151,7 @@ public class PuzzleGenerator3x3 : MonoBehaviour
         }
     }
 
+    //Generates a puzzle
     void GeneratePuzzle(){
 
         List<int> validOptions = new List<int>() {1,4,7};

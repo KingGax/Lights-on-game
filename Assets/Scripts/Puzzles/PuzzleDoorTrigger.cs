@@ -10,6 +10,7 @@ public class PuzzleDoorTrigger : MonoBehaviour {
     public LightColour ballColour;
     public Vector3 ballPos;
 
+    //Checks if the puzzle objective is complete and unlocks the door if so
     void OnTriggerEnter(Collider other) { 
         if (other.gameObject.layer == 17) {
             if (!unlocked) {
