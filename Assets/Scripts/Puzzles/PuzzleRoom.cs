@@ -18,6 +18,7 @@ public class PuzzleRoom : RoomObjective
         pv = gameObject.GetPhotonView();
     }
 
+    //Starts puzzle objective
     public override void StartObjective() {
         started = true;
         LockEntrancesGlobal();
@@ -30,7 +31,7 @@ public class PuzzleRoom : RoomObjective
             door.PuzzleBallUnlockDoor(ballCol, ballPos);
         }
     }
-    // Update is called once per frame
+    
     void Update()
     {
         if (pv == null || !pv.IsMine) return;

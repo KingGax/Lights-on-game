@@ -24,6 +24,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         if(!PhotonNetwork.IsConnected)
             return;
 
+        //Sets room options
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = System.Convert.ToByte(2 + maxAllowedSpectators);
         options.PublishUserId = true;
@@ -36,21 +37,9 @@ public class CreateRoom : MonoBehaviourPunCallbacks {
         options.CustomRoomProperties = properties;
         options.CleanupCacheOnLeave = false;
 
-        //Code for generating random string. Opted for using GUID instead
-        // int charAmount = 6;
-        // string roomCode = "";
-        // PhotonNetwork.
-        // do
-        // {
-        //     for(int i=0; i<charAmount; i++)
-        //     {
-        //         roomCode += glyphs[Random.Range(0, glyphs.Length)];
-        //     }
-        // } while()
         string roomCode = System.Guid.NewGuid().ToString();
         if (!(string.IsNullOrEmpty(_roomName))) {
             PhotonNetwork.CreateRoom(roomCode, options);
-        } else {
         }
     }
 

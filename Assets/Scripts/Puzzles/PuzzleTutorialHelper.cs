@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Controls the puzzle tooltips
 public class PuzzleTutorialHelper : MonoBehaviour
 {
     public List<string> tooltipMessages;
