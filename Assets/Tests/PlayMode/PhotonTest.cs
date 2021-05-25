@@ -3,33 +3,31 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.SceneManagement;
 using UnityEditor;
 using Photon.Pun;
 using Photon.Realtime;
 
 public class PhotonTest {
 
-    GameObject audioManager;
-    GameObject listner;
+    PhotonTestLobby lobby = null;
 
     [OneTimeSetUp]
     public void SetUp() {
         GameObject obj = new GameObject();
-        var l = obj.AddComponent<PhotonTestLobby>();
-        listner = new GameObject();
-        listner.AddComponent<AudioListener>();
-        l.Connect();
-        Object.Instantiate(
-            AssetDatabase.LoadAssetAtPath<GameObject>(
-                "Assets/Prefabs/LevelComponents/AudioManager.prefab"
-            )
-        );
+        lobby = obj.AddComponent<PhotonTestLobby>();
+        lobby.Connect();
+    }
+
+    [UnitySetUp]
+    public IEnumerator UnitySetUp() {
+        yield return new WaitWhile(() => !lobby.ready);
     }
 
     [OneTimeTearDown]
     public void TearDown() {
-        Object.Destroy(audioManager);
-        Object.Destroy(listner);
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.Disconnect();
     }
 
     public GameObject CreatePhotonGameObject() {
@@ -42,6 +40,8 @@ public class PhotonTest {
 
 public class PhotonTestLobby : MonoBehaviourPunCallbacks {
 
+    public bool ready = false;
+
     public void Connect() {
         PhotonNetwork.OfflineMode = true;
     }
@@ -51,5 +51,10 @@ public class PhotonTestLobby : MonoBehaviourPunCallbacks {
             null,
             new RoomOptions { MaxPlayers = 1 }
         );
+    }
+
+    public override void OnCreatedRoom() {
+        SceneManager.LoadScene("AutomatedTestingScene");
+        ready = true;
     }
 }

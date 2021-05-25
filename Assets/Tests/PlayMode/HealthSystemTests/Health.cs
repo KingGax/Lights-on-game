@@ -9,14 +9,21 @@ namespace HealthSystemTests {
 
 public class HealthTests : PhotonTest {
 
-    [UnityTest]
-    public IEnumerator DamageWithoutDying() {
-        GameObject obj = CreatePhotonGameObject();
-        Health h = obj.AddComponent<Health>();
+
+    GameObject obj;
+    Health h;
+
+    [UnitySetUp]
+    public IEnumerator Setup() {
+        obj = CreatePhotonGameObject();
+        h = obj.AddComponent<Health>();
 
         h.maxHealth = 100;
         yield return null;
+    }
 
+    [UnityTest]
+    public IEnumerator DamageWithoutDying() {
         h.Damage(10.0f, 0);
         yield return null;
 
@@ -26,12 +33,6 @@ public class HealthTests : PhotonTest {
 
     [UnityTest]
     public IEnumerator DamageExactAmountToDie() {
-        GameObject obj = CreatePhotonGameObject();
-        Health h = obj.AddComponent<Health>();
-
-        h.maxHealth = 100;
-        yield return null;
-
         h.Damage(100.0f, 0);
         yield return null;
 
@@ -40,12 +41,6 @@ public class HealthTests : PhotonTest {
 
     [UnityTest]
     public IEnumerator DamageExactlyToNearDeath() {
-        GameObject obj = CreatePhotonGameObject();
-        Health h = obj.AddComponent<Health>();
-
-        h.maxHealth = 100;
-        yield return null;
-
         h.Damage(99.0f, 0);
         yield return null;
 
@@ -55,12 +50,6 @@ public class HealthTests : PhotonTest {
 
     [UnityTest]
     public IEnumerator DamageToNearDeathOverFrames() {
-        GameObject obj = CreatePhotonGameObject();
-        Health h = obj.AddComponent<Health>();
-
-        h.maxHealth = 100;
-        yield return null;
-
         for (int i = 0; i < 99; i++) {
             h.Damage(1.0f, 0);
             yield return null;
@@ -72,12 +61,6 @@ public class HealthTests : PhotonTest {
 
     [UnityTest]
     public IEnumerator DamageToDeathOverFrames() {
-        GameObject obj = CreatePhotonGameObject();
-        Health h = obj.AddComponent<Health>();
-
-        h.maxHealth = 100;
-        yield return null;
-
         for (int i = 0; i < 100; i++) {
             h.Damage(1.0f, 0);
             yield return null;

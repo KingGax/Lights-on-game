@@ -18,7 +18,7 @@ namespace LightsOn.LightingSystem {
         protected bool overrideMeshRenderer = false; //this was used to allow lightable objects to have SkinnedMeshRenderers or MeshRenderers throughout development whilst waiting for models
 
         protected LayerMask potentialColliders;
-        bool isHidden = false;
+        public bool isHidden = false;
         bool appearing = false;
         Bounds physicsBounds;
         float boundingSphereSize;
