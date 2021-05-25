@@ -7,13 +7,9 @@ using LightsOn.AudioSystem;
 public class BouncyBall : MonoBehaviour {
 
     public Transform ball;
+    private int staticEnvironmentMask = 1 << 9; //Mask to detect collision with static environment
 
-
-
-    //private int layerMask = 0x00000200; 
-    private int staticEnvironmentMask = 1 << 9;
-
-    private int dynamicEnvironmentMask = 1 << 13;
+    private int dynamicEnvironmentMask = 1 << 13; //Mask to detect collision with dynamic environment
 
     public float speed = 15;
 
@@ -29,8 +25,8 @@ public class BouncyBall : MonoBehaviour {
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
     private PhotonView pv;
-    // Start is called before the first frame update
 
+    //Set variables and values
     void Awake() {
         spawnPosition = transform.position;
         spawnRotation = transform.rotation;
@@ -42,6 +38,7 @@ public class BouncyBall : MonoBehaviour {
 
     }
 
+    //Places ball back to it's starting state
     public void Respawn() {
         if (!PhotonNetwork.IsMasterClient) return;
         pv.RPC("Deactivate", RpcTarget.Others);
@@ -50,14 +47,13 @@ public class BouncyBall : MonoBehaviour {
         this.bouncesLeft = 4;
         this.isActivated = false;
         lr.positionCount = 0;
-        //rigidBody.velocity = Vector3.zero;
     }
 
+    //Activates the ball and starts it's movement
     public void ActivateBall() {
         if (!PhotonNetwork.IsMasterClient || isActivated) return;
         this.isActivated = true;
         pv.RPC("Activate", RpcTarget.Others);
-        //rigidBody.velocity = transform.forward.normalized * speed;
     }
 
     [PunRPC]
@@ -69,7 +65,8 @@ public class BouncyBall : MonoBehaviour {
     private void Deactivate() {
         isActivated = false;
     }
-    // Update is called once per frame
+    // Update moves the ball in the correct direction and determines whether there is a collision using raycasting
+    // If there is a collision it adjusts the direction of movement or respawns the ball
     void FixedUpdate() {
         if (!PhotonNetwork.IsMasterClient) {
             if (isActivated) {
@@ -103,7 +100,6 @@ public class BouncyBall : MonoBehaviour {
                 Vector3 reflectDirection = Vector3.Reflect(ray.direction, hit.normal);
                 float rotation = 90 - Mathf.Atan2(reflectDirection.z, reflectDirection.x) * Mathf.Rad2Deg;
                 transform.eulerAngles = new Vector3(0, rotation, 0);
-                //rigidBody.velocity = reflectDirection.normalized * speed;
                 AudioManager.Instance.PlaySFX(SoundClips.Instance.SFXBallBounce, transform.position, gameObject);
                 bouncesLeft -= 1;
             } else if (Physics.Raycast(ray, out hit, Time.fixedDeltaTime * speed + .1f, staticEnvironmentMask)) {
@@ -115,7 +111,7 @@ public class BouncyBall : MonoBehaviour {
         }
     }
 
-
+    //Used to draw the visual ray of the ball's path
     private void DrawLine(Vector3 direction, Vector3 position, int depth) {
         if (depth > bouncesLeft) {
             return;
@@ -135,6 +131,7 @@ public class BouncyBall : MonoBehaviour {
         }
     }
 
+    //Destroys the ball upon achieving the puzzle objective
     public void DestroyBall() {
         if (PhotonNetwork.IsMasterClient)
             PhotonNetwork.Destroy(this.gameObject);

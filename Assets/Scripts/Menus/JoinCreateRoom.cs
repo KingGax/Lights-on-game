@@ -15,8 +15,5 @@ public class JoinCreateRoom : MonoBehaviour {
     }
 
     public void ConnectToServer(){
-        //photonConnector.seta
-        // PhotonNetwork.AutomaticallySyncScene = true;
-        // PhotonNetwork.ConnectUsingSettings();
     }
 }
